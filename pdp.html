@@ -1,0 +1,1949 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PDP Wireframe — Mobile + Desktop</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-size: 15px;
+      color: #333;
+      background: #fff;
+      max-width: 390px;
+      margin: 0 auto;
+    }
+
+    /* ── Label utility ── */
+    .section-label {
+      font-size: 10px;
+      color: #999;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding: 2px 6px;
+      background: #f0f0f0;
+      display: none; /* hidden for review — uncomment display:inline-block to show */
+      margin-bottom: 4px;
+    }
+
+    /* ── HEADER ── */
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 16px;
+      border-bottom: 1px solid #e0e0e0;
+      position: sticky;
+      top: 0;
+      background: #fff;
+      z-index: 100;
+    }
+    .header-menu { font-size: 22px; cursor: pointer; }
+    .desktop-nav { display: none; }
+    .desktop-nav a { color: #333; text-decoration: none; }
+    /* Logo always absolutely centered regardless of nav width */
+    .header-logo {
+      font-weight: 700;
+      font-size: 16px;
+      letter-spacing: 0.05em;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      pointer-events: none; /* let clicks pass through to nav items beneath */
+    }
+    .header-cart { font-size: 22px; position: relative; cursor: pointer; }
+    .cart-badge {
+      position: absolute;
+      top: -4px; right: -6px;
+      background: #333;
+      color: #fff;
+      border-radius: 50%;
+      font-size: 10px;
+      width: 16px; height: 16px;
+      display: flex; align-items: center; justify-content: center;
+    }
+
+    /* ── BREADCRUMB ── */
+    .breadcrumb {
+      padding: 10px 16px 4px;
+      font-size: 12px;
+      color: #888;
+    }
+    .breadcrumb a { color: #888; text-decoration: none; }
+    .breadcrumb span { margin: 0 4px; }
+
+    /* ── GALLERY ── */
+    .gallery {
+      position: relative;
+      background: #f5f5f5;
+      width: 100%;
+      aspect-ratio: 4/5;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    .gallery-placeholder {
+      color: #bbb;
+      font-size: 13px;
+      text-align: center;
+    }
+    .gallery-badge {
+      position: absolute;
+      top: 12px; left: 12px;
+      background: #333;
+      color: #fff;
+      font-size: 11px;
+      padding: 4px 8px;
+      font-weight: 600;
+    }
+    .gallery-model-name {
+      position: absolute;
+      bottom: 10px; left: 12px;
+      font-size: 11px;
+      color: #fff;
+      background: rgba(0,0,0,0.45);
+      padding: 3px 7px;
+    }
+    .gallery-dots {
+      position: absolute;
+      bottom: 10px;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      gap: 5px;
+    }
+    .gallery-dots span {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.5);
+    }
+    .gallery-dots span.active { background: #fff; }
+
+    /* ── SHOPBOX ── */
+    .shopbox {
+      padding: 16px 16px 0;
+    }
+
+    .product-title {
+      font-size: 20px;
+      font-weight: 700;
+      line-height: 1.3;
+      margin-bottom: 8px;
+    }
+
+    .reviews-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 10px;
+      font-size: 13px;
+    }
+    .stars { color: #333; letter-spacing: -1px; }
+    .review-count { color: #666; text-decoration: underline; cursor: pointer; }
+
+    .price-row {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+    .price { font-size: 15px; font-weight: 700; }
+    .price-original { font-size: 13px; color: #999; text-decoration: line-through; }
+    .price-badge { font-size: 11px; color: #c00; font-weight: 600; }
+
+    /* Color selector */
+    .selector-label {
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+    .selector-label span { font-weight: 400; color: #555; }
+
+    .color-chips {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
+    }
+    .color-chip {
+      width: 32px; height: 32px;
+      border-radius: 50%;
+      border: 2px solid #ccc;
+      cursor: pointer;
+    }
+    .color-chip.selected {
+      border: 3px solid #333;
+      box-shadow: 0 0 0 2px #fff, 0 0 0 4px #333;
+    }
+
+    /* Size selector */
+    .size-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 8px;
+    }
+    .size-chart-link {
+      font-size: 12px;
+      color: #333;
+      text-decoration: underline;
+      cursor: pointer;
+    }
+
+    .size-select {
+      width: 100%;
+      padding: 12px 14px;
+      border: 1.5px solid #ccc;
+      border-radius: 4px;
+      font-size: 15px;
+      font-family: inherit;
+      appearance: none;
+      background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23333' stroke-width='1.5' fill='none'/%3E%3C/svg%3E") no-repeat right 14px center;
+    }
+
+    .size-inseam-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 6px;
+    }
+
+    .size-inseam-row .col-label {
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+
+    .size-note {
+      font-size: 12px;
+      color: #666;
+      margin-bottom: 16px;
+    }
+
+    /* Accordion */
+    .accordion-item {
+      border-top: 1px solid #e8e8e8;
+    }
+    .accordion-item:last-child {
+      border-bottom: 1px solid #e8e8e8;
+    }
+    .accordion-trigger {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 0;
+      background: none;
+      border: none;
+      font-size: 14px;
+      font-weight: 600;
+      font-family: inherit;
+      cursor: pointer;
+      color: #333;
+      text-align: left;
+    }
+    .accordion-icon { font-size: 18px; color: #888; transition: transform 0.2s; }
+    .accordion-trigger.open .accordion-icon { transform: rotate(45deg); }
+    .accordion-body {
+      display: none;
+      font-size: 13px;
+      line-height: 1.6;
+      color: #555;
+      padding-bottom: 14px;
+    }
+    .accordion-body.open { display: block; }
+
+    /* ATC */
+    .btn-atc {
+      display: block;
+      width: 100%;
+      padding: 16px;
+      background: #333;
+      color: #fff;
+      font-size: 16px;
+      font-weight: 700;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      text-align: center;
+      letter-spacing: 0.03em;
+      margin-bottom: 10px;
+    }
+
+    .btn-accel {
+      display: block;
+      width: 100%;
+      padding: 14px;
+      background: #f5f0ff;
+      color: #333;
+      font-size: 14px;
+      font-weight: 600;
+      border: 1.5px solid #ccc;
+      border-radius: 4px;
+      cursor: pointer;
+      text-align: center;
+      margin-bottom: 14px;
+    }
+
+    .payment-methods {
+      display: flex;
+      gap: 6px;
+      justify-content: center;
+      margin-bottom: 14px;
+    }
+    .payment-methods span {
+      font-size: 11px;
+      border: 1px solid #ddd;
+      padding: 3px 7px;
+      border-radius: 3px;
+      color: #888;
+    }
+
+    .trust-badges {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      margin-bottom: 16px;
+      font-size: 12px;
+      color: #555;
+    }
+    .trust-badges span::before { content: "✓ "; }
+
+    .product-description {
+      font-size: 14px;
+      line-height: 1.6;
+      color: #444;
+      padding-bottom: 16px;
+      border-bottom: 1px solid #e8e8e8;
+    }
+
+    /* ── BELOW FOLD ── */
+    .section {
+      padding: 16px;
+      border-bottom: 1px solid #e8e8e8;
+    }
+
+    .section-title {
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 12px;
+    }
+
+    /* Fit attributes */
+    .fit-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    .fit-item { font-size: 13px; }
+    .fit-item .fit-key { color: #888; font-size: 12px; }
+    .fit-item .fit-val { font-weight: 600; }
+
+    .fit-best-for {
+      margin-top: 12px;
+      font-size: 13px;
+    }
+    .fit-best-for .fit-key { color: #888; font-size: 12px; display: block; margin-bottom: 4px; }
+    .fit-tags { display: flex; gap: 6px; flex-wrap: wrap; }
+    .fit-tag {
+      border: 1px solid #ccc;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 12px;
+    }
+
+    /* Tabs */
+    .tabs-nav {
+      display: flex;
+      border-bottom: 1px solid #e0e0e0;
+      margin-bottom: 14px;
+      gap: 0;
+    }
+    .tab-btn {
+      flex: 1;
+      padding: 10px 4px;
+      font-size: 13px;
+      font-weight: 600;
+      text-align: center;
+      cursor: pointer;
+      border: none;
+      background: none;
+      color: #999;
+      border-bottom: 2px solid transparent;
+      font-family: inherit;
+    }
+    .tab-btn.active {
+      color: #333;
+      border-bottom: 2px solid #333;
+    }
+    .tab-content { font-size: 14px; line-height: 1.6; color: #444; }
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+
+    /* Reviews */
+    .reviews-summary {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 14px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid #e8e8e8;
+    }
+    .reviews-score { font-size: 36px; font-weight: 700; }
+    .reviews-meta { font-size: 13px; color: #666; }
+
+    .review-item {
+      padding: 12px 0;
+      border-bottom: 1px solid #f0f0f0;
+      font-size: 13px;
+    }
+    .review-item:last-child { border-bottom: none; }
+    .review-header { display: flex; justify-content: space-between; margin-bottom: 4px; }
+    .review-author { font-weight: 600; }
+    .review-date { color: #999; }
+    .review-body { color: #444; line-height: 1.5; }
+
+    .btn-all-reviews {
+      display: block;
+      width: 100%;
+      padding: 12px;
+      margin-top: 12px;
+      background: none;
+      border: 1.5px solid #333;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: inherit;
+      border-radius: 4px;
+    }
+
+    /* Related */
+    .related-scroll {
+      display: flex;
+      gap: 12px;
+      overflow-x: auto;
+      padding-bottom: 8px;
+    }
+    .related-card {
+      flex: 0 0 140px;
+    }
+    .related-img {
+      width: 140px;
+      height: 175px;
+      background: #f5f5f5;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #ccc;
+      font-size: 12px;
+      margin-bottom: 6px;
+    }
+    .related-name { font-size: 13px; font-weight: 600; }
+    .related-price { font-size: 13px; color: #555; }
+
+    /* ── STICKY ATC ── */
+    .sticky-atc {
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      max-width: 390px;
+      margin: 0 auto;
+      background: #fff;
+      border-top: 1px solid #e0e0e0;
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      z-index: 200;
+    }
+    .sticky-atc-info { flex: 1; min-width: 0; }
+    .sticky-atc-name { font-size: 13px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .sticky-atc-price { font-size: 13px; color: #555; }
+    .sticky-atc-btn {
+      padding: 12px 20px;
+      background: #333;
+      color: #fff;
+      font-size: 14px;
+      font-weight: 700;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      white-space: nowrap;
+      font-family: inherit;
+    }
+
+    /* bottom padding so sticky bar doesn't cover content */
+    .page-bottom-pad { height: 72px; }
+
+    /* ── SIZE CHART MODAL ── */
+    .size-chart-modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
+      z-index: 500;
+      align-items: flex-end;
+      justify-content: center;
+    }
+    .size-chart-modal.open { display: flex; }
+    .size-chart-sheet {
+      background: #fff;
+      width: 100%;
+      max-width: 480px;
+      border-radius: 10px 10px 0 0;
+      max-height: 88vh;
+      overflow-y: auto;
+      padding: 0 0 32px;
+    }
+    .size-chart-handle {
+      display: flex;
+      justify-content: center;
+      padding: 12px 0 4px;
+    }
+    .size-chart-handle span {
+      width: 36px; height: 4px;
+      background: #ccc;
+      border-radius: 2px;
+    }
+    .size-chart-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 4px 16px 14px;
+      border-bottom: 1px solid #e8e8e8;
+    }
+    .size-chart-header h2 {
+      font-size: 16px;
+      font-weight: 700;
+    }
+    .size-chart-close {
+      background: none;
+      border: none;
+      font-size: 22px;
+      cursor: pointer;
+      color: #666;
+      font-family: inherit;
+      line-height: 1;
+      padding: 0;
+    }
+    .size-chart-unit-toggle {
+      display: flex;
+      gap: 8px;
+      padding: 14px 16px 10px;
+      font-size: 13px;
+    }
+    .unit-btn {
+      padding: 6px 14px;
+      border: 1.5px solid #ccc;
+      border-radius: 20px;
+      background: none;
+      font-size: 13px;
+      font-family: inherit;
+      cursor: pointer;
+      color: #555;
+    }
+    .unit-btn.active {
+      border-color: #333;
+      background: #333;
+      color: #fff;
+      font-weight: 600;
+    }
+    .sc-inseam-btn {
+      padding: 6px 12px;
+      background: #fff;
+      border: 1px solid #ccc;
+      border-radius: 3px;
+      font-size: 13px;
+      font-family: inherit;
+      cursor: pointer;
+      color: #333;
+    }
+    .sc-inseam-btn.active {
+      background: #333;
+      color: #fff;
+      border-color: #333;
+    }
+    .sc-inseam-btn.unavailable {
+      opacity: 0.35;
+      cursor: default;
+    }
+
+    .size-chart-note {
+      font-size: 12px;
+      color: #666;
+      padding: 0 16px 12px;
+      line-height: 1.5;
+    }
+    .size-chart-table-wrap {
+      overflow-x: auto;
+      padding: 0 16px;
+    }
+    .size-chart-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      min-width: 340px;
+    }
+    .size-chart-table th {
+      background: #f5f5f5;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      padding: 9px 10px;
+      text-align: center;
+      border-bottom: 1px solid #e0e0e0;
+    }
+    .size-chart-table th:first-child { text-align: left; }
+    .size-chart-table td {
+      padding: 10px;
+      text-align: center;
+      border-bottom: 1px solid #f0f0f0;
+      color: #333;
+    }
+    .size-chart-table td:first-child {
+      text-align: left;
+      font-weight: 700;
+    }
+    .size-chart-table tr.sc-selected td {
+      background: #f5f5f0;
+    }
+    .size-chart-table tr.sc-selected td:first-child {
+      position: relative;
+    }
+    .sc-select-btn {
+      display: block;
+      width: calc(100% - 32px);
+      margin: 16px 16px 0;
+      padding: 14px;
+      background: #333;
+      color: #fff;
+      font-size: 14px;
+      font-weight: 700;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-family: inherit;
+      text-align: center;
+    }
+    .sc-select-btn:disabled {
+      background: #ccc;
+      cursor: default;
+    }
+
+    /* ── BEST FOR SECTION (below shopbox) ── */
+    .best-for-section {
+      padding: 18px 16px;
+      border-bottom: 1px solid #e8e8e8;
+      background: #fafaf8;
+    }
+    .best-for-title {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      color: #888;
+      margin-bottom: 10px;
+    }
+    .best-for-tags {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .best-for-tag {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      border: 1.5px solid #ddd;
+      border-radius: 6px;
+      padding: 10px 14px;
+      font-size: 12px;
+      background: #fff;
+      min-width: 72px;
+      text-align: center;
+    }
+    .best-for-tag .bf-icon { font-size: 18px; }
+    .best-for-tag .bf-label { font-weight: 700; font-size: 12px; color: #333; }
+    .best-for-tag .bf-sub { font-size: 10px; color: #888; line-height: 1.3; }
+
+    @media (min-width: 900px) {
+      .size-chart-sheet { max-width: 580px; border-radius: 10px; }
+      .size-chart-modal { align-items: center; }
+      .best-for-section { padding: 20px 40px; }
+      .best-for-tags { gap: 10px; }
+      .best-for-tag { min-width: 90px; padding: 12px 18px; }
+    }
+
+    /* ── FEATURE GRID — mobile: horizontal scroll ── */
+    .feature-grid {
+      display: flex;
+      gap: 12px;
+      overflow-x: auto;
+      padding: 0 16px 12px;
+    }
+    .feature-card {
+      flex: 0 0 220px;
+    }
+    .feature-img {
+      width: 100%;
+      aspect-ratio: 4/5;
+      background: #f0f0f0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #bbb;
+      font-size: 12px;
+      margin-bottom: 10px;
+    }
+    .feature-body { padding: 0 4px; }
+    .feature-title {
+      font-size: 15px;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+    .feature-desc {
+      font-size: 13px;
+      color: #666;
+      line-height: 1.5;
+    }
+
+    /* ── UGC GRID — horizontal scroll, smaller cards ── */
+    .ugc-grid {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+    }
+    .ugc-grid > div {
+      flex: 0 0 83px;
+      height: 110px;
+    }
+
+    /* ── DESKTOP ── */
+    @media (min-width: 900px) {
+
+      body { max-width: 1280px; }
+
+      /* ── HEADER + NAV ── */
+      header { padding: 0 40px; height: 56px; }
+      .header-menu { display: none; }
+      .header-logo { font-size: 18px; }
+      .desktop-only { display: inline-flex !important; align-items: center; }
+      .desktop-nav {
+        display: flex;
+        align-items: center;
+        gap: 28px;
+        font-size: 13px;
+        font-weight: 600;
+        letter-spacing: 0.03em;
+      }
+      .desktop-nav a {
+        color: #333;
+        text-decoration: none;
+        white-space: nowrap;
+      }
+      .desktop-nav a:hover { text-decoration: underline; }
+      .desktop-nav-right {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        font-size: 13px;
+      }
+      .desktop-nav-right a { color: #333; text-decoration: none; }
+      .desktop-only { display: inline !important; }
+
+      /* Breadcrumb */
+      .breadcrumb { padding: 12px 40px 6px; }
+
+      /* Hide mobile gallery dots on desktop */
+      .gallery-dots-overlay { display: none; }
+
+      /* ── TWO-COLUMN WRAPPER: fluid gallery + fixed 480px shopbox ── */
+      .pdp-columns {
+        display: grid;
+        grid-template-columns: 1fr 480px;
+        align-items: start;
+        border-bottom: 1px solid #e8e8e8;
+      }
+
+      /* ── GALLERY COLUMN — scrolling 2-up image grid ── */
+      .pdp-columns .gallery {
+        /* Override mobile single-image aspect ratio */
+        aspect-ratio: unset;
+        height: auto;
+        overflow: visible;
+        cursor: default;
+        background: none;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 4px;
+        padding: 4px;
+        position: static; /* not sticky — scrolls with page */
+        grid-row: 1 / span 2; /* span both rows so gallery fills left col */
+        align-self: start;
+      }
+
+      /* Each image cell in the 2-up grid */
+      .pdp-columns .gallery > img {
+        width: 100%;
+        aspect-ratio: 4/5;
+        object-fit: cover;
+        display: block;
+        cursor: zoom-in;
+      }
+
+      /* Badge stays top-left of first image */
+      .pdp-columns .gallery .gallery-badge {
+        position: absolute;
+        top: 16px; left: 16px;
+      }
+
+      /* Model name overlay — hide on desktop grid (too cluttered) */
+      .pdp-columns .gallery .gallery-model-name { display: none; }
+
+      /* Show extra gallery images on desktop */
+      .pdp-columns .gallery .gallery-extra { display: flex !important; }
+
+      /* Full-width image spans both columns in the 2-up grid */
+      .pdp-columns .gallery .gallery-full-width {
+        grid-column: 1 / -1;
+        aspect-ratio: 16/9;
+      }
+
+      /* ── SHOPBOX — right column, sticky ── */
+      .pdp-columns .shopbox {
+        position: sticky;
+        top: 56px;
+        max-height: calc(100vh - 56px);
+        overflow-y: auto;
+        padding: 28px 32px;
+        border-left: 1px solid #e0e0e0;
+        background: #fff;
+      }
+
+      /* Below-fold sections full width */
+      .section { padding: 24px 40px; }
+
+      /* ── DESCRIPTION + HIGHLIGHTS — two-col ── */
+      .section-desc-highlights {
+        display: grid;
+        grid-template-columns: 1fr auto 1fr;
+        gap: 0;
+        align-items: start;
+        padding: 40px 40px;
+        border-bottom: 1px solid #e8e8e8;
+      }
+      .desc-col { padding-right: 40px; }
+      .highlights-col { padding-left: 40px; }
+      .desc-divider {
+        width: 1px;
+        background: #e8e8e8;
+        align-self: stretch;
+      }
+
+      /* ── SIZE & FIT + UGC — two-col ── */
+      .section-fit-ugc {
+        display: grid;
+        grid-template-columns: 1fr auto 1fr;
+        gap: 0;
+        align-items: start;
+        padding: 40px 40px;
+        border-bottom: 1px solid #e8e8e8;
+      }
+      .fit-col { padding-right: 40px; }
+      .ugc-col { padding-left: 40px; }
+
+      /* UGC: horizontal scroll on desktop too, smaller cards */
+      .ugc-col .ugc-grid {
+        display: flex;
+        gap: 8px;
+        overflow-x: auto;
+        padding-bottom: 4px;
+      }
+      .ugc-col .ugc-grid > div {
+        flex: 0 0 83px;
+        height: 110px;
+      }
+
+      /* ── BUILT FOR THE JOB — 2-up grid on desktop ── */
+      .feature-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 0;
+        overflow: visible;
+        padding: 0 40px 0;
+      }
+      .feature-card {
+        flex: unset;
+        width: 100%;
+      }
+      .feature-img {
+        aspect-ratio: 3/4;
+        font-size: 14px;
+      }
+      .feature-body { padding: 12px 16px 0; }
+      .feature-title { font-size: 18px; }
+      .feature-desc { font-size: 14px; }
+
+      /* Typography */
+      .product-title { font-size: 22px; }
+      .price { font-size: 16px; }
+
+      /* Sticky ATC */
+      .sticky-atc { max-width: 1280px; padding: 14px 40px; }
+
+      /* Related cards larger */
+      .related-card { flex: 0 0 180px; }
+      .related-img { width: 180px; height: 225px; }
+
+      .page-bottom-pad { height: 80px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- SECTION: HEADER -->
+<header>
+  <!-- Mobile: hamburger -->
+  <div class="header-menu">☰</div>
+
+  <!-- Desktop nav — left -->
+  <nav class="desktop-nav">
+    <a href="#">Pants</a>
+    <a href="#">Shorts</a>
+    <a href="#">Tops</a>
+    <a href="#">Overalls</a>
+    <a href="#">Collections</a>
+  </nav>
+
+  <!-- Logo — always centered -->
+  <div class="header-logo">DOVETAIL</div>
+
+  <!-- Desktop nav — right / Mobile: cart only -->
+  <div class="desktop-nav-right">
+    <!-- Search field — desktop only -->
+    <div class="desktop-search desktop-only" style="display:none;">
+      <input type="search" placeholder="Search" style="border:1px solid #ccc; border-radius:20px; padding:6px 14px; font-size:13px; font-family:inherit; outline:none; width:160px; background:#fff;">
+    </div>
+    <!-- Account icon — desktop only -->
+    <a href="#" class="desktop-only" style="display:none; color:#333; text-decoration:none; font-size:20px;" title="Account">&#9711;</a>
+    <!-- Cart -->
+    <div class="header-cart">
+      🛒
+      <span class="cart-badge">2</span>
+    </div>
+  </div>
+</header>
+
+<!-- SECTION: BREADCRUMB -->
+<nav class="breadcrumb">
+  <a href="#">Home</a><span>›</span>
+  <a href="#">Pants</a><span>›</span>
+  <a href="#">Straight Leg</a><span>›</span>
+  Britt X Ultralight
+</nav>
+
+<!-- DESKTOP TWO-COLUMN WRAPPER -->
+<div class="pdp-columns">
+
+<!-- SECTION: GALLERY -->
+<div class="gallery" onclick="document.getElementById('lightbox').style.display='flex'" style="cursor:zoom-in;">
+  <div class="gallery-badge">Best Seller</div>
+
+  <!-- Image 1 — real photo (mobile: only this shows; desktop: first of 2-up grid) -->
+  <img src="../attachments/product-image-placeholder-1.jpg" alt="Britt Utility Pant — model kneeling wearing size 6" style="width:100%; height:100%; object-fit:cover; display:block;">
+
+  <!-- Images 2–8 — desktop 2-up grid placeholders; hidden on mobile via CSS -->
+  <img src="../attachments/product-image-placeholder-1.jpg" alt="Britt Utility Pant — image 2" class="gallery-extra" style="display:none; width:100%; aspect-ratio:4/5; object-fit:cover;">
+  <div class="gallery-extra gallery-full-width" style="display:none; width:100%; background:#e0e0e0; align-items:center; justify-content:center; color:#bbb; font-size:12px;">[ Image 3 — full width ]</div>
+  <div class="gallery-extra" style="display:none; width:100%; aspect-ratio:4/5; background:#e4e4e4; align-items:center; justify-content:center; color:#bbb; font-size:12px;">[ Image 4 ]</div>
+  <div class="gallery-extra" style="display:none; width:100%; aspect-ratio:4/5; background:#e8e8e8; align-items:center; justify-content:center; color:#bbb; font-size:12px;">[ Image 5 ]</div>
+  <div class="gallery-extra" style="display:none; width:100%; aspect-ratio:4/5; background:#e4e4e4; align-items:center; justify-content:center; color:#bbb; font-size:12px;">[ Image 6 ]</div>
+  <div class="gallery-extra" style="display:none; width:100%; aspect-ratio:4/5; background:#e8e8e8; align-items:center; justify-content:center; color:#bbb; font-size:12px;">[ Image 7 ]</div>
+  <div class="gallery-extra" style="display:none; width:100%; aspect-ratio:4/5; background:#e0e0e0; align-items:center; justify-content:center; color:#bbb; font-size:18px;">[ ▶ Video ]</div>
+
+  <div class="gallery-model-name">Kitty, 5'7" wearing size 6</div>
+
+  <!-- GALLERY DOTS — mobile only, upper right -->
+  <div class="gallery-dots-overlay" style="position:absolute; top:12px; right:12px; display:flex; flex-direction:column; align-items:center; gap:5px;">
+    <span style="width:6px; height:6px; border-radius:50%; background:rgba(255,255,255,1); display:block;"></span>
+    <span style="width:6px; height:6px; border-radius:50%; background:rgba(255,255,255,0.45); display:block;"></span>
+    <span style="width:6px; height:6px; border-radius:50%; background:rgba(255,255,255,0.45); display:block;"></span>
+    <span style="width:6px; height:6px; border-radius:50%; background:rgba(255,255,255,0.45); display:block;"></span>
+    <span style="width:0; height:0; border-top:4px solid transparent; border-bottom:4px solid transparent; border-left:7px solid rgba(255,255,255,0.45); display:block;"></span>
+  </div>
+</div>
+
+<!-- SECTION: SHOPBOX -->
+<div class="shopbox">
+
+  <div class="section-label">Shopbox</div>
+
+  <h1 class="product-title">Britt X Ultralight Work Pant</h1>
+
+  <div class="reviews-row">
+    <span class="stars">★★★★★</span>
+    <span class="review-count">4.8 (312 reviews)</span>
+  </div>
+
+  <div class="price-row">
+    <span class="price">$119</span>
+    <span class="price-original">$139</span>
+    <span class="price-badge">Save $20</span>
+  </div>
+
+  <!-- Color -->
+  <div class="selector-label">Color: <span>Flax</span></div>
+  <div class="color-chips">
+    <div class="color-chip selected" style="background:#d4c9a8;" title="Flax"></div>
+    <div class="color-chip" style="background:#2a2a2a;" title="Black"></div>
+    <div class="color-chip" style="background:#5a6e5c;" title="Sage"></div>
+    <div class="color-chip" style="background:#8b6f5e;" title="Terracotta"></div>
+    <div class="color-chip" style="background:#c0c0c0;" title="Stone"></div>
+  </div>
+
+  <!-- Inseam + Size side by side — inseam must be selected first -->
+  <div style="display:flex; gap:0; width:100%; margin-bottom:6px;">
+    <div style="flex:1; margin-right:12px;">
+      <div style="margin-bottom:6px;">
+        <span class="selector-label" style="margin:0;">Inseam</span>
+      </div>
+      <select class="size-select" id="inseam-select" style="width:100%;" onchange="onInseamChange(this)">
+        <option value="">Select Inseam</option>
+        <option>28"</option>
+        <option>30"</option>
+        <option>32"</option>
+        <option>34"</option>
+      </select>
+    </div>
+    <div style="flex:1;">
+      <div style="display:flex; justify-content:space-between; align-items:baseline; margin-bottom:6px;">
+        <span class="selector-label" style="margin:0;">Size</span>
+        <span class="size-chart-link" onclick="document.getElementById('size-chart-modal').classList.add('open')" role="button" tabindex="0">Size Chart</span>
+      </div>
+      <select class="size-select" id="size-select" style="width:100%;" disabled>
+        <option value="">Select Inseam first</option>
+        <option>2</option>
+        <option>4</option>
+        <option>6</option>
+        <option disabled>8 — Out of stock</option>
+        <option>10</option>
+        <option>12</option>
+        <option>14</option>
+      </select>
+    </div>
+  </div>
+  <div class="size-note">Our people say it <strong>fits true to size</strong>.</div>
+
+  <!-- WIREFRAME DEMO TOGGLE — remove before handoff -->
+  <button id="demo-oos-toggle" onclick="toggleOOS()" style="display:block; width:100%; margin-bottom:10px; padding:6px; background:#fffbe6; border:1px dashed #ccc; font-size:11px; color:#999; cursor:pointer; font-family:inherit; border-radius:3px;">[ Demo: Show OOS state ]</button>
+
+  <!-- ATC — shown when variant IN STOCK -->
+  <button class="btn-atc" id="btn-atc">Add to Cart</button>
+
+  <!-- OOS STATE — shown when selected variant is out of stock -->
+  <div id="oos-state" style="display:none; margin-bottom:10px;">
+    <button onclick="document.getElementById('bis-modal').style.display='flex'" style="display:block; width:100%; padding:16px; background:#fff; color:#333; font-size:15px; font-weight:700; border:2px solid #333; border-radius:4px; cursor:pointer; text-align:center; letter-spacing:0.03em; font-family:inherit;">
+      Coming Back — Get Notified
+    </button>
+  </div>
+
+  <button class="btn-accel">⚡ Buy with Shop Pay</button>
+
+  <div class="trust-badges">
+    <span>Free Exchanges</span>
+    <span>Secure Checkout</span>
+  </div>
+
+  <p style="font-size:12px; color:#666; text-align:center; margin-bottom:16px;">
+    Or 4 interest-free payments of $29.75 with <strong>Shop Pay</strong>
+  </p>
+
+</div><!-- end shopbox -->
+
+</div><!-- end .pdp-columns -->
+
+<!-- SECTION: DESCRIPTION + REVIEW HIGHLIGHTS — two-col on desktop -->
+<div class="section section-desc-highlights">
+
+  <!-- Left: description -->
+  <div class="desc-col">
+    <p class="product-description" style="border-bottom:none; padding-bottom:0;">
+      Built for the job site and beyond. The Britt X Ultralight combines our most breathable fabric with a straight-leg fit designed for women who work hard. Reinforced knees, tool loops, and a hip slot — everything you need, nothing you don't.
+    </p>
+  </div>
+
+  <!-- Divider: vertical on desktop, horizontal on mobile -->
+  <div class="desc-divider" style="border-top: 1px solid #e8e8e8; margin: 16px 0;"></div>
+
+  <!-- Right: review highlights -->
+  <div class="highlights-col">
+    <div class="section-label">Review highlights — kitchen sink; A/B test by removing</div>
+
+    <div style="display:flex; gap:10px; margin-bottom:14px; align-items:flex-start;">
+      <div style="flex:1;">
+        <div style="font-size:15px; font-weight:700; line-height:1.35; color:#222; margin-bottom:5px;">"These are the best work pants I've ever owned."</div>
+        <div style="font-size:11px; color:#888;">★★★★★ &nbsp;Sarah K. · Verified buyer</div>
+      </div>
+      <div style="flex:0 0 64px; width:64px; height:85px; background:#e0e0e0; border-radius:3px; display:flex; align-items:center; justify-content:center; font-size:9px; color:#aaa; text-align:center; line-height:1.3;">[ UGC<br>Photo ]</div>
+    </div>
+
+    <div style="display:flex; gap:10px; margin-bottom:14px; align-items:flex-start;">
+      <div style="flex:1;">
+        <div style="font-size:15px; font-weight:700; line-height:1.35; color:#222; margin-bottom:5px;">"So lightweight for a work pant — the fabric is unreal."</div>
+        <div style="font-size:11px; color:#888;">★★★★★ &nbsp;Jess M. · Verified buyer</div>
+      </div>
+      <div style="flex:0 0 64px; width:64px; height:85px; background:#e0e0e0; border-radius:3px; display:flex; align-items:center; justify-content:center; font-size:9px; color:#aaa; text-align:center; line-height:1.3;">[ UGC<br>Photo ]</div>
+    </div>
+
+    <div style="margin-bottom:14px;">
+      <div style="font-size:15px; font-weight:700; line-height:1.35; color:#222; margin-bottom:5px;">"Fit is perfect and they hold up after 6 months of daily wear."</div>
+      <div style="font-size:11px; color:#888;">★★★★★ &nbsp;Mara T. · Verified buyer</div>
+    </div>
+
+    <button onclick="document.getElementById('reviews-section').scrollIntoView({behavior:'smooth'})" style="background:none; border:none; font-size:13px; font-weight:600; color:#333; text-decoration:underline; padding:0; cursor:pointer; font-family:inherit;">Read all 312 reviews ↓</button>
+  </div>
+
+</div>
+
+<!-- SECTION: SIZE & FIT + UGC — two-col on desktop -->
+<div class="section section-fit-ugc">
+
+  <!-- Left: Size & Fit -->
+  <div class="fit-col">
+    <div class="section-label">Always open</div>
+    <div class="section-title">Size &amp; Fit</div>
+    <div class="fit-grid">
+      <div class="fit-item">
+        <div class="fit-key">Leg</div>
+        <div class="fit-val">Straight</div>
+      </div>
+      <div class="fit-item">
+        <div class="fit-key">Rise</div>
+        <div class="fit-val">Mid-rise</div>
+      </div>
+      <div class="fit-item">
+        <div class="fit-key">Waist</div>
+        <div class="fit-val">Relaxed</div>
+      </div>
+      <div class="fit-item">
+        <div class="fit-key">Stretch</div>
+        <div class="fit-val">4-way</div>
+      </div>
+    </div>
+    <div class="fit-best-for">
+      <span class="fit-key">Best for</span>
+      <div class="fit-tags">
+        <span class="fit-tag">Curvy</span>
+        <span class="fit-tag">Straight</span>
+        <span class="fit-tag">Apple</span>
+        <span class="fit-tag">Pear</span>
+      </div>
+    </div>
+    <button onclick="document.getElementById('compare-modal').style.display='flex'" style="background:none; border:none; font-size:13px; font-weight:600; color:#333; text-decoration:underline; padding:12px 0 0; cursor:pointer; font-family:inherit; display:block;">Compare fits →</button>
+  </div>
+
+  <!-- Divider: vertical on desktop, horizontal on mobile -->
+  <div class="desc-divider" style="border-top: 1px solid #e8e8e8; margin: 16px 0;"></div>
+
+  <!-- Right: UGC photo strip -->
+  <div class="ugc-col">
+    <div style="font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:0.05em; color:#555; margin-bottom:10px;">From Our Customers</div>
+    <!-- Mobile: horizontal scroll; Desktop: 2-up grid -->
+    <div class="ugc-grid">
+      <div style="background:#e8e8e8; aspect-ratio:3/4; display:flex; align-items:center; justify-content:center; color:#bbb; font-size:10px; border-radius:2px;">[ UGC Photo ]</div>
+      <div style="background:#e4e4e4; aspect-ratio:3/4; display:flex; align-items:center; justify-content:center; color:#bbb; font-size:10px; border-radius:2px;">[ UGC Photo ]</div>
+      <div style="background:#e8e8e8; aspect-ratio:3/4; display:flex; align-items:center; justify-content:center; color:#bbb; font-size:10px; border-radius:2px;">[ UGC Photo ]</div>
+      <div style="background:#e4e4e4; aspect-ratio:3/4; display:flex; align-items:center; justify-content:center; color:#bbb; font-size:10px; border-radius:2px;">[ UGC Photo ]</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- SECTION: DETAILS / CARE TABS -->
+<div class="section">
+  <div class="section-label">Tabs — collapsed by default</div>
+  <div class="tabs-nav">
+    <button class="tab-btn active" onclick="showTab('details', this)">Details</button>
+    <button class="tab-btn" onclick="showTab('care', this)">Care</button>
+  </div>
+  <div class="tab-content">
+    <div class="tab-panel active" id="tab-details">
+      <strong>Fabric</strong><br>
+      94% nylon, 6% spandex. UPF 50+. Moisture-wicking, quick-dry.<br><br>
+      <strong>Features</strong><br>
+      Reinforced knees · Hip slot · Twine hole · Tool loops · Oversized coin pocket · 6 total pockets
+    </div>
+    <div class="tab-panel" id="tab-care">
+      <div style="display:flex; flex-direction:column; gap:10px;">
+        <div style="display:flex; align-items:center; gap:10px;">
+          <div style="width:28px; height:28px; background:#e8e8e8; border-radius:4px; flex-shrink:0; display:flex; align-items:center; justify-content:center; font-size:10px; color:#aaa;">[ ]</div>
+          <span>Machine wash cold.</span>
+        </div>
+        <div style="display:flex; align-items:center; gap:10px;">
+          <div style="width:28px; height:28px; background:#e8e8e8; border-radius:4px; flex-shrink:0; display:flex; align-items:center; justify-content:center; font-size:10px; color:#aaa;">[ ]</div>
+          <span>Tumble dry low.</span>
+        </div>
+        <div style="display:flex; align-items:center; gap:10px;">
+          <div style="width:28px; height:28px; background:#e8e8e8; border-radius:4px; flex-shrink:0; display:flex; align-items:center; justify-content:center; font-size:10px; color:#aaa;">[ ]</div>
+          <span>Do not iron.</span>
+        </div>
+        <div style="display:flex; align-items:center; gap:10px;">
+          <div style="width:28px; height:28px; background:#e8e8e8; border-radius:4px; flex-shrink:0; display:flex; align-items:center; justify-content:center; font-size:10px; color:#aaa;">[ ]</div>
+          <span>Do not bleach.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION: SHIPPING & RETURNS -->
+<div class="section">
+  <div class="section-label">Accordion — collapsed by default</div>
+  <div class="accordion-item" style="border-top:none;">
+    <button class="accordion-trigger" onclick="toggleAccordion(this)">
+      Shipping, Returns &amp; Exchanges
+      <span class="accordion-icon">+</span>
+    </button>
+    <div class="accordion-body">
+      <p style="font-weight:600; margin-bottom:6px;">SHIPPING</p>
+      <p><a href="#" style="color:#333;">See our shipping information here</a></p>
+      <br>
+      <p style="font-weight:600; margin-bottom:6px;">RETURNS &amp; EXCHANGES</p>
+      <p style="margin-bottom:8px;">You can exchange your item or start the return process within 30 days of purchase for an exchange or refund.</p>
+      <p><a href="#" style="color:#333;">See our Returns Policy page for more</a></p>
+      <p style="margin-top:6px;"><a href="#" style="color:#333;">Or start your return now</a></p>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION: BUILT FOR THE JOB — image-rich feature grid -->
+<div class="section" style="padding-left:0; padding-right:0;">
+  <div class="section-label" style="margin-left:16px;">Feature details</div>
+  <div class="section-title" style="font-size:20px; letter-spacing:0.04em; margin:0 0 20px 16px;">Built for the Job</div>
+
+  <!-- Mobile: horizontal scroll / Desktop: 2-up grid -->
+  <div class="feature-grid">
+
+    <div class="feature-card">
+      <div class="feature-img">[ Hip Slot ]</div>
+      <div class="feature-body">
+        <div class="feature-title">Hip Slot</div>
+        <div class="feature-desc">Fits your phone flat against your hip — no bulk, no bounce.</div>
+      </div>
+    </div>
+
+    <div class="feature-card">
+      <div class="feature-img">[ Twine Hole ]</div>
+      <div class="feature-body">
+        <div class="feature-title">Twine Hole</div>
+        <div class="feature-desc">Run twine or cable without opening a pocket.</div>
+      </div>
+    </div>
+
+    <div class="feature-card">
+      <div class="feature-img">[ Reinforced Knees ]</div>
+      <div class="feature-body">
+        <div class="feature-title">Reinforced Knees</div>
+        <div class="feature-desc">Double-layer construction built for kneeling work all day.</div>
+      </div>
+    </div>
+
+    <div class="feature-card">
+      <div class="feature-img">[ Tool Loop ]</div>
+      <div class="feature-body">
+        <div class="feature-title">Tool Loop</div>
+        <div class="feature-desc">Keeps your tools accessible, not buried in a pocket.</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- SECTION: FABRIC STORY -->
+<div class="section">
+  <div class="section-label">Fabric story block</div>
+  <div class="section-title">The Fabric</div>
+  <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:16px;">
+    <div>
+      <div style="font-size:12px; color:#888; margin-bottom:2px;">Weight</div>
+      <div style="font-size:13px; font-weight:600;">Ultralight</div>
+      <div style="font-size:12px; color:#666;">Half the weight of canvas</div>
+    </div>
+    <div>
+      <div style="font-size:12px; color:#888; margin-bottom:2px;">Stretch</div>
+      <div style="font-size:13px; font-weight:600;">4-way</div>
+      <div style="font-size:12px; color:#666;">Moves with you all day</div>
+    </div>
+    <div>
+      <div style="font-size:12px; color:#888; margin-bottom:2px;">Sun Protection</div>
+      <div style="font-size:13px; font-weight:600;">UPF 50+</div>
+      <div style="font-size:12px; color:#666;">Blocks 98% of UV rays</div>
+    </div>
+    <div>
+      <div style="font-size:12px; color:#888; margin-bottom:2px;">Dry Time</div>
+      <div style="font-size:13px; font-weight:600;">Quick-dry</div>
+      <div style="font-size:12px; color:#666;">Wicks and dries fast</div>
+    </div>
+  </div>
+  <div style="display:flex; align-items:center; gap:12px; margin-bottom:12px;">
+    <div style="width:64px; height:64px; background:#e8e8e8; border:1px solid #ccc; flex-shrink:0; display:flex; align-items:center; justify-content:center; font-size:10px; color:#999; text-align:center; line-height:1.3;">[ Fabric<br>Swatch ]</div>
+    <p style="font-size:12px; color:#666; line-height:1.5; margin:0;">94% nylon, 6% spandex.</p>
+  </div>
+  <p style="font-size:12px; color:#777; line-height:1.5;">Made in [COUNTRY] by workers in audited production facilities which advance safe, lawful, humane, and ethical practices.</p>
+</div>
+
+<!-- SECTION: REVIEWS -->
+<div class="section" id="reviews-section">
+  <div class="section-label">Reviews — Okendo widget approximation</div>
+
+  <!-- Reviews / Questions tab row -->
+  <div style="display:flex; gap:0; border-bottom:1px solid #e0e0e0; margin-bottom:14px;">
+    <div style="padding:10px 14px 10px 0; font-size:14px; font-weight:700; border-bottom:2px solid #333; margin-bottom:-1px; display:flex; align-items:center; gap:6px;">
+      Reviews <span style="background:#333; color:#fff; font-size:11px; font-weight:700; padding:1px 6px; border-radius:2px;">312</span>
+    </div>
+    <div style="padding:10px 14px; font-size:14px; color:#999;">Questions</div>
+  </div>
+
+  <!-- Powered by + Write a Review -->
+  <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+    <div style="font-size:11px; color:#999;">Powered by <strong style="color:#555;">Okendo</strong></div>
+    <button style="background:none; border:1.5px solid #333; font-size:12px; font-weight:700; padding:7px 12px; cursor:pointer; font-family:inherit; letter-spacing:0.04em;">WRITE A REVIEW</button>
+  </div>
+
+  <!-- Summary panel -->
+  <div style="border:1px solid #e0e0e0; margin-bottom:14px;">
+    <!-- Score + star breakdown -->
+    <div style="padding:14px; border-bottom:1px solid #e0e0e0;">
+      <div style="display:flex; align-items:center; gap:10px; margin-bottom:6px;">
+        <div style="background:#333; color:#fff; font-size:22px; font-weight:700; padding:4px 10px; line-height:1;">4.8</div>
+        <div>
+          <div style="font-size:17px; letter-spacing:1px;">★★★★★</div>
+          <div style="font-size:12px; color:#666;">Based on 312 reviews</div>
+        </div>
+      </div>
+      <!-- Star bars -->
+      <div style="font-size:12px; color:#555;">
+        <div style="display:flex; align-items:center; gap:6px; margin-bottom:4px;">
+          <span style="width:42px;">5 Stars</span>
+          <div style="flex:1; height:8px; background:#e0e0e0; border-radius:2px;">
+            <div style="width:85%; height:100%; background:#333; border-radius:2px;"></div>
+          </div>
+          <span style="width:24px; text-align:right;">267</span>
+        </div>
+        <div style="display:flex; align-items:center; gap:6px; margin-bottom:4px;">
+          <span style="width:42px;">4 Stars</span>
+          <div style="flex:1; height:8px; background:#e0e0e0; border-radius:2px;">
+            <div style="width:9%; height:100%; background:#333; border-radius:2px;"></div>
+          </div>
+          <span style="width:24px; text-align:right;">28</span>
+        </div>
+        <div style="display:flex; align-items:center; gap:6px; margin-bottom:4px;">
+          <span style="width:42px;">3 Stars</span>
+          <div style="flex:1; height:8px; background:#e0e0e0; border-radius:2px;">
+            <div style="width:3%; height:100%; background:#333; border-radius:2px;"></div>
+          </div>
+          <span style="width:24px; text-align:right;">9</span>
+        </div>
+        <div style="display:flex; align-items:center; gap:6px; margin-bottom:4px;">
+          <span style="width:42px;">2 Stars</span>
+          <div style="flex:1; height:8px; background:#e0e0e0; border-radius:2px;">
+            <div style="width:1%; height:100%; background:#333; border-radius:2px;"></div>
+          </div>
+          <span style="width:24px; text-align:right;">3</span>
+        </div>
+        <div style="display:flex; align-items:center; gap:6px;">
+          <span style="width:42px;">1 Star</span>
+          <div style="flex:1; height:8px; background:#e0e0e0; border-radius:2px;">
+            <div style="width:2%; height:100%; background:#333; border-radius:2px;"></div>
+          </div>
+          <span style="width:24px; text-align:right;">5</span>
+        </div>
+      </div>
+    </div>
+    <!-- Recommend % + attribute sliders -->
+    <div style="padding:14px;">
+      <div style="display:flex; align-items:center; gap:8px; margin-bottom:12px;">
+        <div style="background:#333; color:#fff; font-size:13px; font-weight:700; padding:3px 8px;">94%</div>
+        <div style="font-size:12px; color:#555;">of reviewers would recommend this product</div>
+      </div>
+      <!-- Fit slider -->
+      <div style="margin-bottom:10px;">
+        <div style="font-size:12px; font-weight:600; margin-bottom:4px;">Fit:</div>
+        <div style="position:relative; height:8px; background:#e0e0e0; border-radius:2px; margin-bottom:3px;">
+          <div style="position:absolute; left:48%; top:-3px; width:14px; height:14px; background:#333; border-radius:2px;"></div>
+        </div>
+        <div style="display:flex; justify-content:space-between; font-size:10px; color:#888;">
+          <span>Too Small</span><span>Perfect</span><span>Too Large</span>
+        </div>
+      </div>
+      <!-- Quality slider -->
+      <div style="margin-bottom:10px;">
+        <div style="font-size:12px; font-weight:600; margin-bottom:4px;">Quality:</div>
+        <div style="position:relative; height:8px; background:#e0e0e0; border-radius:2px; margin-bottom:3px;">
+          <div style="position:absolute; left:78%; top:-3px; width:14px; height:14px; background:#333; border-radius:2px;"></div>
+        </div>
+        <div style="display:flex; justify-content:space-between; font-size:10px; color:#888;">
+          <span>Poor</span><span>Excellent</span>
+        </div>
+      </div>
+      <!-- Functionality slider -->
+      <div>
+        <div style="font-size:12px; font-weight:600; margin-bottom:4px;">Functionality:</div>
+        <div style="position:relative; height:8px; background:#e0e0e0; border-radius:2px; margin-bottom:3px;">
+          <div style="position:absolute; left:75%; top:-3px; width:14px; height:14px; background:#333; border-radius:2px;"></div>
+        </div>
+        <div style="display:flex; justify-content:space-between; font-size:10px; color:#888;">
+          <span>Lacking</span><span>Superb</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Filter bar + sort -->
+  <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; padding-bottom:12px; border-bottom:1px solid #e0e0e0;">
+    <button style="background:none; border:1.5px solid #ccc; font-size:12px; font-weight:700; padding:7px 12px; cursor:pointer; font-family:inherit; display:flex; align-items:center; gap:5px; color:#333;">
+      <span>☰</span> FILTERS
+    </button>
+    <div style="display:flex; align-items:center; gap:8px; font-size:12px; color:#666;">
+      <span>312 Reviews</span>
+      <select style="font-size:12px; border:1px solid #ccc; padding:5px 8px; font-family:inherit; background:#fff;">
+        <option>Highest Rating</option>
+        <option>Most Recent</option>
+        <option>Lowest Rating</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- First review — Kristen D. -->
+  <div class="review-item" style="display:flex; gap:12px;">
+    <div style="flex-shrink:0;">
+      <div style="width:44px; height:44px; border-radius:50%; background:#ccc; display:flex; align-items:center; justify-content:center; font-size:14px; font-weight:700; color:#fff;">KD</div>
+    </div>
+    <div style="flex:1;">
+      <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:2px;">
+        <div>
+          <div style="font-size:13px; font-weight:700;">Kristen D. 🇺🇸</div>
+          <div style="font-size:11px; color:#888; font-weight:600;">✓ Verified Buyer</div>
+        </div>
+        <div style="font-size:11px; color:#999;">2 months ago</div>
+      </div>
+      <div style="font-size:14px; color:#333; margin-bottom:3px;">★★★★★</div>
+      <div style="font-size:13px; font-weight:700; margin-bottom:4px;">Great Fit</div>
+      <div class="review-body">Medium weight — perfect for winter in the mountains of NC. Stretches in all the right places.</div>
+      <button onclick="document.getElementById('survey-modal').style.display='flex'" style="background:none; border:none; font-size:11px; color:#666; text-decoration:underline; padding:6px 0 0; cursor:pointer; font-family:inherit;">See reviewer details ↗</button>
+    </div>
+  </div>
+
+  <!-- Second review -->
+  <div class="review-item" style="display:flex; gap:12px;">
+    <div style="flex-shrink:0;">
+      <div style="width:44px; height:44px; border-radius:50%; background:#ccc; display:flex; align-items:center; justify-content:center; font-size:14px; font-weight:700; color:#fff;">JM</div>
+    </div>
+    <div style="flex:1;">
+      <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:2px;">
+        <div>
+          <div style="font-size:13px; font-weight:700;">Jess M. 🇺🇸</div>
+          <div style="font-size:11px; color:#888; font-weight:600;">✓ Verified Buyer</div>
+        </div>
+        <div style="font-size:11px; color:#999;">3 months ago</div>
+      </div>
+      <div style="font-size:14px; color:#333; margin-bottom:3px;">★★★★★</div>
+      <div style="font-size:13px; font-weight:700; margin-bottom:4px;">Ultralight Lives Up to the Name</div>
+      <div class="review-body">Fit is perfect. Wish there were more inseam options for petite. But the fabric is unreal — so lightweight for a work pant.</div>
+      <button onclick="document.getElementById('survey-modal').style.display='flex'" style="background:none; border:none; font-size:11px; color:#666; text-decoration:underline; padding:6px 0 0; cursor:pointer; font-family:inherit;">See reviewer details ↗</button>
+    </div>
+  </div>
+
+  <button class="btn-all-reviews">Read all 312 reviews</button>
+</div>
+
+<!-- SURVEY DETAIL MODAL -->
+<div id="survey-modal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:500; align-items:flex-end; justify-content:center;">
+  <div style="background:#fff; width:100%; max-width:390px; border-radius:8px 8px 0 0; padding:20px 16px 32px; max-height:80vh; overflow-y:auto;">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+      <div style="font-size:14px; font-weight:700;">Kristen D. — Reviewer Details</div>
+      <button onclick="document.getElementById('survey-modal').style.display='none'" style="background:none; border:none; font-size:20px; cursor:pointer; color:#666; font-family:inherit;">×</button>
+    </div>
+    <div style="font-size:13px; color:#333; display:grid; grid-template-columns:1fr 1fr; gap:12px 16px;">
+      <div>
+        <div style="font-size:11px; color:#888; margin-bottom:2px;">Height</div>
+        <div style="font-weight:600;">5'6"</div>
+      </div>
+      <div>
+        <div style="font-size:11px; color:#888; margin-bottom:2px;">Size purchased</div>
+        <div style="font-weight:600;">Size 8 / 30"</div>
+      </div>
+      <div>
+        <div style="font-size:11px; color:#888; margin-bottom:2px;">Usual size</div>
+        <div style="font-weight:600;">Size 8</div>
+      </div>
+      <div>
+        <div style="font-size:11px; color:#888; margin-bottom:2px;">Body type</div>
+        <div style="font-weight:600;">Curvy</div>
+      </div>
+      <div>
+        <div style="font-size:11px; color:#888; margin-bottom:2px;">Fit</div>
+        <div style="font-weight:600;">True to size</div>
+      </div>
+      <div>
+        <div style="font-size:11px; color:#888; margin-bottom:2px;">Quality</div>
+        <div style="font-weight:600;">Excellent</div>
+      </div>
+      <div>
+        <div style="font-size:11px; color:#888; margin-bottom:2px;">Functionality</div>
+        <div style="font-weight:600;">Superb</div>
+      </div>
+      <div>
+        <div style="font-size:11px; color:#888; margin-bottom:2px;">Would recommend</div>
+        <div style="font-weight:600;">Yes</div>
+      </div>
+    </div>
+    <div style="margin-top:16px; padding-top:14px; border-top:1px solid #e8e8e8;">
+      <div style="font-size:11px; color:#888; margin-bottom:6px;">Use case</div>
+      <div style="font-size:13px;">Construction / Carpentry</div>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION: FREQUENTLY BOUGHT WITH -->
+<div class="section">
+  <div class="section-label">Frequently bought with</div>
+  <div class="section-title">Frequently Bought With</div>
+  <div style="display:flex; gap:10px; margin-bottom:14px;">
+    <!-- Main product thumbnail -->
+    <div style="flex:0 0 80px; text-align:center;">
+      <div style="width:80px; height:80px; background:#f0f0f0; display:flex; align-items:center; justify-content:center; color:#bbb; font-size:10px; margin-bottom:4px; border:2px solid #333;">[ This item ]</div>
+      <div style="font-size:11px; font-weight:600; line-height:1.2;">Britt X Ultralight</div>
+      <div style="font-size:11px; color:#555;">$119</div>
+    </div>
+    <div style="font-size:18px; color:#bbb; align-self:center; flex-shrink:0;">+</div>
+    <!-- Bundle item 1 -->
+    <div style="flex:0 0 80px; text-align:center;">
+      <div style="width:80px; height:80px; background:#f0f0f0; display:flex; align-items:center; justify-content:center; color:#bbb; font-size:10px; margin-bottom:4px;">[ Product ]</div>
+      <div style="font-size:11px; font-weight:600; line-height:1.2;">Britt Utility Top</div>
+      <div style="font-size:11px; color:#555;">$79</div>
+    </div>
+    <div style="font-size:18px; color:#bbb; align-self:center; flex-shrink:0;">+</div>
+    <!-- Bundle item 2 -->
+    <div style="flex:0 0 80px; text-align:center;">
+      <div style="width:80px; height:80px; background:#f0f0f0; display:flex; align-items:center; justify-content:center; color:#bbb; font-size:10px; margin-bottom:4px;">[ Product ]</div>
+      <div style="font-size:11px; font-weight:600; line-height:1.2;">Canvas Work Belt</div>
+      <div style="font-size:11px; color:#555;">$39</div>
+    </div>
+  </div>
+  <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; font-size:13px;">
+    <span style="color:#555;">Bundle total:</span>
+    <span style="font-weight:700;">$237</span>
+  </div>
+  <button style="display:block; width:100%; padding:14px; background:#333; color:#fff; font-size:14px; font-weight:700; border:none; border-radius:4px; cursor:pointer; font-family:inherit;">Add All 3 to Cart</button>
+</div>
+
+<!-- SECTION: RELATED PRODUCTS -->
+<div class="section">
+  <div class="section-label">Related</div>
+  <div class="section-title">You Might Also Like</div>
+  <div class="related-scroll">
+    <div class="related-card">
+      <div class="related-img">[ Image ]</div>
+      <div class="related-name">Britt Utility Short</div>
+      <div class="related-price">$89</div>
+    </div>
+    <div class="related-card">
+      <div class="related-img">[ Image ]</div>
+      <div class="related-name">Canvas Work Pant</div>
+      <div class="related-price">$129</div>
+    </div>
+    <div class="related-card">
+      <div class="related-img">[ Image ]</div>
+      <div class="related-name">Freshley Overall</div>
+      <div class="related-price">$149</div>
+    </div>
+  </div>
+</div>
+
+<div class="page-bottom-pad"></div>
+
+<!-- SECTION: STICKY ATC -->
+<div class="sticky-atc">
+  <div class="sticky-atc-info">
+    <div class="sticky-atc-name">Britt X Ultralight — Flax / 6 / 30"</div>
+    <div class="sticky-atc-price">$119</div>
+  </div>
+  <button class="sticky-atc-btn">Add to Cart</button>
+</div>
+
+<!-- LIGHTBOX / IMAGE ZOOM -->
+<div id="lightbox" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.92); z-index:600; align-items:center; justify-content:center; flex-direction:column;">
+
+  <!-- Close -->
+  <button onclick="document.getElementById('lightbox').style.display='none'" style="position:absolute; top:16px; right:16px; background:none; border:none; font-size:28px; color:#fff; cursor:pointer; line-height:1; z-index:10;">×</button>
+
+  <!-- Zoom hint -->
+  <div style="position:absolute; top:16px; left:50%; transform:translateX(-50%); font-size:11px; color:rgba(255,255,255,0.5); letter-spacing:0.05em; white-space:nowrap;">Pinch or double-tap to zoom</div>
+
+  <!-- Image -->
+  <div style="width:100%; max-width:390px; overflow:hidden; display:flex; align-items:center; justify-content:center;">
+  <img src="../attachments/product-image-placeholder-1.jpg" alt="Britt Utility Pant — enlarged view" style="width:100%; max-height:80vh; object-fit:contain; display:block;">
+  </div>
+
+  <!-- Thumbnail strip — other images -->
+  <div style="display:flex; gap:8px; padding:12px 16px 0; overflow-x:auto; width:100%; max-width:390px;">
+    <div style="flex:0 0 52px; height:52px; border:2px solid #fff; overflow:hidden; cursor:pointer;">
+      <img src="../attachments/product-image-placeholder-1.jpg" style="width:100%; height:100%; object-fit:cover;">
+    </div>
+    <div style="flex:0 0 52px; height:52px; border:2px solid rgba(255,255,255,0.3); background:#333; display:flex; align-items:center; justify-content:center; font-size:9px; color:#888; cursor:pointer;">[ 2 ]</div>
+    <div style="flex:0 0 52px; height:52px; border:2px solid rgba(255,255,255,0.3); background:#333; display:flex; align-items:center; justify-content:center; font-size:9px; color:#888; cursor:pointer;">[ 3 ]</div>
+    <div style="flex:0 0 52px; height:52px; border:2px solid rgba(255,255,255,0.3); background:#333; display:flex; align-items:center; justify-content:center; font-size:9px; color:#888; cursor:pointer;">[ 4 ]</div>
+    <!-- Video thumbnail -->
+    <div style="flex:0 0 52px; height:52px; border:2px solid rgba(255,255,255,0.3); background:#333; display:flex; align-items:center; justify-content:center; cursor:pointer;">
+      <span style="width:0; height:0; border-top:7px solid transparent; border-bottom:7px solid transparent; border-left:11px solid rgba(255,255,255,0.5);"></span>
+    </div>
+  </div>
+
+</div>
+
+<!-- COMPARE FITS MODAL -->
+<div id="compare-modal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:500; align-items:center; justify-content:center; padding:16px;">
+  <div style="background:#fff; width:100%; max-width:800px; border-radius:8px; padding:28px 32px 32px; max-height:90vh; overflow-y:auto; box-shadow:0 8px 40px rgba(0,0,0,0.18);">
+
+    <!-- Header -->
+    <div style="display:flex; justify-content:space-between; align-items:center; padding:0 16px 14px; border-bottom:1px solid #e8e8e8;">
+      <div style="font-size:15px; font-weight:700;">Compare Fits</div>
+      <button onclick="document.getElementById('compare-modal').style.display='none'" style="background:none; border:none; font-size:22px; cursor:pointer; color:#666; font-family:inherit; line-height:1;">×</button>
+    </div>
+
+    <!-- Scrollable comparison table -->
+    <div style="overflow-x:auto; padding:14px 0 0;">
+      <table style="width:100%; border-collapse:collapse; font-size:14px; min-width:480px;">
+
+        <!-- Product thumbnails + names -->
+        <thead>
+          <tr>
+            <td style="width:110px; padding:6px 12px 14px 0; vertical-align:bottom; font-size:12px; color:#888; font-weight:600; text-transform:uppercase; letter-spacing:0.05em;">Style</td>
+            <!-- Col 1 — current product -->
+            <td style="padding:6px 12px 14px; text-align:center; vertical-align:bottom;">
+              <div style="width:100px; height:130px; background:#e0e0e0; margin:0 auto 8px; display:flex; align-items:center; justify-content:center; font-size:11px; color:#bbb; border:2px solid #333;">[ Img ]</div>
+              <div style="font-size:13px; font-weight:700; line-height:1.3;">Britt X<br>Ultralight</div>
+              <div style="font-size:11px; color:#888; margin-top:3px; font-weight:600;">← You're here</div>
+            </td>
+            <!-- Col 2 -->
+            <td style="padding:6px 12px 14px; text-align:center; vertical-align:bottom;">
+              <div style="width:100px; height:130px; background:#e8e8e8; margin:0 auto 8px; display:flex; align-items:center; justify-content:center; font-size:11px; color:#bbb;">[ Img ]</div>
+              <div style="font-size:13px; font-weight:700; line-height:1.3;">Britt<br>Canvas</div>
+              <a href="#" style="font-size:11px; color:#333; display:block; margin-top:3px;">View →</a>
+            </td>
+            <!-- Col 3 -->
+            <td style="padding:6px 12px 14px; text-align:center; vertical-align:bottom;">
+              <div style="width:100px; height:130px; background:#e8e8e8; margin:0 auto 8px; display:flex; align-items:center; justify-content:center; font-size:11px; color:#bbb;">[ Img ]</div>
+              <div style="font-size:13px; font-weight:700; line-height:1.3;">Freshley<br>Overall</div>
+              <a href="#" style="font-size:11px; color:#333; display:block; margin-top:3px;">View →</a>
+            </td>
+            <!-- Col 4 -->
+            <td style="padding:6px 12px 14px; text-align:center; vertical-align:bottom;">
+              <div style="width:100px; height:130px; background:#e8e8e8; margin:0 auto 8px; display:flex; align-items:center; justify-content:center; font-size:11px; color:#bbb;">[ Img ]</div>
+              <div style="font-size:13px; font-weight:700; line-height:1.3;">Dovetail<br>Straight</div>
+              <a href="#" style="font-size:11px; color:#333; display:block; margin-top:3px;">View →</a>
+            </td>
+          </tr>
+        </thead>
+
+        <tbody>
+          <!-- Row: Leg -->
+          <tr style="border-top:1px solid #f0f0f0;">
+            <td style="padding:9px 8px 9px 0; font-size:11px; color:#888; font-weight:600;">Leg</td>
+            <td style="padding:9px 8px; text-align:center; font-size:12px; font-weight:700; background:#fafafa;">Straight</td>
+            <td style="padding:9px 8px; text-align:center; font-size:12px;">Straight</td>
+            <td style="padding:9px 8px; text-align:center; font-size:12px;">Wide</td>
+            <td style="padding:9px 8px; text-align:center; font-size:12px;">Straight</td>
+          </tr>
+          <!-- Row: Rise -->
+          <tr style="border-top:1px solid #f0f0f0;">
+            <td style="padding:9px 8px 9px 0; font-size:11px; color:#888; font-weight:600;">Rise</td>
+            <td style="padding:9px 8px; text-align:center; font-size:12px; font-weight:700; background:#fafafa;">Mid</td>
+            <td style="padding:9px 8px; text-align:center; font-size:12px;">Mid</td>
+            <td style="padding:9px 8px; text-align:center; font-size:12px;">High</td>
+            <td style="padding:9px 8px; text-align:center; font-size:12px;">Mid</td>
+          </tr>
+          <!-- Row: Waist -->
+          <tr style="border-top:1px solid #f0f0f0;">
+            <td style="padding:9px 8px 9px 0; font-size:11px; color:#888; font-weight:600;">Waist</td>
+            <td style="padding:9px 8px; text-align:center; font-size:12px; font-weight:700; background:#fafafa;">Relaxed</td>
+            <td style="padding:9px 8px; text-align:center; font-size:12px;">Relaxed</td>
+            <td style="padding:9px 8px; text-align:center; font-size:12px;">Relaxed</td>
+            <td style="padding:9px 8px; text-align:center; font-size:12px;">Fitted</td>
+          </tr>
+          <!-- Row: Stretch -->
+          <tr style="border-top:1px solid #f0f0f0;">
+            <td style="padding:9px 8px 9px 0; font-size:11px; color:#888; font-weight:600;">Stretch</td>
+            <td style="padding:9px 8px; text-align:center; font-size:12px; font-weight:700; background:#fafafa;">4-way</td>
+            <td style="padding:9px 8px; text-align:center; font-size:12px;">2-way</td>
+            <td style="padding:9px 8px; text-align:center; font-size:12px;">4-way</td>
+            <td style="padding:9px 8px; text-align:center; font-size:12px;">None</td>
+          </tr>
+          <!-- Row: Weight -->
+          <tr style="border-top:1px solid #f0f0f0;">
+            <td style="padding:9px 8px 9px 0; font-size:11px; color:#888; font-weight:600;">Weight</td>
+            <td style="padding:9px 8px; text-align:center; font-size:12px; font-weight:700; background:#fafafa;">Ultralight</td>
+            <td style="padding:9px 8px; text-align:center; font-size:12px;">Heavy</td>
+            <td style="padding:9px 8px; text-align:center; font-size:12px;">Medium</td>
+            <td style="padding:9px 8px; text-align:center; font-size:12px;">Medium</td>
+          </tr>
+          <!-- Row: Best for -->
+          <tr style="border-top:1px solid #f0f0f0;">
+            <td style="padding:9px 8px 9px 0; font-size:11px; color:#888; font-weight:600;">Best for</td>
+            <td style="padding:9px 8px; text-align:center; font-size:11px; font-weight:700; background:#fafafa;">Curvy · Straight · Apple · Pear</td>
+            <td style="padding:9px 8px; text-align:center; font-size:11px;">Curvy · Pear</td>
+            <td style="padding:9px 8px; text-align:center; font-size:11px;">All types</td>
+            <td style="padding:9px 8px; text-align:center; font-size:11px;">Straight · Apple</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Full compare page link -->
+    <div style="padding:16px 16px 0; text-align:center;">
+      <a href="#" style="font-size:12px; color:#333; text-decoration:underline;">See full comparison with all styles →</a>
+    </div>
+
+  </div>
+</div>
+
+<!-- BACK IN STOCK MODAL -->
+<div id="bis-modal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:500; align-items:flex-start; justify-content:center; padding-top:24px;">
+  <div style="background:#f2f2f2; width:calc(100% - 32px); max-width:390px; border-radius:6px; padding:24px 20px 28px; position:relative; max-height:90vh; overflow-y:auto;">
+
+    <!-- Close -->
+    <button onclick="document.getElementById('bis-modal').style.display='none'" style="position:absolute; top:14px; right:16px; background:none; border:none; font-size:22px; cursor:pointer; color:#333; font-family:inherit; line-height:1;">×</button>
+
+    <!-- Title -->
+    <div style="font-size:18px; font-weight:700; color:#222; line-height:1.3; margin-bottom:10px; padding-right:24px;">Britt X Ultralight Work Pant in Flax</div>
+    <div style="font-size:15px; font-weight:600; color:#333; margin-bottom:20px; line-height:1.4;">Sign up to get an alert when your size is back in stock!</div>
+
+    <!-- Size/inseam pre-filled dropdown -->
+    <div style="margin-bottom:12px;">
+      <select style="width:100%; padding:14px 16px; border:1.5px solid #ccc; border-radius:4px; font-size:15px; font-family:inherit; background:#fff; appearance:none; background-image:url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2212%22 height=%228%22 viewBox=%220 0 12 8%22%3E%3Cpath d=%22M1 1l5 5 5-5%22 stroke=%22%23333%22 stroke-width=%221.5%22 fill=%22none%22/%3E%3C/svg%3E'); background-repeat:no-repeat; background-position:right 14px center;">
+        <option>8 / 28"</option>
+        <option>8 / 30"</option>
+        <option>8 / 32"</option>
+        <option>8 / 34"</option>
+      </select>
+    </div>
+
+    <!-- Email -->
+    <div style="margin-bottom:12px;">
+      <div style="display:flex; align-items:center; gap:10px; padding:14px 16px; border:1.5px solid #ccc; border-radius:4px; background:#fff;">
+        <span style="font-size:16px; color:#888;">✉</span>
+        <input type="email" placeholder="Email address" style="border:none; background:none; font-size:15px; font-family:inherit; flex:1; outline:none; color:#333;">
+      </div>
+    </div>
+
+    <!-- Phone -->
+    <div style="margin-bottom:18px;">
+      <div style="display:flex; align-items:center; gap:10px; padding:14px 16px; border:1.5px solid #ccc; border-radius:4px; background:#fff;">
+        <span style="font-size:16px; color:#888;">📱</span>
+        <input type="tel" placeholder="Phone number (optional)" style="border:none; background:none; font-size:15px; font-family:inherit; flex:1; outline:none; color:#333;">
+      </div>
+    </div>
+
+    <!-- CTA -->
+    <button style="display:block; width:100%; padding:16px; background:#333; color:#fff; font-size:15px; font-weight:700; border:none; border-radius:4px; cursor:pointer; text-align:center; letter-spacing:0.05em; font-family:inherit; margin-bottom:16px;">ALERT ME</button>
+
+    <!-- Legal -->
+    <p style="font-size:11px; color:#666; line-height:1.6;">By submitting this form and signing up for texts, you consent to receive marketing text messages (e.g. promos, cart reminders) from Dovetail Workwear at the number provided, including messages sent by autodialer. Consent is not a condition of purchase. Msg &amp; data rates may apply. Msg frequency varies. Unsubscribe at any time by replying STOP or clicking the unsubscribe link (where available). <a href="#" style="color:#333;">Privacy Policy</a> &amp; <a href="#" style="color:#333;">Terms</a>.</p>
+  </div>
+</div>
+
+<!-- SIZE CHART MODAL -->
+<div id="size-chart-modal" class="size-chart-modal" onclick="if(event.target===this)this.classList.remove('open')">
+  <div class="size-chart-sheet">
+
+    <div class="size-chart-handle"><span></span></div>
+
+    <div class="size-chart-header">
+      <h2>Size Chart — Britt X Ultralight</h2>
+      <button class="size-chart-close" onclick="document.getElementById('size-chart-modal').classList.remove('open')">×</button>
+    </div>
+
+    <div class="size-chart-unit-toggle">
+      <button class="unit-btn active" onclick="setUnits('in', this)">Inches</button>
+      <button class="unit-btn" onclick="setUnits('cm', this)">Centimeters</button>
+    </div>
+
+    <p class="size-chart-note">Measurements are body measurements, not garment measurements. For best fit, measure over lightweight clothing.</p>
+
+    <!-- Inseam filter -->
+    <div style="margin-bottom:12px;">
+      <div style="font-size:12px; font-weight:600; color:#555; margin-bottom:6px; text-transform:uppercase; letter-spacing:0.04em;">Inseam</div>
+      <div style="display:flex; gap:6px;">
+        <button class="sc-inseam-btn active" data-inseam='28"' onclick="filterByInseam('28&quot;', this)">28"</button>
+        <button class="sc-inseam-btn" data-inseam='30"' onclick="filterByInseam('30&quot;', this)">30"</button>
+        <button class="sc-inseam-btn" data-inseam='32"' onclick="filterByInseam('32&quot;', this)">32"</button>
+        <button class="sc-inseam-btn" data-inseam='34"' onclick="filterByInseam('34&quot;', this)">34"</button>
+      </div>
+    </div>
+
+    <div class="size-chart-table-wrap">
+      <table class="size-chart-table" id="sc-table">
+        <thead>
+          <tr>
+            <th>Size</th>
+            <th>Waist</th>
+            <th>Hip</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr data-size="2" data-inseams='["28\"","30\"","32\"","34\""]' onclick="selectChartSize(this)">
+            <td>2</td>
+            <td class="sc-in">25–26"</td><td class="sc-in">35–36"</td>
+            <td class="sc-cm" style="display:none">64–66</td><td class="sc-cm" style="display:none">89–91</td>
+          </tr>
+          <tr data-size="4" data-inseams='["28\"","30\"","32\"","34\""]' onclick="selectChartSize(this)">
+            <td>4</td>
+            <td class="sc-in">27–28"</td><td class="sc-in">37–38"</td>
+            <td class="sc-cm" style="display:none">69–71</td><td class="sc-cm" style="display:none">94–97</td>
+          </tr>
+          <tr data-size="6" data-inseams='["28\"","30\"","32\"","34\""]' onclick="selectChartSize(this)" class="sc-selected">
+            <td>6 ✓</td>
+            <td class="sc-in">29–30"</td><td class="sc-in">39–40"</td>
+            <td class="sc-cm" style="display:none">74–76</td><td class="sc-cm" style="display:none">99–102</td>
+          </tr>
+          <tr data-size="8" data-inseams='["28\"","30\"","32\""]' onclick="selectChartSize(this)">
+            <td>8</td>
+            <td class="sc-in">31–32"</td><td class="sc-in">41–42"</td>
+            <td class="sc-cm" style="display:none">79–81</td><td class="sc-cm" style="display:none">104–107</td>
+          </tr>
+          <tr data-size="10" data-inseams='["28\"","30\"","32\"","34\""]' onclick="selectChartSize(this)">
+            <td>10</td>
+            <td class="sc-in">33–34"</td><td class="sc-in">43–44"</td>
+            <td class="sc-cm" style="display:none">84–86</td><td class="sc-cm" style="display:none">109–112</td>
+          </tr>
+          <tr data-size="12" data-inseams='["28\"","30\"","32\"","34\""]' onclick="selectChartSize(this)">
+            <td>12</td>
+            <td class="sc-in">35–36"</td><td class="sc-in">45–46"</td>
+            <td class="sc-cm" style="display:none">89–91</td><td class="sc-cm" style="display:none">114–117</td>
+          </tr>
+          <tr data-size="14" data-inseams='["30\"","32\"","34\""]' onclick="selectChartSize(this)">
+            <td>14</td>
+            <td class="sc-in">37–38"</td><td class="sc-in">47–48"</td>
+            <td class="sc-cm" style="display:none">94–97</td><td class="sc-cm" style="display:none">119–122</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <button class="sc-select-btn" id="sc-confirm-btn" onclick="confirmSizeSelection()">Select Size 6</button>
+
+  </div>
+</div>
+
+<script>
+  function toggleAccordion(btn) {
+    const body = btn.nextElementSibling;
+    const isOpen = body.classList.contains('open');
+    body.classList.toggle('open', !isOpen);
+    btn.classList.toggle('open', !isOpen);
+  }
+
+  function showTab(id, btn) {
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('tab-' + id).classList.add('active');
+    btn.classList.add('active');
+  }
+
+  // Size chart
+  var scSelectedSize = '6';
+  var scSelectedInseam = '28"';
+
+  function filterByInseam(inseam, btn) {
+    scSelectedInseam = inseam;
+    document.querySelectorAll('.sc-inseam-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    scSelectedSize = null;
+    document.getElementById('sc-confirm-btn').textContent = 'Select a size';
+    document.querySelectorAll('.size-chart-table tbody tr').forEach(r => {
+      r.classList.remove('sc-selected');
+      var td = r.querySelector('td:first-child');
+      td.textContent = td.textContent.replace(' ✓', '');
+      var inseams = JSON.parse(r.dataset.inseams);
+      r.style.display = inseams.includes(inseam) ? '' : 'none';
+    });
+  }
+
+  function selectChartSize(row) {
+    document.querySelectorAll('.size-chart-table tbody tr').forEach(r => {
+      r.classList.remove('sc-selected');
+      var td = r.querySelector('td:first-child');
+      td.textContent = td.textContent.replace(' ✓', '');
+    });
+    row.classList.add('sc-selected');
+    scSelectedSize = row.dataset.size;
+    row.querySelector('td:first-child').textContent = scSelectedSize + ' ✓';
+    document.getElementById('sc-confirm-btn').textContent = 'Select Size ' + scSelectedSize + ', ' + scSelectedInseam;
+  }
+
+  function confirmSizeSelection() {
+    if (!scSelectedSize) return;
+    var sizeSelect = document.getElementById('size-select');
+    for (var i = 0; i < sizeSelect.options.length; i++) {
+      if (sizeSelect.options[i].value === scSelectedSize || sizeSelect.options[i].text === scSelectedSize) {
+        sizeSelect.selectedIndex = i;
+        break;
+      }
+    }
+    var inseamSelect = document.getElementById('inseam-select');
+    for (var j = 0; j < inseamSelect.options.length; j++) {
+      if (inseamSelect.options[j].text === scSelectedInseam) {
+        inseamSelect.selectedIndex = j;
+        break;
+      }
+    }
+    onInseamChange(inseamSelect);
+    document.getElementById('size-chart-modal').classList.remove('open');
+  }
+
+  function onInseamChange(select) {
+    var sizeSelect = document.getElementById('size-select');
+    if (select.value) {
+      sizeSelect.disabled = false;
+      sizeSelect.options[0].text = 'Select Size';
+    } else {
+      sizeSelect.disabled = true;
+      sizeSelect.options[0].text = 'Select Inseam first';
+      sizeSelect.selectedIndex = 0;
+    }
+  }
+
+  // Pre-filter size chart to first inseam on open
+  document.querySelector('.size-chart-link') && document.querySelector('.size-chart-link').addEventListener('click', function() {
+    filterByInseam('28"', document.querySelector('.sc-inseam-btn'));
+  });
+
+  function setUnits(unit, btn) {
+    document.querySelectorAll('.unit-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    var showIn = unit === 'in';
+    document.querySelectorAll('.sc-in').forEach(el => el.style.display = showIn ? '' : 'none');
+    document.querySelectorAll('.sc-cm').forEach(el => el.style.display = showIn ? 'none' : '');
+  }
+
+  // Wireframe demo toggle for OOS state
+  function toggleOOS() {
+    const atc = document.getElementById('btn-atc');
+    const oos = document.getElementById('oos-state');
+    const btn = document.getElementById('demo-oos-toggle');
+    const isCurrentlyOOS = oos.style.display !== 'none';
+    atc.style.display = isCurrentlyOOS ? 'block' : 'none';
+    oos.style.display = isCurrentlyOOS ? 'none' : 'block';
+    btn.textContent = isCurrentlyOOS ? '[ Demo: Show OOS state ]' : '[ Demo: Show In Stock state ]';
+  }
+</script>
+
+</body>
+</html>
