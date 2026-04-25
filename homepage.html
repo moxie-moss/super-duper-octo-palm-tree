@@ -53,6 +53,7 @@
       z-index: 100;
     }
     .header-menu { font-size: 22px; cursor: pointer; }
+    /* Logo always absolutely centered regardless of nav width */
     .header-logo {
       font-weight: 700;
       font-size: 16px;
@@ -60,11 +61,14 @@
       position: absolute;
       left: 50%;
       transform: translateX(-50%);
+      pointer-events: none; /* let clicks pass through to nav items beneath */
     }
-    .header-icons {
+    /* Desktop nav — hidden on mobile */
+    .desktop-nav { display: none; }
+    .desktop-nav a { color: #333; text-decoration: none; }
+    .desktop-nav-right {
       display: flex;
       align-items: center;
-      gap: 14px;
     }
     .header-cart { font-size: 22px; position: relative; cursor: pointer; }
     .cart-badge {
@@ -77,9 +81,6 @@
       width: 16px; height: 16px;
       display: flex; align-items: center; justify-content: center;
     }
-    /* Desktop nav — hidden on mobile */
-    .desktop-nav { display: none; }
-    .header-search { display: none; }
 
     /* ── HERO — mobile ── */
     .hero {
@@ -211,9 +212,9 @@
       scrollbar-width: none;
     }
     .product-strip::-webkit-scrollbar { display: none; }
-    .product-card { flex: 0 0 160px; }
+    .product-card { flex: 0 0 120px; }
     .product-card-img {
-      width: 160px;
+      width: 120px;
       aspect-ratio: 3/4;
       background: #e0e0e0;
       display: flex;
@@ -549,48 +550,38 @@
       header {
         padding: 0 40px;
         height: 64px;
-        display: grid;
-        grid-template-columns: auto 1fr auto;
-        align-items: center;
-        gap: 0;
+        position: relative;
       }
       .header-menu { display: none; }
       .header-logo {
-        position: static;
-        transform: none;
         font-size: 18px;
         letter-spacing: 0.08em;
-        grid-column: 1;
+        /* stays absolute + centered via mobile rule — pointer-events: none already set */
       }
       .desktop-nav {
         display: flex;
         align-items: center;
-        justify-content: center;
-        gap: 32px;
-        grid-column: 2;
+        gap: 28px;
+        font-size: 13px;
+        font-weight: 600;
+        letter-spacing: 0.03em;
       }
       .desktop-nav a {
-        font-size: 13px;
-        font-weight: 600;
-        letter-spacing: 0.04em;
         color: #333;
         text-decoration: none;
-        text-transform: uppercase;
+        white-space: nowrap;
       }
       .desktop-nav a:hover { text-decoration: underline; }
-      .header-icons { grid-column: 3; gap: 20px; }
-      .header-search {
-        display: block;
+      .desktop-nav-right {
+        display: flex;
+        align-items: center;
+        gap: 20px;
         font-size: 13px;
-        font-weight: 600;
-        letter-spacing: 0.04em;
-        color: #333;
-        cursor: pointer;
-        background: none;
-        border: none;
-        font-family: inherit;
-        padding: 0;
+        margin-left: auto;
       }
+      .desktop-nav-right a { color: #333; text-decoration: none; }
+      .desktop-search { display: flex; }
+      .desktop-only { display: inline !important; }
 
       /* ── Desktop hero: text left / image right, 3:1 aspect ── */
       .hero {
@@ -649,7 +640,7 @@
         align-self: flex-start;
       }
 
-      /* ── Desktop category grid — 5 across ── */
+      /* ── Desktop category grid — bento layout ── */
       .section-shop-category {
         padding: 48px 40px 36px;
         max-width: 1280px;
@@ -658,14 +649,49 @@
       }
       .section-heading { font-size: 12px; margin-bottom: 20px; }
       .category-grid {
-        grid-template-columns: repeat(5, 1fr);
+        grid-template-columns: 2fr 2fr 1.5fr;
+        grid-template-rows: auto auto;
         gap: 12px;
       }
-      .category-card.full-width { grid-column: auto; aspect-ratio: 3/4; }
-      .category-card.tall { aspect-ratio: 3/4; }
-      .category-card.short { aspect-ratio: 3/4; }
+      /* Pants — tall, spans 2 rows */
+      .category-card.cat-pants {
+        grid-row: 1 / span 2;
+        aspect-ratio: 2/3;
+        grid-column: 1;
+      }
+      /* Shorts — wide top middle */
+      .category-card.cat-shorts {
+        grid-column: 2;
+        grid-row: 1;
+        aspect-ratio: 16/9;
+      }
+      /* Tops — square top right */
+      .category-card.cat-tops {
+        grid-column: 3;
+        grid-row: 1;
+        aspect-ratio: 1/1;
+      }
+      /* Overalls — square bottom middle */
+      .category-card.cat-overalls {
+        grid-column: 2;
+        grid-row: 2;
+        aspect-ratio: 1/1;
+      }
+      /* Sale — square bottom right */
+      .category-card.cat-sale {
+        grid-column: 3;
+        grid-row: 2;
+        aspect-ratio: 1/1;
+      }
+      /* Override mobile classes that set full-width / tall / short */
+      .category-card.full-width,
+      .category-card.tall,
+      .category-card.short {
+        grid-column: unset;
+        aspect-ratio: unset;
+      }
 
-      /* ── Desktop best sellers — 4-up grid ── */
+      /* ── Desktop best sellers — 6-up grid ── */
       .section-best-sellers {
         padding: 40px 40px 36px;
         max-width: 1280px;
@@ -676,7 +702,7 @@
       .product-strip {
         overflow-x: visible;
         display: grid;
-        grid-template-columns: repeat(4, 1fr);
+        grid-template-columns: repeat(6, 1fr);
         gap: 20px;
         padding: 0;
       }
@@ -806,20 +832,30 @@
 
 <!-- SECTION: HEADER -->
 <header>
+  <!-- Mobile: hamburger -->
   <div class="header-menu">☰</div>
-  <div class="header-logo">DOVETAIL</div>
 
-  <!-- Desktop primary nav (hidden on mobile) -->
+  <!-- Desktop nav — left -->
   <nav class="desktop-nav" aria-label="Primary">
     <a href="#">Pants</a>
     <a href="#">Shorts</a>
     <a href="#">Tops</a>
     <a href="#">Overalls</a>
-    <a href="#">Sale</a>
+    <a href="#">Collections</a>
   </nav>
 
-  <div class="header-icons">
-    <button class="header-search" aria-label="Search">Search</button>
+  <!-- Logo — always centered -->
+  <div class="header-logo">DOVETAIL</div>
+
+  <!-- Desktop nav — right / Mobile: cart only -->
+  <div class="desktop-nav-right">
+    <!-- Search field — desktop only -->
+    <div class="desktop-search desktop-only" style="display:none;">
+      <input type="search" placeholder="Search" style="border:1px solid #ccc; border-radius:20px; padding:6px 14px; font-size:13px; font-family:inherit; outline:none; width:160px; background:#fff;">
+    </div>
+    <!-- Account icon — desktop only -->
+    <a href="#" class="desktop-only" style="display:none; color:#333; text-decoration:none; font-size:20px;" title="Account">&#9711;</a>
+    <!-- Cart -->
     <div class="header-cart" aria-label="Cart">
       🛒
       <span class="cart-badge">0</span>
@@ -856,8 +892,8 @@
 
   <div class="category-grid">
 
-    <!-- Mobile: full-width landscape anchor. Desktop: equal column with others -->
-    <div class="category-card full-width">
+    <!-- Mobile: full-width landscape anchor. Desktop: tall left column spanning 2 rows -->
+    <div class="category-card full-width cat-pants">
       <div class="category-img-placeholder">[ Pants lifestyle ]</div>
       <div class="category-card-label">
         <span class="cat-name">Pants</span>
@@ -865,7 +901,7 @@
       </div>
     </div>
 
-    <div class="category-card tall">
+    <div class="category-card tall cat-shorts">
       <div class="category-img-placeholder">[ Shorts ]</div>
       <div class="category-card-label">
         <span class="cat-name">Shorts</span>
@@ -873,7 +909,7 @@
       </div>
     </div>
 
-    <div class="category-card tall">
+    <div class="category-card tall cat-tops">
       <div class="category-img-placeholder">[ Tops ]</div>
       <div class="category-card-label">
         <span class="cat-name">Tops</span>
@@ -881,7 +917,7 @@
       </div>
     </div>
 
-    <div class="category-card short">
+    <div class="category-card short cat-overalls">
       <div class="category-img-placeholder">[ Overalls ]</div>
       <div class="category-card-label">
         <span class="cat-name">Overalls</span>
@@ -889,7 +925,7 @@
       </div>
     </div>
 
-    <div class="category-card short">
+    <div class="category-card short cat-sale">
       <div class="category-img-placeholder">[ Sale / New ]</div>
       <div class="category-card-label">
         <span class="cat-name">Sale</span>
@@ -949,9 +985,8 @@
       <div class="product-card-price">$149</div>
     </div>
 
-    <!-- Peeking 4th card signals scrollability on mobile; full card on desktop -->
-    <div class="product-card" style="flex: 0 0 130px;">
-      <div class="product-card-img" style="width:130px;">[ Product Image ]</div>
+    <div class="product-card">
+      <div class="product-card-img">[ Product Image ]</div>
       <div class="product-card-stars">★★★★★ 4.5</div>
       <div class="product-card-swatches">
         <div class="product-card-swatch" style="background:#2a2a2a;"></div>
@@ -960,6 +995,29 @@
       </div>
       <div class="product-card-name">Dovetail Straight Pant</div>
       <div class="product-card-price">$109</div>
+    </div>
+
+    <div class="product-card">
+      <div class="product-card-img">[ Product Image ]</div>
+      <div class="product-card-stars">★★★★★ 4.4</div>
+      <div class="product-card-swatches">
+        <div class="product-card-swatch" style="background:#2a2a2a;"></div>
+        <div class="product-card-swatch" style="background:#5a6e5c;"></div>
+      </div>
+      <div class="product-card-name">Utility Jogger</div>
+      <div class="product-card-price">$99</div>
+    </div>
+
+    <div class="product-card">
+      <div class="product-card-img">[ Product Image ]</div>
+      <div class="product-card-stars">★★★★★ 4.6</div>
+      <div class="product-card-swatches">
+        <div class="product-card-swatch" style="background:#d4c9a8;"></div>
+        <div class="product-card-swatch" style="background:#2a2a2a;"></div>
+        <div class="product-card-swatch" style="background:#8b6f5e;"></div>
+      </div>
+      <div class="product-card-name">Carpenter Short</div>
+      <div class="product-card-price">$89</div>
     </div>
 
   </div>
