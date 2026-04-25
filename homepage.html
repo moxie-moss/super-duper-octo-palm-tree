@@ -1,0 +1,1126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Homepage Wireframe — Dovetail Workwear</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-size: 15px;
+      color: #333;
+      background: #fff;
+      max-width: 390px;
+      margin: 0 auto;
+    }
+
+    /* ── Label utility ── */
+    .section-label {
+      font-size: 10px;
+      color: #999;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding: 2px 6px;
+      background: #f0f0f0;
+      display: none;
+      margin-bottom: 4px;
+    }
+
+    /* ── ANNOUNCEMENT BAR ── */
+    .announcement-bar {
+      background: #333;
+      color: #fff;
+      text-align: center;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      padding: 9px 16px;
+    }
+    .announcement-bar a { color: #fff; text-decoration: underline; }
+
+    /* ── HEADER — mobile ── */
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 16px;
+      border-bottom: 1px solid #e0e0e0;
+      position: sticky;
+      top: 0;
+      background: #fff;
+      z-index: 100;
+    }
+    .header-menu { font-size: 22px; cursor: pointer; }
+    .header-logo {
+      font-weight: 700;
+      font-size: 16px;
+      letter-spacing: 0.05em;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    .header-icons {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .header-cart { font-size: 22px; position: relative; cursor: pointer; }
+    .cart-badge {
+      position: absolute;
+      top: -4px; right: -6px;
+      background: #333;
+      color: #fff;
+      border-radius: 50%;
+      font-size: 10px;
+      width: 16px; height: 16px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    /* Desktop nav — hidden on mobile */
+    .desktop-nav { display: none; }
+    .header-search { display: none; }
+
+    /* ── HERO — mobile ── */
+    .hero {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 3/4;
+      background: #d0d0d0;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      overflow: hidden;
+    }
+    .hero-img-placeholder {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #aaa;
+      font-size: 13px;
+    }
+    .hero-content {
+      position: relative;
+      padding: 24px 20px 28px;
+      background: linear-gradient(to top, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0) 100%);
+    }
+    .hero-eyebrow {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.75);
+      margin-bottom: 8px;
+    }
+    .hero-headline {
+      font-size: 28px;
+      font-weight: 700;
+      color: #fff;
+      line-height: 1.2;
+      margin-bottom: 16px;
+    }
+    .hero-cta {
+      display: inline-block;
+      padding: 13px 24px;
+      background: #fff;
+      color: #333;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-decoration: none;
+      border-radius: 2px;
+    }
+    /* Desktop hero text panel — hidden on mobile */
+    .hero-text-panel { display: none; }
+
+    /* ── SHOP BY CATEGORY ── */
+    .section-shop-category {
+      padding: 28px 16px 20px;
+    }
+    .section-heading {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #888;
+      margin-bottom: 14px;
+    }
+    .category-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+    .category-card {
+      position: relative;
+      background: #e8e8e8;
+      overflow: hidden;
+      cursor: pointer;
+    }
+    .category-card.tall { aspect-ratio: 3/4; }
+    .category-card.short { aspect-ratio: 4/5; }
+    .category-card.full-width {
+      grid-column: 1 / -1;
+      aspect-ratio: 16/9;
+    }
+    .category-card-label {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      padding: 20px 12px 12px;
+      background: linear-gradient(to top, rgba(0,0,0,0.5) 0%, transparent 100%);
+      color: #fff;
+    }
+    .category-card-label .cat-name {
+      font-size: 15px;
+      font-weight: 700;
+      display: block;
+      margin-bottom: 2px;
+    }
+    .category-card-label .cat-link {
+      font-size: 11px;
+      color: rgba(255,255,255,0.8);
+      text-decoration: none;
+    }
+    .category-img-placeholder {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #bbb;
+      font-size: 11px;
+      position: absolute;
+      inset: 0;
+    }
+
+    /* ── BEST SELLERS STRIP ── */
+    .section-best-sellers {
+      padding: 24px 0 20px;
+      border-top: 1px solid #e8e8e8;
+    }
+    .section-best-sellers .section-heading {
+      padding: 0 16px;
+      margin-bottom: 14px;
+    }
+    .product-strip {
+      display: flex;
+      gap: 10px;
+      overflow-x: auto;
+      padding: 0 16px 4px;
+      scrollbar-width: none;
+    }
+    .product-strip::-webkit-scrollbar { display: none; }
+    .product-card { flex: 0 0 160px; }
+    .product-card-img {
+      width: 160px;
+      aspect-ratio: 3/4;
+      background: #e0e0e0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #bbb;
+      font-size: 11px;
+      margin-bottom: 8px;
+      position: relative;
+    }
+    .product-card-flag {
+      position: absolute;
+      top: 8px; left: 8px;
+      background: #333;
+      color: #fff;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 7px;
+      letter-spacing: 0.04em;
+    }
+    .product-card-swatches {
+      display: flex;
+      gap: 4px;
+      margin-bottom: 5px;
+    }
+    .product-card-swatch {
+      width: 14px; height: 14px;
+      border-radius: 50%;
+      border: 1px solid #ccc;
+    }
+    .product-card-name {
+      font-size: 13px;
+      font-weight: 600;
+      line-height: 1.3;
+      margin-bottom: 2px;
+    }
+    .product-card-price { font-size: 13px; color: #555; }
+    .product-card-stars { font-size: 11px; color: #555; margin-bottom: 4px; }
+
+    /* ── FEATURE STORY ── */
+    .section-feature {
+      margin-top: 8px;
+      border-top: 1px solid #e8e8e8;
+    }
+    .feature-story-img {
+      width: 100%;
+      aspect-ratio: 4/5;
+      background: #d0d0d0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #aaa;
+      font-size: 12px;
+    }
+    .feature-story-body { padding: 20px 16px 24px; }
+    .feature-story-eyebrow {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: #999;
+      margin-bottom: 8px;
+    }
+    .feature-story-headline {
+      font-size: 22px;
+      font-weight: 700;
+      line-height: 1.25;
+      margin-bottom: 10px;
+    }
+    .feature-story-desc {
+      font-size: 14px;
+      color: #555;
+      line-height: 1.6;
+      margin-bottom: 16px;
+    }
+    .btn-secondary {
+      display: inline-block;
+      padding: 12px 20px;
+      border: 2px solid #333;
+      color: #333;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-decoration: none;
+      border-radius: 2px;
+    }
+
+    /* ── SOCIAL PROOF — UGC + REVIEW ── */
+    .section-proof {
+      padding: 28px 16px 24px;
+      border-top: 1px solid #e8e8e8;
+      background: #fff;
+    }
+    .ugc-strip {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 16px;
+      scrollbar-width: none;
+      margin: 0 -16px;
+      padding-left: 16px;
+      padding-right: 16px;
+    }
+    .ugc-strip::-webkit-scrollbar { display: none; }
+    .ugc-thumb {
+      flex: 0 0 110px;
+      height: 138px;
+      background: #e0e0e0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #bbb;
+      font-size: 10px;
+      border-radius: 2px;
+    }
+    .ugc-thumb:last-child { flex: 0 0 88px; }
+    .proof-quote {
+      border-top: 1px solid #e8e8e8;
+      padding-top: 16px;
+      margin-top: 4px;
+    }
+    .proof-stars { font-size: 14px; color: #333; margin-bottom: 6px; }
+    .proof-text {
+      font-size: 17px;
+      font-weight: 700;
+      line-height: 1.4;
+      color: #222;
+      margin-bottom: 8px;
+    }
+    /* VISUAL DESIGN NOTE: proof-text uses Playfair Display with hanging-punctuation: first;
+       text-indent: -0.45em fallback. See Visual Design Notes. */
+    .proof-attr { font-size: 12px; color: #888; }
+    .proof-cta {
+      display: block;
+      margin-top: 14px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #333;
+      text-decoration: underline;
+      background: none;
+      border: none;
+      padding: 0;
+      cursor: pointer;
+      font-family: inherit;
+      text-align: left;
+    }
+
+    /* ── PRESS STRIP ── */
+    .section-press {
+      padding: 20px 16px;
+      border-top: 1px solid #e8e8e8;
+      text-align: center;
+    }
+    .press-label {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #bbb;
+      margin-bottom: 14px;
+    }
+    .press-logos {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    .press-logo {
+      height: 20px;
+      background: #d0d0d0;
+      border-radius: 2px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #aaa;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      padding: 0 10px;
+      white-space: nowrap;
+    }
+    .press-link {
+      display: block;
+      margin-top: 14px;
+      font-size: 12px;
+      font-weight: 600;
+      color: #333;
+      text-decoration: underline;
+    }
+
+    /* ── EMAIL CAPTURE ── */
+    .section-email {
+      padding: 36px 16px;
+      border-top: 1px solid #e8e8e8;
+      background: #333;
+      color: #fff;
+      text-align: center;
+    }
+    .email-eyebrow {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.6);
+      margin-bottom: 10px;
+    }
+    .email-headline {
+      font-size: 22px;
+      font-weight: 700;
+      line-height: 1.3;
+      margin-bottom: 8px;
+    }
+    .email-sub {
+      font-size: 13px;
+      color: rgba(255,255,255,0.7);
+      margin-bottom: 20px;
+      line-height: 1.5;
+    }
+    .email-form { display: flex; flex-direction: column; gap: 10px; }
+    .email-input {
+      width: 100%;
+      padding: 14px 16px;
+      border: none;
+      border-radius: 2px;
+      font-size: 15px;
+      font-family: inherit;
+      background: #fff;
+      color: #333;
+    }
+    .email-input::placeholder { color: #999; }
+    .email-submit {
+      width: 100%;
+      padding: 14px;
+      background: #fff;
+      color: #333;
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      border: none;
+      border-radius: 2px;
+      cursor: pointer;
+      font-family: inherit;
+    }
+    .email-legal {
+      font-size: 11px;
+      color: rgba(255,255,255,0.45);
+      margin-top: 12px;
+      line-height: 1.5;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: #f5f5f5;
+      border-top: 1px solid #e0e0e0;
+      padding: 28px 16px 40px;
+    }
+    .footer-logo {
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      margin-bottom: 20px;
+    }
+    .footer-nav-group { margin-bottom: 0; }
+    .footer-nav-trigger {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 13px 0;
+      border-top: 1px solid #e0e0e0;
+      background: none;
+      border-left: none; border-right: none; border-bottom: none;
+      font-size: 13px;
+      font-weight: 700;
+      font-family: inherit;
+      cursor: pointer;
+      color: #333;
+      text-align: left;
+    }
+    .footer-toggle-icon { font-size: 16px; color: #999; transition: transform 0.2s; }
+    .footer-nav-body { display: none; padding-bottom: 12px; }
+    .footer-nav-body.open { display: block; }
+    .footer-nav-body a {
+      display: block;
+      font-size: 13px;
+      color: #555;
+      text-decoration: none;
+      padding: 5px 0;
+    }
+    .footer-social {
+      display: flex;
+      gap: 14px;
+      padding: 20px 0 16px;
+      border-top: 1px solid #e0e0e0;
+      margin-top: 4px;
+    }
+    .footer-social-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px; height: 36px;
+      border: 1.5px solid #ccc;
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: 700;
+      color: #888;
+      text-decoration: none;
+      letter-spacing: 0.03em;
+    }
+    .footer-legal { font-size: 11px; color: #aaa; line-height: 1.6; }
+    .footer-legal a { color: #aaa; text-decoration: underline; }
+    .footer-get-dirty {
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #888;
+      margin-bottom: 10px;
+    }
+    /* Desktop footer columns — hidden on mobile */
+    .footer-desktop-cols { display: none; }
+    .footer-bottom { display: contents; }
+
+    /* ════════════════════════════════════════════
+       DESKTOP OVERRIDES  (≥ 1024px)
+    ════════════════════════════════════════════ */
+    @media (min-width: 1024px) {
+
+      body { max-width: none; margin: 0; }
+
+      /* ── Desktop header ── */
+      header {
+        padding: 0 40px;
+        height: 64px;
+        display: grid;
+        grid-template-columns: auto 1fr auto;
+        align-items: center;
+        gap: 0;
+      }
+      .header-menu { display: none; }
+      .header-logo {
+        position: static;
+        transform: none;
+        font-size: 18px;
+        letter-spacing: 0.08em;
+        grid-column: 1;
+      }
+      .desktop-nav {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 32px;
+        grid-column: 2;
+      }
+      .desktop-nav a {
+        font-size: 13px;
+        font-weight: 600;
+        letter-spacing: 0.04em;
+        color: #333;
+        text-decoration: none;
+        text-transform: uppercase;
+      }
+      .desktop-nav a:hover { text-decoration: underline; }
+      .header-icons { grid-column: 3; gap: 20px; }
+      .header-search {
+        display: block;
+        font-size: 13px;
+        font-weight: 600;
+        letter-spacing: 0.04em;
+        color: #333;
+        cursor: pointer;
+        background: none;
+        border: none;
+        font-family: inherit;
+        padding: 0;
+      }
+
+      /* ── Desktop hero: text left / image right, 3:1 aspect ── */
+      .hero {
+        aspect-ratio: 3 / 1;
+        flex-direction: row;
+        width: 100%;
+      }
+      /* Image occupies right two-thirds */
+      .hero-img-placeholder {
+        left: 33.333%;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        width: auto;
+        height: auto;
+        background: #d0d0d0;
+        font-size: 14px;
+      }
+      .hero-content { display: none; }
+      .hero-text-panel {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        width: 33.333%;
+        flex-shrink: 0;
+        padding: 0 48px;
+        background: #fff;
+        position: relative;
+        z-index: 2;
+      }
+      .hero-text-panel .hero-eyebrow {
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: #999;
+        margin-bottom: 12px;
+      }
+      .hero-text-panel .hero-headline {
+        font-size: 36px;
+        font-weight: 700;
+        color: #222;
+        line-height: 1.15;
+        margin-bottom: 20px;
+      }
+      .hero-text-panel .hero-cta {
+        display: inline-block;
+        padding: 14px 28px;
+        background: #333;
+        color: #fff;
+        font-size: 13px;
+        font-weight: 700;
+        letter-spacing: 0.06em;
+        text-decoration: none;
+        border-radius: 2px;
+        align-self: flex-start;
+      }
+
+      /* ── Desktop category grid — 5 across ── */
+      .section-shop-category {
+        padding: 48px 40px 36px;
+        max-width: 1280px;
+        margin: 0 auto;
+        width: 100%;
+      }
+      .section-heading { font-size: 12px; margin-bottom: 20px; }
+      .category-grid {
+        grid-template-columns: repeat(5, 1fr);
+        gap: 12px;
+      }
+      .category-card.full-width { grid-column: auto; aspect-ratio: 3/4; }
+      .category-card.tall { aspect-ratio: 3/4; }
+      .category-card.short { aspect-ratio: 3/4; }
+
+      /* ── Desktop best sellers — 4-up grid ── */
+      .section-best-sellers {
+        padding: 40px 40px 36px;
+        max-width: 1280px;
+        margin: 0 auto;
+        width: 100%;
+      }
+      .section-best-sellers .section-heading { padding: 0; margin-bottom: 20px; }
+      .product-strip {
+        overflow-x: visible;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 20px;
+        padding: 0;
+      }
+      .product-card { flex: none; width: auto; }
+      .product-card-img { width: 100%; }
+
+      /* ── Desktop feature story — side by side ── */
+      .section-feature {
+        max-width: 1280px;
+        margin: 0 auto;
+        width: 100%;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        align-items: center;
+        margin-top: 0;
+      }
+      .feature-story-img { aspect-ratio: 1 / 1; height: 100%; }
+      .feature-story-body { padding: 48px 56px; }
+      .feature-story-headline { font-size: 30px; }
+
+      /* ── Desktop social proof — UGC + quote side by side ── */
+      .section-proof {
+        padding: 48px 40px;
+        max-width: 1280px;
+        margin: 0 auto;
+        width: 100%;
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 48px;
+        align-items: start;
+      }
+      .section-proof .section-heading { grid-column: 1 / -1; margin-bottom: 0; }
+      .ugc-strip {
+        overflow-x: auto;
+        margin: 0;
+        padding-left: 0;
+        padding-right: 0;
+        gap: 12px;
+      }
+      .ugc-thumb { flex: 0 0 140px; height: 176px; }
+      .ugc-thumb:last-child { flex: 0 0 112px; }
+      .proof-quote {
+        border-top: none;
+        padding-top: 0;
+        margin-top: 0;
+        min-width: 280px;
+        max-width: 340px;
+        border-left: 1px solid #e8e8e8;
+        padding-left: 40px;
+      }
+      .proof-text { font-size: 18px; }
+
+      /* ── Desktop press ── */
+      .section-press {
+        padding: 28px 40px;
+        max-width: 1280px;
+        margin: 0 auto;
+        width: 100%;
+        text-align: left;
+      }
+      .press-logos { gap: 36px; justify-content: flex-start; }
+
+      /* ── Desktop email capture — two columns ── */
+      .section-email {
+        padding: 56px 40px;
+        text-align: left;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0 48px;
+        align-items: center;
+      }
+      .email-eyebrow { grid-column: 1; }
+      .email-headline { grid-column: 1; }
+      .email-sub { grid-column: 1; }
+      .email-form { grid-column: 2; grid-row: 1 / span 3; align-self: center; gap: 12px; }
+      .email-legal { grid-column: 1 / -1; margin-top: 16px; text-align: center; }
+
+      /* ── Desktop footer ── */
+      footer { padding: 40px 40px 28px; }
+      .footer-nav-group { display: none; }
+      .footer-social { border-top: none; padding: 0; margin: 0; }
+      .footer-desktop-cols {
+        display: grid;
+        grid-template-columns: 2fr 1fr 1fr 1fr;
+        gap: 40px;
+        padding-bottom: 32px;
+        border-bottom: 1px solid #e0e0e0;
+        margin-bottom: 24px;
+      }
+      .footer-col-brand .footer-logo { font-size: 16px; margin-bottom: 12px; }
+      .footer-col-brand p {
+        font-size: 13px;
+        color: #777;
+        line-height: 1.6;
+        max-width: 260px;
+      }
+      .footer-col-heading {
+        font-size: 11px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: #999;
+        margin-bottom: 14px;
+      }
+      .footer-col a {
+        display: block;
+        font-size: 13px;
+        color: #555;
+        text-decoration: none;
+        padding: 4px 0;
+      }
+      .footer-col a:hover { text-decoration: underline; }
+      .footer-bottom {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- SECTION: ANNOUNCEMENT BAR -->
+<div class="announcement-bar">
+  Free shipping on orders over $75 — <a href="#">Shop Now</a>
+</div>
+
+<!-- SECTION: HEADER -->
+<header>
+  <div class="header-menu">☰</div>
+  <div class="header-logo">DOVETAIL</div>
+
+  <!-- Desktop primary nav (hidden on mobile) -->
+  <nav class="desktop-nav" aria-label="Primary">
+    <a href="#">Pants</a>
+    <a href="#">Shorts</a>
+    <a href="#">Tops</a>
+    <a href="#">Overalls</a>
+    <a href="#">Sale</a>
+  </nav>
+
+  <div class="header-icons">
+    <button class="header-search" aria-label="Search">Search</button>
+    <div class="header-cart" aria-label="Cart">
+      🛒
+      <span class="cart-badge">0</span>
+    </div>
+  </div>
+</header>
+
+<!-- SECTION: HERO -->
+<section class="hero" aria-label="Hero">
+
+  <!-- Shared image placeholder (full bleed mobile, right two-thirds desktop) -->
+  <div class="hero-img-placeholder">[ Hero lifestyle image — woman working, full bleed ]</div>
+
+  <!-- Mobile: text overlaid on image via gradient -->
+  <div class="hero-content">
+    <div class="hero-eyebrow">Built for Women Who Work</div>
+    <h1 class="hero-headline">Workwear That Works As Hard As You Do</h1>
+    <a href="#" class="hero-cta">Shop All Styles</a>
+  </div>
+
+  <!-- Desktop: text panel left, image right -->
+  <div class="hero-text-panel">
+    <div class="hero-eyebrow">Built for Women Who Work</div>
+    <h1 class="hero-headline">Workwear That Works As Hard As You Do</h1>
+    <a href="#" class="hero-cta">Shop All Styles</a>
+  </div>
+
+</section>
+
+<!-- SECTION: SHOP BY CATEGORY -->
+<section class="section-shop-category">
+  <div class="section-label">Shop by Category</div>
+  <div class="section-heading">Shop by Category</div>
+
+  <div class="category-grid">
+
+    <!-- Mobile: full-width landscape anchor. Desktop: equal column with others -->
+    <div class="category-card full-width">
+      <div class="category-img-placeholder">[ Pants lifestyle ]</div>
+      <div class="category-card-label">
+        <span class="cat-name">Pants</span>
+        <a href="#" class="cat-link">Shop Pants →</a>
+      </div>
+    </div>
+
+    <div class="category-card tall">
+      <div class="category-img-placeholder">[ Shorts ]</div>
+      <div class="category-card-label">
+        <span class="cat-name">Shorts</span>
+        <a href="#" class="cat-link">Shop →</a>
+      </div>
+    </div>
+
+    <div class="category-card tall">
+      <div class="category-img-placeholder">[ Tops ]</div>
+      <div class="category-card-label">
+        <span class="cat-name">Tops</span>
+        <a href="#" class="cat-link">Shop →</a>
+      </div>
+    </div>
+
+    <div class="category-card short">
+      <div class="category-img-placeholder">[ Overalls ]</div>
+      <div class="category-card-label">
+        <span class="cat-name">Overalls</span>
+        <a href="#" class="cat-link">Shop →</a>
+      </div>
+    </div>
+
+    <div class="category-card short">
+      <div class="category-img-placeholder">[ Sale / New ]</div>
+      <div class="category-card-label">
+        <span class="cat-name">Sale</span>
+        <a href="#" class="cat-link">Shop →</a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- SECTION: BEST SELLERS -->
+<section class="section-best-sellers">
+  <div class="section-label">Best Sellers</div>
+  <div class="section-heading">Best Sellers</div>
+
+  <div class="product-strip">
+
+    <div class="product-card">
+      <div class="product-card-img">
+        <span class="product-card-flag">Best Seller</span>
+        [ Product Image ]
+      </div>
+      <div class="product-card-stars">★★★★★ 4.8</div>
+      <div class="product-card-swatches">
+        <div class="product-card-swatch" style="background:#d4c9a8;"></div>
+        <div class="product-card-swatch" style="background:#2a2a2a;"></div>
+        <div class="product-card-swatch" style="background:#5a6e5c;"></div>
+        <div class="product-card-swatch" style="background:#8b6f5e;"></div>
+      </div>
+      <div class="product-card-name">Britt X Ultralight Work Pant</div>
+      <div class="product-card-price">$119</div>
+    </div>
+
+    <div class="product-card">
+      <div class="product-card-img">
+        <span class="product-card-flag">Top Rated</span>
+        [ Product Image ]
+      </div>
+      <div class="product-card-stars">★★★★★ 4.7</div>
+      <div class="product-card-swatches">
+        <div class="product-card-swatch" style="background:#2a2a2a;"></div>
+        <div class="product-card-swatch" style="background:#4a5568;"></div>
+        <div class="product-card-swatch" style="background:#c0c0c0;"></div>
+      </div>
+      <div class="product-card-name">Britt Canvas Work Pant</div>
+      <div class="product-card-price">$129</div>
+    </div>
+
+    <div class="product-card">
+      <div class="product-card-img">[ Product Image ]</div>
+      <div class="product-card-stars">★★★★★ 4.6</div>
+      <div class="product-card-swatches">
+        <div class="product-card-swatch" style="background:#d4c9a8;"></div>
+        <div class="product-card-swatch" style="background:#5a6e5c;"></div>
+      </div>
+      <div class="product-card-name">Freshley Overall</div>
+      <div class="product-card-price">$149</div>
+    </div>
+
+    <!-- Peeking 4th card signals scrollability on mobile; full card on desktop -->
+    <div class="product-card" style="flex: 0 0 130px;">
+      <div class="product-card-img" style="width:130px;">[ Product Image ]</div>
+      <div class="product-card-stars">★★★★★ 4.5</div>
+      <div class="product-card-swatches">
+        <div class="product-card-swatch" style="background:#2a2a2a;"></div>
+        <div class="product-card-swatch" style="background:#8b6f5e;"></div>
+        <div class="product-card-swatch" style="background:#c0c0c0;"></div>
+      </div>
+      <div class="product-card-name">Dovetail Straight Pant</div>
+      <div class="product-card-price">$109</div>
+    </div>
+
+  </div>
+</section>
+
+<!-- SECTION: FEATURE STORY -->
+<section class="section-feature">
+  <div class="feature-story-img">[ Feature lifestyle image — Hip Slot detail / woman on job site ]</div>
+  <div class="feature-story-body">
+    <div class="feature-story-eyebrow">Built-In Innovation</div>
+    <h2 class="feature-story-headline">The Hip Slot. Your Phone, Right Where You Need It.</h2>
+    <p class="feature-story-desc">No bulk. No bounce. Just your phone flat against your hip while you work. It's one of the features our customers can't stop talking about — and once you have it, you'll wonder how you managed without it.</p>
+    <a href="#" class="btn-secondary">Shop Pants with Hip Slot</a>
+  </div>
+</section>
+
+<!-- SECTION: SOCIAL PROOF — UGC + REVIEW -->
+<section class="section-proof">
+  <div class="section-label">Social proof</div>
+  <div class="section-heading">From Our Customers</div>
+
+  <div class="ugc-strip">
+    <div class="ugc-thumb">[ UGC Photo ]</div>
+    <div class="ugc-thumb">[ UGC Photo ]</div>
+    <div class="ugc-thumb">[ UGC Photo ]</div>
+    <div class="ugc-thumb">[ UGC Photo ]</div>
+    <div class="ugc-thumb">[ UGC Photo ]</div>
+    <div class="ugc-thumb">[ UGC ]</div>
+  </div>
+
+  <div class="proof-quote">
+    <div class="proof-stars">★★★★★</div>
+    <p class="proof-text">"These are the best work pants I've ever owned. I wear them every single day on the job site."</p>
+    <div class="proof-attr">Sarah K. · Verified Buyer · Construction</div>
+    <button class="proof-cta" onclick="window.location='#'">Read 2,400+ reviews →</button>
+  </div>
+</section>
+
+<!-- SECTION: PRESS LOGOS -->
+<section class="section-press">
+  <div class="press-label">As Seen In</div>
+  <div class="press-logos">
+    <div class="press-logo">Forbes</div>
+    <div class="press-logo">Good Morning America</div>
+    <div class="press-logo">Inc.</div>
+    <div class="press-logo">People</div>
+    <div class="press-logo">CNN</div>
+  </div>
+  <a href="#" class="press-link">See all press coverage →</a>
+</section>
+
+<!-- SECTION: EMAIL CAPTURE -->
+<section class="section-email">
+  <div class="email-eyebrow">Join the Crew</div>
+  <h2 class="email-headline">Get $10 Off Your First Order</h2>
+  <p class="email-sub">Sign up for new arrivals, exclusive offers, and workwear tips from women who actually use it.</p>
+  <div class="email-form">
+    <input class="email-input" type="email" placeholder="Enter your email address">
+    <button class="email-submit">CLAIM MY DISCOUNT</button>
+  </div>
+  <p class="email-legal">By signing up you agree to receive marketing emails from Dovetail Workwear. Unsubscribe anytime. <a href="#" style="color:rgba(255,255,255,0.45);">Privacy Policy</a></p>
+</section>
+
+<!-- SECTION: FOOTER -->
+<footer>
+
+  <!-- Desktop columns (hidden on mobile) -->
+  <div class="footer-desktop-cols">
+    <div class="footer-col footer-col-brand">
+      <div class="footer-logo">DOVETAIL</div>
+      <p>Workwear built for women who actually work. Tough enough for the job site. Comfortable enough for everything else.</p>
+    </div>
+    <div class="footer-col">
+      <div class="footer-col-heading">Shop</div>
+      <a href="#">Pants</a>
+      <a href="#">Shorts</a>
+      <a href="#">Tops</a>
+      <a href="#">Overalls</a>
+      <a href="#">Sale</a>
+      <a href="#">New Arrivals</a>
+    </div>
+    <div class="footer-col">
+      <div class="footer-col-heading">Help</div>
+      <a href="#">Sizing Guide</a>
+      <a href="#">Shipping Information</a>
+      <a href="#">Returns &amp; Exchanges</a>
+      <a href="#">Contact Us</a>
+      <a href="#">FAQ</a>
+    </div>
+    <div class="footer-col">
+      <div class="footer-col-heading">Company</div>
+      <a href="#">Our Mission</a>
+      <a href="#">Press</a>
+      <a href="#">Careers</a>
+      <a href="#">B2B / Wholesale</a>
+    </div>
+  </div>
+
+  <!-- Mobile accordion nav (hidden on desktop) -->
+  <div class="footer-nav-group">
+
+    <button class="footer-nav-trigger" onclick="toggleFooterNav(this)">
+      Shop <span class="footer-toggle-icon">+</span>
+    </button>
+    <div class="footer-nav-body">
+      <a href="#">Pants</a>
+      <a href="#">Shorts</a>
+      <a href="#">Tops</a>
+      <a href="#">Overalls</a>
+      <a href="#">Sale</a>
+      <a href="#">New Arrivals</a>
+    </div>
+
+    <button class="footer-nav-trigger" onclick="toggleFooterNav(this)">
+      Help <span class="footer-toggle-icon">+</span>
+    </button>
+    <div class="footer-nav-body">
+      <a href="#">Sizing Guide</a>
+      <a href="#">Shipping Information</a>
+      <a href="#">Returns &amp; Exchanges</a>
+      <a href="#">Contact Us</a>
+      <a href="#">FAQ</a>
+    </div>
+
+    <button class="footer-nav-trigger" onclick="toggleFooterNav(this)">
+      Company <span class="footer-toggle-icon">+</span>
+    </button>
+    <div class="footer-nav-body">
+      <a href="#">Our Mission</a>
+      <a href="#">Press</a>
+      <a href="#">Careers</a>
+      <a href="#">B2B / Wholesale</a>
+    </div>
+
+  </div>
+
+  <div class="footer-bottom">
+    <div class="footer-social">
+      <a href="#" class="footer-social-icon">IG</a>
+      <a href="#" class="footer-social-icon">TT</a>
+      <a href="#" class="footer-social-icon">FB</a>
+      <a href="#" class="footer-social-icon">PIN</a>
+    </div>
+    <div class="footer-get-dirty">Get Dirty™</div>
+    <div class="footer-legal">
+      © 2026 Dovetail Workwear. All rights reserved. ·
+      <a href="#">Privacy Policy</a> · <a href="#">Terms of Service</a> · <a href="#">Accessibility</a>
+    </div>
+  </div>
+
+</footer>
+
+<script>
+  function toggleFooterNav(btn) {
+    const body = btn.nextElementSibling;
+    const isOpen = body.classList.contains('open');
+    body.classList.toggle('open', !isOpen);
+    const icon = btn.querySelector('.footer-toggle-icon');
+    icon.textContent = isOpen ? '+' : '−';
+  }
+</script>
+
+</body>
+</html>
