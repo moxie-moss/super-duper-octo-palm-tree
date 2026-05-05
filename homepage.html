@@ -150,7 +150,7 @@
     }
     .category-grid {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: 2fr 1fr;
       gap: 8px;
     }
     .category-card {
@@ -158,19 +158,21 @@
       background: #e8e8e8;
       overflow: hidden;
       cursor: pointer;
+      display: flex;
+      align-items: stretch;
     }
-    .category-card.tall { aspect-ratio: 3/4; }
-    .category-card.short { aspect-ratio: 4/5; }
-    .category-card.full-width {
-      grid-column: 1 / -1;
-      aspect-ratio: 16/9;
-    }
+    .cat-pants    { grid-column: 1; grid-row: 1; aspect-ratio: 3/2; }
+    .cat-shorts   { grid-column: 2; grid-row: 1; aspect-ratio: 3/2; }
+    .cat-tops     { grid-column: 1; grid-row: 2; aspect-ratio: 3/2; }
+    .cat-overalls { grid-column: 2; grid-row: 2; aspect-ratio: 3/2; }
+    .cat-sale     { grid-column: 1 / -1; grid-row: 3; aspect-ratio: 21/9; }
     .category-card-label {
       position: absolute;
       bottom: 0; left: 0; right: 0;
       padding: 20px 12px 12px;
       background: linear-gradient(to top, rgba(0,0,0,0.5) 0%, transparent 100%);
       color: #fff;
+      z-index: 2;
     }
     .category-card-label .cat-name {
       font-size: 15px;
@@ -186,13 +188,13 @@
     .category-img-placeholder {
       width: 100%;
       height: 100%;
+      min-height: 120px;
       display: flex;
       align-items: center;
       justify-content: center;
       color: #bbb;
       font-size: 11px;
-      position: absolute;
-      inset: 0;
+      background: #d8d8d8;
     }
 
     /* ── BEST SELLERS STRIP ── */
@@ -640,7 +642,7 @@
         align-self: flex-start;
       }
 
-      /* ── Desktop category grid — bento layout ── */
+      /* ── Desktop category grid — alternating 2/3 + 1/3 ── */
       .section-shop-category {
         padding: 48px 40px 36px;
         max-width: 1280px;
@@ -649,47 +651,15 @@
       }
       .section-heading { font-size: 12px; margin-bottom: 20px; }
       .category-grid {
-        grid-template-columns: 2fr 2fr 1.5fr;
-        grid-template-rows: auto auto;
+        grid-template-columns: 2fr 1fr;
+        grid-template-rows: 320px 320px 200px;
         gap: 12px;
       }
-      /* Pants — tall, spans 2 rows */
-      .category-card.cat-pants {
-        grid-row: 1 / span 2;
-        aspect-ratio: 2/3;
-        grid-column: 1;
-      }
-      /* Shorts — wide top middle */
-      .category-card.cat-shorts {
-        grid-column: 2;
-        grid-row: 1;
-        aspect-ratio: 16/9;
-      }
-      /* Tops — square top right */
-      .category-card.cat-tops {
-        grid-column: 3;
-        grid-row: 1;
-        aspect-ratio: 1/1;
-      }
-      /* Overalls — square bottom middle */
-      .category-card.cat-overalls {
-        grid-column: 2;
-        grid-row: 2;
-        aspect-ratio: 1/1;
-      }
-      /* Sale — square bottom right */
-      .category-card.cat-sale {
-        grid-column: 3;
-        grid-row: 2;
-        aspect-ratio: 1/1;
-      }
-      /* Override mobile classes that set full-width / tall / short */
-      .category-card.full-width,
-      .category-card.tall,
-      .category-card.short {
-        grid-column: unset;
-        aspect-ratio: unset;
-      }
+      .category-card.cat-pants    { grid-column: 1; grid-row: 1; aspect-ratio: unset; }
+      .category-card.cat-shorts   { grid-column: 2; grid-row: 1; aspect-ratio: unset; }
+      .category-card.cat-tops     { grid-column: 1; grid-row: 2; aspect-ratio: unset; }
+      .category-card.cat-overalls { grid-column: 2; grid-row: 2; aspect-ratio: unset; }
+      .category-card.cat-sale     { grid-column: 1 / -1; grid-row: 3; aspect-ratio: unset; }
 
       /* ── Desktop best sellers — 6-up grid ── */
       .section-best-sellers {
@@ -892,8 +862,8 @@
 
   <div class="category-grid">
 
-    <!-- Mobile: full-width landscape anchor. Desktop: tall left column spanning 2 rows -->
-    <div class="category-card full-width cat-pants">
+    <!-- Row 1: Pants (2/3) + Shorts (1/3) -->
+    <div class="category-card cat-pants">
       <div class="category-img-placeholder">[ Pants lifestyle ]</div>
       <div class="category-card-label">
         <span class="cat-name">Pants</span>
@@ -901,7 +871,7 @@
       </div>
     </div>
 
-    <div class="category-card tall cat-shorts">
+    <div class="category-card cat-shorts">
       <div class="category-img-placeholder">[ Shorts ]</div>
       <div class="category-card-label">
         <span class="cat-name">Shorts</span>
@@ -909,7 +879,8 @@
       </div>
     </div>
 
-    <div class="category-card tall cat-tops">
+    <!-- Row 2: Tops (1/3) + Overalls (2/3) — grid-column reversed via explicit placement -->
+    <div class="category-card cat-tops">
       <div class="category-img-placeholder">[ Tops ]</div>
       <div class="category-card-label">
         <span class="cat-name">Tops</span>
@@ -917,7 +888,7 @@
       </div>
     </div>
 
-    <div class="category-card short cat-overalls">
+    <div class="category-card cat-overalls">
       <div class="category-img-placeholder">[ Overalls ]</div>
       <div class="category-card-label">
         <span class="cat-name">Overalls</span>
@@ -925,7 +896,8 @@
       </div>
     </div>
 
-    <div class="category-card short cat-sale">
+    <!-- Row 3: Sale full width -->
+    <div class="category-card cat-sale">
       <div class="category-img-placeholder">[ Sale / New ]</div>
       <div class="category-card-label">
         <span class="cat-name">Sale</span>

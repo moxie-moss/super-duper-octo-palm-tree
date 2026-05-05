@@ -1,0 +1,2509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Collection Page Wireframe — Dovetail Workwear (Straight Leg)</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-size: 15px;
+      color: #333;
+      background: #fff;
+      max-width: 390px;
+      margin: 0 auto;
+    }
+
+    /* ── ANNOUNCEMENT BAR ── */
+    .announcement-bar {
+      background: #333;
+      color: #fff;
+      text-align: center;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      padding: 9px 16px;
+    }
+    .announcement-bar a { color: #fff; text-decoration: underline; }
+
+    /* ── HEADER — mobile ── */
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 16px;
+      border-bottom: 1px solid #e0e0e0;
+      position: sticky;
+      top: 0;
+      background: #fff;
+      z-index: 100;
+    }
+    .header-menu { font-size: 22px; cursor: pointer; }
+    .header-logo {
+      font-weight: 700;
+      font-size: 16px;
+      letter-spacing: 0.05em;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    .header-icons { display: flex; align-items: center; gap: 14px; }
+    .header-cart { font-size: 22px; position: relative; cursor: pointer; }
+    .cart-badge {
+      position: absolute;
+      top: -4px; right: -6px;
+      background: #333;
+      color: #fff;
+      border-radius: 50%;
+      font-size: 10px;
+      width: 16px; height: 16px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .desktop-nav { display: none; }
+    .header-search { display: none; }
+
+    /* ── COLLECTION HEADER — plain white, no background image ── */
+    .collection-hero {
+      width: 100%;
+      background: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 20px 16px 16px;
+      border-bottom: 1px solid #f0f0f0;
+    }
+    .collection-hero h1 { font-size: 22px; font-weight: 700; color: #222; line-height: 1.2; margin-bottom: 6px; }
+    .collection-hero-desc { font-size: 13px; color: #666; line-height: 1.6; }
+
+    /* ── BREADCRUMB ── */
+    .breadcrumb {
+      padding: 10px 16px;
+      font-size: 11px;
+      color: #aaa;
+      border-bottom: 1px solid #f0f0f0;
+    }
+    .breadcrumb a { color: #aaa; text-decoration: none; }
+    .breadcrumb span { margin: 0 4px; }
+
+    /* ── FILTER / SORT BAR ── */
+    /* Horizon: vertical filter style shows product count + sort on right in a horizontal bar above the sidebar */
+    .filter-sort-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 16px;
+      height: 48px;
+      border-bottom: 1px solid #e8e8e8;
+      position: sticky;
+      top: 57px;
+      background: #fff;
+      z-index: 90;
+      gap: 10px;
+    }
+    .filter-btn {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #333;
+      background: none;
+      border: 1px solid #d0d0d0;
+      border-radius: 2px;
+      padding: 7px 14px;
+      cursor: pointer;
+      font-family: inherit;
+    }
+    .products-count {
+      font-size: 12px;
+      color: #888;
+    }
+    .sort-btn {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      color: #555;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-family: inherit;
+      padding: 0;
+      margin-left: auto; /* pushes Sort + density buttons to the right */
+    }
+    .sort-btn-caret { font-size: 10px; color: #999; }
+
+    /* Horizon grid density toggle — 2-col / 3-col switcher on mobile */
+    .grid-density-toggle {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .density-btn {
+      width: 28px; height: 28px;
+      border: 1px solid #d0d0d0;
+      border-radius: 2px;
+      background: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+    }
+    .density-btn.active { background: #333; border-color: #333; }
+    .density-btn svg { width: 14px; height: 14px; }
+    .density-btn.active svg rect { fill: #fff; }
+    .density-btn svg rect { fill: #888; }
+
+    /* ── ACTIVE FILTERS STRIP ── */
+    .active-filters {
+      display: flex;
+      gap: 8px;
+      padding: 10px 16px;
+      overflow-x: auto;
+      scrollbar-width: none;
+      border-bottom: 1px solid #f0f0f0;
+    }
+    .active-filters::-webkit-scrollbar { display: none; }
+    .filter-pill {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      white-space: nowrap;
+      background: #333;
+      color: #fff;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 5px 10px;
+      border-radius: 20px;
+      cursor: pointer;
+      letter-spacing: 0.03em;
+    }
+    .filter-pill-x { font-size: 14px; font-weight: 400; line-height: 1; }
+    .filter-pill-clear {
+      background: none;
+      color: #888;
+      border: 1px solid #d0d0d0;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 5px 10px;
+      border-radius: 20px;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    /* ── PRODUCT GRID ── */
+    .collection-body { display: block; }
+    .collection-grid-wrapper { padding: 16px; }
+    .collection-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px 12px;
+    }
+    .collection-grid.density-3 { grid-template-columns: 1fr 1fr 1fr; gap: 12px 8px; }
+    /* ── PRODUCT CARD ── */
+    .product-card { position: relative; min-width: 0; }
+
+    .product-card-media {
+      width: 100%;
+      aspect-ratio: 4/5; /* target AR for new product photography */
+      background: #f5f5f5;
+      position: relative;
+      overflow: hidden;
+      margin-bottom: 6px;
+    }
+    .product-card-img-placeholder {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #bbb;
+      font-size: 11px;
+    }
+    .product-card-img {
+      width: 100%; height: 100%;
+      object-fit: contain; /* simulates future 4/5 images; current 2/3 photos letterbox within the space */
+      object-position: center center;
+      display: block;
+    }
+
+    /* Horizon badge — top-left by default, pill/rectangle configurable */
+    .product-badge {
+      position: absolute;
+      top: 8px; left: 8px;
+      background: #333;
+      color: #fff;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 3px 8px;
+      letter-spacing: 0.04em;
+      z-index: 2;
+    }
+    .product-badge.sale { background: #b94040; }
+    .product-badge.new-arrival { background: #4a7a5e; }
+    .product-badge.top-rated { background: #5a5a5a; }
+
+    /* ── HORIZON QUICK ADD BUTTON ──
+       Pill-shaped, absolute bottom-right of the image.
+       Hidden (opacity 0) until hover on desktop; always visible on mobile if mobile_quick_add enabled.
+       On hover: expands from icon-only to icon + label via CSS grid-template-columns transition. */
+    .quick-add-btn {
+      position: absolute;
+      bottom: 10px;
+      right: 10px;
+      z-index: 3;
+      display: flex;
+      align-items: center;
+      background: rgba(255,255,255,0.92);
+      backdrop-filter: blur(20px) saturate(180%);
+      border: 1.5px solid rgba(0,0,0,0.12);
+      border-radius: 50px;
+      height: 36px;
+      padding: 0;
+      cursor: pointer;
+      overflow: hidden;
+      font-family: inherit;
+      color: #333;
+      /* Always visible on mobile (Horizon mobile_quick_add) */
+      opacity: 1;
+      transition: opacity 0.18s ease, transform 0.18s ease;
+    }
+    .quick-add-btn:hover { transform: scale(1.03); }
+    .quick-add-btn:active { transform: scale(0.99); }
+    .quick-add-icon {
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      flex-shrink: 0;
+    }
+    /* Label hidden on mobile (icon-only), shown on desktop hover */
+    .quick-add-label {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.03em;
+      padding-right: 12px;
+      white-space: nowrap;
+      display: none;
+    }
+
+    .product-card-swatches {
+      display: flex;
+      gap: 5px;
+      margin-bottom: 5px;
+      flex-wrap: wrap;
+    }
+    .product-card-swatch {
+      width: 14px; height: 14px;
+      border-radius: 50%;
+      border: 1.5px solid #ccc;
+      cursor: pointer;
+    }
+    .product-card-swatch.selected { border-color: #333; box-shadow: 0 0 0 1.5px #fff inset; }
+    .product-card-swatch.more {
+      background: #f0f0f0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 8px; color: #888; font-weight: 700;
+    }
+    .product-card-name {
+      font-size: 13px; font-weight: 600; line-height: 1.3; margin-bottom: 2px;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    /* Stars removed from product grid cards — appear in quick add modal only */
+    .product-card-price { font-size: 13px; color: #555; }
+    .price-was { text-decoration: line-through; color: #aaa; margin-right: 4px; }
+    .price-sale { color: #b94040; font-weight: 600; }
+
+    /* In density-3, cards are smaller — shrink text */
+    .density-3 .product-card-name { font-size: 11px; }
+    .density-3 .product-card-price { font-size: 11px; }
+    /* no stars in grid */
+    .density-3 .quick-add-btn { height: 28px; bottom: 6px; right: 6px; }
+    .density-3 .quick-add-icon { width: 28px; height: 28px; font-size: 13px; }
+
+    /* ── LOAD MORE ── */
+    .load-more-row { padding: 24px 16px 8px; text-align: center; }
+    .load-more-progress { font-size: 12px; color: #888; margin-bottom: 12px; }
+    .load-more-bar {
+      height: 3px;
+      background: #e8e8e8;
+      border-radius: 2px;
+      margin: 0 auto 16px;
+      max-width: 200px;
+      overflow: hidden;
+    }
+    .load-more-bar-fill { height: 100%; width: 29%; background: #333; border-radius: 2px; }
+    .btn-load-more {
+      display: inline-block;
+      padding: 13px 32px;
+      border: 2px solid #333;
+      color: #333;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      background: none;
+      border-radius: 2px;
+      cursor: pointer;
+      font-family: inherit;
+    }
+
+    /* ── COLLECTION SEO TEXT ── */
+    .collection-seo {
+      padding: 28px 16px;
+      border-top: 1px solid #e8e8e8;
+    }
+    .collection-seo h2 { font-size: 15px; font-weight: 700; margin-bottom: 10px; }
+    .collection-seo p { font-size: 13px; color: #666; line-height: 1.7; }
+
+    /* ── HORIZON QUICK ADD MODAL ──
+       Mobile: bottom-sheet, slides up from bottom, rounded top corners.
+       Desktop: centered dialog, image gallery left / variant picker right.
+       Shows: image, title, price, stars, color swatches, waist+inseam size picker,
+              stock status message, sticky ATC button, "View full details →" (desktop only). */
+    .quick-add-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.45);
+      z-index: 300;
+      align-items: flex-end;
+      justify-content: center;
+    }
+    .quick-add-overlay.open { display: flex; }
+
+    /* ── Mobile modal (bottom-sheet) ── */
+    .quick-add-modal {
+      background: #fff;
+      border-radius: 12px 12px 0 0;
+      width: 100%;
+      max-height: 92vh;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      animation: slideUpModal 0.25s ease forwards;
+      overflow: hidden;
+    }
+    @keyframes slideUpModal {
+      from { transform: translateY(24px); opacity: 0; }
+      to   { transform: translateY(0); opacity: 1; }
+    }
+    .quick-add-modal-close {
+      position: absolute;
+      top: 14px; right: 16px;
+      background: none;
+      border: none;
+      font-size: 22px;
+      color: #888;
+      cursor: pointer;
+      font-family: inherit;
+      line-height: 1;
+      z-index: 10;
+    }
+    /* Desktop-only image gallery — hidden on mobile */
+    .qam-gallery { display: none; }
+
+    /* Scrollable content area */
+    .qam-details {
+      overflow-y: auto;
+      flex: 1;
+      padding: 20px 20px 0;
+    }
+    /* Mobile header: thumb + title side by side */
+    .qam-mobile-header {
+      display: grid;
+      grid-template-columns: 72px 1fr;
+      gap: 12px;
+      align-items: start;
+      margin-bottom: 16px;
+      padding-right: 28px;
+    }
+    .qam-thumb {
+      aspect-ratio: 3/4;
+      background: #e0e0e0;
+      border-radius: 3px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #bbb;
+      font-size: 10px;
+    }
+    .qam-title { font-size: 15px; font-weight: 700; line-height: 1.3; margin-bottom: 3px; }
+    .qam-price { font-size: 14px; color: #555; margin-bottom: 3px; }
+    .qam-stars { font-size: 12px; color: #555; }
+    /* Desktop title/price (hidden on mobile) */
+    .qam-desktop-title { display: none; }
+    .qam-desktop-price { display: none; }
+    .qam-desktop-stars { display: none; }
+    /* Variant sections */
+    .qam-variant-section { margin-bottom: 16px; }
+    .qam-variant-label {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #888;
+      margin-bottom: 8px;
+    }
+    .qam-color-row { display: flex; gap: 8px; flex-wrap: wrap; }
+    .qam-color-swatch {
+      width: 24px; height: 24px;
+      border-radius: 50%;
+      border: 2px solid transparent;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+    .qam-color-swatch.selected { border-color: #333; box-shadow: 0 0 0 2px #fff inset; }
+    /* Two-axis size picker: waist rows × inseam columns */
+    .qam-size-table { width: 100%; border-collapse: collapse; margin-bottom: 4px; }
+    .qam-size-table th {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: #aaa;
+      padding: 0 6px 6px;
+      text-align: center;
+    }
+    .qam-size-table th:first-child { text-align: left; padding-left: 0; }
+    .qam-size-table td { padding: 3px 3px; text-align: center; }
+    .qam-size-chip {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 40px;
+      padding: 6px 4px;
+      border: 1.5px solid #d0d0d0;
+      border-radius: 2px;
+      font-size: 11px;
+      font-weight: 600;
+      cursor: pointer;
+      color: #333;
+      width: 100%;
+    }
+    .qam-size-chip.selected { background: #333; color: #fff; border-color: #333; }
+    .qam-size-chip.unavailable {
+      color: #ccc;
+      border-color: #eee;
+      cursor: not-allowed;
+      position: relative;
+      overflow: hidden;
+    }
+    .qam-size-chip.unavailable::after {
+      content: '';
+      position: absolute;
+      top: 50%; left: 10%; right: 10%;
+      height: 1px;
+      background: #ddd;
+      transform: rotate(-12deg);
+    }
+    .qam-size-row-label {
+      font-size: 11px;
+      font-weight: 700;
+      color: #555;
+      padding-right: 8px;
+      white-space: nowrap;
+    }
+    /* Stock status — three variants */
+    .qam-stock {
+      font-size: 12px;
+      font-weight: 600;
+      margin-bottom: 14px;
+    }
+    .qam-stock.in-stock { color: #4a7a5e; }
+    .qam-stock.low { color: #c07820; }
+    .qam-stock.few { color: #b94040; }
+    /* Sticky ATC footer */
+    .qam-atc-sticky {
+      padding: 14px 20px 32px;
+      background: #fff;
+      border-top: 1px solid #f0f0f0;
+      flex-shrink: 0;
+    }
+    .qam-atc-btn {
+      width: 100%;
+      padding: 15px;
+      background: #333;
+      color: #fff;
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      border: none;
+      border-radius: 2px;
+      cursor: pointer;
+      font-family: inherit;
+    }
+    /* "View full details" — hidden on mobile per Horizon source */
+    .qam-view-details { display: none; }
+
+    /* ── MOBILE FILTER DRAWER ── */
+    .filter-drawer-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.4);
+      z-index: 200;
+    }
+    .filter-drawer-overlay.open { display: block; }
+    .filter-drawer {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      background: #fff;
+      border-radius: 12px 12px 0 0;
+      padding: 0 0 40px;
+      max-height: 85vh;
+      overflow-y: auto;
+    }
+    .filter-drawer-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 16px 12px;
+      border-bottom: 1px solid #e8e8e8;
+      position: sticky;
+      top: 0;
+      background: #fff;
+      z-index: 1;
+    }
+    .filter-drawer-title { font-size: 15px; font-weight: 700; }
+    /* Section divider inside mobile drawer */
+    .filter-drawer-section-label {
+      font-size: 10px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: #bbb;
+      padding: 14px 16px 6px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .filter-drawer-section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: #efefef;
+    }
+    .filter-drawer-close {
+      font-size: 22px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #888;
+      font-family: inherit;
+    }
+    .filter-group { border-bottom: 1px solid #f0f0f0; }
+    .filter-group-trigger {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 16px;
+      background: none;
+      border: none;
+      font-size: 13px;
+      font-weight: 700;
+      font-family: inherit;
+      cursor: pointer;
+      color: #333;
+      text-align: left;
+      gap: 8px;
+    }
+    /* Label + ? sit together on the left, caret pushed to the far right */
+    .filter-group-trigger-label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .filter-group-caret { color: #aaa; font-size: 16px; line-height: 1; margin-left: auto; }
+    .filter-group-body { padding: 0 16px 16px; display: block; }
+    .filter-size-grid { display: flex; flex-wrap: wrap; gap: 8px; }
+    .filter-size-chip {
+      padding: 6px 12px;
+      border: 1px solid #d0d0d0;
+      border-radius: 2px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      color: #333;
+    }
+    .filter-size-chip.selected { background: #333; color: #fff; border-color: #333; }
+    .filter-color-grid { display: flex; flex-wrap: wrap; gap: 10px; }
+    .filter-color-swatch {
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      border: 2px solid transparent;
+      cursor: pointer;
+    }
+    .filter-color-swatch.selected { border-color: #333; outline: 2px solid #fff; outline-offset: -4px; }
+    .filter-price-range { display: flex; align-items: center; gap: 8px; }
+    .filter-price-input {
+      flex: 1;
+      padding: 9px 12px;
+      border: 1px solid #d0d0d0;
+      border-radius: 2px;
+      font-size: 13px;
+      font-family: inherit;
+    }
+    .filter-price-sep { color: #aaa; font-size: 12px; }
+    .filter-check-list { display: flex; flex-direction: column; gap: 10px; }
+    .filter-check-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 13px;
+      color: #333;
+      cursor: pointer;
+    }
+    .filter-checkbox {
+      width: 18px; height: 18px;
+      border: 1.5px solid #ccc;
+      border-radius: 2px;
+      flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 11px;
+    }
+    .filter-checkbox.checked { background: #333; border-color: #333; color: #fff; }
+    .filter-drawer-footer {
+      padding: 16px;
+      display: flex;
+      gap: 10px;
+      position: sticky;
+      bottom: 0;
+      background: #fff;
+      border-top: 1px solid #e8e8e8;
+    }
+    .filter-clear-btn {
+      flex: 1;
+      padding: 13px;
+      border: 1.5px solid #333;
+      background: none;
+      color: #333;
+      font-size: 13px;
+      font-weight: 700;
+      border-radius: 2px;
+      cursor: pointer;
+      font-family: inherit;
+    }
+    .filter-apply-btn {
+      flex: 2;
+      padding: 13px;
+      background: #333;
+      color: #fff;
+      font-size: 13px;
+      font-weight: 700;
+      border: none;
+      border-radius: 2px;
+      cursor: pointer;
+      font-family: inherit;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: #f5f5f5;
+      border-top: 1px solid #e0e0e0;
+      padding: 28px 16px 40px;
+    }
+    .footer-logo { font-size: 14px; font-weight: 700; letter-spacing: 0.06em; margin-bottom: 20px; }
+    .footer-nav-group { margin-bottom: 0; }
+    .footer-nav-trigger {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 13px 0;
+      border-top: 1px solid #e0e0e0;
+      background: none;
+      border-left: none; border-right: none; border-bottom: none;
+      font-size: 13px;
+      font-weight: 700;
+      font-family: inherit;
+      cursor: pointer;
+      color: #333;
+      text-align: left;
+    }
+    .footer-toggle-icon { font-size: 16px; color: #999; }
+    .footer-nav-body { display: none; padding-bottom: 12px; }
+    .footer-nav-body.open { display: block; }
+    .footer-nav-body a { display: block; font-size: 13px; color: #555; text-decoration: none; padding: 5px 0; }
+    .footer-social {
+      display: flex;
+      gap: 14px;
+      padding: 20px 0 16px;
+      border-top: 1px solid #e0e0e0;
+      margin-top: 4px;
+    }
+    .footer-social-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px; height: 36px;
+      border: 1.5px solid #ccc;
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: 700;
+      color: #888;
+      text-decoration: none;
+    }
+    .footer-legal { font-size: 11px; color: #aaa; line-height: 1.6; }
+    .footer-legal a { color: #aaa; text-decoration: underline; }
+    .footer-get-dirty { font-size: 13px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #888; margin-bottom: 10px; }
+    .footer-desktop-cols { display: none; }
+    .footer-bottom { display: contents; }
+
+    /* ════════════════════════════════════════════
+       DESKTOP OVERRIDES  (≥ 1024px)
+    ════════════════════════════════════════════ */
+    @media (min-width: 1024px) {
+
+      body { max-width: none; margin: 0; }
+
+      /* ── Desktop header ── */
+      header {
+        padding: 0 40px;
+        height: 64px;
+        display: grid;
+        grid-template-columns: auto 1fr auto;
+        align-items: center;
+      }
+      .header-menu { display: none; }
+      .header-logo { position: static; transform: none; font-size: 18px; letter-spacing: 0.08em; grid-column: 1; }
+      .desktop-nav {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 32px;
+        grid-column: 2;
+      }
+      .desktop-nav a {
+        font-size: 13px;
+        font-weight: 600;
+        letter-spacing: 0.04em;
+        color: #333;
+        text-decoration: none;
+        text-transform: uppercase;
+      }
+      .desktop-nav a.active { border-bottom: 2px solid #333; padding-bottom: 2px; }
+      .header-icons { grid-column: 3; gap: 20px; }
+      .header-search {
+        display: block;
+        font-size: 13px;
+        font-weight: 600;
+        letter-spacing: 0.04em;
+        color: #333;
+        cursor: pointer;
+        background: none;
+        border: none;
+        font-family: inherit;
+        padding: 0;
+      }
+
+      /* ── Desktop collection header ── */
+      .collection-hero { padding: 28px 40px 22px; }
+      .collection-hero h1 { font-size: 32px; margin-bottom: 8px; }
+      .collection-hero-desc { font-size: 14px; max-width: 560px; }
+
+      .breadcrumb { padding: 10px 40px; }
+
+      /* ── Horizon "vertical" filter style:
+         Horizontal bar above the page shows: "Filters" label + product count on left, Sort on right.
+         Below: sidebar (vertical facets) on left + product grid on right. ── */
+      .filter-sort-bar {
+        padding: 0 40px;
+        top: 64px;
+        height: 52px;
+        border-bottom: 1px solid #e8e8e8;
+      }
+      .filter-btn { display: none; }
+      .products-count { display: block; }
+      .filters-label {
+        font-size: 13px;
+        font-weight: 700;
+        color: #333;
+        letter-spacing: 0.03em;
+      }
+      .filter-sort-bar-left { display: flex; align-items: center; gap: 20px; }
+
+      /* Desktop active filters */
+      .active-filters { padding: 10px 40px; }
+
+      /* ── Desktop layout: sidebar + grid ── */
+      .collection-body {
+        display: grid;
+        grid-template-columns: 260px 1fr;
+        align-items: start;
+        max-width: 1280px;
+        margin: 0 auto;
+        padding: 0 40px;
+      }
+      .collection-grid-wrapper { padding: 20px 0 20px 32px; }
+
+      /* ── Desktop sidebar ── */
+      .sidebar-filters {
+        display: block !important;
+        padding: 20px 24px 20px 0;
+        border-right: 1px solid #e8e8e8;
+      }
+      .sidebar-filter-group { margin-bottom: 16px; }
+      .sidebar-filter-heading {
+        font-size: 11px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: #aaa;
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+      /* Section divider — groups related filters visually */
+      .sidebar-section {
+        margin-bottom: 4px;
+        padding-bottom: 20px;
+        border-bottom: 1px solid #efefef;
+      }
+      .sidebar-section:last-child { border-bottom: none; }
+      .sidebar-section-label {
+        font-size: 10px;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        color: #bbb;
+        margin-bottom: 14px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .sidebar-section-label::after {
+        content: '';
+        flex: 1;
+        height: 1px;
+        background: #efefef;
+      }
+
+      /* ── Desktop product grid — 3-col default, density toggle to 2 or 4 ── */
+      .collection-grid { grid-template-columns: repeat(3, 1fr); gap: 28px 20px; }
+      .collection-grid.density-2 { grid-template-columns: repeat(2, 1fr); gap: 32px 24px; }
+      .collection-grid.density-4 { grid-template-columns: repeat(4, 1fr); gap: 24px 16px; }
+
+      /* ── AI assist block — desktop ── */
+      .ai-assist-block { padding: 28px 32px; }
+      .ai-assist-inner { max-width: 100%; }
+      .ai-assist-prompts { flex-direction: row; flex-wrap: wrap; }
+      .ai-prompt-btn { width: auto; flex: 1 1 calc(50% - 4px); }
+
+      /* ── Scenario divider — wider padding on desktop ── */
+      .scenario-divider { padding: 48px 40px 0; margin-top: 64px; }
+
+      /* ── Empty state desktop layout — sidebar + empty grid area ── */
+      .empty-state-body {
+        display: grid;
+        grid-template-columns: 260px 1fr;
+        align-items: start;
+        max-width: 1280px;
+        margin: 0 auto;
+        padding: 0 40px;
+      }
+      .empty-sidebar {
+        display: block !important;
+        padding: 20px 24px 20px 0;
+        border-right: 1px solid #e8e8e8;
+      }
+      .empty-grid-area {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 480px;
+        padding: 40px;
+      }
+      .empty-state { padding: 0; max-width: 420px; }
+
+      /* Desktop: card height auto-sizes from 2:3 image ratio — no fixed height needed.
+         At 3-col on 1280px canvas (grid width ~386px), image = 579px tall → ~1.7 rows above fold.
+         At 2-col (grid width ~590px), image = 885px → 1 row fills most of fold. */
+
+      /* ── Horizon Quick Add button — hover reveal on desktop ── */
+      /* Default: icon only, opacity 0 */
+      .quick-add-btn {
+        opacity: 0;
+        transition: opacity 0.18s ease, transform 0.18s ease;
+      }
+      /* On card hover: fade in */
+      .product-card:hover .quick-add-btn { opacity: 1; }
+      /* On button hover: expand to show label */
+      .quick-add-btn:hover .quick-add-label { display: block; }
+
+      /* ── Desktop Quick Add Modal — centered dialog, image left / details right ── */
+      .quick-add-overlay { align-items: center; }
+      .quick-add-modal {
+        flex-direction: row;
+        border-radius: 8px;
+        width: 800px;
+        max-width: 92vw;
+        height: 520px;
+        max-height: 90vh;
+        animation: none;
+        overflow: hidden;
+      }
+      .quick-add-modal-close { top: 12px; right: 14px; }
+      /* Left: product image gallery, 3/7 width */
+      .qam-gallery {
+        display: flex;
+        flex-direction: column;
+        width: 43%;
+        flex-shrink: 0;
+        background: #e8e8e8;
+        overflow-y: auto;
+        gap: 3px;
+      }
+      .qam-gallery-img {
+        width: 100%;
+        background: #e0e0e0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #bbb;
+        font-size: 11px;
+        flex-shrink: 0;
+      }
+      .qam-gallery-img:first-child { aspect-ratio: 3/4; }
+      .qam-gallery-img:not(:first-child) { aspect-ratio: 1/1; }
+      /* Right: details panel */
+      .qam-details {
+        flex: 1;
+        padding: 28px 24px 0;
+        overflow-y: auto;
+        display: flex;
+        flex-direction: column;
+      }
+      /* Mobile header hidden on desktop — replaced by desktop title */
+      .qam-mobile-header { display: none; }
+      .qam-desktop-title {
+        display: block;
+        font-size: 18px;
+        font-weight: 700;
+        line-height: 1.25;
+        margin-bottom: 5px;
+        padding-right: 28px;
+      }
+      .qam-desktop-price { display: block; font-size: 15px; color: #555; margin-bottom: 4px; }
+      .qam-desktop-stars { display: block; font-size: 12px; color: #555; margin-bottom: 18px; }
+      /* Sticky ATC + view details at bottom */
+      .qam-atc-sticky {
+        margin-top: auto;
+        padding: 12px 24px 24px;
+        border-top: 1px solid #f0f0f0;
+      }
+      /* "View full details" shown on desktop per Horizon source */
+      .qam-view-details {
+        display: block;
+        margin-top: 10px;
+        font-size: 13px;
+        font-weight: 600;
+        color: #333;
+        text-decoration: none;
+        text-align: center;
+      }
+      /* Grid density toggle — 3 options on desktop */
+      .grid-density-toggle { gap: 6px; }
+      .density-btn { width: 32px; height: 32px; }
+
+      /* ── Desktop load more ── */
+      .load-more-row { padding: 36px 0 16px; }
+
+      /* ── Desktop SEO text ── */
+      .collection-seo { max-width: 1280px; margin: 0 auto; padding: 32px 40px; }
+      .collection-seo p { max-width: 720px; }
+
+      /* ── Desktop footer ── */
+      footer { padding: 40px 40px 28px; }
+      .footer-nav-group { display: none; }
+      .footer-social { border-top: none; padding: 0; margin: 0; }
+      .footer-desktop-cols {
+        display: grid;
+        grid-template-columns: 2fr 1fr 1fr 1fr;
+        gap: 40px;
+        padding-bottom: 32px;
+        border-bottom: 1px solid #e0e0e0;
+        margin-bottom: 24px;
+      }
+      .footer-col-brand .footer-logo { font-size: 16px; margin-bottom: 12px; }
+      .footer-col-brand p { font-size: 13px; color: #777; line-height: 1.6; max-width: 260px; }
+      .footer-col-heading { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #999; margin-bottom: 14px; }
+      .footer-col a { display: block; font-size: 13px; color: #555; text-decoration: none; padding: 4px 0; }
+      .footer-col a:hover { text-decoration: underline; }
+      .footer-bottom { display: flex; justify-content: space-between; align-items: center; }
+
+      .filter-drawer-overlay { display: none !important; }
+    }
+
+    /* ══════════════════════════════════════════════════════
+       FIT INFO BUTTON + TOOLTIP / MOBILE BOTTOM-SHEET
+       ──────────────────────────────────────────────────────
+       ? button sits inline after each fit filter heading.
+       Desktop (hover device): tooltip on hover — no tap needed.
+       Mobile (touch): tap opens a bottom-sheet — tap to dismiss.
+       Detection: @media (hover: hover) — true only for mouse/trackpad.
+    ══════════════════════════════════════════════════════ */
+
+    /* The ? button itself */
+    .fit-info-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      border: 1.5px solid #ccc;
+      background: none;
+      color: #aaa;
+      font-size: 9px;
+      font-weight: 800;
+      font-family: inherit;
+      cursor: pointer;
+      flex-shrink: 0;
+      line-height: 1;
+      padding: 0;
+      transition: border-color 0.15s, color 0.15s;
+      /* Ensure 44px touch target without changing visible size */
+      position: relative;
+    }
+    .fit-info-btn::before {
+      content: '';
+      position: absolute;
+      inset: -14px;
+    }
+    .fit-info-btn:hover,
+    .fit-info-btn:focus-visible {
+      border-color: #555;
+      color: #555;
+      outline: none;
+    }
+
+    /* ── Desktop tooltip (hover devices only) ── */
+    .fit-info-wrap {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+    }
+    .fit-tooltip {
+      display: none; /* shown via hover media query below */
+    }
+
+    @media (hover: hover) {
+      .fit-tooltip {
+        display: block;
+        position: absolute;
+        left: 24px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 220px;
+        background: #222;
+        color: #fff;
+        font-size: 12px;
+        font-weight: 400;
+        line-height: 1.55;
+        letter-spacing: 0;
+        text-transform: none;
+        padding: 10px 13px;
+        border-radius: 4px;
+        z-index: 500;
+        pointer-events: none;
+        opacity: 0;
+        transition: opacity 0.15s ease;
+        box-shadow: 0 4px 16px rgba(0,0,0,0.18);
+      }
+      /* Arrow pointing left toward the button */
+      .fit-tooltip::before {
+        content: '';
+        position: absolute;
+        left: -5px;
+        top: 50%;
+        transform: translateY(-50%);
+        border-width: 5px 5px 5px 0;
+        border-style: solid;
+        border-color: transparent #222 transparent transparent;
+      }
+      /* Flip tooltip left when near right edge (sidebar is narrow) */
+      .fit-tooltip.flip {
+        left: auto;
+        right: 24px;
+      }
+      .fit-tooltip.flip::before {
+        left: auto;
+        right: -5px;
+        border-width: 5px 0 5px 5px;
+        border-color: transparent transparent transparent #222;
+      }
+      .fit-info-wrap:hover .fit-tooltip,
+      .fit-info-btn:focus-visible + .fit-tooltip {
+        opacity: 1;
+        pointer-events: none;
+      }
+    }
+
+    /* ── AI ASSIST BLOCK ── */
+    .ai-assist-block {
+      grid-column: 1 / -1; /* spans all columns on both mobile and desktop */
+      background: #f7f6f4;
+      border-radius: 6px;
+      padding: 20px 16px;
+      margin: 4px 0;
+    }
+    .ai-assist-inner { max-width: 560px; margin: 0 auto; }
+    .ai-assist-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+    .ai-assist-icon {
+      font-size: 14px;
+      color: #666;
+    }
+    .ai-assist-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: #222;
+      letter-spacing: 0.01em;
+    }
+    .ai-assist-prompts {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+    .ai-prompt-btn {
+      display: block;
+      width: 100%;
+      text-align: left;
+      background: #fff;
+      border: 1.5px solid #e0e0e0;
+      border-radius: 24px;
+      padding: 11px 18px;
+      font-size: 13px;
+      font-weight: 500;
+      color: #333;
+      cursor: pointer;
+      font-family: inherit;
+      transition: border-color 0.15s, background 0.15s;
+      line-height: 1.3;
+    }
+    .ai-prompt-btn:hover { border-color: #333; background: #fff; }
+    .ai-assist-freeform {
+      display: flex;
+      align-items: center;
+      background: #fff;
+      border: 1.5px solid #e0e0e0;
+      border-radius: 24px;
+      padding: 4px 4px 4px 18px;
+      gap: 8px;
+      margin-top: 4px;
+    }
+    .ai-freeform-input {
+      flex: 1;
+      border: none;
+      outline: none;
+      font-size: 14px;
+      font-family: inherit;
+      color: #333;
+      background: transparent;
+      padding: 8px 0;
+    }
+    .ai-freeform-input::placeholder { color: #bbb; }
+    .ai-freeform-send {
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      background: #333;
+      color: #fff;
+      border: none;
+      font-size: 16px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    /* ── SCENARIO DIVIDER ── */
+    .scenario-divider {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 32px 16px 0;
+      margin-top: 48px;
+    }
+    .scenario-divider::before,
+    .scenario-divider::after {
+      content: '';
+      flex: 1;
+      height: 2px;
+      background: #f0a500;
+      opacity: 0.5;
+    }
+    .scenario-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #f0a500;
+      white-space: nowrap;
+    }
+
+    /* ── EMPTY STATE ── */
+    .empty-state-body {
+      display: block;
+    }
+    .empty-grid-area {
+      padding: 16px;
+    }
+    .empty-state {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 48px 24px 40px;
+    }
+    .empty-state-icon {
+      font-size: 40px;
+      color: #d0d0d0;
+      margin-bottom: 20px;
+      line-height: 1;
+    }
+    .empty-state-heading {
+      font-size: 18px;
+      font-weight: 700;
+      color: #222;
+      margin-bottom: 10px;
+    }
+    .empty-state-body-text {
+      font-size: 14px;
+      color: #888;
+      line-height: 1.6;
+      margin-bottom: 24px;
+      max-width: 280px;
+    }
+    .empty-state-suggestions {
+      width: 100%;
+      margin-bottom: 28px;
+    }
+    .empty-state-suggestions-label {
+      font-size: 11px;
+      color: #aaa;
+      font-weight: 700;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+    .empty-state-suggestion-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+    }
+    .empty-suggestion-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #fff;
+      border: 1.5px solid #333;
+      border-radius: 4px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #333;
+      padding: 10px 16px;
+      cursor: pointer;
+      font-family: inherit;
+      transition: background 0.15s, color 0.15s;
+    }
+    .empty-suggestion-pill:hover {
+      background: #333;
+      color: #fff;
+    }
+    /* The × is a distinct visual element inside each pill */
+    .empty-suggestion-pill .pill-x {
+      font-size: 16px;
+      font-weight: 300;
+      line-height: 1;
+      opacity: 0.5;
+    }
+    .empty-suggestion-pill:hover .pill-x { opacity: 1; }
+
+    /* "Clear all" demoted to quiet text link */
+    .empty-state-actions {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      width: 100%;
+    }
+    .empty-state-reset {
+      background: none;
+      border: none;
+      font-size: 12px;
+      font-weight: 600;
+      color: #aaa;
+      text-decoration: underline;
+      cursor: pointer;
+      font-family: inherit;
+      padding: 0;
+    }
+    .empty-state-reset:hover { color: #333; }
+    .empty-state-browse {
+      font-size: 13px;
+      font-weight: 600;
+      color: #333;
+      border-top: 1px solid #f0f0f0;
+      padding-top: 20px;
+      width: 100%;
+      text-align: center;
+      display: block;
+    }
+
+    /* Badge on Filter button showing active count */
+    .filter-active-count {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 18px; height: 18px;
+      background: #333;
+      color: #fff;
+      border-radius: 50%;
+      font-size: 10px;
+      font-weight: 700;
+      margin-left: 4px;
+    }
+
+    /* Sidebar empty state message + reset (desktop only, shown inside sidebar) */
+    .sidebar-empty-reset {
+      padding: 20px 0 0;
+      border-top: 1px solid #f0f0f0;
+      margin-top: 8px;
+    }
+    .sidebar-empty-msg {
+      font-size: 13px;
+      color: #888;
+      margin-bottom: 12px;
+    }
+    .sidebar-reset-btn {
+      background: none;
+      border: 1px solid #333;
+      border-radius: 2px;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 8px 16px;
+      cursor: pointer;
+      font-family: inherit;
+      color: #333;
+    }
+
+    /* ── Mobile fit info bottom-sheet (touch devices) ── */
+    .fit-info-sheet-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.4);
+      z-index: 400;
+      align-items: flex-end;
+      justify-content: center;
+    }
+    .fit-info-sheet-overlay.open { display: flex; }
+    .fit-info-sheet {
+      background: #fff;
+      border-radius: 12px 12px 0 0;
+      width: 100%;
+      padding: 24px 20px 44px;
+      position: relative;
+      animation: slideUpModal 0.22s ease forwards;
+    }
+    .fit-info-sheet-close {
+      position: absolute;
+      top: 14px; right: 16px;
+      background: none;
+      border: none;
+      font-size: 22px;
+      color: #aaa;
+      cursor: pointer;
+      font-family: inherit;
+      line-height: 1;
+    }
+    .fit-info-sheet-heading {
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 10px;
+      padding-right: 28px;
+      color: #222;
+    }
+    .fit-info-sheet-body {
+      font-size: 14px;
+      color: #555;
+      line-height: 1.65;
+    }
+    /* On hover-capable devices, tapping the ? does nothing visible (tooltip handles it) */
+    @media (hover: hover) {
+      .fit-info-sheet-overlay { display: none !important; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- SECTION: ANNOUNCEMENT BAR -->
+<div class="announcement-bar">
+  Free shipping on orders over $75 — <a href="#">Shop Now</a>
+</div>
+
+<!-- SECTION: HEADER -->
+<header>
+  <div class="header-menu">☰</div>
+  <div class="header-logo">DOVETAIL</div>
+  <nav class="desktop-nav" aria-label="Primary">
+    <a href="#" class="active">Pants</a>
+    <a href="#">Shorts</a>
+    <a href="#">Tops</a>
+    <a href="#">Overalls</a>
+    <a href="#">Sale</a>
+  </nav>
+  <div class="header-icons">
+    <button class="header-search" aria-label="Search">Search</button>
+    <div class="header-cart" aria-label="Cart">🛒<span class="cart-badge">0</span></div>
+  </div>
+</header>
+
+<!-- SECTION: COLLECTION HEADER -->
+<section class="collection-hero">
+  <h1>Straight Leg Pants</h1>
+  <p class="collection-hero-desc">Clean lines, consistent width from knee to ankle — built for the job site with the same Hip Slot and stretch you expect from Dovetail.</p>
+</section>
+
+<!-- BREADCRUMB -->
+<nav class="breadcrumb">
+  <a href="#">Home</a><span>›</span><a href="#">Pants</a><span>›</span> Straight Leg
+</nav>
+
+<!-- SECTION: FILTER + SORT BAR -->
+<!-- Horizon "vertical" filter style: shows filters label + product count left, sort right in a top bar -->
+<div class="filter-sort-bar">
+
+  <!-- Mobile: Filter button opens drawer -->
+  <button class="filter-btn" onclick="openFilterDrawer()">⊞ Filter</button>
+
+  <!-- Desktop: "Filters" label + count (shown via CSS) -->
+  <div class="filter-sort-bar-left" style="display:none;">
+    <span class="filters-label">Filters</span>
+    <span class="products-count">16 products</span>
+  </div>
+
+  <button class="sort-btn">Sort: Best Sellers <span class="sort-btn-caret">▾</span></button>
+
+  <!-- Grid density toggle (Horizon feature) — sits to the right of Sort -->
+  <div class="grid-density-toggle">
+    <!-- 2-col icon -->
+    <button class="density-btn active" title="2 columns" onclick="setDensity(2,this)">
+      <svg viewBox="0 0 14 14"><rect x="0" y="0" width="6" height="6"/><rect x="8" y="0" width="6" height="6"/><rect x="0" y="8" width="6" height="6"/><rect x="8" y="8" width="6" height="6"/></svg>
+    </button>
+    <!-- 3-col icon -->
+    <button class="density-btn" title="3 columns" onclick="setDensity(3,this)">
+      <svg viewBox="0 0 14 14"><rect x="0" y="0" width="3.5" height="6"/><rect x="5.25" y="0" width="3.5" height="6"/><rect x="10.5" y="0" width="3.5" height="6"/><rect x="0" y="8" width="3.5" height="6"/><rect x="5.25" y="8" width="3.5" height="6"/><rect x="10.5" y="8" width="3.5" height="6"/></svg>
+    </button>
+  </div>
+</div>
+
+<!-- ACTIVE FILTER PILLS -->
+<div class="active-filters">
+  <div class="filter-pill">Dark Wash <span class="filter-pill-x">×</span></div>
+  <div class="filter-pill">Black <span class="filter-pill-x">×</span></div>
+  <button class="filter-pill-clear">Clear all</button>
+</div>
+
+<!-- MAIN COLLECTION BODY -->
+<div class="collection-body">
+
+  <!-- DESKTOP SIDEBAR (Horizon "vertical" filter style) -->
+  <!-- Filters grouped into sections with labeled dividers: Size / Fit / Fabric & Technology / Shop by Work / Price -->
+  <aside class="sidebar-filters" style="display:none;">
+
+    <!-- ── SIZE ── -->
+    <div class="sidebar-section">
+      <div class="sidebar-section-label">Size</div>
+
+      <div class="sidebar-filter-group">
+        <div class="sidebar-filter-heading">Waist</div>
+        <div class="filter-size-grid">
+          <div class="filter-size-chip">26</div>
+          <div class="filter-size-chip">28</div>
+          <div class="filter-size-chip selected">30</div>
+          <div class="filter-size-chip">32</div>
+          <div class="filter-size-chip">34</div>
+          <div class="filter-size-chip">36</div>
+          <div class="filter-size-chip">38</div>
+        </div>
+      </div>
+
+      <div class="sidebar-filter-group">
+        <div class="sidebar-filter-heading">Inseam</div>
+        <div class="filter-size-grid">
+          <div class="filter-size-chip">28"</div>
+          <div class="filter-size-chip selected">30"</div>
+          <div class="filter-size-chip">32"</div>
+          <div class="filter-size-chip">34"</div>
+        </div>
+      </div>
+
+      <div class="sidebar-filter-group">
+        <div class="sidebar-filter-heading">Color</div>
+        <div class="filter-color-grid">
+          <div class="filter-color-swatch selected" style="background:#2a2a2a;" title="Black"></div>
+          <div class="filter-color-swatch" style="background:#4a5568;" title="Slate"></div>
+          <div class="filter-color-swatch selected" style="background:#3b5298;" title="Dark Wash"></div>
+          <div class="filter-color-swatch" style="background:#d4c9a8;" title="Khaki"></div>
+          <div class="filter-color-swatch" style="background:#5a6e5c;" title="Olive"></div>
+          <div class="filter-color-swatch" style="background:#8b6f5e;" title="Brown"></div>
+          <div class="filter-color-swatch" style="background:#c0c0c0;" title="Grey"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── FIT ── -->
+    <div class="sidebar-section">
+      <div class="sidebar-section-label">Fit</div>
+
+      <div class="sidebar-filter-group">
+        <div class="sidebar-filter-heading">
+          Hip Fit
+          <span class="fit-info-wrap">
+            <button class="fit-info-btn" aria-label="What is Hip Fit?" onclick="openFitInfo('Hip Fit','How the pant fits from your natural waist through the fullest part of your hips — roughly the top 8–10 inches of the leg. Standard hip has an even taper from waist to hip. Curvy hip has extra room built in for a larger hip-to-waist difference, with a contoured waistband to prevent gapping.')">?</button>
+            <span class="fit-tooltip">How the pant fits from your waist through your hips. <strong>Standard</strong> = even taper. <strong>Curvy</strong> = extra hip room, contoured waistband.</span>
+          </span>
+        </div>
+        <div class="filter-check-list">
+          <label class="filter-check-item"><div class="filter-checkbox"></div>Standard hip</label>
+          <label class="filter-check-item"><div class="filter-checkbox"></div>Curvy hip</label>
+        </div>
+      </div>
+
+      <div class="sidebar-filter-group">
+        <div class="sidebar-filter-heading">
+          Body Type
+          <span class="fit-info-wrap">
+            <button class="fit-info-btn" aria-label="What is Body Type?" onclick="openFitInfo('Body Type','Describes how the pant is shaped through the seat and thighs. Each option reflects how volume is distributed below the waist — choose the description that matches how you typically fit pants off the rack.')">?</button>
+            <span class="fit-tooltip">How volume is distributed through the seat and thighs. Pick the description that matches how pants typically fit you off the rack.</span>
+          </span>
+        </div>
+        <div class="filter-check-list">
+          <label class="filter-check-item"><div class="filter-checkbox checked">✓</div>Fitted waist, room through hip</label>
+          <label class="filter-check-item"><div class="filter-checkbox"></div>Even fit waist to hip</label>
+          <label class="filter-check-item"><div class="filter-checkbox"></div>Room through waist and hip</label>
+          <label class="filter-check-item"><div class="filter-checkbox"></div>Fitted through hip and thigh</label>
+          <label class="filter-check-item"><div class="filter-checkbox"></div>Longer rise, fuller seat</label>
+          <label class="filter-check-item"><div class="filter-checkbox"></div>Shorter rise, lower-hip carry</label>
+        </div>
+      </div>
+
+      <div class="sidebar-filter-group">
+        <div class="sidebar-filter-heading">
+          Rise
+          <span class="fit-info-wrap">
+            <button class="fit-info-btn" aria-label="What is Rise?" onclick="openFitInfo('Rise','Rise is the distance from the crotch seam to the top of the waistband. Mid-rise sits at or just below your natural waist — good for most body types and work positions. High-rise sits at or above your natural waist — great for bending, kneeling, and keeping coverage when you crouch.')">?</button>
+            <span class="fit-tooltip">Distance from crotch seam to waistband. <strong>Mid-rise</strong> sits at your natural waist. <strong>High-rise</strong> gives more coverage when kneeling or bending.</span>
+          </span>
+        </div>
+        <div class="filter-check-list">
+          <label class="filter-check-item"><div class="filter-checkbox"></div>Mid-rise</label>
+          <label class="filter-check-item"><div class="filter-checkbox"></div>High-rise</label>
+        </div>
+      </div>
+
+      <div class="sidebar-filter-group">
+        <div class="sidebar-filter-heading">
+          Leg
+          <span class="fit-info-wrap">
+            <button class="fit-info-btn" aria-label="What is Leg?" onclick="openFitInfo('Leg Opening','Describes the shape of the pant from the knee down. Straight = consistent width all the way to the ankle. Slim = tapered, closer to the leg. Relaxed = extra room through the thigh and calf. Bootcut = slight flare below the knee — fits over work boots.')">?</button>
+            <span class="fit-tooltip">Shape from knee to ankle. <strong>Straight</strong> = consistent width. <strong>Slim</strong> = tapered. <strong>Relaxed</strong> = extra room. <strong>Bootcut</strong> = slight flare for work boots.</span>
+          </span>
+        </div>
+        <div class="filter-check-list">
+          <label class="filter-check-item"><div class="filter-checkbox"></div>Straight</label>
+          <label class="filter-check-item"><div class="filter-checkbox"></div>Slim</label>
+          <label class="filter-check-item"><div class="filter-checkbox"></div>Relaxed</label>
+          <label class="filter-check-item"><div class="filter-checkbox"></div>Bootcut</label>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── FABRIC & TECHNOLOGY ── -->
+    <div class="sidebar-section">
+      <div class="sidebar-section-label">Fabric &amp; Technology</div>
+
+      <div class="sidebar-filter-group">
+        <div class="sidebar-filter-heading">Fabric</div>
+        <div class="filter-check-list">
+          <label class="filter-check-item"><div class="filter-checkbox"></div>Canvas</label>
+          <label class="filter-check-item"><div class="filter-checkbox"></div>Stretch Canvas</label>
+          <label class="filter-check-item"><div class="filter-checkbox"></div>Denim</label>
+          <label class="filter-check-item"><div class="filter-checkbox"></div>Ripstop</label>
+          <label class="filter-check-item"><div class="filter-checkbox"></div>Twill</label>
+        </div>
+      </div>
+
+      <div class="sidebar-filter-group">
+        <div class="sidebar-filter-heading">Features</div>
+        <div class="filter-check-list">
+          <label class="filter-check-item"><div class="filter-checkbox checked">✓</div>Hip Slot</label>
+          <label class="filter-check-item"><div class="filter-checkbox"></div>COOLSWAP™ Lining</label>
+          <label class="filter-check-item"><div class="filter-checkbox"></div>Double Front</label>
+          <label class="filter-check-item"><div class="filter-checkbox"></div>Knee Pad Pockets</label>
+          <label class="filter-check-item"><div class="filter-checkbox"></div>Tool Loop</label>
+          <label class="filter-check-item"><div class="filter-checkbox"></div>Crotch Gusset</label>
+          <label class="filter-check-item"><div class="filter-checkbox"></div>Tough Cuff</label>
+        </div>
+      </div>
+
+      <div class="sidebar-filter-group">
+        <div class="sidebar-filter-heading">Protection</div>
+        <div class="filter-check-list">
+          <label class="filter-check-item"><div class="filter-checkbox"></div>Water Resistant</label>
+          <label class="filter-check-item"><div class="filter-checkbox"></div>Stain Resistant</label>
+          <label class="filter-check-item"><div class="filter-checkbox"></div>Wind Resistant</label>
+          <label class="filter-check-item"><div class="filter-checkbox"></div>Flame Resistant</label>
+          <label class="filter-check-item"><div class="filter-checkbox"></div>UPF Sun Protection</label>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── SHOP BY WORK ── -->
+    <div class="sidebar-section">
+      <div class="sidebar-section-label">Shop by Work</div>
+
+      <div class="sidebar-filter-group">
+        <div class="filter-check-list">
+          <label class="filter-check-item"><div class="filter-checkbox"></div>Construction</label>
+          <label class="filter-check-item"><div class="filter-checkbox"></div>Landscaping / Horticulture</label>
+          <label class="filter-check-item"><div class="filter-checkbox"></div>Electrician / Trades</label>
+          <label class="filter-check-item"><div class="filter-checkbox"></div>Carpentry</label>
+          <label class="filter-check-item"><div class="filter-checkbox"></div>Painting</label>
+          <label class="filter-check-item"><div class="filter-checkbox"></div>DIY / Home Improvement</label>
+          <label class="filter-check-item"><div class="filter-checkbox"></div>Farming / Agriculture</label>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── PRICE ── -->
+    <div class="sidebar-section">
+      <div class="sidebar-section-label">Price</div>
+      <div class="sidebar-filter-group">
+        <div class="filter-price-range">
+          <input class="filter-price-input" type="text" placeholder="$0">
+          <span class="filter-price-sep">–</span>
+          <input class="filter-price-input" type="text" placeholder="$200">
+        </div>
+      </div>
+    </div>
+
+  </aside>
+
+  <!-- PRODUCT GRID -->
+  <div class="collection-grid-wrapper">
+    <div class="collection-grid" id="productGrid">
+
+      <!-- CARD 1 -->
+      <div class="product-card">
+        <div class="product-card-media">
+          <img class="product-card-img" src="https://dovetailworkwear.com/cdn/shop/files/Dovetail-2025-S26-Studio-Web-Charla-GOTOPantTerracotta-034-Edit_426c507b-5aa6-43b7-83cb-e9a9dc4cdf98MODEL-267.jpg?v=1772742524&width=600" alt="GO TO™ Stretch Canvas Pant in Carbon Black">
+          <div class="product-badge">Best Seller</div>
+          <!-- Horizon Quick Add button — pill, bottom-right of image -->
+          <!-- Mobile: always visible (icon only). Desktop: hidden until hover, expands to show label on button hover. -->
+          <button class="quick-add-btn" onclick="openQuickAdd('GO TO™ Stretch Canvas Pant in Carbon Black','$119')" title="Choose options">
+            <span class="quick-add-icon">+</span>
+            <span class="quick-add-label">Choose Options</span>
+          </button>
+        </div>
+        <div class="product-card-swatches">
+          <div class="product-card-swatch selected" style="background:#2a2a2a;"></div>
+          <div class="product-card-swatch" style="background:#d4c9a8;"></div>
+          <div class="product-card-swatch" style="background:#5a6e5c;"></div>
+          <div class="product-card-swatch" style="background:#8b6f5e;"></div>
+          <div class="product-card-swatch more">+2</div>
+        </div>
+        <div class="product-card-name">GO TO™ Stretch Canvas Pant in Carbon Black</div>
+        <div class="product-card-price">$119</div>
+      </div>
+
+      <!-- CARD 2 -->
+      <div class="product-card">
+        <div class="product-card-media">
+          <img class="product-card-img" src="https://dovetailworkwear.com/cdn/shop/files/Dovetail-2025-S26-Studio-Christa-X-COOLSWAP_-Pant-Dovetail-Blue_-1105-Crop-eeeeee.jpg?v=1769631992&width=600" alt="Provisions Lightweight Ripstop Cargo Pant">
+          <div class="product-badge top-rated">Top Rated</div>
+          <button class="quick-add-btn" onclick="openQuickAdd('Provisions Lightweight Ripstop Cargo Pant','$129')" title="Choose options">
+            <span class="quick-add-icon">+</span>
+            <span class="quick-add-label">Choose Options</span>
+          </button>
+        </div>
+        <div class="product-card-swatches">
+          <div class="product-card-swatch selected" style="background:#2a2a2a;"></div>
+          <div class="product-card-swatch" style="background:#4a5568;"></div>
+          <div class="product-card-swatch" style="background:#3b5298;"></div>
+        </div>
+        <div class="product-card-name">Provisions Lightweight Ripstop Cargo Pant</div>
+        <div class="product-card-price">$129</div>
+      </div>
+
+      <!-- CARD 3 -->
+      <div class="product-card">
+        <div class="product-card-media">
+          <img class="product-card-img" src="https://dovetailworkwear.com/cdn/shop/files/DTW_S25_Studio_Provisions-Cargo-Pant-Black-4445_MODEL-214_dc2a494a-26e9-4349-ba13-ba14bec66cd7.jpg?v=1774324524&width=600" alt="GO TO™ Stretch Canvas Pant in Cement Grey">
+          <div class="product-badge new-arrival">New</div>
+          <button class="quick-add-btn" onclick="openQuickAdd('GO TO™ Stretch Canvas Pant in Cement Grey','$139')" title="Choose options">
+            <span class="quick-add-icon">+</span>
+            <span class="quick-add-label">Choose Options</span>
+          </button>
+        </div>
+        <div class="product-card-swatches">
+          <div class="product-card-swatch selected" style="background:#2a2a2a;"></div>
+          <div class="product-card-swatch" style="background:#5a6e5c;"></div>
+        </div>
+        <div class="product-card-name">GO TO™ Stretch Canvas Pant in Cement Grey</div>
+        <div class="product-card-price">$139</div>
+      </div>
+
+      <!-- CARD 4 -->
+      <div class="product-card">
+        <div class="product-card-media">
+          <img class="product-card-img" src="https://dovetailworkwear.com/cdn/shop/files/DTW_S25_Studio_GO-TO-Short-Kelp-Green-1603.jpg?v=1771001582&width=600" alt="GO TO™ Stretch Canvas Pant in Kelp Green">
+          <!-- Single variant → "Add to Cart" directly (no modal needed) -->
+          <button class="quick-add-btn" onclick="quickAddToCart(this)" title="Add to cart">
+            <span class="quick-add-icon">+</span>
+            <span class="quick-add-label">Add to Cart</span>
+          </button>
+        </div>
+        <div class="product-card-swatches">
+          <div class="product-card-swatch selected" style="background:#d4c9a8;"></div>
+          <div class="product-card-swatch" style="background:#2a2a2a;"></div>
+          <div class="product-card-swatch" style="background:#8b6f5e;"></div>
+        </div>
+        <div class="product-card-name">GO TO™ Stretch Canvas Pant in Kelp Green</div>
+        <div class="product-card-price">$109</div>
+      </div>
+
+      <!-- AI ASSISTANT BLOCK — spans full grid width after row 2 -->
+      <div class="ai-assist-block">
+        <div class="ai-assist-inner">
+          <div class="ai-assist-header">
+            <span class="ai-assist-icon">✦</span>
+            <span class="ai-assist-title">Ask Dovetail</span>
+          </div>
+          <div class="ai-assist-prompts">
+            <button class="ai-prompt-btn">Will these fit over work boots?</button>
+            <button class="ai-prompt-btn">What's the difference between straight and slim?</button>
+            <button class="ai-prompt-btn">Which style works best with knee pads?</button>
+            </div>
+          <div class="ai-assist-freeform">
+            <input class="ai-freeform-input" type="text" placeholder="Ask something else…">
+            <button class="ai-freeform-send" aria-label="Send">→</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- CARD 5 -->
+      <div class="product-card">
+        <div class="product-card-media">
+          <img class="product-card-img" src="https://dovetailworkwear.com/cdn/shop/files/DTW_S25_Studio_Freshley-Ultralight-Overall-Elderberry-2699MODEL-217.jpg?v=1774226949&width=600" alt="Freshley Overalls in Ultralight Ripstop">
+          <div class="product-badge sale">Sale</div>
+          <button class="quick-add-btn" onclick="openQuickAdd('Freshley Overalls in Ultralight Ripstop','$89')" title="Choose options">
+            <span class="quick-add-icon">+</span>
+            <span class="quick-add-label">Choose Options</span>
+          </button>
+        </div>
+        <div class="product-card-swatches">
+          <div class="product-card-swatch selected" style="background:#2a2a2a;"></div>
+          <div class="product-card-swatch" style="background:#c0c0c0;"></div>
+        </div>
+        <div class="product-card-name">Freshley Overalls in Ultralight Ripstop</div>
+        <div class="product-card-price"><span class="price-was">$129</span><span class="price-sale">$89</span></div>
+      </div>
+
+      <!-- CARD 6 -->
+      <div class="product-card">
+        <div class="product-card-media">
+          <img class="product-card-img" src="https://dovetailworkwear.com/cdn/shop/files/Carbon-Black-GO-TO-2421MODEL-225.jpg?v=1772740869&width=600" alt="Christa X DIY COOLSWAP™ Pant">
+          <button class="quick-add-btn" onclick="openQuickAdd('Christa X DIY COOLSWAP™ Pant','$119')" title="Choose options">
+            <span class="quick-add-icon">+</span>
+            <span class="quick-add-label">Choose Options</span>
+          </button>
+        </div>
+        <div class="product-card-swatches">
+          <div class="product-card-swatch selected" style="background:#2a2a2a;"></div>
+          <div class="product-card-swatch" style="background:#4a5568;"></div>
+          <div class="product-card-swatch" style="background:#5a6e5c;"></div>
+          <div class="product-card-swatch" style="background:#d4c9a8;"></div>
+        </div>
+        <div class="product-card-name">Christa X DIY COOLSWAP™ Pant</div>
+        <div class="product-card-price">$119</div>
+      </div>
+
+      <!-- CARD 7 -->
+      <div class="product-card">
+        <div class="product-card-media">
+          <div class="product-card-img-placeholder">[ Product Image ]</div>
+          <button class="quick-add-btn" onclick="openQuickAdd('GO TO™ Pants in Stretch Canvas','$125')" title="Choose options">
+            <span class="quick-add-icon">+</span>
+            <span class="quick-add-label">Choose Options</span>
+          </button>
+        </div>
+        <div class="product-card-swatches">
+          <div class="product-card-swatch selected" style="background:#3b5298;"></div>
+          <div class="product-card-swatch" style="background:#2a2a2a;"></div>
+        </div>
+        <div class="product-card-name">GO TO™ Pants in Stretch Canvas</div>
+        <div class="product-card-price">$125</div>
+      </div>
+
+      <!-- CARD 8 -->
+      <div class="product-card">
+        <div class="product-card-media">
+          <div class="product-card-img-placeholder">[ Product Image ]</div>
+          <div class="product-badge sale">Sale</div>
+          <button class="quick-add-btn" onclick="openQuickAdd('GO TO™ Stretch Canvas Short','$99')" title="Choose options">
+            <span class="quick-add-icon">+</span>
+            <span class="quick-add-label">Choose Options</span>
+          </button>
+        </div>
+        <div class="product-card-swatches">
+          <div class="product-card-swatch selected" style="background:#d4c9a8;"></div>
+          <div class="product-card-swatch" style="background:#8b6f5e;"></div>
+        </div>
+        <div class="product-card-name">GO TO™ Stretch Canvas Short</div>
+        <div class="product-card-price"><span class="price-was">$139</span><span class="price-sale">$99</span></div>
+      </div>
+
+    </div><!-- /collection-grid -->
+
+    <!-- LOAD MORE -->
+    <div class="load-more-row">
+      <div class="load-more-progress">Showing 8 of 28 products</div>
+      <div class="load-more-bar"><div class="load-more-bar-fill"></div></div>
+      <button class="btn-load-more">Load More</button>
+    </div>
+
+  </div><!-- /collection-grid-wrapper -->
+
+</div><!-- /collection-body -->
+
+<!-- COLLECTION SEO DESCRIPTION -->
+<section class="collection-seo">
+  <h2>Straight Leg Work Pants for Women</h2>
+  <p>Dovetail's straight leg pants deliver a clean, consistent silhouette from knee to ankle — with the Hip Slot, reinforced knees, and all-day stretch built in. The go-to fit for work boots and layering over knee pads.</p>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════
+     SCENARIO 2: EMPTY FILTER STATE
+     Best practice: never show a blank grid — show a clear message
+     with an easy path to reset filters.
+     Trigger: user has applied filters that match 0 products.
+════════════════════════════════════════════════════════════ -->
+<div class="scenario-divider">
+  <span class="scenario-label">Scenario 2 — Empty filter state</span>
+</div>
+
+<!-- Repeated filter/sort bar — same sticky bar, now showing over-filtered state -->
+<div class="filter-sort-bar">
+  <button class="filter-btn">⊞ Filter <span class="filter-active-count">4</span></button>
+  <div class="filter-sort-bar-left" style="display:none;">
+    <span class="filters-label">Filters</span>
+    <span class="products-count">0 products</span>
+  </div>
+  <button class="sort-btn">Sort: Best Sellers <span class="sort-btn-caret">▾</span></button>
+  <div class="grid-density-toggle">
+    <button class="density-btn active" title="2 columns">
+      <svg viewBox="0 0 14 14"><rect x="0" y="0" width="6" height="6"/><rect x="8" y="0" width="6" height="6"/><rect x="0" y="8" width="6" height="6"/><rect x="8" y="8" width="6" height="6"/></svg>
+    </button>
+    <button class="density-btn" title="3 columns">
+      <svg viewBox="0 0 14 14"><rect x="0" y="0" width="3.5" height="6"/><rect x="5.25" y="0" width="3.5" height="6"/><rect x="10.5" y="0" width="3.5" height="6"/><rect x="0" y="8" width="3.5" height="6"/><rect x="5.25" y="8" width="3.5" height="6"/><rect x="10.5" y="8" width="3.5" height="6"/></svg>
+    </button>
+  </div>
+</div>
+
+<!-- Active filter pills — showing the filters that caused 0 results -->
+<div class="active-filters">
+  <div class="filter-pill">Flame Resistant <span class="filter-pill-x">×</span></div>
+  <div class="filter-pill">High-rise <span class="filter-pill-x">×</span></div>
+  <div class="filter-pill">Ripstop <span class="filter-pill-x">×</span></div>
+  <div class="filter-pill">Size 26 <span class="filter-pill-x">×</span></div>
+  <button class="filter-pill-clear">Clear all</button>
+</div>
+
+<!-- Empty state — replaces the product grid -->
+<div class="empty-state-body">
+
+  <!-- Desktop sidebar still shows (same as normal state) -->
+  <aside class="sidebar-filters empty-sidebar" style="display:none;">
+    <div class="sidebar-section">
+      <div class="sidebar-section-label">Size</div>
+      <div class="sidebar-filter-group">
+        <div class="sidebar-filter-heading">Waist</div>
+        <div class="filter-size-grid">
+          <div class="filter-size-chip selected">26</div>
+          <div class="filter-size-chip">28</div>
+          <div class="filter-size-chip">30</div>
+          <div class="filter-size-chip">32</div>
+        </div>
+      </div>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-section-label">Fit</div>
+      <div class="sidebar-filter-group">
+        <div class="sidebar-filter-heading">Rise</div>
+        <div class="filter-check-list">
+          <label class="filter-check-item"><div class="filter-checkbox"></div>Mid-rise</label>
+          <label class="filter-check-item"><div class="filter-checkbox checked">✓</div>High-rise</label>
+        </div>
+      </div>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-section-label">Fabric &amp; Technology</div>
+      <div class="sidebar-filter-group">
+        <div class="sidebar-filter-heading">Fabric</div>
+        <div class="filter-check-list">
+          <label class="filter-check-item"><div class="filter-checkbox checked">✓</div>Ripstop</label>
+          <label class="filter-check-item"><div class="filter-checkbox"></div>Canvas</label>
+        </div>
+      </div>
+      <div class="sidebar-filter-group">
+        <div class="sidebar-filter-heading">Protection</div>
+        <div class="filter-check-list">
+          <label class="filter-check-item"><div class="filter-checkbox checked">✓</div>Flame Resistant</label>
+          <label class="filter-check-item"><div class="filter-checkbox"></div>Water Resistant</label>
+        </div>
+      </div>
+    </div>
+    <div class="sidebar-empty-reset">
+      <p class="sidebar-empty-msg">No products match these filters.</p>
+      <button class="sidebar-reset-btn">Clear all filters</button>
+    </div>
+  </aside>
+
+  <!-- Empty grid area -->
+  <div class="empty-grid-area">
+    <div class="empty-state">
+      <div class="empty-state-icon">◎</div>
+      <h2 class="empty-state-heading">No products match these filters</h2>
+      <p class="empty-state-body-text">Try removing one — we probably have something close.</p>
+      <!-- Suggested filter removals — primary action -->
+      <div class="empty-state-suggestions">
+        <p class="empty-state-suggestions-label">Remove a filter</p>
+        <div class="empty-state-suggestion-pills">
+          <button class="empty-suggestion-pill">Flame Resistant <span class="pill-x">×</span></button>
+          <button class="empty-suggestion-pill">High-rise <span class="pill-x">×</span></button>
+          <button class="empty-suggestion-pill">Ripstop <span class="pill-x">×</span></button>
+          <button class="empty-suggestion-pill">Size 26 <span class="pill-x">×</span></button>
+        </div>
+      </div>
+      <!-- Secondary action: clear everything -->
+      <div class="empty-state-actions">
+        <button class="empty-state-reset">Clear all filters</button>
+        <!--
+          SUB-COLLECTION REQUIREMENT:
+          On sub-collections (Straight Leg, Sale, New Arrivals, fabric-specific, etc.),
+          add a "Browse all [parent collection]" link here — e.g. "Browse all pants →"
+          pointing to /collections/womens-work-pants.
+          On root collections, omit it — "Clear all filters" already does the same thing.
+        -->
+        <a href="/collections/womens-work-pants" class="empty-state-browse">Browse all women's pants →</a>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /empty-state-body -->
+
+<!-- SECTION: FOOTER -->
+<footer>
+  <div class="footer-desktop-cols">
+    <div class="footer-col footer-col-brand">
+      <div class="footer-logo">DOVETAIL</div>
+      <p>Workwear built for women who actually work. Tough enough for the job site. Comfortable enough for everything else.</p>
+    </div>
+    <div class="footer-col">
+      <div class="footer-col-heading">Shop</div>
+      <a href="#">Pants</a><a href="#">Shorts</a><a href="#">Tops</a><a href="#">Overalls</a><a href="#">Sale</a><a href="#">New Arrivals</a>
+    </div>
+    <div class="footer-col">
+      <div class="footer-col-heading">Help</div>
+      <a href="#">Sizing Guide</a><a href="#">Shipping Information</a><a href="#">Returns &amp; Exchanges</a><a href="#">Contact Us</a><a href="#">FAQ</a>
+    </div>
+    <div class="footer-col">
+      <div class="footer-col-heading">Company</div>
+      <a href="#">Our Mission</a><a href="#">Press</a><a href="#">Careers</a><a href="#">B2B / Wholesale</a>
+    </div>
+  </div>
+
+  <div class="footer-nav-group">
+    <button class="footer-nav-trigger" onclick="toggleFooterNav(this)">Shop <span class="footer-toggle-icon">+</span></button>
+    <div class="footer-nav-body">
+      <a href="#">Pants</a><a href="#">Shorts</a><a href="#">Tops</a><a href="#">Overalls</a><a href="#">Sale</a>
+    </div>
+    <button class="footer-nav-trigger" onclick="toggleFooterNav(this)">Help <span class="footer-toggle-icon">+</span></button>
+    <div class="footer-nav-body">
+      <a href="#">Sizing Guide</a><a href="#">Shipping Information</a><a href="#">Returns &amp; Exchanges</a><a href="#">Contact Us</a>
+    </div>
+    <button class="footer-nav-trigger" onclick="toggleFooterNav(this)">Company <span class="footer-toggle-icon">+</span></button>
+    <div class="footer-nav-body">
+      <a href="#">Our Mission</a><a href="#">Press</a><a href="#">Careers</a>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <div class="footer-social">
+      <a href="#" class="footer-social-icon">IG</a>
+      <a href="#" class="footer-social-icon">TT</a>
+      <a href="#" class="footer-social-icon">FB</a>
+      <a href="#" class="footer-social-icon">PIN</a>
+    </div>
+    <div class="footer-get-dirty">Get Dirty™</div>
+    <div class="footer-legal">© 2026 Dovetail Workwear. All rights reserved. · <a href="#">Privacy Policy</a> · <a href="#">Terms of Service</a> · <a href="#">Accessibility</a></div>
+  </div>
+</footer>
+
+<!-- ══════════════════════════════════════
+     HORIZON QUICK ADD MODAL
+     Mobile: bottom-sheet slides up, rounded top corners.
+             Shows: thumb + title header, color swatches, waist × inseam size table,
+                    stock status, sticky ATC button.
+     Desktop: centered dialog — image gallery left, details right.
+              "View full details →" shown at bottom (desktop only per Horizon source).
+     Stock status messages: "Now in stock" / "Stock getting low" / "Only a few left"
+════════════════════════════════════════ -->
+<div class="quick-add-overlay" id="quickAddOverlay" onclick="closeQuickAdd(event)">
+  <div class="quick-add-modal" onclick="event.stopPropagation()">
+    <button class="quick-add-modal-close" onclick="closeQuickAdd()">×</button>
+
+    <!-- Desktop only: left image gallery (3/7 width) -->
+    <div class="qam-gallery">
+      <div class="qam-gallery-img">[ Product image 1 ]</div>
+      <div class="qam-gallery-img">[ Product image 2 ]</div>
+      <div class="qam-gallery-img">[ Product image 3 ]</div>
+    </div>
+
+    <!-- Scrollable details area -->
+    <div class="qam-details">
+
+      <!-- Mobile: thumbnail + title + price + stars side by side -->
+      <div class="qam-mobile-header">
+        <div class="qam-thumb">[ Image ]</div>
+        <div>
+          <div class="qam-title" id="qamTitle">Product Name</div>
+          <div class="qam-price" id="qamPrice">$119</div>
+          <div class="qam-stars">★★★★★ 4.8 (312)</div>
+        </div>
+      </div>
+
+      <!-- Desktop only: title / price / stars stacked -->
+      <div class="qam-desktop-title" id="qamTitleDesktop">Product Name</div>
+      <div class="qam-desktop-price" id="qamPriceDesktop">$119</div>
+      <div class="qam-desktop-stars">★★★★★ 4.8 (312)</div>
+
+      <!-- Color -->
+      <div class="qam-variant-section">
+        <div class="qam-variant-label">Color — <span style="font-weight:400;text-transform:none;letter-spacing:0;">Black</span></div>
+        <div class="qam-color-row">
+          <div class="qam-color-swatch selected" style="background:#2a2a2a;" title="Black"></div>
+          <div class="qam-color-swatch" style="background:#4a5568;" title="Slate"></div>
+          <div class="qam-color-swatch" style="background:#d4c9a8;" title="Khaki"></div>
+          <div class="qam-color-swatch" style="background:#5a6e5c;" title="Olive"></div>
+          <div class="qam-color-swatch" style="background:#8b6f5e;" title="Brown"></div>
+        </div>
+      </div>
+
+      <!-- Size: waist × inseam table -->
+      <div class="qam-variant-section">
+        <div class="qam-variant-label">Size — <span style="font-weight:400;text-transform:none;letter-spacing:0;">Select waist &amp; inseam</span></div>
+        <table class="qam-size-table">
+          <thead>
+            <tr>
+              <th>Waist</th>
+              <th>28"</th>
+              <th>30"</th>
+              <th>32"</th>
+              <th>34"</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="qam-size-row-label">28</span></td>
+              <td><div class="qam-size-chip">28×28</div></td>
+              <td><div class="qam-size-chip selected">28×30</div></td>
+              <td><div class="qam-size-chip">28×32</div></td>
+              <td><div class="qam-size-chip unavailable">28×34</div></td>
+            </tr>
+            <tr>
+              <td><span class="qam-size-row-label">30</span></td>
+              <td><div class="qam-size-chip">30×28</div></td>
+              <td><div class="qam-size-chip">30×30</div></td>
+              <td><div class="qam-size-chip">30×32</div></td>
+              <td><div class="qam-size-chip">30×34</div></td>
+            </tr>
+            <tr>
+              <td><span class="qam-size-row-label">32</span></td>
+              <td><div class="qam-size-chip unavailable">32×28</div></td>
+              <td><div class="qam-size-chip">32×30</div></td>
+              <td><div class="qam-size-chip">32×32</div></td>
+              <td><div class="qam-size-chip">32×34</div></td>
+            </tr>
+            <tr>
+              <td><span class="qam-size-row-label">34</span></td>
+              <td><div class="qam-size-chip unavailable">34×28</div></td>
+              <td><div class="qam-size-chip unavailable">34×30</div></td>
+              <td><div class="qam-size-chip">34×32</div></td>
+              <td><div class="qam-size-chip">34×34</div></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Stock status: one of three messages -->
+      <div class="qam-stock few">Only a few left</div>
+      <!-- Other states (shown conditionally in production):
+           <div class="qam-stock in-stock">Now in stock</div>
+           <div class="qam-stock low">Stock getting low</div> -->
+
+    </div><!-- /qam-details -->
+
+    <!-- Sticky ATC footer — outside scroll container so it stays pinned -->
+    <div class="qam-atc-sticky">
+      <button class="qam-atc-btn">Add to Cart</button>
+      <a href="#" class="qam-view-details">View full details →</a>
+    </div>
+
+  </div><!-- /quick-add-modal -->
+</div><!-- /quick-add-overlay -->
+
+<!-- MOBILE FILTER DRAWER -->
+<div class="filter-drawer-overlay" id="filterDrawerOverlay" onclick="closeFilterDrawer(event)">
+  <div class="filter-drawer" onclick="event.stopPropagation()">
+    <div class="filter-drawer-header">
+      <div class="filter-drawer-title">Filter</div>
+      <button class="filter-drawer-close" onclick="closeFilterDrawer()">×</button>
+    </div>
+
+    <!-- ── SIZE ── -->
+    <div class="filter-drawer-section-label">Size</div>
+    <div class="filter-group">
+      <button class="filter-group-trigger" onclick="toggleFilterGroup(this)">Waist <span class="filter-group-caret">▾</span></button>
+      <div class="filter-group-body">
+        <div class="filter-size-grid">
+          <div class="filter-size-chip">26</div><div class="filter-size-chip">28</div>
+          <div class="filter-size-chip selected">30</div><div class="filter-size-chip">32</div>
+          <div class="filter-size-chip">34</div><div class="filter-size-chip">36</div>
+          <div class="filter-size-chip">38</div>
+        </div>
+      </div>
+    </div>
+    <div class="filter-group">
+      <button class="filter-group-trigger" onclick="toggleFilterGroup(this)">Inseam <span class="filter-group-caret">▾</span></button>
+      <div class="filter-group-body">
+        <div class="filter-size-grid">
+          <div class="filter-size-chip">28"</div><div class="filter-size-chip selected">30"</div>
+          <div class="filter-size-chip">32"</div><div class="filter-size-chip">34"</div>
+        </div>
+      </div>
+    </div>
+    <div class="filter-group">
+      <button class="filter-group-trigger" onclick="toggleFilterGroup(this)">Color <span class="filter-group-caret">▾</span></button>
+      <div class="filter-group-body">
+        <div class="filter-color-grid">
+          <div class="filter-color-swatch selected" style="background:#2a2a2a;"></div>
+          <div class="filter-color-swatch" style="background:#4a5568;"></div>
+          <div class="filter-color-swatch selected" style="background:#3b5298;"></div>
+          <div class="filter-color-swatch" style="background:#d4c9a8;"></div>
+          <div class="filter-color-swatch" style="background:#5a6e5c;"></div>
+          <div class="filter-color-swatch" style="background:#8b6f5e;"></div>
+          <div class="filter-color-swatch" style="background:#c0c0c0;"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── FIT ── -->
+    <div class="filter-drawer-section-label">Fit</div>
+    <div class="filter-group">
+      <button class="filter-group-trigger" onclick="toggleFilterGroup(this.closest('.filter-group').querySelector('.filter-group-body'))">
+        <span class="filter-group-trigger-label">
+          Body Type
+          <span class="fit-info-btn" role="button" aria-label="What is Body Type?" onclick="event.stopPropagation(); openFitInfo('Body Type','Describes how the pant is shaped through the seat and thighs. Each option reflects how volume is distributed below the waist — choose the description that matches how you typically fit pants off the rack.')">?</span>
+        </span>
+        <span class="filter-group-caret">▾</span>
+      </button>
+      <div class="filter-group-body">
+        <div class="filter-check-list">
+          <label class="filter-check-item"><div class="filter-checkbox checked">✓</div>Fitted waist, room through hip</label>
+          <label class="filter-check-item"><div class="filter-checkbox"></div>Even fit waist to hip</label>
+          <label class="filter-check-item"><div class="filter-checkbox"></div>Room through waist and hip</label>
+          <label class="filter-check-item"><div class="filter-checkbox"></div>Fitted through hip and thigh</label>
+          <label class="filter-check-item"><div class="filter-checkbox"></div>Longer rise, fuller seat</label>
+          <label class="filter-check-item"><div class="filter-checkbox"></div>Shorter rise, lower-hip carry</label>
+        </div>
+      </div>
+    </div>
+    <div class="filter-group">
+      <button class="filter-group-trigger" onclick="toggleFilterGroup(this.closest('.filter-group').querySelector('.filter-group-body'))">
+        <span class="filter-group-trigger-label">
+          Rise
+          <span class="fit-info-btn" role="button" aria-label="What is Rise?" onclick="event.stopPropagation(); openFitInfo('Rise','Rise is the distance from the crotch seam to the top of the waistband. Mid-rise sits at or just below your natural waist — good for most body types and work positions. High-rise sits at or above your natural waist — great for bending, kneeling, and keeping coverage when you crouch.')">?</span>
+        </span>
+        <span class="filter-group-caret">▾</span>
+      </button>
+      <div class="filter-group-body">
+        <div class="filter-check-list">
+          <label class="filter-check-item"><div class="filter-checkbox"></div>Mid-rise</label>
+          <label class="filter-check-item"><div class="filter-checkbox"></div>High-rise</label>
+        </div>
+      </div>
+    </div>
+    <div class="filter-group">
+      <button class="filter-group-trigger" onclick="toggleFilterGroup(this.closest('.filter-group').querySelector('.filter-group-body'))">
+        <span class="filter-group-trigger-label">
+          Leg
+          <span class="fit-info-btn" role="button" aria-label="What is Leg?" onclick="event.stopPropagation(); openFitInfo('Leg Opening','Describes the shape of the pant from the knee down. Straight = consistent width all the way to the ankle. Slim = tapered, closer to the leg. Relaxed = extra room through the thigh and calf. Bootcut = slight flare below the knee — fits over work boots.')">?</span>
+        </span>
+        <span class="filter-group-caret">▾</span>
+      </button>
+      <div class="filter-group-body">
+        <div class="filter-check-list">
+          <label class="filter-check-item"><div class="filter-checkbox"></div>Straight</label>
+          <label class="filter-check-item"><div class="filter-checkbox"></div>Slim</label>
+          <label class="filter-check-item"><div class="filter-checkbox"></div>Relaxed</label>
+          <label class="filter-check-item"><div class="filter-checkbox"></div>Bootcut</label>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── FABRIC & TECHNOLOGY ── -->
+    <div class="filter-drawer-section-label">Fabric &amp; Technology</div>
+    <div class="filter-group">
+      <button class="filter-group-trigger" onclick="toggleFilterGroup(this)">Fabric <span class="filter-group-caret">▾</span></button>
+      <div class="filter-group-body">
+        <div class="filter-check-list">
+          <label class="filter-check-item"><div class="filter-checkbox"></div>Canvas</label>
+          <label class="filter-check-item"><div class="filter-checkbox"></div>Stretch Canvas</label>
+          <label class="filter-check-item"><div class="filter-checkbox"></div>Denim</label>
+          <label class="filter-check-item"><div class="filter-checkbox"></div>Ripstop</label>
+          <label class="filter-check-item"><div class="filter-checkbox"></div>Twill</label>
+        </div>
+      </div>
+    </div>
+    <div class="filter-group">
+      <button class="filter-group-trigger" onclick="toggleFilterGroup(this)">Features <span class="filter-group-caret">▾</span></button>
+      <div class="filter-group-body">
+        <div class="filter-check-list">
+          <label class="filter-check-item"><div class="filter-checkbox checked">✓</div>Hip Slot</label>
+          <label class="filter-check-item"><div class="filter-checkbox"></div>COOLSWAP™ Lining</label>
+          <label class="filter-check-item"><div class="filter-checkbox"></div>Double Front</label>
+          <label class="filter-check-item"><div class="filter-checkbox"></div>Knee Pad Pockets</label>
+          <label class="filter-check-item"><div class="filter-checkbox"></div>Tool Loop</label>
+          <label class="filter-check-item"><div class="filter-checkbox"></div>Crotch Gusset</label>
+          <label class="filter-check-item"><div class="filter-checkbox"></div>Tough Cuff</label>
+        </div>
+      </div>
+    </div>
+    <div class="filter-group">
+      <button class="filter-group-trigger" onclick="toggleFilterGroup(this)">Protection <span class="filter-group-caret">▾</span></button>
+      <div class="filter-group-body">
+        <div class="filter-check-list">
+          <label class="filter-check-item"><div class="filter-checkbox"></div>Water Resistant</label>
+          <label class="filter-check-item"><div class="filter-checkbox"></div>Stain Resistant</label>
+          <label class="filter-check-item"><div class="filter-checkbox"></div>Wind Resistant</label>
+          <label class="filter-check-item"><div class="filter-checkbox"></div>Flame Resistant</label>
+          <label class="filter-check-item"><div class="filter-checkbox"></div>UPF Sun Protection</label>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── SHOP BY WORK ── -->
+    <div class="filter-drawer-section-label">Shop by Work</div>
+    <div class="filter-group">
+      <button class="filter-group-trigger" onclick="toggleFilterGroup(this)">Work Type <span class="filter-group-caret">▾</span></button>
+      <div class="filter-group-body">
+        <div class="filter-check-list">
+          <label class="filter-check-item"><div class="filter-checkbox"></div>Construction</label>
+          <label class="filter-check-item"><div class="filter-checkbox"></div>Landscaping / Horticulture</label>
+          <label class="filter-check-item"><div class="filter-checkbox"></div>Electrician / Trades</label>
+          <label class="filter-check-item"><div class="filter-checkbox"></div>Carpentry</label>
+          <label class="filter-check-item"><div class="filter-checkbox"></div>Painting</label>
+          <label class="filter-check-item"><div class="filter-checkbox"></div>DIY / Home Improvement</label>
+          <label class="filter-check-item"><div class="filter-checkbox"></div>Farming / Agriculture</label>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── PRICE ── -->
+    <div class="filter-drawer-section-label">Price</div>
+    <div class="filter-group">
+      <button class="filter-group-trigger" onclick="toggleFilterGroup(this)">Price Range <span class="filter-group-caret">▾</span></button>
+      <div class="filter-group-body">
+        <div class="filter-price-range">
+          <input class="filter-price-input" type="text" placeholder="$0">
+          <span class="filter-price-sep">–</span>
+          <input class="filter-price-input" type="text" placeholder="$200">
+        </div>
+      </div>
+    </div>
+
+    <div class="filter-drawer-footer">
+      <button class="filter-clear-btn">Clear All</button>
+      <button class="filter-apply-btn" onclick="closeFilterDrawer()">Show 16 Results</button>
+    </div>
+  </div>
+</div>
+
+<!-- FIT INFO BOTTOM-SHEET (mobile/touch) -->
+<div class="fit-info-sheet-overlay" id="fitInfoSheet" onclick="closeFitInfo(event)">
+  <div class="fit-info-sheet">
+    <button class="fit-info-sheet-close" onclick="closeFitInfo()" aria-label="Close">×</button>
+    <div class="fit-info-sheet-heading" id="fitInfoTitle"></div>
+    <div class="fit-info-sheet-body" id="fitInfoBody"></div>
+  </div>
+</div>
+
+<script>
+  /* ── Footer accordion ── */
+  function toggleFooterNav(btn) {
+    const body = btn.nextElementSibling;
+    const isOpen = body.classList.contains('open');
+    body.classList.toggle('open', !isOpen);
+    btn.querySelector('.footer-toggle-icon').textContent = isOpen ? '+' : '−';
+  }
+
+  /* ── Filter drawer ── */
+  function openFilterDrawer() {
+    document.getElementById('filterDrawerOverlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeFilterDrawer(e) {
+    if (e && e.target !== document.getElementById('filterDrawerOverlay')) return;
+    document.getElementById('filterDrawerOverlay').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  function toggleFilterGroup(el) {
+    /* Called with the body element directly (drawer) or the trigger button (sidebar) */
+    const body = el.classList.contains('filter-group-body') ? el : el.nextElementSibling;
+    body.style.display = body.style.display === 'none' ? 'block' : 'none';
+  }
+
+  /* ── Fit info bottom-sheet (touch) / tooltip (hover handled by CSS) ── */
+  function openFitInfo(title, body) {
+    document.getElementById('fitInfoTitle').textContent = title;
+    document.getElementById('fitInfoBody').textContent = body;
+    document.getElementById('fitInfoSheet').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeFitInfo(e) {
+    if (e && e.target !== document.getElementById('fitInfoSheet')) return;
+    document.getElementById('fitInfoSheet').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  /* ── Grid density toggle ──
+     Mobile: 2-col / 3-col
+     Desktop: 2-col / 3-col / 4-col (Horizon feature) */
+  function setDensity(n, btn) {
+    const grid = document.getElementById('productGrid');
+    grid.className = 'collection-grid';
+    if (n === 3) grid.classList.add('density-3');
+    if (n === 2 && window.innerWidth >= 1024) grid.classList.add('density-2');
+    if (n === 4) grid.classList.add('density-4');
+    document.querySelectorAll('.density-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+  }
+
+  /* ── Quick Add modal ──
+     Opens on mobile as bottom-sheet.
+     Opens on desktop as centered dialog.
+     Populates product title + price from card data. */
+  function openQuickAdd(title, price) {
+    document.getElementById('qamTitle').textContent = title;
+    document.getElementById('qamPrice').textContent = price;
+    document.getElementById('qamTitleDesktop').textContent = title;
+    document.getElementById('qamPriceDesktop').textContent = price;
+    document.getElementById('quickAddOverlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeQuickAdd(e) {
+    if (e && e.target !== document.getElementById('quickAddOverlay')) return;
+    document.getElementById('quickAddOverlay').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  /* Quick Add → Add to Cart (single variant, no modal needed) */
+  function quickAddToCart(btn) {
+    btn.querySelector('.quick-add-icon').textContent = '✓';
+    btn.style.background = 'rgba(74,122,94,0.92)';
+    btn.style.color = '#fff';
+    btn.style.borderColor = 'rgba(74,122,94,0.3)';
+    const badge = document.querySelector('.cart-badge');
+    badge.textContent = parseInt(badge.textContent || '0') + 1;
+    setTimeout(() => {
+      btn.querySelector('.quick-add-icon').textContent = '+';
+      btn.style.background = '';
+      btn.style.color = '';
+      btn.style.borderColor = '';
+    }, 1800);
+  }
+
+  /* ── Desktop layout adjustments ── */
+  function applyDesktopLayout() {
+    const isDesktop = window.innerWidth >= 1024;
+    const sidebar = document.querySelector('.sidebar-filters');
+    const filterSortLeft = document.querySelector('.filter-sort-bar-left');
+    sidebar.style.display = isDesktop ? 'block' : 'none';
+    if (filterSortLeft) filterSortLeft.style.display = isDesktop ? 'flex' : 'none';
+
+    /* Set correct default density and active button per breakpoint */
+    const grid = document.getElementById('productGrid');
+    const densityGroup = document.querySelector('.grid-density-toggle');
+    document.querySelectorAll('.density-btn').forEach(b => b.classList.remove('active'));
+
+    if (isDesktop) {
+      /* Default desktop: 3-col */
+      grid.className = 'collection-grid';
+      densityGroup.querySelectorAll('.density-btn')[1].classList.add('active'); /* 3-col btn */
+
+      /* Add 4-col button if not present */
+      if (!document.getElementById('density4btn')) {
+        const btn4 = document.createElement('button');
+        btn4.id = 'density4btn';
+        btn4.className = 'density-btn';
+        btn4.title = '4 columns';
+        btn4.onclick = function(){ setDensity(4, this); };
+        btn4.innerHTML = '<svg viewBox="0 0 14 14"><rect x="0" y="0" width="2.5" height="6"/><rect x="3.83" y="0" width="2.5" height="6"/><rect x="7.67" y="0" width="2.5" height="6"/><rect x="11.5" y="0" width="2.5" height="6"/><rect x="0" y="8" width="2.5" height="6"/><rect x="3.83" y="8" width="2.5" height="6"/><rect x="7.67" y="8" width="2.5" height="6"/><rect x="11.5" y="8" width="2.5" height="6"/></svg>';
+        densityGroup.appendChild(btn4);
+      }
+    } else {
+      /* Default mobile: 2-col */
+      grid.className = 'collection-grid';
+      densityGroup.querySelectorAll('.density-btn')[0].classList.add('active'); /* 2-col btn */
+
+      const btn4 = document.getElementById('density4btn');
+      if (btn4) btn4.remove();
+    }
+  }
+  applyDesktopLayout();
+  window.addEventListener('resize', applyDesktopLayout);
+
+  /* Swatch interaction in Quick Add modal */
+  document.querySelectorAll('.qam-color-swatch').forEach(sw => {
+    sw.addEventListener('click', function() {
+      document.querySelectorAll('.qam-color-swatch').forEach(s => s.classList.remove('selected'));
+      this.classList.add('selected');
+    });
+  });
+  document.querySelectorAll('.qam-size-chip:not(.unavailable)').forEach(chip => {
+    chip.addEventListener('click', function() {
+      document.querySelectorAll('.qam-size-chip').forEach(c => c.classList.remove('selected'));
+      this.classList.add('selected');
+    });
+  });
+</script>
+
+</body>
+</html>
