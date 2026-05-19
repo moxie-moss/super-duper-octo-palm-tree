@@ -28,18 +28,6 @@
       margin-bottom: 4px;
     }
 
-    /* ── ANNOUNCEMENT BAR ── */
-    .announcement-bar {
-      background: #333;
-      color: #fff;
-      text-align: center;
-      font-size: 12px;
-      font-weight: 600;
-      letter-spacing: 0.04em;
-      padding: 9px 16px;
-    }
-    .announcement-bar a { color: #fff; text-decoration: underline; }
-
     /* ── HEADER ── */
     header {
       display: flex;
@@ -564,26 +552,6 @@
       color: #fff;
       font-weight: 600;
     }
-    .sc-inseam-btn {
-      padding: 6px 12px;
-      background: #fff;
-      border: 1px solid #ccc;
-      border-radius: 3px;
-      font-size: 13px;
-      font-family: inherit;
-      cursor: pointer;
-      color: #333;
-    }
-    .sc-inseam-btn.active {
-      background: #333;
-      color: #fff;
-      border-color: #333;
-    }
-    .sc-inseam-btn.unavailable {
-      opacity: 0.35;
-      cursor: default;
-    }
-
     .size-chart-note {
       font-size: 12px;
       color: #666;
@@ -647,7 +615,29 @@
       cursor: default;
     }
 
-    /* ── BEST FOR SECTION (below shopbox) ── */
+    /* ── REVIEWS SUMMARY PANELS — stacked mobile, side-by-side desktop ── */
+    .reviews-summary-panels {
+      display: flex;
+      flex-direction: column;
+    }
+    .reviews-summary-panel {
+      border-top: 1px solid #e0e0e0;
+    }
+    .reviews-summary-panel:first-child {
+      border-top: none;
+    }
+
+    /* ── REVIEW HIGHLIGHTS — full-width band ── */
+    .section-review-highlights {
+      padding: 20px 16px;
+    }
+    .review-highlights-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    /* ── BEST FOR SECTION — activity-based ── */
     .best-for-section {
       padding: 18px 16px;
       border-bottom: 1px solid #e8e8e8;
@@ -689,6 +679,12 @@
       .best-for-section { padding: 20px 40px; }
       .best-for-tags { gap: 10px; }
       .best-for-tag { min-width: 90px; padding: 12px 18px; }
+      .section-review-highlights { padding: 28px 40px; }
+      .review-highlights-grid { flex-direction: row; gap: 32px; }
+      .review-highlights-grid > div { flex: 1; }
+      .reviews-summary-panels { flex-direction: row; }
+      .reviews-summary-panel { flex: 1; border-top: none; border-left: 1px solid #e0e0e0; }
+      .reviews-summary-panel:first-child { border-left: none; }
     }
 
     /* ── FEATURE GRID — mobile: horizontal scroll ── */
@@ -841,23 +837,6 @@
       /* Below-fold sections full width */
       .section { padding: 24px 40px; }
 
-      /* ── DESCRIPTION + HIGHLIGHTS — two-col ── */
-      .section-desc-highlights {
-        display: grid;
-        grid-template-columns: 1fr auto 1fr;
-        gap: 0;
-        align-items: start;
-        padding: 40px 40px;
-        border-bottom: 1px solid #e8e8e8;
-      }
-      .desc-col { padding-right: 40px; }
-      .highlights-col { padding-left: 40px; }
-      .desc-divider {
-        width: 1px;
-        background: #e8e8e8;
-        align-self: stretch;
-      }
-
       /* ── SIZE & FIT + UGC — two-col ── */
       .section-fit-ugc {
         display: grid;
@@ -915,128 +894,9 @@
 
       .page-bottom-pad { height: 80px; }
     }
-
-    /* ── FOOTER ── */
-    footer {
-      background: #f5f5f5;
-      border-top: 1px solid #e0e0e0;
-      padding: 28px 16px 40px;
-    }
-    .footer-logo {
-      font-size: 14px;
-      font-weight: 700;
-      letter-spacing: 0.06em;
-      margin-bottom: 20px;
-    }
-    .footer-nav-group { margin-bottom: 0; }
-    .footer-nav-trigger {
-      width: 100%;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 13px 0;
-      border-top: 1px solid #e0e0e0;
-      background: none;
-      border-left: none; border-right: none; border-bottom: none;
-      font-size: 13px;
-      font-weight: 700;
-      font-family: inherit;
-      cursor: pointer;
-      color: #333;
-      text-align: left;
-    }
-    .footer-toggle-icon { font-size: 16px; color: #999; transition: transform 0.2s; }
-    .footer-nav-body { display: none; padding-bottom: 12px; }
-    .footer-nav-body.open { display: block; }
-    .footer-nav-body a {
-      display: block;
-      font-size: 13px;
-      color: #555;
-      text-decoration: none;
-      padding: 5px 0;
-    }
-    .footer-social {
-      display: flex;
-      gap: 14px;
-      padding: 20px 0 16px;
-      border-top: 1px solid #e0e0e0;
-      margin-top: 4px;
-    }
-    .footer-social-icon {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 36px; height: 36px;
-      border: 1.5px solid #ccc;
-      border-radius: 4px;
-      font-size: 11px;
-      font-weight: 700;
-      color: #888;
-      text-decoration: none;
-      letter-spacing: 0.03em;
-    }
-    .footer-legal { font-size: 11px; color: #aaa; line-height: 1.6; }
-    .footer-legal a { color: #aaa; text-decoration: underline; }
-    .footer-get-dirty {
-      font-size: 13px;
-      font-weight: 700;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: #888;
-      margin-bottom: 10px;
-    }
-    .footer-desktop-cols { display: none; }
-    .footer-bottom { display: contents; }
-
-    @media (min-width: 900px) {
-      footer { padding: 40px 40px 28px; }
-      .footer-nav-group { display: none; }
-      .footer-social { border-top: none; padding: 0; margin: 0; }
-      .footer-desktop-cols {
-        display: grid;
-        grid-template-columns: 2fr 1fr 1fr 1fr;
-        gap: 40px;
-        padding-bottom: 32px;
-        border-bottom: 1px solid #e0e0e0;
-        margin-bottom: 24px;
-      }
-      .footer-col-brand .footer-logo { font-size: 16px; margin-bottom: 12px; }
-      .footer-col-brand p {
-        font-size: 13px;
-        color: #777;
-        line-height: 1.6;
-        max-width: 260px;
-      }
-      .footer-col-heading {
-        font-size: 11px;
-        font-weight: 700;
-        text-transform: uppercase;
-        letter-spacing: 0.08em;
-        color: #999;
-        margin-bottom: 14px;
-      }
-      .footer-col a {
-        display: block;
-        font-size: 13px;
-        color: #555;
-        text-decoration: none;
-        padding: 4px 0;
-      }
-      .footer-col a:hover { text-decoration: underline; }
-      .footer-bottom {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-      }
-    }
   </style>
 </head>
 <body>
-
-<!-- SECTION: ANNOUNCEMENT BAR -->
-<div class="announcement-bar">
-  Free shipping on orders over $75 — <a href="#">Shop Now</a>
-</div>
 
 <!-- SECTION: HEADER -->
 <header>
@@ -1087,10 +947,10 @@
   <div class="gallery-badge">Best Seller</div>
 
   <!-- Image 1 — real photo (mobile: only this shows; desktop: first of 2-up grid) -->
-  <img src="images/product-image-placeholder-1.jpg" alt="Britt Utility Pant — model kneeling wearing size 6" style="width:100%; height:100%; object-fit:cover; display:block;">
+  <img src="../attachments/product-image-placeholder-1.jpg" alt="Britt Utility Pant — model kneeling wearing size 6" style="width:100%; height:100%; object-fit:cover; display:block;">
 
   <!-- Images 2–8 — desktop 2-up grid placeholders; hidden on mobile via CSS -->
-  <img src="images/product-image-placeholder-1.jpg" alt="Britt Utility Pant — image 2" class="gallery-extra" style="display:none; width:100%; aspect-ratio:4/5; object-fit:cover;">
+  <img src="../attachments/product-image-placeholder-1.jpg" alt="Britt Utility Pant — image 2" class="gallery-extra" style="display:none; width:100%; aspect-ratio:4/5; object-fit:cover;">
   <div class="gallery-extra gallery-full-width" style="display:none; width:100%; background:#e0e0e0; align-items:center; justify-content:center; color:#bbb; font-size:12px;">[ Image 3 — full width ]</div>
   <div class="gallery-extra" style="display:none; width:100%; aspect-ratio:4/5; background:#e4e4e4; align-items:center; justify-content:center; color:#bbb; font-size:12px;">[ Image 4 ]</div>
   <div class="gallery-extra" style="display:none; width:100%; aspect-ratio:4/5; background:#e8e8e8; align-items:center; justify-content:center; color:#bbb; font-size:12px;">[ Image 5 ]</div>
@@ -1138,35 +998,37 @@
     <div class="color-chip" style="background:#c0c0c0;" title="Stone"></div>
   </div>
 
-  <!-- Inseam + Size side by side — inseam must be selected first -->
-  <div style="display:flex; gap:0; width:100%; margin-bottom:6px;">
-    <div style="flex:1; margin-right:12px;">
-      <div style="margin-bottom:6px;">
-        <span class="selector-label" style="margin:0;">Inseam</span>
+  <!-- Size + Length side by side -->
+  <div style="display:flex; justify-content:space-between; align-items:baseline; margin-bottom:6px;">
+    <div style="display:flex; gap:0; width:100%;">
+      <div style="flex:1; margin-right:12px;">
+        <div style="display:flex; justify-content:space-between; align-items:baseline; margin-bottom:6px;">
+          <span class="selector-label" style="margin:0;">Size</span>
+          <span class="size-chart-link" onclick="document.getElementById('size-chart-modal').classList.add('open')" role="button" tabindex="0">Size Chart</span>
+        </div>
+        <select class="size-select" style="width:100%;">
+          <option value="">Select Size</option>
+          <option>2</option>
+          <option>4</option>
+          <option>6</option>
+          <option disabled>8 — Out of stock</option>
+          <option>10</option>
+          <option>12</option>
+          <option>14</option>
+        </select>
       </div>
-      <select class="size-select" id="inseam-select" style="width:100%;" onchange="onInseamChange(this)">
-        <option value="">Select Inseam</option>
-        <option>28"</option>
-        <option>30"</option>
-        <option>32"</option>
-        <option>34"</option>
-      </select>
-    </div>
-    <div style="flex:1;">
-      <div style="display:flex; justify-content:space-between; align-items:baseline; margin-bottom:6px;">
-        <span class="selector-label" style="margin:0;">Size</span>
-        <span class="size-chart-link" onclick="document.getElementById('size-chart-modal').classList.add('open')" role="button" tabindex="0">Size Chart</span>
+      <div style="flex:1;">
+        <div style="margin-bottom:6px;">
+          <span class="selector-label" style="margin:0;">Length</span>
+        </div>
+        <select class="size-select" style="width:100%;">
+          <option value="" selected>Select Length</option>
+          <option>28"</option>
+          <option>30"</option>
+          <option>32"</option>
+          <option>34"</option>
+        </select>
       </div>
-      <select class="size-select" id="size-select" style="width:100%;" disabled>
-        <option value="">Select Inseam first</option>
-        <option>2</option>
-        <option>4</option>
-        <option>6</option>
-        <option disabled>8 — Out of stock</option>
-        <option>10</option>
-        <option>12</option>
-        <option>14</option>
-      </select>
     </div>
   </div>
   <div class="size-note">Our people say it <strong>fits true to size</strong>.</div>
@@ -1195,28 +1057,23 @@
     Or 4 interest-free payments of $29.75 with <strong>Shop Pay</strong>
   </p>
 
+  <p class="product-description">
+    Built for the job site and beyond. The Britt X Ultralight combines our most breathable fabric with a straight-leg fit designed for women who work hard. Reinforced knees, tool loops, and a hip slot — everything you need, nothing you don't.
+  </p>
+
 </div><!-- end shopbox -->
 
 </div><!-- end .pdp-columns -->
 
-<!-- SECTION: DESCRIPTION + REVIEW HIGHLIGHTS — two-col on desktop -->
-<div class="section section-desc-highlights">
+<!-- SECTION: REVIEW HIGHLIGHTS -->
+<!-- VISUAL DESIGN NOTE: Pull quotes use Playfair Display (Google Fonts) for typographic quotation marks.
+     Hanging punctuation: `hanging-punctuation: first` (Safari-native) + `text-indent: -0.45em` fallback.
+     Body copy remains the chosen sans-serif. No JS library required — 4-line CSS solution. -->
+<div class="section section-review-highlights">
+  <div class="section-label">Review highlights — kitchen sink; A/B test by removing</div>
 
-  <!-- Left: description -->
-  <div class="desc-col">
-    <p class="product-description" style="border-bottom:none; padding-bottom:0;">
-      Built for the job site and beyond. The Britt X Ultralight combines our most breathable fabric with a straight-leg fit designed for women who work hard. Reinforced knees, tool loops, and a hip slot — everything you need, nothing you don't.
-    </p>
-  </div>
-
-  <!-- Divider: vertical on desktop, horizontal on mobile -->
-  <div class="desc-divider" style="border-top: 1px solid #e8e8e8; margin: 16px 0;"></div>
-
-  <!-- Right: review highlights -->
-  <div class="highlights-col">
-    <div class="section-label">Review highlights — kitchen sink; A/B test by removing</div>
-
-    <div style="display:flex; gap:10px; margin-bottom:14px; align-items:flex-start;">
+  <div class="review-highlights-grid">
+    <div style="display:flex; gap:10px; align-items:flex-start;">
       <div style="flex:1;">
         <div style="font-size:15px; font-weight:700; line-height:1.35; color:#222; margin-bottom:5px;">"These are the best work pants I've ever owned."</div>
         <div style="font-size:11px; color:#888;">★★★★★ &nbsp;Sarah K. · Verified buyer</div>
@@ -1224,7 +1081,7 @@
       <div style="flex:0 0 64px; width:64px; height:85px; background:#e0e0e0; border-radius:3px; display:flex; align-items:center; justify-content:center; font-size:9px; color:#aaa; text-align:center; line-height:1.3;">[ UGC<br>Photo ]</div>
     </div>
 
-    <div style="display:flex; gap:10px; margin-bottom:14px; align-items:flex-start;">
+    <div style="display:flex; gap:10px; align-items:flex-start;">
       <div style="flex:1;">
         <div style="font-size:15px; font-weight:700; line-height:1.35; color:#222; margin-bottom:5px;">"So lightweight for a work pant — the fabric is unreal."</div>
         <div style="font-size:11px; color:#888;">★★★★★ &nbsp;Jess M. · Verified buyer</div>
@@ -1232,14 +1089,46 @@
       <div style="flex:0 0 64px; width:64px; height:85px; background:#e0e0e0; border-radius:3px; display:flex; align-items:center; justify-content:center; font-size:9px; color:#aaa; text-align:center; line-height:1.3;">[ UGC<br>Photo ]</div>
     </div>
 
-    <div style="margin-bottom:14px;">
-      <div style="font-size:15px; font-weight:700; line-height:1.35; color:#222; margin-bottom:5px;">"Fit is perfect and they hold up after 6 months of daily wear."</div>
-      <div style="font-size:11px; color:#888;">★★★★★ &nbsp;Mara T. · Verified buyer</div>
+    <div style="display:flex; gap:10px; align-items:flex-start;">
+      <div style="flex:1;">
+        <div style="font-size:15px; font-weight:700; line-height:1.35; color:#222; margin-bottom:5px;">"Fit is perfect and they hold up after 6 months of daily wear."</div>
+        <div style="font-size:11px; color:#888;">★★★★★ &nbsp;Mara T. · Verified buyer</div>
+      </div>
     </div>
-
-    <button onclick="document.getElementById('reviews-section').scrollIntoView({behavior:'smooth'})" style="background:none; border:none; font-size:13px; font-weight:600; color:#333; text-decoration:underline; padding:0; cursor:pointer; font-family:inherit;">Read all 312 reviews ↓</button>
   </div>
 
+  <button onclick="document.getElementById('reviews-section').scrollIntoView({behavior:'smooth'})" style="background:none; border:none; font-size:13px; font-weight:600; color:#333; text-decoration:underline; padding:12px 0 0; cursor:pointer; font-family:inherit; display:block;">Read all 312 reviews ↓</button>
+</div>
+
+<!-- SECTION: BEST FOR — activity-based -->
+<div class="best-for-section">
+  <div class="best-for-title">Best for</div>
+  <div class="best-for-tags">
+    <div class="best-for-tag">
+      <span class="bf-icon">🔨</span>
+      <span class="bf-label">Construction</span>
+    </div>
+    <div class="best-for-tag">
+      <span class="bf-icon">🌿</span>
+      <span class="bf-label">Landscaping</span>
+    </div>
+    <div class="best-for-tag">
+      <span class="bf-icon">🪴</span>
+      <span class="bf-label">Gardening</span>
+    </div>
+    <div class="best-for-tag">
+      <span class="bf-icon">🔧</span>
+      <span class="bf-label">DIY</span>
+    </div>
+    <div class="best-for-tag">
+      <span class="bf-icon">🎨</span>
+      <span class="bf-label">Painting</span>
+    </div>
+    <div class="best-for-tag">
+      <span class="bf-icon">🏠</span>
+      <span class="bf-label">Property Mgmt</span>
+    </div>
+  </div>
 </div>
 
 <!-- SECTION: SIZE & FIT + UGC — two-col on desktop -->
@@ -1449,8 +1338,9 @@
 
   <!-- Summary panel -->
   <div style="border:1px solid #e0e0e0; margin-bottom:14px;">
+    <div class="reviews-summary-panels">
     <!-- Score + star breakdown -->
-    <div style="padding:14px; border-bottom:1px solid #e0e0e0;">
+    <div class="reviews-summary-panel" style="padding:14px;">
       <div style="display:flex; align-items:center; gap:10px; margin-bottom:6px;">
         <div style="background:#333; color:#fff; font-size:22px; font-weight:700; padding:4px 10px; line-height:1;">4.8</div>
         <div>
@@ -1498,7 +1388,7 @@
       </div>
     </div>
     <!-- Recommend % + attribute sliders -->
-    <div style="padding:14px;">
+    <div class="reviews-summary-panel" style="padding:14px;">
       <div style="display:flex; align-items:center; gap:8px; margin-bottom:12px;">
         <div style="background:#333; color:#fff; font-size:13px; font-weight:700; padding:3px 8px;">94%</div>
         <div style="font-size:12px; color:#555;">of reviewers would recommend this product</div>
@@ -1534,6 +1424,7 @@
         </div>
       </div>
     </div>
+    </div><!-- end reviews-summary-panels -->
   </div>
 
   <!-- Filter bar + sort -->
@@ -1720,13 +1611,13 @@
 
   <!-- Image -->
   <div style="width:100%; max-width:390px; overflow:hidden; display:flex; align-items:center; justify-content:center;">
-  <img src="images/product-image-placeholder-1.jpg" alt="Britt Utility Pant — enlarged view" style="width:100%; max-height:80vh; object-fit:contain; display:block;">
+  <img src="../attachments/product-image-placeholder-1.jpg" alt="Britt Utility Pant — enlarged view" style="width:100%; max-height:80vh; object-fit:contain; display:block;">
   </div>
 
   <!-- Thumbnail strip — other images -->
   <div style="display:flex; gap:8px; padding:12px 16px 0; overflow-x:auto; width:100%; max-width:390px;">
     <div style="flex:0 0 52px; height:52px; border:2px solid #fff; overflow:hidden; cursor:pointer;">
-      <img src="images/product-image-placeholder-1.jpg" style="width:100%; height:100%; object-fit:cover;">
+      <img src="../attachments/product-image-placeholder-1.jpg" style="width:100%; height:100%; object-fit:cover;">
     </div>
     <div style="flex:0 0 52px; height:52px; border:2px solid rgba(255,255,255,0.3); background:#333; display:flex; align-items:center; justify-content:center; font-size:9px; color:#888; cursor:pointer;">[ 2 ]</div>
     <div style="flex:0 0 52px; height:52px; border:2px solid rgba(255,255,255,0.3); background:#333; display:flex; align-items:center; justify-content:center; font-size:9px; color:#888; cursor:pointer;">[ 3 ]</div>
@@ -1908,17 +1799,6 @@
 
     <p class="size-chart-note">Measurements are body measurements, not garment measurements. For best fit, measure over lightweight clothing.</p>
 
-    <!-- Inseam filter -->
-    <div style="margin-bottom:12px;">
-      <div style="font-size:12px; font-weight:600; color:#555; margin-bottom:6px; text-transform:uppercase; letter-spacing:0.04em;">Inseam</div>
-      <div style="display:flex; gap:6px;">
-        <button class="sc-inseam-btn active" data-inseam='28"' onclick="filterByInseam('28&quot;', this)">28"</button>
-        <button class="sc-inseam-btn" data-inseam='30"' onclick="filterByInseam('30&quot;', this)">30"</button>
-        <button class="sc-inseam-btn" data-inseam='32"' onclick="filterByInseam('32&quot;', this)">32"</button>
-        <button class="sc-inseam-btn" data-inseam='34"' onclick="filterByInseam('34&quot;', this)">34"</button>
-      </div>
-    </div>
-
     <div class="size-chart-table-wrap">
       <table class="size-chart-table" id="sc-table">
         <thead>
@@ -1926,43 +1806,44 @@
             <th>Size</th>
             <th>Waist</th>
             <th>Hip</th>
+            <th>Inseam</th>
           </tr>
         </thead>
         <tbody>
-          <tr data-size="2" data-inseams='["28\"","30\"","32\"","34\""]' onclick="selectChartSize(this)">
+          <tr data-size="2" onclick="selectChartSize(this)">
             <td>2</td>
-            <td class="sc-in">25–26"</td><td class="sc-in">35–36"</td>
-            <td class="sc-cm" style="display:none">64–66</td><td class="sc-cm" style="display:none">89–91</td>
+            <td class="sc-in">25–26"</td><td class="sc-in">35–36"</td><td class="sc-in">30–34"</td>
+            <td class="sc-cm" style="display:none">64–66</td><td class="sc-cm" style="display:none">89–91</td><td class="sc-cm" style="display:none">76–86</td>
           </tr>
-          <tr data-size="4" data-inseams='["28\"","30\"","32\"","34\""]' onclick="selectChartSize(this)">
+          <tr data-size="4" onclick="selectChartSize(this)">
             <td>4</td>
-            <td class="sc-in">27–28"</td><td class="sc-in">37–38"</td>
-            <td class="sc-cm" style="display:none">69–71</td><td class="sc-cm" style="display:none">94–97</td>
+            <td class="sc-in">27–28"</td><td class="sc-in">37–38"</td><td class="sc-in">30–34"</td>
+            <td class="sc-cm" style="display:none">69–71</td><td class="sc-cm" style="display:none">94–97</td><td class="sc-cm" style="display:none">76–86</td>
           </tr>
-          <tr data-size="6" data-inseams='["28\"","30\"","32\"","34\""]' onclick="selectChartSize(this)" class="sc-selected">
+          <tr data-size="6" onclick="selectChartSize(this)" class="sc-selected">
             <td>6 ✓</td>
-            <td class="sc-in">29–30"</td><td class="sc-in">39–40"</td>
-            <td class="sc-cm" style="display:none">74–76</td><td class="sc-cm" style="display:none">99–102</td>
+            <td class="sc-in">29–30"</td><td class="sc-in">39–40"</td><td class="sc-in">30–34"</td>
+            <td class="sc-cm" style="display:none">74–76</td><td class="sc-cm" style="display:none">99–102</td><td class="sc-cm" style="display:none">76–86</td>
           </tr>
-          <tr data-size="8" data-inseams='["28\"","30\"","32\""]' onclick="selectChartSize(this)">
+          <tr data-size="8" onclick="selectChartSize(this)">
             <td>8</td>
-            <td class="sc-in">31–32"</td><td class="sc-in">41–42"</td>
-            <td class="sc-cm" style="display:none">79–81</td><td class="sc-cm" style="display:none">104–107</td>
+            <td class="sc-in">31–32"</td><td class="sc-in">41–42"</td><td class="sc-in">30–34"</td>
+            <td class="sc-cm" style="display:none">79–81</td><td class="sc-cm" style="display:none">104–107</td><td class="sc-cm" style="display:none">76–86</td>
           </tr>
-          <tr data-size="10" data-inseams='["28\"","30\"","32\"","34\""]' onclick="selectChartSize(this)">
+          <tr data-size="10" onclick="selectChartSize(this)">
             <td>10</td>
-            <td class="sc-in">33–34"</td><td class="sc-in">43–44"</td>
-            <td class="sc-cm" style="display:none">84–86</td><td class="sc-cm" style="display:none">109–112</td>
+            <td class="sc-in">33–34"</td><td class="sc-in">43–44"</td><td class="sc-in">30–34"</td>
+            <td class="sc-cm" style="display:none">84–86</td><td class="sc-cm" style="display:none">109–112</td><td class="sc-cm" style="display:none">76–86</td>
           </tr>
-          <tr data-size="12" data-inseams='["28\"","30\"","32\"","34\""]' onclick="selectChartSize(this)">
+          <tr data-size="12" onclick="selectChartSize(this)">
             <td>12</td>
-            <td class="sc-in">35–36"</td><td class="sc-in">45–46"</td>
-            <td class="sc-cm" style="display:none">89–91</td><td class="sc-cm" style="display:none">114–117</td>
+            <td class="sc-in">35–36"</td><td class="sc-in">45–46"</td><td class="sc-in">30–34"</td>
+            <td class="sc-cm" style="display:none">89–91</td><td class="sc-cm" style="display:none">114–117</td><td class="sc-cm" style="display:none">76–86</td>
           </tr>
-          <tr data-size="14" data-inseams='["30\"","32\"","34\""]' onclick="selectChartSize(this)">
+          <tr data-size="14" onclick="selectChartSize(this)">
             <td>14</td>
-            <td class="sc-in">37–38"</td><td class="sc-in">47–48"</td>
-            <td class="sc-cm" style="display:none">94–97</td><td class="sc-cm" style="display:none">119–122</td>
+            <td class="sc-in">37–38"</td><td class="sc-in">47–48"</td><td class="sc-in">30–34"</td>
+            <td class="sc-cm" style="display:none">94–97</td><td class="sc-cm" style="display:none">119–122</td><td class="sc-cm" style="display:none">76–86</td>
           </tr>
         </tbody>
       </table>
@@ -1990,22 +1871,6 @@
 
   // Size chart
   var scSelectedSize = '6';
-  var scSelectedInseam = '28"';
-
-  function filterByInseam(inseam, btn) {
-    scSelectedInseam = inseam;
-    document.querySelectorAll('.sc-inseam-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    scSelectedSize = null;
-    document.getElementById('sc-confirm-btn').textContent = 'Select a size';
-    document.querySelectorAll('.size-chart-table tbody tr').forEach(r => {
-      r.classList.remove('sc-selected');
-      var td = r.querySelector('td:first-child');
-      td.textContent = td.textContent.replace(' ✓', '');
-      var inseams = JSON.parse(r.dataset.inseams);
-      r.style.display = inseams.includes(inseam) ? '' : 'none';
-    });
-  }
 
   function selectChartSize(row) {
     document.querySelectorAll('.size-chart-table tbody tr').forEach(r => {
@@ -2016,45 +1881,19 @@
     row.classList.add('sc-selected');
     scSelectedSize = row.dataset.size;
     row.querySelector('td:first-child').textContent = scSelectedSize + ' ✓';
-    document.getElementById('sc-confirm-btn').textContent = 'Select Size ' + scSelectedSize + ', ' + scSelectedInseam;
+    document.getElementById('sc-confirm-btn').textContent = 'Select Size ' + scSelectedSize;
   }
 
   function confirmSizeSelection() {
-    if (!scSelectedSize) return;
-    var sizeSelect = document.getElementById('size-select');
+    var sizeSelect = document.querySelector('select');
     for (var i = 0; i < sizeSelect.options.length; i++) {
       if (sizeSelect.options[i].value === scSelectedSize || sizeSelect.options[i].text === scSelectedSize) {
         sizeSelect.selectedIndex = i;
         break;
       }
     }
-    var inseamSelect = document.getElementById('inseam-select');
-    for (var j = 0; j < inseamSelect.options.length; j++) {
-      if (inseamSelect.options[j].text === scSelectedInseam) {
-        inseamSelect.selectedIndex = j;
-        break;
-      }
-    }
-    onInseamChange(inseamSelect);
     document.getElementById('size-chart-modal').classList.remove('open');
   }
-
-  function onInseamChange(select) {
-    var sizeSelect = document.getElementById('size-select');
-    if (select.value) {
-      sizeSelect.disabled = false;
-      sizeSelect.options[0].text = 'Select Size';
-    } else {
-      sizeSelect.disabled = true;
-      sizeSelect.options[0].text = 'Select Inseam first';
-      sizeSelect.selectedIndex = 0;
-    }
-  }
-
-  // Pre-filter size chart to first inseam on open
-  document.querySelector('.size-chart-link') && document.querySelector('.size-chart-link').addEventListener('click', function() {
-    filterByInseam('28"', document.querySelector('.sc-inseam-btn'));
-  });
 
   function setUnits(unit, btn) {
     document.querySelectorAll('.unit-btn').forEach(b => b.classList.remove('active'));
@@ -2073,105 +1912,6 @@
     atc.style.display = isCurrentlyOOS ? 'block' : 'none';
     oos.style.display = isCurrentlyOOS ? 'none' : 'block';
     btn.textContent = isCurrentlyOOS ? '[ Demo: Show OOS state ]' : '[ Demo: Show In Stock state ]';
-  }
-</script>
-
-<!-- SECTION: FOOTER -->
-<footer>
-
-  <!-- Desktop columns (hidden on mobile) -->
-  <div class="footer-desktop-cols">
-    <div class="footer-col footer-col-brand">
-      <div class="footer-logo">DOVETAIL</div>
-      <p>Workwear built for women who actually work. Tough enough for the job site. Comfortable enough for everything else.</p>
-    </div>
-    <div class="footer-col">
-      <div class="footer-col-heading">Shop</div>
-      <a href="#">Pants</a>
-      <a href="#">Shorts</a>
-      <a href="#">Tops</a>
-      <a href="#">Overalls</a>
-      <a href="#">Sale</a>
-      <a href="#">New Arrivals</a>
-    </div>
-    <div class="footer-col">
-      <div class="footer-col-heading">Help</div>
-      <a href="#">Sizing Guide</a>
-      <a href="#">Shipping Information</a>
-      <a href="#">Returns &amp; Exchanges</a>
-      <a href="#">Contact Us</a>
-      <a href="#">FAQ</a>
-    </div>
-    <div class="footer-col">
-      <div class="footer-col-heading">Company</div>
-      <a href="#">Our Mission</a>
-      <a href="#">Press</a>
-      <a href="#">Careers</a>
-      <a href="#">B2B / Wholesale</a>
-    </div>
-  </div>
-
-  <!-- Mobile accordion nav (hidden on desktop) -->
-  <div class="footer-nav-group">
-
-    <button class="footer-nav-trigger" onclick="toggleFooterNav(this)">
-      Shop <span class="footer-toggle-icon">+</span>
-    </button>
-    <div class="footer-nav-body">
-      <a href="#">Pants</a>
-      <a href="#">Shorts</a>
-      <a href="#">Tops</a>
-      <a href="#">Overalls</a>
-      <a href="#">Sale</a>
-      <a href="#">New Arrivals</a>
-    </div>
-
-    <button class="footer-nav-trigger" onclick="toggleFooterNav(this)">
-      Help <span class="footer-toggle-icon">+</span>
-    </button>
-    <div class="footer-nav-body">
-      <a href="#">Sizing Guide</a>
-      <a href="#">Shipping Information</a>
-      <a href="#">Returns &amp; Exchanges</a>
-      <a href="#">Contact Us</a>
-      <a href="#">FAQ</a>
-    </div>
-
-    <button class="footer-nav-trigger" onclick="toggleFooterNav(this)">
-      Company <span class="footer-toggle-icon">+</span>
-    </button>
-    <div class="footer-nav-body">
-      <a href="#">Our Mission</a>
-      <a href="#">Press</a>
-      <a href="#">Careers</a>
-      <a href="#">B2B / Wholesale</a>
-    </div>
-
-  </div>
-
-  <div class="footer-bottom">
-    <div class="footer-social">
-      <a href="#" class="footer-social-icon">IG</a>
-      <a href="#" class="footer-social-icon">TT</a>
-      <a href="#" class="footer-social-icon">FB</a>
-      <a href="#" class="footer-social-icon">PIN</a>
-    </div>
-    <div class="footer-get-dirty">Get Dirty™</div>
-    <div class="footer-legal">
-      © 2026 Dovetail Workwear. All rights reserved. ·
-      <a href="#">Privacy Policy</a> · <a href="#">Terms of Service</a> · <a href="#">Accessibility</a>
-    </div>
-  </div>
-
-</footer>
-
-<script>
-  function toggleFooterNav(btn) {
-    const body = btn.nextElementSibling;
-    const isOpen = body.classList.contains('open');
-    body.classList.toggle('open', !isOpen);
-    const icon = btn.querySelector('.footer-toggle-icon');
-    icon.textContent = isOpen ? '+' : '−';
   }
 </script>
 

@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mini-Cart Drawer Wireframe — Dovetail Workwear</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-size: 15px; color: #333; background: #d8d8d8;
+    }
+
+    /* ── PAGE STUB ── */
+    .page-stub { max-width: 390px; margin: 0 auto; background: #fff; min-height: 200px; }
+    .stub-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 12px 16px; border-bottom: 1px solid #e0e0e0;
+    }
+    .stub-logo { font-weight: 700; font-size: 16px; letter-spacing: 0.05em; }
+    .stub-cart { font-size: 20px; position: relative; cursor: pointer; }
+    .cart-badge {
+      position: absolute; top: -4px; right: -6px;
+      background: #333; color: #fff; border-radius: 50%;
+      font-size: 10px; width: 16px; height: 16px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .stub-body { padding: 32px 16px; color: #ccc; font-size: 13px; text-align: center; }
+
+    /* ── SCENARIO 1 VIEWPORT CONTAINER ── */
+    .s1-viewport {
+      position: relative; overflow: hidden;
+      height: 780px; max-width: 390px; margin: 0 auto;
+      background: #e8e8e8; border: 1px solid #ccc;
+    }
+    .s1-backdrop {
+      position: absolute; inset: 0; background: rgba(0,0,0,0.45);
+      display: flex; justify-content: flex-end; z-index: 10;
+    }
+
+    /* ── MINI-CART DRAWER ── */
+    .minicart {
+      background: #fff; width: 100%; max-width: 390px;
+      height: 100%; display: flex; flex-direction: column;
+      animation: slideInRight 0.25s ease forwards; overflow: hidden;
+    }
+    @keyframes slideInRight {
+      from { transform: translateX(32px); opacity: 0; }
+      to   { transform: translateX(0); opacity: 1; }
+    }
+
+    /* ── DRAWER HEADER ── */
+    .mc-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 16px 20px; border-bottom: 1px solid #e8e8e8; flex-shrink: 0;
+    }
+    .mc-title { font-size: 15px; font-weight: 700; letter-spacing: 0.02em; }
+    .mc-close {
+      width: 32px; height: 32px; display: flex; align-items: center; justify-content: center;
+      font-size: 22px; color: #888; background: none; border: none; cursor: pointer; font-family: inherit;
+    }
+
+    /* ── LINE ITEMS ── */
+    .mc-items { flex: 1; overflow-y: auto; }
+
+    .mc-item {
+      display: grid; grid-template-columns: 76px 1fr;
+      gap: 12px; padding: 16px 20px; border-bottom: 1px solid #f0f0f0;
+    }
+    .mc-item-img {
+      aspect-ratio: 3/4; background: #f0f0f0; border-radius: 2px; overflow: hidden;
+    }
+    .mc-item-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+    .mc-item-details { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+
+    /* Name row with × button */
+    .mc-item-header {
+      display: flex; justify-content: space-between; align-items: flex-start; gap: 6px;
+    }
+    .mc-item-name { font-size: 13px; font-weight: 600; line-height: 1.3; }
+    .mc-item-remove {
+      flex-shrink: 0; font-size: 20px; font-weight: 300; line-height: 1;
+      color: #ccc; background: none; border: none; cursor: pointer; font-family: inherit; padding: 0;
+    }
+    .mc-item-remove:hover { color: #555; }
+
+    .mc-item-variant { font-size: 12px; color: #888; line-height: 1.4; }
+
+    /* Preorder label */
+    .mc-preorder-label {
+      display: inline-block; margin-top: 2px;
+      font-size: 10px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase;
+      color: #5a6e5c; background: #eef3ee; border-radius: 2px; padding: 2px 7px;
+    }
+
+    /* Qty + price row */
+    .mc-item-bottom { display: flex; align-items: center; justify-content: space-between; }
+    .mc-qty {
+      display: inline-flex; align-items: center;
+      border: 1px solid #d0d0d0; border-radius: 2px; overflow: hidden;
+    }
+    .mc-qty-btn {
+      width: 32px; height: 32px; background: none; border: none;
+      font-size: 18px; font-weight: 300; cursor: pointer; color: #333; font-family: inherit;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .mc-qty-val {
+      width: 30px; text-align: center; font-size: 13px; font-weight: 600;
+      border-left: 1px solid #d0d0d0; border-right: 1px solid #d0d0d0; line-height: 32px;
+    }
+    .mc-item-price { font-size: 14px; font-weight: 600; }
+    .price-was { text-decoration: line-through; color: #aaa; font-weight: 400; margin-right: 3px; }
+    .price-sale { color: #b94040; }
+
+    /* ── UPSELLS ── */
+    .mc-upsells { border-bottom: 1px solid #f0f0f0; }
+    .mc-upsells-tabs { display: flex; border-bottom: 1px solid #e0e0e0; padding: 0 20px; }
+    .mc-tab {
+      padding: 12px 10px 11px; font-size: 11px; font-weight: 700; letter-spacing: 0.08em;
+      text-transform: uppercase; color: #bbb; background: none; border: none;
+      border-bottom: 2px solid transparent; cursor: pointer; font-family: inherit; margin-bottom: -1px;
+    }
+    .mc-tab.active { color: #222; border-bottom-color: #222; }
+    .mc-upsells-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; padding: 12px 20px 16px; }
+    .mc-upsell-card { display: flex; flex-direction: column; gap: 4px; }
+    .mc-upsell-img {
+      aspect-ratio: 3/4; background: #f0f0f0; border-radius: 2px;
+      overflow: hidden; position: relative;
+    }
+    .mc-upsell-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .mc-upsell-quick-add {
+      position: absolute; bottom: 6px; right: 6px; width: 26px; height: 26px;
+      background: #222; border: none; border-radius: 50%; font-size: 16px; font-weight: 300;
+      display: flex; align-items: center; justify-content: center; cursor: pointer; color: #fff;
+    }
+    .mc-upsell-price { font-size: 11px; font-weight: 600; color: #333; }
+
+    /* ── STICKY FOOTER ── */
+    .mc-footer {
+      border-top: 1px solid #e8e8e8; padding: 14px 20px 36px;
+      flex-shrink: 0; background: #fff;
+    }
+    .mc-trust {
+      display: flex; justify-content: center; gap: 24px;
+      margin-bottom: 14px; padding-bottom: 14px; border-bottom: 1px solid #f0f0f0;
+    }
+    .mc-trust-item {
+      display: flex; align-items: center; gap: 5px;
+      font-size: 11px; color: #888; font-weight: 600; letter-spacing: 0.02em;
+    }
+    .mc-subtotal {
+      display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 5px;
+    }
+    .mc-subtotal-label { font-size: 13px; color: #555; }
+    .mc-subtotal-amount { font-size: 13px; font-weight: 600; }
+    .mc-subtotal-note { font-size: 11px; color: #aaa; margin-bottom: 14px; }
+    .mc-checkout-btn {
+      display: block; width: 100%; padding: 15px; margin-bottom: 10px;
+      background: #333; color: #fff; font-size: 14px; font-weight: 700; letter-spacing: 0.04em;
+      border: none; border-radius: 2px; cursor: pointer; font-family: inherit;
+    }
+    .mc-continue {
+      display: block; width: 100%; padding: 6px 0;
+      text-align: center; font-size: 12px; color: #999; text-decoration: underline;
+      background: none; border: none; cursor: pointer; font-family: inherit;
+    }
+
+    /* ── EMPTY STATE ── */
+    .mc-empty {
+      flex: 1; display: flex; flex-direction: column;
+      align-items: center; justify-content: center; padding: 48px 24px; text-align: center;
+    }
+    .mc-empty-icon { font-size: 38px; color: #d0d0d0; margin-bottom: 18px; line-height: 1; }
+    .mc-empty-heading { font-size: 16px; font-weight: 700; color: #222; margin-bottom: 8px; }
+    .mc-empty-body { font-size: 13px; color: #888; line-height: 1.6; margin-bottom: 24px; max-width: 240px; }
+    .mc-empty-cta {
+      padding: 13px 28px; background: #333; color: #fff;
+      font-size: 13px; font-weight: 700; letter-spacing: 0.04em;
+      border: none; border-radius: 2px; cursor: pointer; font-family: inherit;
+    }
+
+    /* ── UPSELL QUICK SHOP MODAL ──
+       Mobile: bottom-sheet, slides up. Thumb + title + price + stars, then color swatches,
+               waist × inseam size table, stock status, sticky ATC.
+       Desktop: centered dialog — image gallery left, details right. Same pattern as collection quick-add. */
+    .qs-overlay {
+      display: none; position: fixed; inset: 0;
+      background: rgba(0,0,0,0.45); z-index: 400;
+      align-items: flex-end; justify-content: center;
+    }
+    .qs-overlay.open { display: flex; }
+    .qs-modal {
+      background: #fff; border-radius: 12px 12px 0 0;
+      width: 100%; max-height: 92vh;
+      display: flex; flex-direction: column;
+      position: relative; animation: slideUpQS 0.25s ease forwards; overflow: hidden;
+    }
+    @keyframes slideUpQS {
+      from { transform: translateY(24px); opacity: 0; }
+      to   { transform: translateY(0);    opacity: 1; }
+    }
+    .qs-close {
+      position: absolute; top: 14px; right: 16px;
+      background: none; border: none; font-size: 22px; color: #888;
+      cursor: pointer; font-family: inherit; line-height: 1; z-index: 10;
+    }
+    .qs-gallery { display: none; }
+    .qs-details { overflow-y: auto; flex: 1; padding: 20px 20px 0; }
+
+    /* Mobile: thumb + title side-by-side */
+    .qs-mobile-header {
+      display: grid; grid-template-columns: 72px 1fr;
+      gap: 12px; align-items: start; margin-bottom: 16px; padding-right: 28px;
+    }
+    .qs-thumb {
+      aspect-ratio: 3/4; background: #e0e0e0; border-radius: 3px; overflow: hidden;
+    }
+    .qs-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .qs-title { font-size: 15px; font-weight: 700; line-height: 1.3; margin-bottom: 3px; }
+    .qs-price { font-size: 14px; color: #555; margin-bottom: 3px; }
+    .qs-stars { font-size: 12px; color: #555; }
+
+    /* Desktop-only title/price/stars */
+    .qs-desktop-title { display: none; }
+    .qs-desktop-price { display: none; }
+    .qs-desktop-stars { display: none; }
+
+    /* Variant sections */
+    .qs-variant-section { margin-bottom: 16px; }
+    .qs-variant-label {
+      font-size: 11px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.08em; color: #888; margin-bottom: 8px;
+    }
+    .qs-color-row { display: flex; gap: 8px; flex-wrap: wrap; }
+    .qs-color-swatch {
+      width: 24px; height: 24px; border-radius: 50%;
+      border: 2px solid transparent; cursor: pointer;
+    }
+    .qs-color-swatch.selected { border-color: #333; box-shadow: 0 0 0 2px #fff inset; }
+
+    /* Size + Length dropdowns (matches PDP pattern) */
+    .qs-size-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 6px; }
+    .qs-size-col-label {
+      display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px;
+    }
+    .qs-size-label { font-size: 12px; font-weight: 700; }
+    .qs-size-chart-link {
+      font-size: 12px; color: #333; text-decoration: underline; cursor: pointer;
+    }
+    .qs-select {
+      width: 100%; padding: 12px 14px; border: 1.5px solid #ccc; border-radius: 4px;
+      font-size: 14px; font-family: inherit; appearance: none;
+      background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23333' stroke-width='1.5' fill='none'/%3E%3C/svg%3E") no-repeat right 14px center;
+    }
+    .qs-size-note { font-size: 12px; color: #666; margin-bottom: 14px; }
+    .qs-stock { font-size: 12px; font-weight: 600; margin-bottom: 14px; }
+    .qs-stock.in-stock { color: #4a7a5e; }
+    .qs-stock.low { color: #c07820; }
+
+    /* Sticky ATC */
+    .qs-atc-sticky {
+      padding: 14px 20px 32px; background: #fff;
+      border-top: 1px solid #f0f0f0; flex-shrink: 0;
+    }
+    .qs-atc-btn {
+      width: 100%; padding: 15px; background: #333; color: #fff;
+      font-size: 14px; font-weight: 700; letter-spacing: 0.04em;
+      border: none; border-radius: 2px; cursor: pointer; font-family: inherit;
+    }
+    .qs-view-details { display: none; }
+
+    /* ── SCENARIO WRAPPERS ── */
+    .scenario-wrap { max-width: 390px; margin: 0 auto; background: #fff; }
+    .scenario-divider {
+      display: flex; align-items: center; gap: 12px; padding: 24px 16px 0; margin-top: 40px;
+    }
+    .scenario-divider::before, .scenario-divider::after {
+      content: ''; flex: 1; height: 2px; background: #f0a500; opacity: 0.5;
+    }
+    .scenario-label {
+      font-size: 11px; font-weight: 700; letter-spacing: 0.08em;
+      text-transform: uppercase; color: #f0a500; white-space: nowrap;
+    }
+    .minicart-static {
+      background: #fff; display: flex; flex-direction: column;
+      border: 1px solid #d0d0d0; overflow: hidden;
+    }
+
+    /* ── DESKTOP ── */
+    @media (min-width: 1024px) {
+      body { background: #c8c8c8; }
+      .page-stub { max-width: none; }
+      .stub-header { padding: 0 40px; height: 64px; }
+      .stub-logo { font-size: 18px; }
+      .s1-viewport { max-width: none; height: 820px; }
+      .minicart { max-width: 440px; border-left: 1px solid #e0e0e0; }
+      .scenario-wrap { max-width: none; padding: 0 40px; }
+      .minicart-static { max-width: 440px; }
+
+      /* Quick shop — centered dialog, image left / details right */
+      .qs-overlay { align-items: center; }
+      .qs-modal {
+        flex-direction: row; border-radius: 8px;
+        width: 800px; max-width: 92vw; height: 520px; max-height: 90vh; animation: none;
+      }
+      .qs-close { top: 12px; right: 14px; }
+      .qs-gallery {
+        display: flex; flex-direction: column; width: 43%; flex-shrink: 0;
+        background: #e8e8e8; overflow-y: auto; gap: 3px;
+      }
+      .qs-gallery-img {
+        width: 100%; background: #e0e0e0;
+        display: flex; align-items: center; justify-content: center;
+        color: #bbb; font-size: 11px; flex-shrink: 0;
+      }
+      .qs-gallery-img:first-child { aspect-ratio: 3/4; }
+      .qs-gallery-img:not(:first-child) { aspect-ratio: 1/1; }
+      .qs-details { flex: 1; padding: 28px 24px 0; overflow-y: auto; display: flex; flex-direction: column; }
+      .qs-mobile-header { display: none; }
+      .qs-desktop-title {
+        display: block; font-size: 18px; font-weight: 700; line-height: 1.25;
+        margin-bottom: 5px; padding-right: 28px;
+      }
+      .qs-desktop-price { display: block; font-size: 15px; color: #555; margin-bottom: 4px; }
+      .qs-desktop-stars { display: block; font-size: 12px; color: #555; margin-bottom: 18px; }
+      .qs-atc-sticky { margin-top: auto; padding: 12px 24px 24px; border-top: 1px solid #f0f0f0; }
+      .qs-view-details {
+        display: block; margin-top: 10px;
+        font-size: 13px; font-weight: 600; color: #333; text-decoration: none; text-align: center;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- PAGE STUB -->
+<div class="page-stub">
+  <div class="stub-header">
+    <div class="stub-logo">DOVETAIL</div>
+    <div class="stub-cart">&#9675;<span class="cart-badge">3</span></div>
+  </div>
+  <div class="stub-body">[ Page content behind drawer ]</div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     SCENARIO 1 — Three items including preorder
+════════════════════════════════════════════ -->
+<div class="scenario-wrap">
+  <div class="scenario-divider" style="margin-top:0;">
+    <span class="scenario-label">Scenario 1 — Three items including preorder</span>
+  </div>
+</div>
+
+<div class="s1-viewport">
+  <div style="padding: 14px 16px; font-size: 12px; color: #bbb;">[ Page content behind overlay ]</div>
+  <div class="s1-backdrop">
+    <div class="minicart">
+
+    <!-- SECTION: HEADER -->
+    <div class="mc-header">
+      <div class="mc-title">Cart (3)</div>
+      <button class="mc-close" aria-label="Close cart">&#x2715;</button>
+    </div>
+
+    <!-- SECTION: LINE ITEMS -->
+    <div class="mc-items">
+
+      <!-- Item 1 -->
+      <div class="mc-item">
+        <div class="mc-item-img">
+          <img src="https://dovetailworkwear.com/cdn/shop/files/Dovetail-2025-S26-Studio-Web-Charla-GOTOPantTerracotta-034-Edit_426c507b-5aa6-43b7-83cb-e9a9dc4cdf98MODEL-267.jpg?v=1772742524&width=200" alt="GO TO™ Stretch Canvas Pant">
+        </div>
+        <div class="mc-item-details">
+          <div class="mc-item-header">
+            <div class="mc-item-name">GO TO™ Stretch Canvas Pant</div>
+            <button class="mc-item-remove" aria-label="Remove item">&#x2715;</button>
+          </div>
+          <div class="mc-item-variant">Carbon Black / 30 × 30</div>
+          <div class="mc-item-bottom">
+            <div class="mc-qty">
+              <button class="mc-qty-btn" aria-label="Decrease">&#8722;</button>
+              <div class="mc-qty-val">1</div>
+              <button class="mc-qty-btn" aria-label="Increase">+</button>
+            </div>
+            <div class="mc-item-price">$119</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Item 2 — sale -->
+      <div class="mc-item">
+        <div class="mc-item-img">
+          <img src="https://dovetailworkwear.com/cdn/shop/files/Dovetail-2025-S26-Studio-Christa-X-COOLSWAP_-Pant-Dovetail-Blue_-1105-Crop-eeeeee.jpg?v=1769631992&width=200" alt="Provisions Lightweight Ripstop Cargo Pant">
+        </div>
+        <div class="mc-item-details">
+          <div class="mc-item-header">
+            <div class="mc-item-name">Provisions Lightweight Ripstop Cargo Pant</div>
+            <button class="mc-item-remove" aria-label="Remove item">&#x2715;</button>
+          </div>
+          <div class="mc-item-variant">Slate / 28 × 32</div>
+          <div class="mc-item-bottom">
+            <div class="mc-qty">
+              <button class="mc-qty-btn" aria-label="Decrease">&#8722;</button>
+              <div class="mc-qty-val">1</div>
+              <button class="mc-qty-btn" aria-label="Increase">+</button>
+            </div>
+            <div class="mc-item-price">
+              <span class="price-was">$129</span><span class="price-sale">$89</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Item 3 — preorder -->
+      <div class="mc-item">
+        <div class="mc-item-img">
+          <img src="https://dovetailworkwear.com/cdn/shop/files/DTW_S25_Studio_Freshley-Ultralight-Overall-Elderberry-2699MODEL-217.jpg?v=1774226949&width=200" alt="Range Crop Pant">
+        </div>
+        <div class="mc-item-details">
+          <div class="mc-item-header">
+            <div class="mc-item-name">Range Crop Pant</div>
+            <button class="mc-item-remove" aria-label="Remove item">&#x2715;</button>
+          </div>
+          <div class="mc-item-variant">Olive / 30 × 28</div>
+          <div class="mc-preorder-label">Preorder, Ships Mid-July</div>
+          <div class="mc-item-bottom">
+            <div class="mc-qty">
+              <button class="mc-qty-btn" aria-label="Decrease">&#8722;</button>
+              <div class="mc-qty-val">1</div>
+              <button class="mc-qty-btn" aria-label="Increase">+</button>
+            </div>
+            <div class="mc-item-price">$109</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SECTION: UPSELLS -->
+      <div class="mc-upsells">
+        <div class="mc-upsells-tabs">
+          <button class="mc-tab active" onclick="switchUpsellTab(this,0)">Recommended</button>
+          <button class="mc-tab" onclick="switchUpsellTab(this,1)">Best Sellers</button>
+        </div>
+        <!-- Tab 0: Recommended -->
+        <div class="mc-upsells-row">
+          <div class="mc-upsell-card">
+            <div class="mc-upsell-img">
+              <img src="https://dovetailworkwear.com/cdn/shop/files/DTW_S25_Studio_GO-TO-Short-Kelp-Green-1603.jpg?v=1771001582&width=200" alt="GO TO™ Short">
+              <button class="mc-upsell-quick-add" aria-label="Quick add" onclick="openQS('GO TO™ Stretch Canvas Short','$79','https://dovetailworkwear.com/cdn/shop/files/DTW_S25_Studio_GO-TO-Short-Kelp-Green-1603.jpg?v=1771001582&width=200')">+</button>
+            </div>
+            <div class="mc-upsell-price">$79</div>
+          </div>
+          <div class="mc-upsell-card">
+            <div class="mc-upsell-img">
+              <img src="https://dovetailworkwear.com/cdn/shop/files/Carbon-Black-GO-TO-2421MODEL-225.jpg?v=1772740869&width=200" alt="Christa X COOLSWAP™ Pant">
+              <button class="mc-upsell-quick-add" aria-label="Quick add" onclick="openQS('Christa X COOLSWAP™ Pant','$119','https://dovetailworkwear.com/cdn/shop/files/Carbon-Black-GO-TO-2421MODEL-225.jpg?v=1772740869&width=200')">+</button>
+            </div>
+            <div class="mc-upsell-price">$119</div>
+          </div>
+          <div class="mc-upsell-card">
+            <div class="mc-upsell-img">
+              <img src="https://dovetailworkwear.com/cdn/shop/files/DTW_S25_Studio_Provisions-Cargo-Pant-Black-4445_MODEL-214_dc2a494a-26e9-4349-ba13-ba14bec66cd7.jpg?v=1774324524&width=200" alt="Provisions Cargo Pant">
+              <button class="mc-upsell-quick-add" aria-label="Quick add" onclick="openQS('Provisions Cargo Pant','$129','https://dovetailworkwear.com/cdn/shop/files/DTW_S25_Studio_Provisions-Cargo-Pant-Black-4445_MODEL-214_dc2a494a-26e9-4349-ba13-ba14bec66cd7.jpg?v=1774324524&width=200')">+</button>
+            </div>
+            <div class="mc-upsell-price">$129</div>
+          </div>
+          <div class="mc-upsell-card">
+            <div class="mc-upsell-img">
+              <img src="https://dovetailworkwear.com/cdn/shop/files/Dovetail-2025-S26-Studio-Christa-X-COOLSWAP_-Pant-Dovetail-Blue_-1105-Crop-eeeeee.jpg?v=1769631992&width=200" alt="Pioneer Crop Pant">
+              <button class="mc-upsell-quick-add" aria-label="Quick add" onclick="openQS('Pioneer Crop Pant','$109','https://dovetailworkwear.com/cdn/shop/files/Dovetail-2025-S26-Studio-Christa-X-COOLSWAP_-Pant-Dovetail-Blue_-1105-Crop-eeeeee.jpg?v=1769631992&width=200')">+</button>
+            </div>
+            <div class="mc-upsell-price">$109</div>
+          </div>
+          <div class="mc-upsell-card">
+            <div class="mc-upsell-img">
+              <img src="https://dovetailworkwear.com/cdn/shop/files/DTW_S25_Studio_GO-TO-Short-Kelp-Green-1603.jpg?v=1771001582&width=200" alt="GO TO™ Overalls">
+              <button class="mc-upsell-quick-add" aria-label="Quick add" onclick="openQS('GO TO™ Overalls','$169','https://dovetailworkwear.com/cdn/shop/files/DTW_S25_Studio_GO-TO-Short-Kelp-Green-1603.jpg?v=1771001582&width=200')">+</button>
+            </div>
+            <div class="mc-upsell-price">$169</div>
+          </div>
+          <div class="mc-upsell-card">
+            <div class="mc-upsell-img">
+              <img src="https://dovetailworkwear.com/cdn/shop/files/Carbon-Black-GO-TO-2421MODEL-225.jpg?v=1772740869&width=200" alt="Britt Ultra Pant">
+              <button class="mc-upsell-quick-add" aria-label="Quick add" onclick="openQS('Britt Ultra High-Rise Utility Pant','$109','https://dovetailworkwear.com/cdn/shop/files/Carbon-Black-GO-TO-2421MODEL-225.jpg?v=1772740869&width=200')">+</button>
+            </div>
+            <div class="mc-upsell-price">$109</div>
+          </div>
+        </div>
+        <!-- Tab 1: Best Sellers (hidden by default) -->
+        <div class="mc-upsells-row" style="display:none;">
+          <div class="mc-upsell-card">
+            <div class="mc-upsell-img">
+              <img src="https://dovetailworkwear.com/cdn/shop/files/Carbon-Black-GO-TO-2421MODEL-225.jpg?v=1772740869&width=200" alt="GO TO™ Stretch Canvas Pant">
+              <button class="mc-upsell-quick-add" aria-label="Quick add" onclick="openQS('GO TO™ Stretch Canvas Pant','$119','https://dovetailworkwear.com/cdn/shop/files/Carbon-Black-GO-TO-2421MODEL-225.jpg?v=1772740869&width=200')">+</button>
+            </div>
+            <div class="mc-upsell-price">$119</div>
+          </div>
+          <div class="mc-upsell-card">
+            <div class="mc-upsell-img">
+              <img src="https://dovetailworkwear.com/cdn/shop/files/Dovetail-2025-S26-Studio-Christa-X-COOLSWAP_-Pant-Dovetail-Blue_-1105-Crop-eeeeee.jpg?v=1769631992&width=200" alt="Christa Slim Pant">
+              <button class="mc-upsell-quick-add" aria-label="Quick add" onclick="openQS('Christa Slim Pant','$119','https://dovetailworkwear.com/cdn/shop/files/Dovetail-2025-S26-Studio-Christa-X-COOLSWAP_-Pant-Dovetail-Blue_-1105-Crop-eeeeee.jpg?v=1769631992&width=200')">+</button>
+            </div>
+            <div class="mc-upsell-price">$119</div>
+          </div>
+          <div class="mc-upsell-card">
+            <div class="mc-upsell-img">
+              <img src="https://dovetailworkwear.com/cdn/shop/files/DTW_S25_Studio_Provisions-Cargo-Pant-Black-4445_MODEL-214_dc2a494a-26e9-4349-ba13-ba14bec66cd7.jpg?v=1774324524&width=200" alt="Groundbreaker Cargo Pant">
+              <button class="mc-upsell-quick-add" aria-label="Quick add" onclick="openQS('Groundbreaker Cargo Pant','$129','https://dovetailworkwear.com/cdn/shop/files/DTW_S25_Studio_Provisions-Cargo-Pant-Black-4445_MODEL-214_dc2a494a-26e9-4349-ba13-ba14bec66cd7.jpg?v=1774324524&width=200')">+</button>
+            </div>
+            <div class="mc-upsell-price">$129</div>
+          </div>
+          <div class="mc-upsell-card">
+            <div class="mc-upsell-img">
+              <img src="https://dovetailworkwear.com/cdn/shop/files/DTW_S25_Studio_GO-TO-Short-Kelp-Green-1603.jpg?v=1771001582&width=200" alt="Full Length Canvas Bib">
+              <button class="mc-upsell-quick-add" aria-label="Quick add" onclick="openQS('Full Length Canvas Bib Overall','$149','https://dovetailworkwear.com/cdn/shop/files/DTW_S25_Studio_GO-TO-Short-Kelp-Green-1603.jpg?v=1771001582&width=200')">+</button>
+            </div>
+            <div class="mc-upsell-price">$149</div>
+          </div>
+          <div class="mc-upsell-card">
+            <div class="mc-upsell-img">
+              <img src="https://dovetailworkwear.com/cdn/shop/files/Carbon-Black-GO-TO-2421MODEL-225.jpg?v=1772740869&width=200" alt="GO TO™ Overalls">
+              <button class="mc-upsell-quick-add" aria-label="Quick add" onclick="openQS('GO TO™ Overalls','$169','https://dovetailworkwear.com/cdn/shop/files/Carbon-Black-GO-TO-2421MODEL-225.jpg?v=1772740869&width=200')">+</button>
+            </div>
+            <div class="mc-upsell-price">$169</div>
+          </div>
+          <div class="mc-upsell-card">
+            <div class="mc-upsell-img">
+              <img src="https://dovetailworkwear.com/cdn/shop/files/Dovetail-2025-S26-Studio-Christa-X-COOLSWAP_-Pant-Dovetail-Blue_-1105-Crop-eeeeee.jpg?v=1769631992&width=200" alt="Provisions Ripstop Cargo Pant">
+              <button class="mc-upsell-quick-add" aria-label="Quick add" onclick="openQS('Provisions Ripstop Cargo Pant','$129','https://dovetailworkwear.com/cdn/shop/files/Dovetail-2025-S26-Studio-Christa-X-COOLSWAP_-Pant-Dovetail-Blue_-1105-Crop-eeeeee.jpg?v=1769631992&width=200')">+</button>
+            </div>
+            <div class="mc-upsell-price">$129</div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /mc-items -->
+
+    <!-- SECTION: STICKY FOOTER -->
+    <div class="mc-footer">
+      <div class="mc-trust">
+        <div class="mc-trust-item">&#8617; Free Exchanges</div>
+        <div class="mc-trust-item">&#128274; Secure Checkout</div>
+      </div>
+      <div class="mc-subtotal">
+        <span class="mc-subtotal-label">Subtotal</span>
+        <span class="mc-subtotal-amount">$317.00</span>
+      </div>
+      <div class="mc-subtotal-note">Shipping and taxes calculated at checkout</div>
+      <button class="mc-checkout-btn">Proceed to Checkout</button>
+      <button class="mc-continue">Continue Shopping</button>
+    </div>
+
+    </div><!-- /minicart -->
+  </div><!-- /s1-backdrop -->
+</div><!-- /s1-viewport -->
+
+
+<!-- ══════════════════════════════════════════
+     SCENARIO 2 — Single item
+════════════════════════════════════════════ -->
+<div class="scenario-wrap">
+  <div class="scenario-divider">
+    <span class="scenario-label">Scenario 2 — Single item</span>
+  </div>
+
+  <div class="minicart-static">
+    <div class="mc-header">
+      <div class="mc-title">Cart (1)</div>
+      <button class="mc-close" aria-label="Close cart">&#x2715;</button>
+    </div>
+
+    <div class="mc-items">
+      <div class="mc-item">
+        <div class="mc-item-img">
+          <img src="https://dovetailworkwear.com/cdn/shop/files/DTW_S25_Studio_Provisions-Cargo-Pant-Black-4445_MODEL-214_dc2a494a-26e9-4349-ba13-ba14bec66cd7.jpg?v=1774324524&width=200" alt="GO TO™ Stretch Canvas Pant">
+        </div>
+        <div class="mc-item-details">
+          <div class="mc-item-header">
+            <div class="mc-item-name">GO TO™ Stretch Canvas Pant</div>
+            <button class="mc-item-remove" aria-label="Remove item">&#x2715;</button>
+          </div>
+          <div class="mc-item-variant">Cement Grey / 30 × 32</div>
+          <div class="mc-item-bottom">
+            <div class="mc-qty">
+              <button class="mc-qty-btn" aria-label="Decrease">&#8722;</button>
+              <div class="mc-qty-val">1</div>
+              <button class="mc-qty-btn" aria-label="Increase">+</button>
+            </div>
+            <div class="mc-item-price">$119</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mc-upsells">
+        <div class="mc-upsells-tabs">
+          <button class="mc-tab active" onclick="switchUpsellTab(this,0)">Recommended</button>
+          <button class="mc-tab" onclick="switchUpsellTab(this,1)">Best Sellers</button>
+        </div>
+        <div class="mc-upsells-row">
+          <div class="mc-upsell-card">
+            <div class="mc-upsell-img">
+              <img src="https://dovetailworkwear.com/cdn/shop/files/DTW_S25_Studio_GO-TO-Short-Kelp-Green-1603.jpg?v=1771001582&width=200" alt="GO TO™ Short">
+              <button class="mc-upsell-quick-add" aria-label="Quick add" onclick="openQS('GO TO™ Stretch Canvas Short','$79','https://dovetailworkwear.com/cdn/shop/files/DTW_S25_Studio_GO-TO-Short-Kelp-Green-1603.jpg?v=1771001582&width=200')">+</button>
+            </div>
+            <div class="mc-upsell-price">$79</div>
+          </div>
+          <div class="mc-upsell-card">
+            <div class="mc-upsell-img">
+              <img src="https://dovetailworkwear.com/cdn/shop/files/Carbon-Black-GO-TO-2421MODEL-225.jpg?v=1772740869&width=200" alt="Christa X COOLSWAP™ Pant">
+              <button class="mc-upsell-quick-add" aria-label="Quick add" onclick="openQS('Christa X COOLSWAP™ Pant','$119','https://dovetailworkwear.com/cdn/shop/files/Carbon-Black-GO-TO-2421MODEL-225.jpg?v=1772740869&width=200')">+</button>
+            </div>
+            <div class="mc-upsell-price">$119</div>
+          </div>
+          <div class="mc-upsell-card">
+            <div class="mc-upsell-img">
+              <img src="https://dovetailworkwear.com/cdn/shop/files/Dovetail-2025-S26-Studio-Christa-X-COOLSWAP_-Pant-Dovetail-Blue_-1105-Crop-eeeeee.jpg?v=1769631992&width=200" alt="Provisions Ripstop Cargo Pant">
+              <button class="mc-upsell-quick-add" aria-label="Quick add" onclick="openQS('Provisions Ripstop Cargo Pant','$129','https://dovetailworkwear.com/cdn/shop/files/Dovetail-2025-S26-Studio-Christa-X-COOLSWAP_-Pant-Dovetail-Blue_-1105-Crop-eeeeee.jpg?v=1769631992&width=200')">+</button>
+            </div>
+            <div class="mc-upsell-price">$129</div>
+          </div>
+        </div>
+        <div class="mc-upsells-row" style="display:none;">
+          <div class="mc-upsell-card">
+            <div class="mc-upsell-img">
+              <img src="https://dovetailworkwear.com/cdn/shop/files/Carbon-Black-GO-TO-2421MODEL-225.jpg?v=1772740869&width=200" alt="GO TO™ Stretch Canvas Pant">
+              <button class="mc-upsell-quick-add" aria-label="Quick add" onclick="openQS('GO TO™ Stretch Canvas Pant','$119','https://dovetailworkwear.com/cdn/shop/files/Carbon-Black-GO-TO-2421MODEL-225.jpg?v=1772740869&width=200')">+</button>
+            </div>
+            <div class="mc-upsell-price">$119</div>
+          </div>
+          <div class="mc-upsell-card">
+            <div class="mc-upsell-img">
+              <img src="https://dovetailworkwear.com/cdn/shop/files/DTW_S25_Studio_Provisions-Cargo-Pant-Black-4445_MODEL-214_dc2a494a-26e9-4349-ba13-ba14bec66cd7.jpg?v=1774324524&width=200" alt="Christa Slim Pant">
+              <button class="mc-upsell-quick-add" aria-label="Quick add" onclick="openQS('Christa Slim Pant','$119','https://dovetailworkwear.com/cdn/shop/files/DTW_S25_Studio_Provisions-Cargo-Pant-Black-4445_MODEL-214_dc2a494a-26e9-4349-ba13-ba14bec66cd7.jpg?v=1774324524&width=200')">+</button>
+            </div>
+            <div class="mc-upsell-price">$119</div>
+          </div>
+          <div class="mc-upsell-card">
+            <div class="mc-upsell-img">
+              <img src="https://dovetailworkwear.com/cdn/shop/files/Dovetail-2025-S26-Studio-Christa-X-COOLSWAP_-Pant-Dovetail-Blue_-1105-Crop-eeeeee.jpg?v=1769631992&width=200" alt="Groundbreaker Cargo Pant">
+              <button class="mc-upsell-quick-add" aria-label="Quick add" onclick="openQS('Groundbreaker Cargo Pant','$129','https://dovetailworkwear.com/cdn/shop/files/Dovetail-2025-S26-Studio-Christa-X-COOLSWAP_-Pant-Dovetail-Blue_-1105-Crop-eeeeee.jpg?v=1769631992&width=200')">+</button>
+            </div>
+            <div class="mc-upsell-price">$129</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mc-footer">
+      <div class="mc-trust">
+        <div class="mc-trust-item">&#8617; Free Exchanges</div>
+        <div class="mc-trust-item">&#128274; Secure Checkout</div>
+      </div>
+      <div class="mc-subtotal">
+        <span class="mc-subtotal-label">Subtotal</span>
+        <span class="mc-subtotal-amount">$119.00</span>
+      </div>
+      <div class="mc-subtotal-note">Shipping and taxes calculated at checkout</div>
+      <button class="mc-checkout-btn">Proceed to Checkout</button>
+      <button class="mc-continue">Continue Shopping</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════
+     SCENARIO 3 — Empty cart
+════════════════════════════════════════════ -->
+<div class="scenario-wrap">
+  <div class="scenario-divider">
+    <span class="scenario-label">Scenario 3 — Empty cart</span>
+  </div>
+  <div class="minicart-static" style="min-height: 380px;">
+    <div class="mc-header">
+      <div class="mc-title">Cart</div>
+      <button class="mc-close" aria-label="Close cart">&#x2715;</button>
+    </div>
+    <div class="mc-empty">
+      <div class="mc-empty-icon">&#9675;</div>
+      <div class="mc-empty-heading">Your cart is empty</div>
+      <p class="mc-empty-body">Looks like you haven't added anything yet.</p>
+      <button class="mc-empty-cta">Shop Women's Pants</button>
+    </div>
+  </div>
+</div>
+
+<div style="height: 60px;"></div>
+
+
+<!-- ══════════════════════════════════════════
+     UPSELL QUICK SHOP MODAL
+     Mobile: bottom-sheet (same as collection quick-add).
+     Desktop: centered dialog — image gallery left, details right.
+     Trigger: + button on each upsell card image.
+════════════════════════════════════════════ -->
+<div class="qs-overlay" id="qsOverlay" onclick="closeQS(event)">
+  <div class="qs-modal" onclick="event.stopPropagation()">
+    <button class="qs-close" onclick="closeQS()">&#x2715;</button>
+
+    <!-- Desktop: left image gallery -->
+    <div class="qs-gallery">
+      <div class="qs-gallery-img" id="qsGalleryMain">[ Product image ]</div>
+      <div class="qs-gallery-img">[ Detail shot ]</div>
+      <div class="qs-gallery-img">[ Model shot ]</div>
+    </div>
+
+    <!-- Scrollable details -->
+    <div class="qs-details">
+
+      <!-- Mobile: thumb + title side-by-side -->
+      <div class="qs-mobile-header">
+        <div class="qs-thumb"><img id="qsThumbImg" src="" alt=""></div>
+        <div>
+          <div class="qs-title" id="qsTitle">Product Name</div>
+          <div class="qs-price" id="qsPrice">$119</div>
+          <div class="qs-stars">&#9733;&#9733;&#9733;&#9733;&#9733; 4.8 (312)</div>
+        </div>
+      </div>
+
+      <!-- Desktop: title / price / stars stacked -->
+      <div class="qs-desktop-title" id="qsTitleDesktop">Product Name</div>
+      <div class="qs-desktop-price" id="qsPriceDesktop">$119</div>
+      <div class="qs-desktop-stars">&#9733;&#9733;&#9733;&#9733;&#9733; 4.8 (312)</div>
+
+      <!-- Color -->
+      <div class="qs-variant-section">
+        <div class="qs-variant-label">Color — <span style="font-weight:400;text-transform:none;letter-spacing:0;">Black</span></div>
+        <div class="qs-color-row">
+          <div class="qs-color-swatch selected" style="background:#2a2a2a;" title="Black"></div>
+          <div class="qs-color-swatch" style="background:#4a5568;" title="Slate"></div>
+          <div class="qs-color-swatch" style="background:#d4c9a8;" title="Khaki"></div>
+          <div class="qs-color-swatch" style="background:#5a6e5c;" title="Olive"></div>
+        </div>
+      </div>
+
+      <!-- Size + Length dropdowns -->
+      <div class="qs-variant-section">
+        <div class="qs-size-row">
+          <div>
+            <div class="qs-size-col-label">
+              <span class="qs-size-label">Size</span>
+              <span class="qs-size-chart-link">Size Chart</span>
+            </div>
+            <select class="qs-select">
+              <option value="">Select Size</option>
+              <option>2</option>
+              <option>4</option>
+              <option>6</option>
+              <option disabled>8 — Out of stock</option>
+              <option>10</option>
+              <option>12</option>
+              <option>14</option>
+            </select>
+          </div>
+          <div>
+            <div class="qs-size-col-label">
+              <span class="qs-size-label">Length</span>
+            </div>
+            <select class="qs-select">
+              <option value="">Select Length</option>
+              <option>28"</option>
+              <option>30"</option>
+              <option>32"</option>
+              <option>34"</option>
+            </select>
+          </div>
+        </div>
+        <div class="qs-size-note">Our people say it <strong>fits true to size</strong>.</div>
+      </div>
+
+    </div><!-- /qs-details -->
+
+    <div class="qs-atc-sticky">
+      <button class="qs-atc-btn">Add to Cart</button>
+      <a href="#" class="qs-view-details">View full details &#8594;</a>
+    </div>
+
+  </div><!-- /qs-modal -->
+</div><!-- /qs-overlay -->
+
+
+<script>
+  function switchUpsellTab(btn, idx) {
+    const container = btn.closest('.mc-upsells');
+    container.querySelectorAll('.mc-tab').forEach((t, i) => t.classList.toggle('active', i === idx));
+    container.querySelectorAll('.mc-upsells-row').forEach((g, i) => g.style.display = i === idx ? 'grid' : 'none');
+  }
+
+  function openQS(title, price, imgSrc) {
+    document.getElementById('qsTitle').textContent = title;
+    document.getElementById('qsPrice').textContent = price;
+    document.getElementById('qsTitleDesktop').textContent = title;
+    document.getElementById('qsPriceDesktop').textContent = price;
+    const img = document.getElementById('qsThumbImg');
+    img.src = imgSrc; img.alt = title;
+    document.getElementById('qsOverlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeQS(e) {
+    if (e && e.target !== document.getElementById('qsOverlay')) return;
+    document.getElementById('qsOverlay').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+</script>
+
+</body>
+</html>

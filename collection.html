@@ -458,56 +458,19 @@
       flex-shrink: 0;
     }
     .qam-color-swatch.selected { border-color: #333; box-shadow: 0 0 0 2px #fff inset; }
-    /* Two-axis size picker: waist rows × inseam columns */
-    .qam-size-table { width: 100%; border-collapse: collapse; margin-bottom: 4px; }
-    .qam-size-table th {
-      font-size: 10px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      color: #aaa;
-      padding: 0 6px 6px;
-      text-align: center;
+    /* Size + Length dropdowns (matches PDP pattern) */
+    .qam-size-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 6px; }
+    .qam-size-col-label {
+      display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px;
     }
-    .qam-size-table th:first-child { text-align: left; padding-left: 0; }
-    .qam-size-table td { padding: 3px 3px; text-align: center; }
-    .qam-size-chip {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      min-width: 40px;
-      padding: 6px 4px;
-      border: 1.5px solid #d0d0d0;
-      border-radius: 2px;
-      font-size: 11px;
-      font-weight: 600;
-      cursor: pointer;
-      color: #333;
-      width: 100%;
+    .qam-size-label { font-size: 12px; font-weight: 700; }
+    .qam-size-chart-link { font-size: 12px; color: #333; text-decoration: underline; cursor: pointer; }
+    .qam-select {
+      width: 100%; padding: 12px 14px; border: 1.5px solid #ccc; border-radius: 4px;
+      font-size: 14px; font-family: inherit; appearance: none;
+      background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23333' stroke-width='1.5' fill='none'/%3E%3C/svg%3E") no-repeat right 14px center;
     }
-    .qam-size-chip.selected { background: #333; color: #fff; border-color: #333; }
-    .qam-size-chip.unavailable {
-      color: #ccc;
-      border-color: #eee;
-      cursor: not-allowed;
-      position: relative;
-      overflow: hidden;
-    }
-    .qam-size-chip.unavailable::after {
-      content: '';
-      position: absolute;
-      top: 50%; left: 10%; right: 10%;
-      height: 1px;
-      background: #ddd;
-      transform: rotate(-12deg);
-    }
-    .qam-size-row-label {
-      font-size: 11px;
-      font-weight: 700;
-      color: #555;
-      padding-right: 8px;
-      white-space: nowrap;
-    }
+    .qam-size-note { font-size: 12px; color: #666; margin-bottom: 14px; }
     /* Stock status — three variants */
     .qam-stock {
       font-size: 12px;
@@ -809,6 +772,16 @@
 
       .breadcrumb { padding: 10px 40px; }
 
+      /* ── Sub-collection circle strip — desktop ── */
+      .sub-collection-strip { padding: 20px 40px 16px; }
+      .sub-col-row { gap: 22px; }
+      .sub-col-item { width: 88px; }
+      .sub-col-circle { width: 88px; height: 88px; }
+      .sub-col-circle svg { width: 70px; }
+      .sub-col-label { font-size: 12px; }
+      /* "All Pants" moves to end of row on desktop — on mobile it's first (visible on load) */
+      .sub-col-row .sub-col-item:first-child { order: 10; }
+
       /* ── Horizon "vertical" filter style:
          Horizontal bar above the page shows: "Filters" label + product count on left, Sort on right.
          Below: sidebar (vertical facets) on left + product grid on right. ── */
@@ -890,8 +863,8 @@
       .collection-grid.density-2 { grid-template-columns: repeat(2, 1fr); gap: 32px 24px; }
       .collection-grid.density-4 { grid-template-columns: repeat(4, 1fr); gap: 24px 16px; }
 
-      /* ── AI assist block — desktop ── */
-      .ai-assist-block { padding: 28px 32px; }
+      /* ── AI assist block — desktop (2-col: product card floats left in col 1) ── */
+      .ai-assist-block { grid-column: span 2; padding: 28px 32px; }
       .ai-assist-inner { max-width: 100%; }
       .ai-assist-prompts { flex-direction: row; flex-wrap: wrap; }
       .ai-prompt-btn { width: auto; flex: 1 1 calc(50% - 4px); }
@@ -1148,7 +1121,7 @@
 
     /* ── AI ASSIST BLOCK ── */
     .ai-assist-block {
-      grid-column: 1 / -1; /* spans all columns on both mobile and desktop */
+      grid-column: 1 / -1; /* full width on mobile; desktop overrides to span 2 of 3 cols */
       background: #f7f6f4;
       border-radius: 6px;
       padding: 20px 16px;
@@ -1227,6 +1200,72 @@
       align-items: center;
       justify-content: center;
       flex-shrink: 0;
+    }
+
+    /* ── SUB-COLLECTION CIRCLE STRIP (above-grid category nav) ── */
+    .sub-collection-strip {
+      padding: 16px 16px 14px;
+      border-bottom: 1px solid #f0f0f0;
+      overflow-x: auto;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+    }
+    .sub-collection-strip::-webkit-scrollbar { display: none; }
+    .sub-col-row {
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+    }
+    .sub-col-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 7px;
+      cursor: pointer;
+      text-decoration: none;
+      flex-shrink: 0;
+      width: 72px;
+      background: none;
+      border: none;
+      padding: 0;
+      font-family: inherit;
+    }
+    /* Circle: clips SVG to a circle; align-items:flex-end pushes silhouette to bottom so it reads like Quince's product circles */
+    .sub-col-circle {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      border: 2px solid #e8e8e8;
+      background: #f2f2f2;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      overflow: hidden;
+      flex-shrink: 0;
+      transition: border-color 0.15s;
+    }
+    .sub-col-item:hover .sub-col-circle { border-color: #aaa; }
+    .sub-col-item.selected .sub-col-circle { border: 2.5px solid #333; }
+    /* SVG wider than circle → overflow clips the waistband, leaving legs prominent */
+    .sub-col-circle svg { display: block; width: 58px; height: auto; }
+    .sub-col-label {
+      font-size: 11px;
+      font-weight: 500;
+      color: #888;
+      text-align: center;
+      line-height: 1.2;
+      white-space: nowrap;
+    }
+    .sub-col-item.selected .sub-col-label { font-weight: 700; color: #222; }
+    /* "All Pants" uses centered text instead of SVG */
+    .sub-col-circle.sub-col-all { align-items: center; }
+    .sub-col-all-text {
+      font-size: 12px;
+      font-weight: 700;
+      color: #aaa;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding-bottom: 4px;
     }
 
     /* ── SCENARIO DIVIDER ── */
@@ -1447,6 +1486,38 @@
     @media (hover: hover) {
       .fit-info-sheet-overlay { display: none !important; }
     }
+
+    /* ── Late desktop overrides — must follow base styles to win cascade ── */
+    @media (min-width: 1024px) {
+      /* AI assist block */
+      .ai-assist-block { grid-column: span 1; padding: 16px; }
+      .ai-assist-inner { max-width: 100%; }
+      .ai-assist-header { margin-bottom: 10px; }
+      .ai-assist-title { font-size: 12px; }
+      .ai-assist-prompts { flex-direction: column; gap: 6px; margin-bottom: 8px; }
+      .ai-prompt-btn { font-size: 11px; padding: 8px 12px; }
+      .ai-assist-freeform { padding: 3px 3px 3px 12px; }
+      .ai-freeform-input { font-size: 12px; }
+      .ai-freeform-send { width: 28px; height: 28px; font-size: 13px; }
+
+      /* Empty filter state — sidebar + message area grid */
+      .empty-state-body {
+        display: grid;
+        grid-template-columns: 260px 1fr;
+        align-items: start;
+        max-width: 1280px;
+        margin: 0 auto;
+        padding: 0 40px;
+      }
+      .empty-grid-area {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 480px;
+        padding: 40px;
+      }
+      .empty-state { padding: 0; max-width: 420px; }
+    }
   </style>
 </head>
 <body>
@@ -1483,6 +1554,83 @@
 <nav class="breadcrumb">
   <a href="#">Home</a><span>›</span><a href="#">Pants</a><span>›</span> Straight Leg
 </nav>
+
+<!-- SUB-COLLECTION STRIP — sibling leg-style collections, circle nav like Quince -->
+<!-- On desktop: left-aligned row, full-width with 40px padding. Horizontal scroll on mobile. -->
+<!-- Selected state = current sub-collection (Straight Leg). Clicking navigates to that collection. -->
+<div class="sub-collection-strip">
+  <div class="sub-col-row">
+
+    <!-- All Pants — parent collection link -->
+    <button class="sub-col-item" onclick="selectSubCol(this)">
+      <div class="sub-col-circle sub-col-all">
+        <span class="sub-col-all-text">All</span>
+      </div>
+      <span class="sub-col-label">All Pants</span>
+    </button>
+
+    <!-- Straight Leg — current page, selected -->
+    <button class="sub-col-item selected" onclick="selectSubCol(this)">
+      <div class="sub-col-circle">
+        <!-- Straight: parallel seams, consistent width hip to ankle -->
+        <svg viewBox="0 0 48 66" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="4" y="2" width="40" height="7" rx="1" fill="#ccc"/>
+          <path d="M4,9 L44,9 L44,62 L29,62 L29,23 Q24,31 19,23 L19,62 L4,62 Z" fill="#e2e2e2" stroke="#c0c0c0" stroke-width="1"/>
+        </svg>
+      </div>
+      <span class="sub-col-label">Straight</span>
+    </button>
+
+    <!-- Slim -->
+    <button class="sub-col-item" onclick="selectSubCol(this)">
+      <div class="sub-col-circle">
+        <!-- Slim: seams converge toward a narrow ankle opening -->
+        <svg viewBox="0 0 48 66" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="4" y="2" width="40" height="7" rx="1" fill="#ccc"/>
+          <path d="M4,9 L44,9 L41,62 L30,62 L29,23 Q24,31 19,23 L18,62 L7,62 Z" fill="#e2e2e2" stroke="#c0c0c0" stroke-width="1"/>
+        </svg>
+      </div>
+      <span class="sub-col-label">Slim</span>
+    </button>
+
+    <!-- Bootcut -->
+    <button class="sub-col-item" onclick="selectSubCol(this)">
+      <div class="sub-col-circle">
+        <!-- Bootcut: narrows at knee (y=40) then flares at ankle -->
+        <svg viewBox="0 0 48 66" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="4" y="2" width="40" height="7" rx="1" fill="#ccc"/>
+          <path d="M4,9 L44,9 L46,62 L28,62 L27,40 L29,23 Q24,31 19,23 L21,40 L20,62 L2,62 Z" fill="#e2e2e2" stroke="#c0c0c0" stroke-width="1"/>
+        </svg>
+      </div>
+      <span class="sub-col-label">Bootcut</span>
+    </button>
+
+    <!-- Relaxed -->
+    <button class="sub-col-item" onclick="selectSubCol(this)">
+      <div class="sub-col-circle">
+        <!-- Relaxed: wider throughout, outer seams remain vertical -->
+        <svg viewBox="0 0 48 66" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="2" y="2" width="44" height="7" rx="1" fill="#ccc"/>
+          <path d="M2,9 L46,9 L46,62 L28,62 L28,23 Q24,31 20,23 L20,62 L2,62 Z" fill="#e2e2e2" stroke="#c0c0c0" stroke-width="1"/>
+        </svg>
+      </div>
+      <span class="sub-col-label">Relaxed</span>
+    </button>
+
+    <!-- Wide Leg -->
+    <button class="sub-col-item" onclick="selectSubCol(this)">
+      <div class="sub-col-circle">
+        <!-- Wide Leg: pronounced outward flare from hip to floor -->
+        <svg viewBox="0 0 48 66" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="2" y="2" width="44" height="7" rx="1" fill="#ccc"/>
+          <path d="M2,9 L46,9 L47,62 L30,62 L27,23 Q24,31 21,23 L18,62 L1,62 Z" fill="#e2e2e2" stroke="#c0c0c0" stroke-width="1"/>
+        </svg>
+      </div>
+      <span class="sub-col-label">Wide Leg</span>
+    </button>
+
+  </div>
+</div>
 
 <!-- SECTION: FILTER + SORT BAR -->
 <!-- Horizon "vertical" filter style: shows filters label + product count left, sort right in a top bar -->
@@ -1847,7 +1995,7 @@
       <!-- CARD 7 -->
       <div class="product-card">
         <div class="product-card-media">
-          <div class="product-card-img-placeholder">[ Product Image ]</div>
+          <div class="product-card-img-placeholder"></div>
           <button class="quick-add-btn" onclick="openQuickAdd('GO TO™ Pants in Stretch Canvas','$125')" title="Choose options">
             <span class="quick-add-icon">+</span>
             <span class="quick-add-label">Choose Options</span>
@@ -1864,7 +2012,7 @@
       <!-- CARD 8 -->
       <div class="product-card">
         <div class="product-card-media">
-          <div class="product-card-img-placeholder">[ Product Image ]</div>
+          <div class="product-card-img-placeholder"></div>
           <div class="product-badge sale">Sale</div>
           <button class="quick-add-btn" onclick="openQuickAdd('GO TO™ Stretch Canvas Short','$99')" title="Choose options">
             <span class="quick-add-icon">+</span>
@@ -2116,50 +2264,39 @@
         </div>
       </div>
 
-      <!-- Size: waist × inseam table -->
+      <!-- Size + Length dropdowns -->
       <div class="qam-variant-section">
-        <div class="qam-variant-label">Size — <span style="font-weight:400;text-transform:none;letter-spacing:0;">Select waist &amp; inseam</span></div>
-        <table class="qam-size-table">
-          <thead>
-            <tr>
-              <th>Waist</th>
-              <th>28"</th>
-              <th>30"</th>
-              <th>32"</th>
-              <th>34"</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><span class="qam-size-row-label">28</span></td>
-              <td><div class="qam-size-chip">28×28</div></td>
-              <td><div class="qam-size-chip selected">28×30</div></td>
-              <td><div class="qam-size-chip">28×32</div></td>
-              <td><div class="qam-size-chip unavailable">28×34</div></td>
-            </tr>
-            <tr>
-              <td><span class="qam-size-row-label">30</span></td>
-              <td><div class="qam-size-chip">30×28</div></td>
-              <td><div class="qam-size-chip">30×30</div></td>
-              <td><div class="qam-size-chip">30×32</div></td>
-              <td><div class="qam-size-chip">30×34</div></td>
-            </tr>
-            <tr>
-              <td><span class="qam-size-row-label">32</span></td>
-              <td><div class="qam-size-chip unavailable">32×28</div></td>
-              <td><div class="qam-size-chip">32×30</div></td>
-              <td><div class="qam-size-chip">32×32</div></td>
-              <td><div class="qam-size-chip">32×34</div></td>
-            </tr>
-            <tr>
-              <td><span class="qam-size-row-label">34</span></td>
-              <td><div class="qam-size-chip unavailable">34×28</div></td>
-              <td><div class="qam-size-chip unavailable">34×30</div></td>
-              <td><div class="qam-size-chip">34×32</div></td>
-              <td><div class="qam-size-chip">34×34</div></td>
-            </tr>
-          </tbody>
-        </table>
+        <div class="qam-size-row">
+          <div>
+            <div class="qam-size-col-label">
+              <span class="qam-size-label">Size</span>
+              <span class="qam-size-chart-link">Size Chart</span>
+            </div>
+            <select class="qam-select">
+              <option value="">Select Size</option>
+              <option>2</option>
+              <option>4</option>
+              <option>6</option>
+              <option disabled>8 — Out of stock</option>
+              <option>10</option>
+              <option>12</option>
+              <option>14</option>
+            </select>
+          </div>
+          <div>
+            <div class="qam-size-col-label">
+              <span class="qam-size-label">Length</span>
+            </div>
+            <select class="qam-select">
+              <option value="">Select Length</option>
+              <option>28"</option>
+              <option>30"</option>
+              <option>32"</option>
+              <option>34"</option>
+            </select>
+          </div>
+        </div>
+        <div class="qam-size-note">Our people say it <strong>fits true to size</strong>.</div>
       </div>
 
       <!-- Stock status: one of three messages -->
@@ -2489,6 +2626,12 @@
   }
   applyDesktopLayout();
   window.addEventListener('resize', applyDesktopLayout);
+
+  /* ── Sub-collection circle nav toggle ── */
+  function selectSubCol(btn) {
+    btn.closest('.sub-col-row').querySelectorAll('.sub-col-item').forEach(b => b.classList.remove('selected'));
+    btn.classList.add('selected');
+  }
 
   /* Swatch interaction in Quick Add modal */
   document.querySelectorAll('.qam-color-swatch').forEach(sw => {
