@@ -232,10 +232,10 @@
       /* Items: wider image, more breathing room */
       .cart-item { grid-template-columns: 120px 1fr; gap: 20px; padding: 20px 24px; }
 
-      /* Upsells: in right column on desktop, 2-across to fit 360px width */
-      .cart-upsells { grid-column: 2; border-radius: 4px; margin-top: 16px; overflow: hidden; }
-      .cart-upsells-tabs { padding: 0 20px; }
-      .cart-upsells-grid { grid-template-columns: repeat(2, 1fr); padding: 12px 20px 20px; gap: 8px; }
+      /* Upsells: in left column on desktop, 4-across */
+      .cart-upsells { border-top: 2px solid #f0f0f0; }
+      .cart-upsells-tabs { padding: 0 24px; }
+      .cart-upsells-grid { grid-template-columns: repeat(4, 1fr); padding: 12px 24px 20px; gap: 8px; }
 
       .scenario-wrap { max-width: none; }
     }
@@ -321,6 +321,26 @@
 
     </div><!-- /cart-items -->
 
+    <!-- UPSELLS — left column below items (desktop); below items before summary (mobile) -->
+    <div class="cart-upsells">
+      <div class="cart-upsells-tabs">
+        <button class="cart-tab active" onclick="switchCartTab(this,0)">Recommended</button>
+        <button class="cart-tab" onclick="switchCartTab(this,1)">Best Sellers</button>
+      </div>
+      <div class="cart-upsells-grid">
+        <div class="cart-upsell-card"><div class="cart-upsell-img"><img src="https://dovetailworkwear.com/cdn/shop/files/DTW_S25_Studio_GO-TO-Short-Kelp-Green-1603.jpg?v=1771001582&width=200" alt="GO TO™ Short"><button class="cart-upsell-quick-add" aria-label="Quick add">+</button></div><div class="cart-upsell-price">$79</div></div>
+        <div class="cart-upsell-card"><div class="cart-upsell-img"><img src="https://dovetailworkwear.com/cdn/shop/files/Carbon-Black-GO-TO-2421MODEL-225.jpg?v=1772740869&width=200" alt="Christa X COOLSWAP™ Pant"><button class="cart-upsell-quick-add" aria-label="Quick add">+</button></div><div class="cart-upsell-price">$119</div></div>
+        <div class="cart-upsell-card"><div class="cart-upsell-img"><img src="https://dovetailworkwear.com/cdn/shop/files/DTW_S25_Studio_Provisions-Cargo-Pant-Black-4445_MODEL-214_dc2a494a-26e9-4349-ba13-ba14bec66cd7.jpg?v=1774324524&width=200" alt="Provisions Cargo Pant"><button class="cart-upsell-quick-add" aria-label="Quick add">+</button></div><div class="cart-upsell-price">$129</div></div>
+        <div class="cart-upsell-card"><div class="cart-upsell-img"><img src="https://dovetailworkwear.com/cdn/shop/files/Dovetail-2025-S26-Studio-Christa-X-COOLSWAP_-Pant-Dovetail-Blue_-1105-Crop-eeeeee.jpg?v=1769631992&width=200" alt="Pioneer Crop Pant"><button class="cart-upsell-quick-add" aria-label="Quick add">+</button></div><div class="cart-upsell-price">$109</div></div>
+      </div>
+      <div class="cart-upsells-grid" style="display:none;">
+        <div class="cart-upsell-card"><div class="cart-upsell-img"><img src="https://dovetailworkwear.com/cdn/shop/files/Carbon-Black-GO-TO-2421MODEL-225.jpg?v=1772740869&width=200" alt="GO TO™ Stretch Canvas Pant"><button class="cart-upsell-quick-add" aria-label="Quick add">+</button></div><div class="cart-upsell-price">$119</div></div>
+        <div class="cart-upsell-card"><div class="cart-upsell-img"><img src="https://dovetailworkwear.com/cdn/shop/files/Dovetail-2025-S26-Studio-Christa-X-COOLSWAP_-Pant-Dovetail-Blue_-1105-Crop-eeeeee.jpg?v=1769631992&width=200" alt="Christa Slim Pant"><button class="cart-upsell-quick-add" aria-label="Quick add">+</button></div><div class="cart-upsell-price">$119</div></div>
+        <div class="cart-upsell-card"><div class="cart-upsell-img"><img src="https://dovetailworkwear.com/cdn/shop/files/DTW_S25_Studio_Provisions-Cargo-Pant-Black-4445_MODEL-214_dc2a494a-26e9-4349-ba13-ba14bec66cd7.jpg?v=1774324524&width=200" alt="Groundbreaker Cargo Pant"><button class="cart-upsell-quick-add" aria-label="Quick add">+</button></div><div class="cart-upsell-price">$129</div></div>
+        <div class="cart-upsell-card"><div class="cart-upsell-img"><img src="https://dovetailworkwear.com/cdn/shop/files/DTW_S25_Studio_GO-TO-Short-Kelp-Green-1603.jpg?v=1771001582&width=200" alt="Full Length Canvas Bib"><button class="cart-upsell-quick-add" aria-label="Quick add">+</button></div><div class="cart-upsell-price">$149</div></div>
+      </div>
+    </div><!-- /cart-upsells -->
+
     <button class="cart-continue">&#8592; Continue Shopping</button>
 
   </div><!-- /cart-main -->
@@ -368,26 +388,6 @@
 
     </div>
   </div><!-- /cart-summary-col -->
-
-  <!-- SECTION: UPSELLS — col 2 on desktop, inline after summary on mobile -->
-  <div class="cart-upsells">
-    <div class="cart-upsells-tabs">
-      <button class="cart-tab active" onclick="switchCartTab(this,0)">Recommended</button>
-      <button class="cart-tab" onclick="switchCartTab(this,1)">Best Sellers</button>
-    </div>
-    <div class="cart-upsells-grid">
-      <div class="cart-upsell-card"><div class="cart-upsell-img"><img src="https://dovetailworkwear.com/cdn/shop/files/DTW_S25_Studio_GO-TO-Short-Kelp-Green-1603.jpg?v=1771001582&width=200" alt="GO TO™ Short"><button class="cart-upsell-quick-add" aria-label="Quick add">+</button></div><div class="cart-upsell-price">$79</div></div>
-      <div class="cart-upsell-card"><div class="cart-upsell-img"><img src="https://dovetailworkwear.com/cdn/shop/files/Carbon-Black-GO-TO-2421MODEL-225.jpg?v=1772740869&width=200" alt="Christa X COOLSWAP™ Pant"><button class="cart-upsell-quick-add" aria-label="Quick add">+</button></div><div class="cart-upsell-price">$119</div></div>
-      <div class="cart-upsell-card"><div class="cart-upsell-img"><img src="https://dovetailworkwear.com/cdn/shop/files/DTW_S25_Studio_Provisions-Cargo-Pant-Black-4445_MODEL-214_dc2a494a-26e9-4349-ba13-ba14bec66cd7.jpg?v=1774324524&width=200" alt="Provisions Cargo Pant"><button class="cart-upsell-quick-add" aria-label="Quick add">+</button></div><div class="cart-upsell-price">$129</div></div>
-      <div class="cart-upsell-card"><div class="cart-upsell-img"><img src="https://dovetailworkwear.com/cdn/shop/files/Dovetail-2025-S26-Studio-Christa-X-COOLSWAP_-Pant-Dovetail-Blue_-1105-Crop-eeeeee.jpg?v=1769631992&width=200" alt="Pioneer Crop Pant"><button class="cart-upsell-quick-add" aria-label="Quick add">+</button></div><div class="cart-upsell-price">$109</div></div>
-    </div>
-    <div class="cart-upsells-grid" style="display:none;">
-      <div class="cart-upsell-card"><div class="cart-upsell-img"><img src="https://dovetailworkwear.com/cdn/shop/files/Carbon-Black-GO-TO-2421MODEL-225.jpg?v=1772740869&width=200" alt="GO TO™ Stretch Canvas Pant"><button class="cart-upsell-quick-add" aria-label="Quick add">+</button></div><div class="cart-upsell-price">$119</div></div>
-      <div class="cart-upsell-card"><div class="cart-upsell-img"><img src="https://dovetailworkwear.com/cdn/shop/files/Dovetail-2025-S26-Studio-Christa-X-COOLSWAP_-Pant-Dovetail-Blue_-1105-Crop-eeeeee.jpg?v=1769631992&width=200" alt="Christa Slim Pant"><button class="cart-upsell-quick-add" aria-label="Quick add">+</button></div><div class="cart-upsell-price">$119</div></div>
-      <div class="cart-upsell-card"><div class="cart-upsell-img"><img src="https://dovetailworkwear.com/cdn/shop/files/DTW_S25_Studio_Provisions-Cargo-Pant-Black-4445_MODEL-214_dc2a494a-26e9-4349-ba13-ba14bec66cd7.jpg?v=1774324524&width=200" alt="Groundbreaker Cargo Pant"><button class="cart-upsell-quick-add" aria-label="Quick add">+</button></div><div class="cart-upsell-price">$129</div></div>
-      <div class="cart-upsell-card"><div class="cart-upsell-img"><img src="https://dovetailworkwear.com/cdn/shop/files/DTW_S25_Studio_GO-TO-Short-Kelp-Green-1603.jpg?v=1771001582&width=200" alt="Full Length Canvas Bib"><button class="cart-upsell-quick-add" aria-label="Quick add">+</button></div><div class="cart-upsell-price">$149</div></div>
-    </div>
-  </div><!-- /cart-upsells -->
 
 </div><!-- /cart-page -->
 
@@ -489,6 +489,26 @@
       <p style="font-size: 12px; color: #6b5f45; line-height: 1.6; margin: 0;">Your in-stock items will ship immediately. Preorder item(s) will ship when they are in stock.</p>
     </div>
 
+    <!-- UPSELLS — left column below items (desktop); below items before summary (mobile) -->
+    <div class="cart-upsells">
+      <div class="cart-upsells-tabs">
+        <button class="cart-tab active" onclick="switchCartTab(this,0)">Recommended</button>
+        <button class="cart-tab" onclick="switchCartTab(this,1)">Best Sellers</button>
+      </div>
+      <div class="cart-upsells-grid">
+        <div class="cart-upsell-card"><div class="cart-upsell-img"><img src="https://dovetailworkwear.com/cdn/shop/files/DTW_S25_Studio_GO-TO-Short-Kelp-Green-1603.jpg?v=1771001582&width=200" alt="GO TO™ Short"><button class="cart-upsell-quick-add" aria-label="Quick add">+</button></div><div class="cart-upsell-price">$79</div></div>
+        <div class="cart-upsell-card"><div class="cart-upsell-img"><img src="https://dovetailworkwear.com/cdn/shop/files/Carbon-Black-GO-TO-2421MODEL-225.jpg?v=1772740869&width=200" alt="Christa X COOLSWAP™ Pant"><button class="cart-upsell-quick-add" aria-label="Quick add">+</button></div><div class="cart-upsell-price">$119</div></div>
+        <div class="cart-upsell-card"><div class="cart-upsell-img"><img src="https://dovetailworkwear.com/cdn/shop/files/DTW_S25_Studio_Provisions-Cargo-Pant-Black-4445_MODEL-214_dc2a494a-26e9-4349-ba13-ba14bec66cd7.jpg?v=1774324524&width=200" alt="Provisions Cargo Pant"><button class="cart-upsell-quick-add" aria-label="Quick add">+</button></div><div class="cart-upsell-price">$129</div></div>
+        <div class="cart-upsell-card"><div class="cart-upsell-img"><img src="https://dovetailworkwear.com/cdn/shop/files/Dovetail-2025-S26-Studio-Christa-X-COOLSWAP_-Pant-Dovetail-Blue_-1105-Crop-eeeeee.jpg?v=1769631992&width=200" alt="Pioneer Crop Pant"><button class="cart-upsell-quick-add" aria-label="Quick add">+</button></div><div class="cart-upsell-price">$109</div></div>
+      </div>
+      <div class="cart-upsells-grid" style="display:none;">
+        <div class="cart-upsell-card"><div class="cart-upsell-img"><img src="https://dovetailworkwear.com/cdn/shop/files/Carbon-Black-GO-TO-2421MODEL-225.jpg?v=1772740869&width=200" alt="GO TO™ Stretch Canvas Pant"><button class="cart-upsell-quick-add" aria-label="Quick add">+</button></div><div class="cart-upsell-price">$119</div></div>
+        <div class="cart-upsell-card"><div class="cart-upsell-img"><img src="https://dovetailworkwear.com/cdn/shop/files/Dovetail-2025-S26-Studio-Christa-X-COOLSWAP_-Pant-Dovetail-Blue_-1105-Crop-eeeeee.jpg?v=1769631992&width=200" alt="Christa Slim Pant"><button class="cart-upsell-quick-add" aria-label="Quick add">+</button></div><div class="cart-upsell-price">$119</div></div>
+        <div class="cart-upsell-card"><div class="cart-upsell-img"><img src="https://dovetailworkwear.com/cdn/shop/files/DTW_S25_Studio_Provisions-Cargo-Pant-Black-4445_MODEL-214_dc2a494a-26e9-4349-ba13-ba14bec66cd7.jpg?v=1774324524&width=200" alt="Groundbreaker Cargo Pant"><button class="cart-upsell-quick-add" aria-label="Quick add">+</button></div><div class="cart-upsell-price">$129</div></div>
+        <div class="cart-upsell-card"><div class="cart-upsell-img"><img src="https://dovetailworkwear.com/cdn/shop/files/DTW_S25_Studio_GO-TO-Short-Kelp-Green-1603.jpg?v=1771001582&width=200" alt="Full Length Canvas Bib"><button class="cart-upsell-quick-add" aria-label="Quick add">+</button></div><div class="cart-upsell-price">$149</div></div>
+      </div>
+    </div><!-- /cart-upsells -->
+
     <button class="cart-continue">&#8592; Continue Shopping</button>
   </div><!-- /cart-main -->
 
@@ -512,26 +532,6 @@
       </div>
     </div>
   </div><!-- /cart-summary-col -->
-
-  <!-- UPSELLS — col 2 on desktop, inline after summary on mobile -->
-  <div class="cart-upsells">
-    <div class="cart-upsells-tabs">
-      <button class="cart-tab active" onclick="switchCartTab(this,0)">Recommended</button>
-      <button class="cart-tab" onclick="switchCartTab(this,1)">Best Sellers</button>
-    </div>
-    <div class="cart-upsells-grid">
-      <div class="cart-upsell-card"><div class="cart-upsell-img"><img src="https://dovetailworkwear.com/cdn/shop/files/DTW_S25_Studio_GO-TO-Short-Kelp-Green-1603.jpg?v=1771001582&width=200" alt="GO TO™ Short"><button class="cart-upsell-quick-add" aria-label="Quick add">+</button></div><div class="cart-upsell-price">$79</div></div>
-      <div class="cart-upsell-card"><div class="cart-upsell-img"><img src="https://dovetailworkwear.com/cdn/shop/files/Carbon-Black-GO-TO-2421MODEL-225.jpg?v=1772740869&width=200" alt="Christa X COOLSWAP™ Pant"><button class="cart-upsell-quick-add" aria-label="Quick add">+</button></div><div class="cart-upsell-price">$119</div></div>
-      <div class="cart-upsell-card"><div class="cart-upsell-img"><img src="https://dovetailworkwear.com/cdn/shop/files/DTW_S25_Studio_Provisions-Cargo-Pant-Black-4445_MODEL-214_dc2a494a-26e9-4349-ba13-ba14bec66cd7.jpg?v=1774324524&width=200" alt="Provisions Cargo Pant"><button class="cart-upsell-quick-add" aria-label="Quick add">+</button></div><div class="cart-upsell-price">$129</div></div>
-      <div class="cart-upsell-card"><div class="cart-upsell-img"><img src="https://dovetailworkwear.com/cdn/shop/files/Dovetail-2025-S26-Studio-Christa-X-COOLSWAP_-Pant-Dovetail-Blue_-1105-Crop-eeeeee.jpg?v=1769631992&width=200" alt="Pioneer Crop Pant"><button class="cart-upsell-quick-add" aria-label="Quick add">+</button></div><div class="cart-upsell-price">$109</div></div>
-    </div>
-    <div class="cart-upsells-grid" style="display:none;">
-      <div class="cart-upsell-card"><div class="cart-upsell-img"><img src="https://dovetailworkwear.com/cdn/shop/files/Carbon-Black-GO-TO-2421MODEL-225.jpg?v=1772740869&width=200" alt="GO TO™ Stretch Canvas Pant"><button class="cart-upsell-quick-add" aria-label="Quick add">+</button></div><div class="cart-upsell-price">$119</div></div>
-      <div class="cart-upsell-card"><div class="cart-upsell-img"><img src="https://dovetailworkwear.com/cdn/shop/files/Dovetail-2025-S26-Studio-Christa-X-COOLSWAP_-Pant-Dovetail-Blue_-1105-Crop-eeeeee.jpg?v=1769631992&width=200" alt="Christa Slim Pant"><button class="cart-upsell-quick-add" aria-label="Quick add">+</button></div><div class="cart-upsell-price">$119</div></div>
-      <div class="cart-upsell-card"><div class="cart-upsell-img"><img src="https://dovetailworkwear.com/cdn/shop/files/DTW_S25_Studio_Provisions-Cargo-Pant-Black-4445_MODEL-214_dc2a494a-26e9-4349-ba13-ba14bec66cd7.jpg?v=1774324524&width=200" alt="Groundbreaker Cargo Pant"><button class="cart-upsell-quick-add" aria-label="Quick add">+</button></div><div class="cart-upsell-price">$129</div></div>
-      <div class="cart-upsell-card"><div class="cart-upsell-img"><img src="https://dovetailworkwear.com/cdn/shop/files/DTW_S25_Studio_GO-TO-Short-Kelp-Green-1603.jpg?v=1771001582&width=200" alt="Full Length Canvas Bib"><button class="cart-upsell-quick-add" aria-label="Quick add">+</button></div><div class="cart-upsell-price">$149</div></div>
-    </div>
-  </div><!-- /cart-upsells -->
 
 </div><!-- /cart-page -->
 
