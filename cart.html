@@ -95,6 +95,14 @@
       padding: 11px 18px; background: #fff; border: 1.5px solid #333; border-radius: 4px;
       font-size: 13px; font-weight: 700; cursor: pointer; font-family: inherit; white-space: nowrap;
     }
+    .cart-promo-toggle {
+      background: none; border: none; cursor: pointer; padding: 0;
+      font-size: 13px; color: #888; font-family: inherit;
+      text-decoration: underline; margin-bottom: 8px; display: block;
+    }
+    .cart-promo-toggle:hover { color: #333; }
+    .cart-promo-wrap { max-height: 0; overflow: hidden; transition: max-height 0.25s ease; }
+    .cart-promo-wrap.open { max-height: 80px; }
 
     /* Line items */
     .cart-summary-line {
@@ -352,10 +360,12 @@
 
       <div class="cart-summary-heading">Order Summary</div>
 
-      <!-- Promo code -->
-      <div class="cart-promo">
-        <input class="cart-promo-input" type="text" placeholder="Discount code">
-        <button class="cart-promo-btn">Apply</button>
+      <button class="cart-promo-toggle" onclick="togglePromo(this)">Have a code?</button>
+      <div class="cart-promo-wrap">
+        <div class="cart-promo">
+          <input class="cart-promo-input" type="text" placeholder="Discount code">
+          <button class="cart-promo-btn">Apply</button>
+        </div>
       </div>
 
       <!-- Totals -->
@@ -515,9 +525,12 @@
   <div class="cart-summary-col">
     <div class="cart-summary">
       <div class="cart-summary-heading">Order Summary</div>
-      <div class="cart-promo">
-        <input class="cart-promo-input" type="text" placeholder="Discount code">
-        <button class="cart-promo-btn">Apply</button>
+      <button class="cart-promo-toggle" onclick="togglePromo(this)">Have a code?</button>
+      <div class="cart-promo-wrap">
+        <div class="cart-promo">
+          <input class="cart-promo-input" type="text" placeholder="Discount code">
+          <button class="cart-promo-btn">Apply</button>
+        </div>
       </div>
       <div class="cart-summary-line"><span>Subtotal</span><span>$317.00</span></div>
       <div class="cart-summary-line"><span>Shipping</span><span style="color:#aaa;">Calculated at checkout</span></div>
@@ -560,6 +573,9 @@
 </div>
 
 <script>
+  function togglePromo(btn) {
+    btn.nextElementSibling.classList.toggle('open');
+  }
   function switchCartTab(btn, idx) {
     const container = btn.closest('.cart-upsells');
     container.querySelectorAll('.cart-tab').forEach((t, i) => t.classList.toggle('active', i === idx));
