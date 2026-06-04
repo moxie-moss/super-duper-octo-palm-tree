@@ -169,6 +169,7 @@
       margin-bottom: 16px;
     }
     .color-chip {
+      position: relative;
       width: 32px; height: 32px;
       border-radius: 50%;
       border: 2px solid #ccc;
@@ -177,6 +178,16 @@
     .color-chip.selected {
       border: 3px solid #333;
       box-shadow: 0 0 0 2px #fff, 0 0 0 4px #333;
+    }
+    /* Variant-level metafield: "new color" indicator */
+    .color-chip.is-new::after {
+      content: '';
+      position: absolute;
+      top: -2px; right: -2px;
+      width: 9px; height: 9px;
+      border-radius: 50%;
+      background: #c00;
+      border: 1.5px solid #fff;
     }
 
     /* Size selector */
@@ -993,8 +1004,8 @@
   <div class="color-chips">
     <div class="color-chip selected" style="background:#d4c9a8;" title="Flax"></div>
     <div class="color-chip" style="background:#2a2a2a;" title="Black"></div>
-    <div class="color-chip" style="background:#5a6e5c;" title="Sage"></div>
-    <div class="color-chip" style="background:#8b6f5e;" title="Terracotta"></div>
+    <div class="color-chip is-new" style="background:#5a6e5c;" title="Sage"></div>
+    <div class="color-chip is-new" style="background:#8b6f5e;" title="Terracotta"></div>
     <div class="color-chip" style="background:#c0c0c0;" title="Stone"></div>
   </div>
 
