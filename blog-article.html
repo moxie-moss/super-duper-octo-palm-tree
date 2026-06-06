@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blog Article Wireframe — Dovetail Workwear</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-size: 15px;
+      color: #333;
+      background: #fff;
+      max-width: 390px;
+      margin: 0 auto;
+    }
+
+    /* ── ANNOUNCEMENT BAR ── */
+    .announcement-bar {
+      background: #333; color: #fff; text-align: center;
+      font-size: 12px; font-weight: 600; letter-spacing: 0.04em; padding: 9px 16px;
+    }
+    .announcement-bar a { color: #fff; text-decoration: underline; }
+
+    /* ── HEADER ── */
+    header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 12px 16px; border-bottom: 1px solid #e0e0e0;
+      position: sticky; top: 0; background: #fff; z-index: 100;
+    }
+    .header-menu { font-size: 22px; cursor: pointer; }
+    .header-logo {
+      font-weight: 700; font-size: 16px; letter-spacing: 0.05em;
+      position: absolute; left: 50%; transform: translateX(-50%);
+    }
+    .header-icons { display: flex; align-items: center; gap: 14px; }
+    .header-cart { font-size: 22px; position: relative; cursor: pointer; }
+    .cart-badge {
+      position: absolute; top: -4px; right: -6px;
+      background: #333; color: #fff; border-radius: 50%;
+      font-size: 10px; width: 16px; height: 16px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .desktop-nav { display: none; }
+    .header-search { display: none; }
+
+    /* ── BREADCRUMB ── */
+    .breadcrumb {
+      padding: 12px 16px;
+      font-size: 12px; color: #aaa;
+      border-bottom: 1px solid #f0f0f0;
+    }
+    .breadcrumb a { color: #aaa; text-decoration: none; }
+    .breadcrumb a:hover { text-decoration: underline; }
+    .breadcrumb-sep { margin: 0 6px; }
+
+    /* ── ARTICLE HEADER ── */
+    .article-header { padding: 24px 16px 20px; }
+    .article-category {
+      font-size: 10px; font-weight: 700; letter-spacing: 0.1em;
+      text-transform: uppercase; color: #999; margin-bottom: 10px;
+    }
+    .article-title {
+      font-size: 26px; font-weight: 700; line-height: 1.25;
+      color: #222; margin-bottom: 12px;
+    }
+    .article-subtitle {
+      font-size: 15px; color: #666; line-height: 1.6; margin-bottom: 18px;
+    }
+    .article-meta {
+      display: flex; align-items: center; gap: 10px;
+      font-size: 12px; color: #aaa; padding-bottom: 4px;
+    }
+    .author-avatar {
+      width: 32px; height: 32px; border-radius: 50%;
+      background: #e0e0e0; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      color: #bbb; font-size: 9px;
+    }
+    .article-meta-info { display: flex; flex-direction: column; gap: 2px; }
+    .article-meta-author { font-weight: 600; color: #555; font-size: 12px; }
+    .article-meta-details { font-size: 11px; color: #aaa; }
+    .article-meta-details span + span::before { content: ' · '; }
+
+    /* ── HERO IMAGE ── */
+    .article-hero {
+      width: 100%; aspect-ratio: 16/9;
+      background: #d0d0d0; margin-bottom: 0;
+      display: flex; align-items: center; justify-content: center;
+      color: #bbb; font-size: 12px;
+    }
+    .article-hero-caption {
+      font-size: 11px; color: #aaa; padding: 6px 16px 0;
+      text-align: center; margin-bottom: 0;
+    }
+
+    /* ── ARTICLE BODY ── */
+    .article-body { padding: 28px 16px 8px; }
+    .article-body p {
+      font-size: 15px; line-height: 1.75; color: #444; margin-bottom: 22px;
+    }
+    .article-body h2 {
+      font-size: 20px; font-weight: 700; color: #222;
+      margin: 36px 0 12px; line-height: 1.3;
+    }
+    .article-body h3 {
+      font-size: 17px; font-weight: 700; color: #333;
+      margin: 28px 0 10px;
+    }
+    .article-body ul { padding-left: 20px; margin-bottom: 22px; }
+    .article-body ul li { font-size: 15px; line-height: 1.7; color: #444; margin-bottom: 6px; }
+
+    /* Inline image */
+    .article-inline-img {
+      width: 100%; aspect-ratio: 3/2; background: #e0e0e0;
+      display: flex; align-items: center; justify-content: center;
+      color: #bbb; font-size: 11px; margin: 4px 0 6px;
+    }
+    .article-img-caption { font-size: 11px; color: #aaa; margin-bottom: 24px; }
+
+    /* Pull quote */
+    .pull-quote {
+      border-left: 3px solid #333;
+      margin: 32px 0; padding: 4px 0 4px 18px;
+    }
+    .pull-quote p {
+      font-size: 19px; font-weight: 700; font-style: italic;
+      color: #333; line-height: 1.4; margin-bottom: 0;
+    }
+
+    /* ── MID-ARTICLE EMAIL BLOCK ── */
+    /* Compact inline form — alt to full-width section at end of page */
+    .article-email-block {
+      background: #f5f0eb; border-radius: 4px;
+      padding: 22px 20px; margin: 36px 0; text-align: center;
+    }
+    .article-email-eyebrow {
+      font-size: 10px; font-weight: 700; letter-spacing: 0.1em;
+      text-transform: uppercase; color: #999; margin-bottom: 6px;
+    }
+    .article-email-headline {
+      font-size: 16px; font-weight: 700; color: #222;
+      margin-bottom: 4px; line-height: 1.3;
+    }
+    .article-email-sub {
+      font-size: 12px; color: #777; margin-bottom: 14px; line-height: 1.4;
+    }
+    .article-email-form { display: flex; flex-direction: column; gap: 8px; }
+    .article-email-input {
+      width: 100%; padding: 11px 14px;
+      border: 1.5px solid #ccc; border-radius: 2px;
+      font-size: 14px; font-family: inherit; background: #fff; color: #333;
+    }
+    .article-email-input::placeholder { color: #aaa; }
+    .article-email-submit {
+      width: 100%; padding: 12px;
+      background: #333; color: #fff;
+      font-size: 13px; font-weight: 700; letter-spacing: 0.04em;
+      border: none; border-radius: 2px; cursor: pointer; font-family: inherit;
+    }
+    .article-email-legal { font-size: 10px; color: #aaa; margin-top: 8px; line-height: 1.4; }
+    .article-email-legal a { color: #aaa; text-decoration: underline; }
+
+    /* ── PRODUCT SPOTLIGHT ── */
+    .article-product-spotlight {
+      border: 1.5px solid #e0e0e0; border-radius: 4px;
+      padding: 16px; margin: 32px 0;
+      display: flex; gap: 14px; align-items: center;
+    }
+    .spotlight-img {
+      width: 80px; height: 100px; background: #e0e0e0; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      color: #bbb; font-size: 10px;
+    }
+    .spotlight-body { flex: 1; }
+    .spotlight-label {
+      font-size: 10px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.08em; color: #999; margin-bottom: 4px;
+    }
+    .spotlight-name { font-size: 14px; font-weight: 700; color: #222; margin-bottom: 4px; line-height: 1.3; }
+    .spotlight-price { font-size: 13px; color: #555; margin-bottom: 10px; }
+    .spotlight-btn {
+      display: inline-block; padding: 9px 16px;
+      background: #333; color: #fff;
+      font-size: 12px; font-weight: 700; letter-spacing: 0.04em;
+      text-decoration: none; border-radius: 2px;
+    }
+
+    /* ── TAGS ── */
+    .article-tags { padding: 8px 16px 24px; border-bottom: 1px solid #e8e8e8; }
+    .article-tags-label {
+      font-size: 10px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.08em; color: #aaa; margin-bottom: 10px;
+    }
+    .tags-list { display: flex; flex-wrap: wrap; gap: 6px; }
+    .tag {
+      font-size: 12px; padding: 4px 10px;
+      border: 1px solid #ddd; border-radius: 2px;
+      color: #666; text-decoration: none;
+    }
+    .tag:hover { border-color: #999; }
+
+    /* ── AUTHOR BIO ── */
+    .author-bio {
+      padding: 24px 16px;
+      border-bottom: 1px solid #e8e8e8;
+      display: flex; gap: 14px;
+    }
+    .author-bio-avatar {
+      width: 56px; height: 56px; border-radius: 50%; background: #e0e0e0; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      color: #bbb; font-size: 9px;
+    }
+    .author-bio-name { font-size: 13px; font-weight: 700; color: #222; margin-bottom: 5px; }
+    .author-bio-text { font-size: 12px; color: #666; line-height: 1.55; }
+
+    /* ── RELATED POSTS ── */
+    .section-related { padding: 32px 16px 8px; }
+    .section-related-heading {
+      font-size: 11px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.08em; color: #888; margin-bottom: 20px;
+    }
+    .related-posts { display: flex; flex-direction: column; gap: 18px; }
+    .related-post { display: flex; gap: 14px; align-items: flex-start; }
+    .related-post-img {
+      width: 88px; height: 66px; background: #e0e0e0; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      color: #bbb; font-size: 10px;
+    }
+    .related-post-cat {
+      font-size: 10px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.08em; color: #aaa; margin-bottom: 5px;
+    }
+    .related-post-title { font-size: 13px; font-weight: 600; color: #222; line-height: 1.3; }
+
+    /* ── EMAIL CAPTURE — blog variant (same as index) ── */
+    .section-email {
+      background: #f5f0eb;
+      padding: 40px 16px;
+      text-align: center;
+      margin-top: 32px;
+    }
+    .email-eyebrow {
+      font-size: 10px; font-weight: 700; letter-spacing: 0.1em;
+      text-transform: uppercase; color: #999; margin-bottom: 10px;
+    }
+    .email-headline { font-size: 22px; font-weight: 700; color: #222; line-height: 1.3; margin-bottom: 8px; }
+    .email-sub { font-size: 13px; color: #666; margin-bottom: 20px; line-height: 1.5; }
+    .email-form { display: flex; flex-direction: column; gap: 10px; }
+    .email-input {
+      width: 100%; padding: 14px 16px;
+      border: 1.5px solid #ccc; border-radius: 2px;
+      font-size: 15px; font-family: inherit; background: #fff; color: #333;
+    }
+    .email-input::placeholder { color: #aaa; }
+    .email-submit {
+      width: 100%; padding: 14px;
+      background: #333; color: #fff;
+      font-size: 14px; font-weight: 700; letter-spacing: 0.04em;
+      border: none; border-radius: 2px; cursor: pointer; font-family: inherit;
+    }
+    .email-legal { font-size: 11px; color: #aaa; margin-top: 12px; line-height: 1.5; }
+    .email-legal a { color: #aaa; text-decoration: underline; }
+
+    /* ── FOOTER ── */
+    footer {
+      background: #f5f5f5; border-top: 1px solid #e0e0e0;
+      padding: 28px 16px 40px;
+    }
+    .footer-logo { font-size: 14px; font-weight: 700; letter-spacing: 0.06em; margin-bottom: 20px; }
+    .footer-nav-group { margin-bottom: 0; }
+    .footer-nav-trigger {
+      width: 100%; display: flex; justify-content: space-between; align-items: center;
+      padding: 13px 0; border-top: 1px solid #e0e0e0;
+      background: none; border-left: none; border-right: none; border-bottom: none;
+      font-size: 13px; font-weight: 700; font-family: inherit; cursor: pointer; color: #333;
+    }
+    .footer-toggle-icon { font-size: 16px; color: #999; }
+    .footer-nav-body { display: none; padding-bottom: 12px; }
+    .footer-nav-body.open { display: block; }
+    .footer-nav-body a { display: block; font-size: 13px; color: #555; text-decoration: none; padding: 5px 0; }
+    .footer-social {
+      display: flex; gap: 14px; padding: 20px 0 16px;
+      border-top: 1px solid #e0e0e0; margin-top: 4px;
+    }
+    .footer-social-icon {
+      display: flex; align-items: center; justify-content: center;
+      width: 36px; height: 36px; border: 1.5px solid #ccc; border-radius: 4px;
+      font-size: 11px; font-weight: 700; color: #888; text-decoration: none; letter-spacing: 0.03em;
+    }
+    .footer-legal { font-size: 11px; color: #aaa; line-height: 1.6; }
+    .footer-legal a { color: #aaa; text-decoration: underline; }
+    .footer-get-dirty {
+      font-size: 13px; font-weight: 700; letter-spacing: 0.12em;
+      text-transform: uppercase; color: #888; margin-bottom: 10px;
+    }
+    .footer-desktop-cols { display: none; }
+    .footer-bottom { display: contents; }
+
+    /* ════════════════════════════════════════════
+       DESKTOP OVERRIDES  (≥ 1024px)
+    ════════════════════════════════════════════ */
+    @media (min-width: 1024px) {
+      body { max-width: none; }
+
+      header {
+        max-width: none; padding: 0 40px; height: 64px;
+        display: grid; grid-template-columns: auto 1fr auto; align-items: center;
+      }
+      .header-menu { display: none; }
+      .header-logo { position: static; transform: none; font-size: 18px; letter-spacing: 0.08em; grid-column: 1; }
+      .desktop-nav { display: flex; align-items: center; justify-content: center; gap: 32px; grid-column: 2; }
+      .desktop-nav a { font-size: 13px; font-weight: 600; letter-spacing: 0.04em; color: #333; text-decoration: none; text-transform: uppercase; }
+      .desktop-nav a:hover { text-decoration: underline; }
+      .header-icons { grid-column: 3; gap: 20px; }
+      .header-search {
+        display: block; font-size: 13px; font-weight: 600; letter-spacing: 0.04em;
+        color: #333; cursor: pointer; background: none; border: none; font-family: inherit; padding: 0;
+      }
+
+      /* Breadcrumb */
+      .breadcrumb { padding: 16px 40px; max-width: 860px; margin: 0 auto; }
+
+      /* Article header — centered reading column */
+      .article-header {
+        max-width: 720px; margin: 0 auto;
+        padding: 40px 40px 28px;
+      }
+      .article-title { font-size: 38px; margin-bottom: 16px; }
+      .article-subtitle { font-size: 17px; }
+
+      /* Hero — wider than reading column */
+      .article-hero {
+        max-width: 960px; margin: 0 auto;
+        aspect-ratio: 21/9;
+      }
+      .article-hero-caption { max-width: 960px; margin: 0 auto; padding: 8px 40px 0; }
+
+      /* Body — reading column */
+      .article-body {
+        max-width: 720px; margin: 0 auto;
+        padding: 36px 40px 12px;
+      }
+      .article-body p { font-size: 16px; }
+      .article-body h2 { font-size: 24px; }
+
+      /* Inline images — slightly wider than text column */
+      .article-inline-img { aspect-ratio: 16/9; }
+
+      /* Pull quote — slightly indented */
+      .pull-quote { margin: 40px 0; padding-left: 24px; }
+      .pull-quote p { font-size: 22px; }
+
+      /* Mid-article email — side by side input+button */
+      .article-email-form {
+        flex-direction: row; gap: 8px; align-items: stretch;
+      }
+      .article-email-input { flex: 1; }
+      .article-email-submit { width: auto; padding: 12px 24px; }
+
+      /* Product spotlight — body column */
+      .article-product-spotlight { max-width: 720px; margin: 32px auto; }
+
+      /* Tags + author */
+      .article-tags { max-width: 720px; margin: 0 auto; padding: 8px 40px 28px; }
+      .author-bio { max-width: 720px; margin: 0 auto; padding: 28px 40px; }
+
+      /* Related posts — 3-column grid */
+      .section-related { max-width: 1280px; margin: 0 auto; padding: 48px 40px 12px; }
+      .related-posts {
+        flex-direction: row; gap: 28px;
+      }
+      .related-post {
+        flex: 1; flex-direction: column; gap: 12px;
+      }
+      .related-post-img { width: 100%; height: auto; aspect-ratio: 16/9; }
+      .related-post-title { font-size: 14px; }
+
+      /* Email — two column */
+      .section-email {
+        padding: 56px 40px; text-align: left;
+        display: grid; grid-template-columns: 1fr 1fr;
+        gap: 0 48px; align-items: center; margin-top: 0;
+      }
+      .email-eyebrow { grid-column: 1; }
+      .email-headline { grid-column: 1; }
+      .email-sub { grid-column: 1; }
+      .email-form { grid-column: 2; grid-row: 1 / span 3; align-self: center; gap: 12px; }
+      .email-legal { grid-column: 1 / -1; margin-top: 16px; text-align: center; }
+
+      footer { padding: 40px 40px 28px; }
+      .footer-nav-group { display: none; }
+      .footer-social { border-top: none; padding: 0; margin: 0; }
+      .footer-desktop-cols {
+        display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
+        gap: 40px; padding-bottom: 32px;
+        border-bottom: 1px solid #e0e0e0; margin-bottom: 24px;
+      }
+      .footer-col-brand .footer-logo { font-size: 16px; margin-bottom: 12px; }
+      .footer-col-brand p { font-size: 13px; color: #777; line-height: 1.6; max-width: 260px; }
+      .footer-col-heading { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #999; margin-bottom: 14px; }
+      .footer-col a { display: block; font-size: 13px; color: #555; text-decoration: none; padding: 4px 0; }
+      .footer-col a:hover { text-decoration: underline; }
+      .footer-bottom { display: flex; justify-content: space-between; align-items: center; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- SECTION: ANNOUNCEMENT BAR -->
+<div class="announcement-bar">
+  Free shipping on orders over $75 — <a href="#">Shop Now</a>
+</div>
+
+<!-- SECTION: HEADER -->
+<header>
+  <div class="header-menu">☰</div>
+  <div class="header-logo">DOVETAIL</div>
+  <nav class="desktop-nav" aria-label="Primary">
+    <a href="#">Pants</a>
+    <a href="#">Shorts</a>
+    <a href="#">Tops</a>
+    <a href="#">Overalls</a>
+    <a href="#">Sale</a>
+  </nav>
+  <div class="header-icons">
+    <button class="header-search" aria-label="Search">Search</button>
+    <div class="header-cart" aria-label="Cart">🛒<span class="cart-badge">0</span></div>
+  </div>
+</header>
+
+<!-- BREADCRUMB -->
+<nav class="breadcrumb" aria-label="Breadcrumb">
+  <a href="#">Blog</a>
+  <span class="breadcrumb-sep">›</span>
+  <a href="#">Workwear Tips</a>
+  <span class="breadcrumb-sep">›</span>
+  The Best Work Pants for Every Job Site
+</nav>
+
+<!-- ARTICLE HEADER -->
+<div class="article-header">
+  <div class="article-category">Workwear Tips</div>
+  <h1 class="article-title">The Best Work Pants for Every Job Site — 2026 Guide</h1>
+  <p class="article-subtitle">From framing to fieldwork, we break down which Dovetail styles hold up best by trade — and why the right fit actually matters for safety.</p>
+  <div class="article-meta">
+    <div class="author-avatar">[ Photo ]</div>
+    <div class="article-meta-info">
+      <span class="article-meta-author">Sarah Kimura</span>
+      <div class="article-meta-details">
+        <span>June 1, 2026</span>
+        <span>8 min read</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- HERO IMAGE -->
+<div class="article-hero">[ Hero image — lifestyle, 16:9 mobile / 21:9 desktop ]</div>
+<p class="article-hero-caption">Caption: Dovetail Freshley Work Pants in Flax, worn on a residential framing site.</p>
+
+<!-- ARTICLE BODY -->
+<div class="article-body">
+
+  <p>Whether you spend your days on a construction site, a landscaping crew, or behind a counter that demands eight hours on your feet, your work pants are doing heavy lifting every single day. The wrong pair chafes, binds, wears through at the knees, or just looks like you borrowed them from someone else's body.</p>
+
+  <p>We've spent years talking to women across trades — carpenters, plumbers, electricians, gardeners, warehouse workers — about what actually holds up. Here's what we found, broken down by job type.</p>
+
+  <h2>For High-Movement Trades (Framing, HVAC, Plumbing)</h2>
+
+  <p>If you're climbing ladders, kneeling in tight spaces, or routing pipe overhead, you need pants that flex without pulling at the waist and hold their shape after a hundred squats. Our recommendation: ripstop with an articulated knee.</p>
+
+  <div class="article-inline-img">[ Inline image — knee detail, 3:2 ]</div>
+  <p class="article-img-caption">The Freshley's triple-stitched knee panel and gusseted crotch are built for full range of motion.</p>
+
+  <div class="pull-quote">
+    <p>"I used to end every job with red marks on my thighs from pants that were too stiff. Switched to Dovetail and that just… stopped."</p>
+  </div>
+
+  <p>The Freshley Work Pant is our go-to for this category. Ripstop canvas resists snags from wire and conduit, and the inseam gusset prevents the crotch blowout that plagues most workwear after six months.</p>
+
+  <h2>For Outdoor and Grounds Work</h2>
+
+  <p>Landscapers, arborists, and outdoor maintenance crews need pants that breathe in summer, dry fast after rain, and resist the constant abrasion of kneeling in gravel and brush. Canvas is too hot. Denim takes forever to dry.</p>
+
+  <!-- MID-ARTICLE EMAIL BLOCK -->
+  <!-- Compact inline form: no discount. Positioned after ~50% of body content. -->
+  <div class="article-email-block">
+    <div class="article-email-eyebrow">Stay in the Loop</div>
+    <p class="article-email-headline">Like what you're reading?</p>
+    <p class="article-email-sub">Get workwear guides and new arrival news delivered to your inbox.</p>
+    <div class="article-email-form">
+      <input class="article-email-input" type="email" placeholder="Your email address">
+      <button class="article-email-submit">SUBSCRIBE</button>
+    </div>
+    <p class="article-email-legal">Unsubscribe anytime. <a href="#">Privacy Policy</a></p>
+  </div>
+
+  <p>For outdoor work, we recommend a lightweight ripstop or a stretch-canvas blend. The Daisy Work Pant is popular in this category — lighter weight than the Freshley, with ventilation along the inner thigh seam that makes a real difference when it's 85° and you're hauling mulch.</p>
+
+  <h2>For Mixed-Use and Counter Work</h2>
+
+  <p>Maybe you're on a job site in the morning and a showroom in the afternoon. Or you work retail in a trade supply store where you need to look put-together but still be able to climb a ladder to pull inventory. Fit and polish matter here alongside durability.</p>
+
+  <ul>
+    <li>Look for a straight or slightly tapered leg — not a full workwear cut</li>
+    <li>Avoid overly stiff fabrics that look bulky when standing still</li>
+    <li>Darker colors (navy, black, olive) read more professional in client-facing settings</li>
+  </ul>
+
+</div><!-- .article-body -->
+
+<!-- PRODUCT SPOTLIGHT -->
+<div class="article-product-spotlight">
+  <div class="spotlight-img">[ Product img — 4:5 ]</div>
+  <div class="spotlight-body">
+    <div class="spotlight-label">Featured in This Article</div>
+    <div class="spotlight-name">Freshley Work Pant</div>
+    <div class="spotlight-price">$119</div>
+    <a href="#" class="spotlight-btn">SHOP NOW</a>
+  </div>
+</div>
+
+<!-- TAGS -->
+<div class="article-tags">
+  <div class="article-tags-label">Topics</div>
+  <div class="tags-list">
+    <a href="#" class="tag">Workwear Tips</a>
+    <a href="#" class="tag">Pants</a>
+    <a href="#" class="tag">Buying Guide</a>
+    <a href="#" class="tag">Construction</a>
+    <a href="#" class="tag">Landscaping</a>
+  </div>
+</div>
+
+<!-- AUTHOR BIO -->
+<div class="author-bio">
+  <div class="author-bio-avatar">[ Photo ]</div>
+  <div>
+    <div class="author-bio-name">Sarah Kimura</div>
+    <p class="author-bio-text">Sarah has been writing about workwear, safety gear, and trades culture for eight years. She grew up on a family farm in central Oregon and spends her weekends building furniture.</p>
+  </div>
+</div>
+
+<!-- RELATED POSTS -->
+<div class="section-related">
+  <div class="section-related-heading">More from The Journal</div>
+  <div class="related-posts">
+
+    <div class="related-post">
+      <div class="related-post-img">[ Thumb ]</div>
+      <div>
+        <div class="related-post-cat">How-To</div>
+        <div class="related-post-title">How to Break In New Work Pants Fast</div>
+      </div>
+    </div>
+
+    <div class="related-post">
+      <div class="related-post-img">[ Thumb ]</div>
+      <div>
+        <div class="related-post-cat">Workwear Tips</div>
+        <div class="related-post-title">Ripstop vs. Canvas: Which Fabric Holds Up Better?</div>
+      </div>
+    </div>
+
+    <div class="related-post">
+      <div class="related-post-img">[ Thumb ]</div>
+      <div>
+        <div class="related-post-cat">Field Notes</div>
+        <div class="related-post-title">A Week in the Life: Landscaper Mia Torres</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- SECTION: EMAIL CAPTURE — Blog variant -->
+<section class="section-email">
+  <div class="email-eyebrow">Stay in the Loop</div>
+  <h2 class="email-headline">Workwear tips and new arrivals, delivered.</h2>
+  <p class="email-sub">Join the crew — get field notes, style guides, and early access to new colors.</p>
+  <div class="email-form">
+    <input class="email-input" type="email" placeholder="Enter your email address">
+    <button class="email-submit">SUBSCRIBE</button>
+  </div>
+  <p class="email-legal">By signing up you agree to receive marketing emails from Dovetail Workwear. Unsubscribe anytime. <a href="#">Privacy Policy</a></p>
+</section>
+
+<!-- SECTION: FOOTER -->
+<footer>
+  <div class="footer-desktop-cols">
+    <div class="footer-col footer-col-brand">
+      <div class="footer-logo">DOVETAIL</div>
+      <p>Workwear built for women who actually work. Tough enough for the job site. Comfortable enough for everything else.</p>
+    </div>
+    <div class="footer-col">
+      <div class="footer-col-heading">Shop</div>
+      <a href="#">Pants</a><a href="#">Shorts</a><a href="#">Tops</a>
+      <a href="#">Overalls</a><a href="#">Sale</a><a href="#">New Arrivals</a>
+    </div>
+    <div class="footer-col">
+      <div class="footer-col-heading">Help</div>
+      <a href="#">Sizing Guide</a><a href="#">Shipping Information</a>
+      <a href="#">Returns &amp; Exchanges</a><a href="#">Contact Us</a><a href="#">FAQ</a>
+    </div>
+    <div class="footer-col">
+      <div class="footer-col-heading">Company</div>
+      <a href="#">Our Mission</a><a href="#">Press</a>
+      <a href="#">Careers</a><a href="#">B2B / Wholesale</a>
+    </div>
+  </div>
+  <div class="footer-nav-group">
+    <button class="footer-nav-trigger" onclick="toggleFooterNav(this)">Shop <span class="footer-toggle-icon">+</span></button>
+    <div class="footer-nav-body"><a href="#">Pants</a><a href="#">Shorts</a><a href="#">Tops</a><a href="#">Overalls</a><a href="#">Sale</a><a href="#">New Arrivals</a></div>
+    <button class="footer-nav-trigger" onclick="toggleFooterNav(this)">Help <span class="footer-toggle-icon">+</span></button>
+    <div class="footer-nav-body"><a href="#">Sizing Guide</a><a href="#">Shipping Information</a><a href="#">Returns &amp; Exchanges</a><a href="#">Contact Us</a><a href="#">FAQ</a></div>
+    <button class="footer-nav-trigger" onclick="toggleFooterNav(this)">Company <span class="footer-toggle-icon">+</span></button>
+    <div class="footer-nav-body"><a href="#">Our Mission</a><a href="#">Press</a><a href="#">Careers</a><a href="#">B2B / Wholesale</a></div>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-social">
+      <a href="#" class="footer-social-icon">IG</a>
+      <a href="#" class="footer-social-icon">TT</a>
+      <a href="#" class="footer-social-icon">FB</a>
+      <a href="#" class="footer-social-icon">PIN</a>
+    </div>
+    <div class="footer-get-dirty">Get Dirty™</div>
+    <div class="footer-legal">© 2026 Dovetail Workwear. All rights reserved. · <a href="#">Privacy Policy</a> · <a href="#">Terms of Service</a> · <a href="#">Accessibility</a></div>
+  </div>
+</footer>
+
+<script>
+  function toggleFooterNav(btn) {
+    const body = btn.nextElementSibling;
+    const isOpen = body.classList.contains('open');
+    body.classList.toggle('open', !isOpen);
+    btn.querySelector('.footer-toggle-icon').textContent = isOpen ? '+' : '−';
+  }
+</script>
+
+</body>
+</html>

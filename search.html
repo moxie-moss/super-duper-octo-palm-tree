@@ -1,0 +1,1248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Search Results Wireframe — Dovetail Workwear</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-size: 15px;
+      color: #333;
+      background: #fff;
+      max-width: 390px;
+      margin: 0 auto;
+    }
+
+    /* ── SCENARIO SWITCHER ── */
+    .scenario-switcher {
+      position: sticky;
+      top: 0;
+      z-index: 500;
+      background: #f9f7f4;
+      border-bottom: 2px solid #ddd;
+      padding: 10px 16px;
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .scenario-btn {
+      font-size: 12px;
+      font-weight: 600;
+      font-family: inherit;
+      padding: 6px 14px;
+      border: 1.5px solid #bbb;
+      border-radius: 20px;
+      background: #fff;
+      color: #555;
+      cursor: pointer;
+      letter-spacing: 0.02em;
+    }
+    .scenario-btn.active {
+      background: #333;
+      color: #fff;
+      border-color: #333;
+    }
+
+    /* ── ANNOUNCEMENT BAR ── */
+    .announcement-bar {
+      background: #333;
+      color: #fff;
+      text-align: center;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      padding: 9px 16px;
+    }
+    .announcement-bar a { color: #fff; text-decoration: underline; }
+
+    /* ── HEADER ── */
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 16px;
+      border-bottom: 1px solid #e0e0e0;
+      position: sticky;
+      top: 57px; /* below scenario switcher */
+      background: #fff;
+      z-index: 100;
+    }
+    .header-menu { font-size: 22px; cursor: pointer; }
+    .header-logo {
+      font-weight: 700;
+      font-size: 16px;
+      letter-spacing: 0.05em;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    .header-icons { display: flex; align-items: center; gap: 14px; }
+    .header-cart { font-size: 22px; position: relative; cursor: pointer; }
+    .cart-badge {
+      position: absolute;
+      top: -4px; right: -6px;
+      background: #333;
+      color: #fff;
+      border-radius: 50%;
+      font-size: 10px;
+      width: 16px; height: 16px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .desktop-nav { display: none; }
+
+    /* ── SEARCH HEADER BAR ── */
+    /* Below the site header — shows the current query in an editable input, distinct from the sticky nav */
+    .search-header {
+      padding: 16px 16px 12px;
+      border-bottom: 1px solid #e8e8e8;
+      background: #fff;
+    }
+    .search-input-wrap {
+      display: flex;
+      align-items: center;
+      background: #f5f5f5;
+      border: 1.5px solid #e0e0e0;
+      border-radius: 4px;
+      padding: 0 12px;
+      height: 44px;
+      gap: 8px;
+    }
+    .search-input-wrap:focus-within {
+      border-color: #333;
+    }
+    .search-icon { font-size: 17px; color: #888; flex-shrink: 0; }
+    .search-input-field {
+      flex: 1;
+      background: none;
+      border: none;
+      outline: none;
+      font-family: inherit;
+      font-size: 15px;
+      color: #333;
+    }
+    .search-clear-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 18px;
+      color: #999;
+      padding: 0;
+      flex-shrink: 0;
+      font-family: inherit;
+      line-height: 1;
+    }
+    .search-result-count {
+      margin-top: 10px;
+      font-size: 13px;
+      color: #888;
+    }
+    .search-result-count strong { color: #333; }
+
+    /* ── FILTER / SORT BAR ── */
+    .filter-sort-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 16px;
+      height: 48px;
+      border-bottom: 1px solid #e8e8e8;
+      position: sticky;
+      top: 116px; /* scenario switcher (57) + header (59) */
+      background: #fff;
+      z-index: 90;
+      gap: 10px;
+    }
+    .filter-btn {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #333;
+      background: none;
+      border: 1px solid #d0d0d0;
+      border-radius: 2px;
+      padding: 7px 14px;
+      cursor: pointer;
+      font-family: inherit;
+    }
+    .products-count { font-size: 12px; color: #888; }
+    .sort-btn {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      color: #555;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-family: inherit;
+      padding: 0;
+      margin-left: auto;
+    }
+    .sort-btn-caret { font-size: 10px; color: #999; }
+    .grid-density-toggle { display: flex; align-items: center; gap: 4px; }
+    .density-btn {
+      width: 28px; height: 28px;
+      border: 1px solid #d0d0d0;
+      border-radius: 2px;
+      background: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+    }
+    .density-btn.active { background: #333; border-color: #333; }
+    .density-btn svg { width: 14px; height: 14px; }
+    .density-btn.active svg rect { fill: #fff; }
+    .density-btn svg rect { fill: #888; }
+
+    /* ── PRODUCT GRID ── */
+    .search-grid-wrapper { padding: 16px; }
+    .search-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px 12px;
+    }
+    .product-card { position: relative; min-width: 0; }
+    .product-card-media {
+      width: 100%;
+      aspect-ratio: 4/5;
+      background: #f5f5f5;
+      position: relative;
+      overflow: hidden;
+      margin-bottom: 6px;
+    }
+    .product-img-placeholder {
+      width: 100%; height: 100%;
+      display: flex; align-items: center; justify-content: center;
+      color: #bbb; font-size: 11px;
+    }
+    .product-badge {
+      position: absolute;
+      top: 8px; left: 8px;
+      background: #333; color: #fff;
+      font-size: 10px; font-weight: 700;
+      padding: 3px 8px;
+      letter-spacing: 0.04em;
+      z-index: 2;
+    }
+    .product-badge.sale { background: #b94040; }
+    .product-badge.new-arrival { background: #4a7a5e; }
+    .quick-add-btn {
+      position: absolute;
+      bottom: 10px; right: 10px;
+      z-index: 3;
+      display: flex; align-items: center;
+      background: rgba(255,255,255,0.92);
+      backdrop-filter: blur(20px) saturate(180%);
+      border: 1.5px solid rgba(0,0,0,0.12);
+      border-radius: 50px;
+      height: 36px;
+      padding: 0;
+      cursor: pointer;
+      overflow: hidden;
+      font-family: inherit;
+      color: #333;
+    }
+    .quick-add-icon {
+      width: 36px; height: 36px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 16px; flex-shrink: 0;
+    }
+    .product-card-swatches {
+      display: flex; gap: 5px; margin-bottom: 5px; flex-wrap: wrap;
+    }
+    .product-card-swatch {
+      width: 14px; height: 14px;
+      border-radius: 50%;
+      border: 1.5px solid #ccc; cursor: pointer;
+    }
+    .product-card-swatch.selected { border-color: #333; box-shadow: 0 0 0 1.5px #fff inset; }
+    .product-card-swatch.more {
+      background: #f0f0f0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 8px; color: #888; font-weight: 700;
+    }
+    .product-card-name {
+      font-size: 13px; font-weight: 600; line-height: 1.3; margin-bottom: 2px;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .product-card-price { font-size: 13px; color: #555; }
+    .price-was { text-decoration: line-through; color: #aaa; margin-right: 4px; }
+    .price-sale { color: #b94040; font-weight: 600; }
+
+    /* ── LOAD MORE ── */
+    .load-more-row { padding: 24px 16px 8px; text-align: center; }
+    .load-more-progress { font-size: 12px; color: #888; margin-bottom: 12px; }
+    .load-more-bar {
+      height: 3px; background: #e8e8e8; border-radius: 2px;
+      margin: 0 auto 16px; max-width: 200px; overflow: hidden;
+    }
+    .load-more-bar-fill { height: 100%; width: 58%; background: #333; border-radius: 2px; }
+    .btn-load-more {
+      display: inline-block; padding: 13px 32px;
+      border: 2px solid #333; color: #333;
+      font-size: 13px; font-weight: 700; letter-spacing: 0.04em;
+      background: none; border-radius: 2px; cursor: pointer; font-family: inherit;
+    }
+
+    /* ── CONTENT RESULTS SECTION ── */
+    /* Blog posts / pages that match the search query — shown below product grid */
+    .content-results {
+      padding: 24px 16px;
+      border-top: 1px solid #e8e8e8;
+    }
+    .content-results-heading {
+      font-size: 13px; font-weight: 700; letter-spacing: 0.06em;
+      text-transform: uppercase; color: #888;
+      margin-bottom: 16px;
+    }
+    .article-card {
+      display: flex;
+      gap: 14px;
+      padding: 14px 0;
+      border-bottom: 1px solid #f0f0f0;
+      cursor: pointer;
+    }
+    .article-card:last-child { border-bottom: none; }
+    .article-thumb {
+      width: 72px; height: 72px;
+      background: #efefef;
+      border-radius: 4px;
+      flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      color: #ccc; font-size: 11px;
+    }
+    .article-meta { flex: 1; min-width: 0; }
+    .article-type {
+      font-size: 10px; font-weight: 700; letter-spacing: 0.06em;
+      text-transform: uppercase; color: #888; margin-bottom: 4px;
+    }
+    .article-title {
+      font-size: 13px; font-weight: 600; line-height: 1.4; margin-bottom: 4px;
+      display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .article-desc {
+      font-size: 12px; color: #888; line-height: 1.5;
+      display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    /* ── NO RESULTS STATE ── */
+    .no-results-header {
+      padding: 32px 16px 20px;
+      border-bottom: 1px solid #e8e8e8;
+      text-align: center;
+    }
+    .no-results-icon { font-size: 36px; margin-bottom: 12px; }
+    .no-results-heading { font-size: 18px; font-weight: 700; margin-bottom: 6px; }
+    .no-results-subhead { font-size: 14px; color: #666; line-height: 1.6; }
+    .no-results-query { font-style: italic; }
+
+    .no-results-suggestions {
+      padding: 24px 16px;
+      border-bottom: 1px solid #e8e8e8;
+    }
+    .no-results-suggestions-heading {
+      font-size: 13px; font-weight: 700; letter-spacing: 0.06em;
+      text-transform: uppercase; color: #888; margin-bottom: 14px;
+    }
+    .suggestion-list { display: flex; flex-direction: column; gap: 0; }
+    .suggestion-item {
+      display: flex; align-items: center; gap: 10px;
+      padding: 13px 0;
+      border-bottom: 1px solid #f0f0f0;
+      cursor: pointer;
+      font-size: 14px; color: #333; text-decoration: none;
+    }
+    .suggestion-item:last-child { border-bottom: none; }
+    .suggestion-icon { font-size: 16px; color: #aaa; flex-shrink: 0; }
+    .suggestion-arrow { margin-left: auto; color: #ccc; font-size: 14px; }
+
+    .no-results-popular {
+      padding: 24px 16px;
+    }
+    .no-results-popular-heading {
+      font-size: 13px; font-weight: 700; letter-spacing: 0.06em;
+      text-transform: uppercase; color: #888; margin-bottom: 16px;
+    }
+
+    /* ── PREDICTIVE SEARCH OVERLAY ── */
+    /* Full-screen overlay that opens when tapping the header search icon. */
+    .predictive-overlay-wrap {
+      position: relative;
+      border: 2px dashed #c0c0c0;
+      border-radius: 4px;
+      margin: 0 0 16px;
+    }
+    .predictive-overlay-label {
+      position: absolute;
+      top: -10px; left: 12px;
+      background: #f9f7f4;
+      font-size: 11px; font-weight: 700;
+      color: #999; letter-spacing: 0.04em;
+      padding: 0 4px;
+    }
+    .predictive-overlay {
+      background: #fff;
+      min-height: 400px;
+    }
+    .predictive-search-bar {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 16px;
+      border-bottom: 1px solid #e8e8e8;
+    }
+    .predictive-search-input-wrap {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      background: #f5f5f5;
+      border: 1.5px solid #333;
+      border-radius: 4px;
+      padding: 0 12px;
+      height: 42px;
+      gap: 8px;
+    }
+    .predictive-icon { font-size: 16px; color: #888; }
+    .predictive-input {
+      flex: 1; background: none; border: none; outline: none;
+      font-family: inherit; font-size: 15px; color: #333;
+    }
+    .predictive-cursor {
+      display: inline-block; width: 2px; height: 16px;
+      background: #333; vertical-align: middle;
+      animation: blink 1s step-end infinite;
+    }
+    @keyframes blink { 50% { opacity: 0; } }
+    .predictive-cancel-btn {
+      background: none; border: none; cursor: pointer;
+      font-family: inherit; font-size: 13px; font-weight: 600; color: #333;
+      flex-shrink: 0; padding: 0;
+    }
+
+    /* Recent searches */
+    .predictive-section {
+      padding: 16px 16px 0;
+    }
+    .predictive-section-label {
+      font-size: 11px; font-weight: 700; letter-spacing: 0.07em;
+      text-transform: uppercase; color: #aaa; margin-bottom: 10px;
+    }
+    .predictive-query-list { display: flex; flex-direction: column; }
+    .predictive-query-item {
+      display: flex; align-items: center; gap: 10px;
+      padding: 11px 0;
+      border-bottom: 1px solid #f0f0f0;
+      cursor: pointer;
+      font-size: 14px; color: #333;
+    }
+    .predictive-query-item:last-child { border-bottom: none; }
+    .predictive-query-icon { font-size: 15px; color: #bbb; flex-shrink: 0; }
+    .predictive-query-remove {
+      margin-left: auto; font-size: 16px; color: #ccc; cursor: pointer; flex-shrink: 0;
+    }
+
+    /* Predictive product suggestions */
+    .predictive-products {
+      padding: 16px 16px 0;
+    }
+    .predictive-product-list { display: flex; flex-direction: column; gap: 0; }
+    .predictive-product-item {
+      display: flex; align-items: center; gap: 12px;
+      padding: 10px 0;
+      border-bottom: 1px solid #f0f0f0;
+      cursor: pointer;
+    }
+    .predictive-product-item:last-child { border-bottom: none; }
+    .predictive-product-thumb {
+      width: 56px; height: 56px;
+      background: #f0f0f0; border-radius: 3px;
+      flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      color: #ccc; font-size: 10px;
+      aspect-ratio: 1;
+      overflow: hidden;
+    }
+    .predictive-product-info { flex: 1; min-width: 0; }
+    .predictive-product-name {
+      font-size: 13px; font-weight: 600; line-height: 1.3; margin-bottom: 2px;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .predictive-product-price { font-size: 13px; color: #888; }
+    .predictive-product-arrow { color: #ccc; font-size: 14px; flex-shrink: 0; }
+
+    .predictive-see-all {
+      margin: 16px 16px;
+      display: flex; align-items: center; justify-content: center;
+      padding: 13px;
+      background: #333; color: #fff;
+      font-size: 13px; font-weight: 700; letter-spacing: 0.04em;
+      border-radius: 2px; cursor: pointer; gap: 6px;
+    }
+
+    /* ── SCENARIO LABELS (annotation boxes) ── */
+    .scenario-label {
+      background: #f9f7f4;
+      border: 1px solid #e0ddd8;
+      border-radius: 4px;
+      padding: 10px 14px;
+      margin: 0 0 0;
+      font-size: 12px;
+      color: #888;
+      line-height: 1.6;
+    }
+    .scenario-label strong { color: #555; }
+
+    /* ── SCENARIO SECTIONS ── */
+    .scenario { display: none; }
+    .scenario.active { display: block; }
+
+    /* ── FOOTER ── */
+    footer {
+      padding: 32px 16px;
+      border-top: 1px solid #e0e0e0;
+      margin-top: 24px;
+    }
+    .footer-links { display: flex; flex-wrap: wrap; gap: 8px 16px; margin-bottom: 16px; }
+    .footer-links a { font-size: 12px; color: #888; text-decoration: none; }
+    .footer-brand {
+      font-size: 11px; font-weight: 700; letter-spacing: 0.1em;
+      color: #999; margin-bottom: 6px;
+    }
+    .footer-copy { font-size: 11px; color: #bbb; }
+
+    /* ── DESKTOP BREAKPOINT ── */
+    @media (min-width: 768px) {
+      body { max-width: 1200px; font-size: 15px; }
+
+      .scenario-switcher { top: 0; }
+
+      header {
+        top: 57px;
+        padding: 0 32px;
+        height: 64px;
+        position: sticky;
+      }
+      .header-menu { display: none; }
+      .header-logo {
+        position: static;
+        transform: none;
+        font-size: 18px;
+      }
+      .desktop-nav {
+        display: flex;
+        gap: 28px;
+        align-items: center;
+        flex: 1;
+        margin-left: 32px;
+      }
+      .desktop-nav a {
+        font-size: 13px;
+        font-weight: 600;
+        color: #333;
+        text-decoration: none;
+        letter-spacing: 0.02em;
+      }
+      .header-search-icon {
+        font-size: 20px;
+        cursor: pointer;
+        color: #333;
+      }
+      .header-icons { gap: 18px; }
+
+      /* Desktop: search header with wider padding */
+      .search-header {
+        padding: 24px 32px 16px;
+        max-width: 720px;
+      }
+      .search-input-wrap { height: 48px; }
+      .search-input-field { font-size: 16px; }
+
+      /* Desktop: filter bar aligned */
+      .filter-sort-bar {
+        top: 121px; /* scenario switcher + header */
+        padding: 0 32px;
+      }
+
+      /* Desktop: wider grid, no sidebar on search results */
+      /* Search results intentionally skip the left sidebar — results span categories,
+         so a faceted sidebar would be too narrow/mismatched. Sort only on desktop. */
+      .search-grid-wrapper { padding: 24px 32px; }
+      .search-grid {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 24px 16px;
+      }
+
+      /* Desktop: show quick-add label on hover */
+      .quick-add-btn { opacity: 0; transition: opacity 0.18s ease; }
+      .product-card:hover .quick-add-btn { opacity: 1; }
+      .quick-add-label {
+        font-size: 12px; font-weight: 600;
+        letter-spacing: 0.03em; padding-right: 12px;
+        white-space: nowrap; display: block;
+      }
+      .quick-add-btn:hover .quick-add-label { display: block; }
+
+      .content-results { padding: 24px 32px; }
+      .article-card { gap: 20px; padding: 16px 0; }
+      .article-thumb { width: 96px; height: 96px; }
+
+      .no-results-header { padding: 48px 32px 24px; }
+      .no-results-suggestions { padding: 24px 32px; }
+      .no-results-popular { padding: 24px 32px; }
+
+      /* Desktop predictive overlay: narrower, centered */
+      .predictive-overlay-wrap { max-width: 600px; margin: 0 auto 24px; }
+
+      footer { padding: 40px 32px; }
+      .footer-links { gap: 8px 24px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════════════════
+     SCENARIO SWITCHER
+══════════════════════════════════════════════════════════ -->
+<div class="scenario-switcher">
+  <button class="scenario-btn active" onclick="showScenario('s1', this)">S1 — Results Found</button>
+  <button class="scenario-btn" onclick="showScenario('s2', this)">S2 — No Results</button>
+  <button class="scenario-btn" onclick="showScenario('s3', this)">S3 — Predictive Search</button>
+</div>
+
+
+<!-- ══════════════════════════════════════════════════════════
+     S1 — RESULTS FOUND
+     Query: "cargo pants" | 14 results
+══════════════════════════════════════════════════════════ -->
+<div id="s1" class="scenario active">
+
+  <div class="announcement-bar">Free exchanges + free shipping on orders $75+ &nbsp;·&nbsp; <a href="#">Shop now</a></div>
+
+  <header>
+    <div class="header-menu">☰</div>
+    <div class="header-logo">DOVETAIL</div>
+    <nav class="desktop-nav">
+      <a href="#">Women's</a>
+      <a href="#">Workwear</a>
+      <a href="#">Sale</a>
+      <a href="#">Journal</a>
+    </nav>
+    <div class="header-icons">
+      <span class="header-search-icon" style="font-size:20px; cursor:pointer;">⌕</span>
+      <div class="header-cart">
+        🛒
+        <span class="cart-badge">2</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Search header: shows current query + result count -->
+  <div class="search-header">
+    <div class="search-input-wrap">
+      <span class="search-icon">⌕</span>
+      <input class="search-input-field" type="text" value="cargo pants" aria-label="Search query">
+      <button class="search-clear-btn" aria-label="Clear search">✕</button>
+    </div>
+    <div class="search-result-count">
+      <strong>14 results</strong> for "cargo pants"
+    </div>
+  </div>
+
+  <!-- Filter / sort bar — sticky below header -->
+  <!-- Note: filter applies to product results only. Sort applies to both products and articles. -->
+  <div class="filter-sort-bar">
+    <button class="filter-btn">⚙ Filter</button>
+    <span class="products-count">14 products</span>
+    <button class="sort-btn">
+      Sort: Featured <span class="sort-btn-caret">▾</span>
+    </button>
+    <div class="grid-density-toggle">
+      <button class="density-btn active" aria-label="2-column grid">
+        <svg viewBox="0 0 14 14"><rect x="0" y="0" width="5.5" height="5.5"/><rect x="8.5" y="0" width="5.5" height="5.5"/><rect x="0" y="8.5" width="5.5" height="5.5"/><rect x="8.5" y="8.5" width="5.5" height="5.5"/></svg>
+      </button>
+      <button class="density-btn" aria-label="3-column grid">
+        <svg viewBox="0 0 14 14"><rect x="0" y="0" width="3" height="5.5"/><rect x="5.5" y="0" width="3" height="5.5"/><rect x="11" y="0" width="3" height="5.5"/><rect x="0" y="8.5" width="3" height="5.5"/><rect x="5.5" y="8.5" width="3" height="5.5"/><rect x="11" y="8.5" width="3" height="5.5"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Product grid -->
+  <div class="search-grid-wrapper">
+    <div class="search-grid">
+
+      <!-- Card 1 -->
+      <div class="product-card">
+        <div class="product-card-media">
+          <span class="product-badge new-arrival">New</span>
+          <div class="product-img-placeholder">IMG</div>
+          <button class="quick-add-btn" aria-label="Quick add">
+            <span class="quick-add-icon">＋</span>
+            <span class="quick-add-label">Quick Add</span>
+          </button>
+        </div>
+        <div class="product-card-swatches">
+          <div class="product-card-swatch selected" style="background:#5a4e3c;"></div>
+          <div class="product-card-swatch" style="background:#2c3e50;"></div>
+          <div class="product-card-swatch" style="background:#8b7355;"></div>
+          <div class="product-card-swatch more">+2</div>
+        </div>
+        <div class="product-card-name">Dovetail Cargo Pant</div>
+        <div class="product-card-price">$89.00</div>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="product-card">
+        <div class="product-card-media">
+          <div class="product-img-placeholder">IMG</div>
+          <button class="quick-add-btn" aria-label="Quick add">
+            <span class="quick-add-icon">＋</span>
+          </button>
+        </div>
+        <div class="product-card-swatches">
+          <div class="product-card-swatch selected" style="background:#3d5a3e;"></div>
+          <div class="product-card-swatch" style="background:#1a1a1a;"></div>
+        </div>
+        <div class="product-card-name">Utility Cargo Work Pant</div>
+        <div class="product-card-price">$94.00</div>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="product-card">
+        <div class="product-card-media">
+          <span class="product-badge sale">Sale</span>
+          <div class="product-img-placeholder">IMG</div>
+          <button class="quick-add-btn" aria-label="Quick add">
+            <span class="quick-add-icon">＋</span>
+          </button>
+        </div>
+        <div class="product-card-swatches">
+          <div class="product-card-swatch selected" style="background:#c0a882;"></div>
+          <div class="product-card-swatch" style="background:#7a5c3c;"></div>
+          <div class="product-card-swatch more">+1</div>
+        </div>
+        <div class="product-card-name">Stretch Cargo Short</div>
+        <div class="product-card-price">
+          <span class="price-was">$74.00</span>
+          <span class="price-sale">$49.00</span>
+        </div>
+      </div>
+
+      <!-- Card 4 -->
+      <div class="product-card">
+        <div class="product-card-media">
+          <div class="product-img-placeholder">IMG</div>
+          <button class="quick-add-btn" aria-label="Quick add">
+            <span class="quick-add-icon">＋</span>
+          </button>
+        </div>
+        <div class="product-card-swatches">
+          <div class="product-card-swatch selected" style="background:#2c2c2c;"></div>
+          <div class="product-card-swatch" style="background:#4a4a4a;"></div>
+        </div>
+        <div class="product-card-name">Slim Fit Cargo Trouser</div>
+        <div class="product-card-price">$98.00</div>
+      </div>
+
+      <!-- Card 5 -->
+      <div class="product-card">
+        <div class="product-card-media">
+          <div class="product-img-placeholder">IMG</div>
+          <button class="quick-add-btn" aria-label="Quick add">
+            <span class="quick-add-icon">＋</span>
+          </button>
+        </div>
+        <div class="product-card-swatches">
+          <div class="product-card-swatch selected" style="background:#a0522d;"></div>
+          <div class="product-card-swatch" style="background:#8b4513;"></div>
+          <div class="product-card-swatch more">+3</div>
+        </div>
+        <div class="product-card-name">Ripstop Cargo Pant</div>
+        <div class="product-card-price">$82.00</div>
+      </div>
+
+      <!-- Card 6 -->
+      <div class="product-card">
+        <div class="product-card-media">
+          <div class="product-img-placeholder">IMG</div>
+          <button class="quick-add-btn" aria-label="Quick add">
+            <span class="quick-add-icon">＋</span>
+          </button>
+        </div>
+        <div class="product-card-swatches">
+          <div class="product-card-swatch selected" style="background:#556b2f;"></div>
+          <div class="product-card-swatch" style="background:#6b8e23;"></div>
+        </div>
+        <div class="product-card-name">Worksite Cargo Mid-Rise</div>
+        <div class="product-card-price">$91.00</div>
+      </div>
+
+      <!-- Card 7 -->
+      <div class="product-card">
+        <div class="product-card-media">
+          <div class="product-img-placeholder">IMG</div>
+          <button class="quick-add-btn" aria-label="Quick add">
+            <span class="quick-add-icon">＋</span>
+          </button>
+        </div>
+        <div class="product-card-swatches">
+          <div class="product-card-swatch selected" style="background:#708090;"></div>
+          <div class="product-card-swatch" style="background:#2f4f4f;"></div>
+          <div class="product-card-swatch more">+2</div>
+        </div>
+        <div class="product-card-name">Double-Knee Cargo Pant</div>
+        <div class="product-card-price">$104.00</div>
+      </div>
+
+      <!-- Card 8 -->
+      <div class="product-card">
+        <div class="product-card-media">
+          <div class="product-img-placeholder">IMG</div>
+          <button class="quick-add-btn" aria-label="Quick add">
+            <span class="quick-add-icon">＋</span>
+          </button>
+        </div>
+        <div class="product-card-swatches">
+          <div class="product-card-swatch selected" style="background:#1c2833;"></div>
+          <div class="product-card-swatch" style="background:#273746;"></div>
+        </div>
+        <div class="product-card-name">Flex Cargo Work Pant</div>
+        <div class="product-card-price">$86.00</div>
+      </div>
+
+    </div><!-- /search-grid -->
+  </div><!-- /search-grid-wrapper -->
+
+  <!-- Load more -->
+  <div class="load-more-row">
+    <div class="load-more-progress">Showing 8 of 14 results</div>
+    <div class="load-more-bar"><div class="load-more-bar-fill"></div></div>
+    <button class="btn-load-more">Load More</button>
+  </div>
+
+  <!-- Content results — blog posts + pages matching the query -->
+  <!-- Shown below the product grid so products-first principle is preserved -->
+  <div class="content-results">
+    <div class="content-results-heading">Articles &amp; Pages</div>
+
+    <div class="article-card">
+      <div class="article-thumb">IMG</div>
+      <div class="article-meta">
+        <div class="article-type">Journal</div>
+        <div class="article-title">The Best Cargo Pants for Women on the Job Site</div>
+        <div class="article-desc">Whether you're in construction, landscaping, or the trades, the right cargo pant makes a difference...</div>
+      </div>
+    </div>
+
+    <div class="article-card">
+      <div class="article-thumb">IMG</div>
+      <div class="article-meta">
+        <div class="article-type">Size Guide</div>
+        <div class="article-title">How to Find Your Fit: Pants &amp; Cargos</div>
+        <div class="article-desc">Rise, inseam, and seat — our complete guide to finding your perfect pant fit at Dovetail.</div>
+      </div>
+    </div>
+
+    <div class="article-card">
+      <div class="article-thumb">IMG</div>
+      <div class="article-meta">
+        <div class="article-type">Journal</div>
+        <div class="article-title">5 Ways to Style Cargo Work Pants Off the Clock</div>
+        <div class="article-desc">From job site to weekend — how Dovetail cargo pants transition out of work mode.</div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-brand">GET DIRTY™</div>
+    <div class="footer-links">
+      <a href="#">Size Guide</a>
+      <a href="#">Returns</a>
+      <a href="#">Contact</a>
+      <a href="#">About</a>
+      <a href="#">Wholesale</a>
+    </div>
+    <div class="footer-copy">© 2026 Dovetail Workwear. All rights reserved.</div>
+  </footer>
+
+</div><!-- /s1 -->
+
+
+<!-- ══════════════════════════════════════════════════════════
+     S2 — NO RESULTS
+     Query: "waterproof jacket" | 0 results
+══════════════════════════════════════════════════════════ -->
+<div id="s2" class="scenario">
+
+  <div class="announcement-bar">Free exchanges + free shipping on orders $75+ &nbsp;·&nbsp; <a href="#">Shop now</a></div>
+
+  <header>
+    <div class="header-menu">☰</div>
+    <div class="header-logo">DOVETAIL</div>
+    <nav class="desktop-nav">
+      <a href="#">Women's</a>
+      <a href="#">Workwear</a>
+      <a href="#">Sale</a>
+      <a href="#">Journal</a>
+    </nav>
+    <div class="header-icons">
+      <span class="header-search-icon" style="font-size:20px; cursor:pointer;">⌕</span>
+      <div class="header-cart">🛒</div>
+    </div>
+  </header>
+
+  <!-- Search header: no results -->
+  <div class="search-header">
+    <div class="search-input-wrap">
+      <span class="search-icon">⌕</span>
+      <input class="search-input-field" type="text" value="waterproof jacket" aria-label="Search query">
+      <button class="search-clear-btn" aria-label="Clear search">✕</button>
+    </div>
+    <div class="search-result-count">
+      <strong>0 results</strong> for "waterproof jacket"
+    </div>
+  </div>
+
+  <!-- No results: centered message -->
+  <div class="no-results-header">
+    <div class="no-results-icon">⌕</div>
+    <div class="no-results-heading">No results found</div>
+    <div class="no-results-subhead">
+      We couldn't find anything matching <span class="no-results-query">"waterproof jacket."</span><br>
+      Try a different search or browse below.
+    </div>
+  </div>
+
+  <!-- Suggested searches -->
+  <div class="no-results-suggestions">
+    <div class="no-results-suggestions-heading">Try searching for</div>
+    <div class="suggestion-list">
+      <a class="suggestion-item" href="#">
+        <span class="suggestion-icon">⌕</span>
+        Work pants
+        <span class="suggestion-arrow">›</span>
+      </a>
+      <a class="suggestion-item" href="#">
+        <span class="suggestion-icon">⌕</span>
+        Cargo pants
+        <span class="suggestion-arrow">›</span>
+      </a>
+      <a class="suggestion-item" href="#">
+        <span class="suggestion-icon">⌕</span>
+        Rain gear
+        <span class="suggestion-arrow">›</span>
+      </a>
+      <a class="suggestion-item" href="#">
+        <span class="suggestion-icon">⌕</span>
+        Hoodies &amp; tops
+        <span class="suggestion-arrow">›</span>
+      </a>
+      <a class="suggestion-item" href="#">
+        <span class="suggestion-icon">⌕</span>
+        Outerwear
+        <span class="suggestion-arrow">›</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- Best sellers fallback: show popular products so the page isn't a dead end -->
+  <div class="no-results-popular">
+    <div class="no-results-popular-heading">Our Best Sellers</div>
+    <div class="search-grid">
+
+      <div class="product-card">
+        <div class="product-card-media">
+          <div class="product-img-placeholder">IMG</div>
+          <button class="quick-add-btn" aria-label="Quick add">
+            <span class="quick-add-icon">＋</span>
+          </button>
+        </div>
+        <div class="product-card-swatches">
+          <div class="product-card-swatch selected" style="background:#5a4e3c;"></div>
+          <div class="product-card-swatch" style="background:#2c3e50;"></div>
+          <div class="product-card-swatch more">+3</div>
+        </div>
+        <div class="product-card-name">Dovetail Cargo Pant</div>
+        <div class="product-card-price">$89.00</div>
+      </div>
+
+      <div class="product-card">
+        <div class="product-card-media">
+          <div class="product-img-placeholder">IMG</div>
+          <button class="quick-add-btn" aria-label="Quick add">
+            <span class="quick-add-icon">＋</span>
+          </button>
+        </div>
+        <div class="product-card-swatches">
+          <div class="product-card-swatch selected" style="background:#1c2833;"></div>
+          <div class="product-card-swatch" style="background:#2f4f4f;"></div>
+        </div>
+        <div class="product-card-name">Britt X Slim Straight</div>
+        <div class="product-card-price">$84.00</div>
+      </div>
+
+      <div class="product-card">
+        <div class="product-card-media">
+          <div class="product-img-placeholder">IMG</div>
+          <button class="quick-add-btn" aria-label="Quick add">
+            <span class="quick-add-icon">＋</span>
+          </button>
+        </div>
+        <div class="product-card-swatches">
+          <div class="product-card-swatch selected" style="background:#556b2f;"></div>
+          <div class="product-card-swatch" style="background:#3d5a3e;"></div>
+          <div class="product-card-swatch more">+2</div>
+        </div>
+        <div class="product-card-name">Utility Work Short</div>
+        <div class="product-card-price">$64.00</div>
+      </div>
+
+      <div class="product-card">
+        <div class="product-card-media">
+          <span class="product-badge sale">Sale</span>
+          <div class="product-img-placeholder">IMG</div>
+          <button class="quick-add-btn" aria-label="Quick add">
+            <span class="quick-add-icon">＋</span>
+          </button>
+        </div>
+        <div class="product-card-swatches">
+          <div class="product-card-swatch selected" style="background:#c0a882;"></div>
+          <div class="product-card-swatch" style="background:#8b4513;"></div>
+        </div>
+        <div class="product-card-name">Canvas Work Pant</div>
+        <div class="product-card-price">
+          <span class="price-was">$78.00</span>
+          <span class="price-sale">$54.00</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-brand">GET DIRTY™</div>
+    <div class="footer-links">
+      <a href="#">Size Guide</a>
+      <a href="#">Returns</a>
+      <a href="#">Contact</a>
+      <a href="#">About</a>
+      <a href="#">Wholesale</a>
+    </div>
+    <div class="footer-copy">© 2026 Dovetail Workwear. All rights reserved.</div>
+  </footer>
+
+</div><!-- /s2 -->
+
+
+<!-- ══════════════════════════════════════════════════════════
+     S3 — PREDICTIVE SEARCH OVERLAY
+     Appears when user taps the search icon in the header.
+     Covers the page; user sees suggestions + product previews
+     while typing.
+══════════════════════════════════════════════════════════ -->
+<div id="s3" class="scenario">
+
+  <!-- Context: shows the page underneath with the overlay on top -->
+  <div style="padding: 16px; background:#f9f7f4; border-bottom: 1px solid #e0e0e0;">
+    <div class="scenario-label">
+      <strong>S3 — Predictive Search Overlay</strong><br>
+      This overlay appears on top of any page when the search icon is tapped. The page underneath
+      is obscured by a semi-transparent backdrop. The overlay has two states shown below:
+      <strong>S3a</strong> (blank, on open) and <strong>S3b</strong> (while typing).
+    </div>
+  </div>
+
+  <!-- ── S3a: Overlay just opened — no query yet ── -->
+  <div style="padding: 16px;">
+    <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: #aaa; margin-bottom: 12px;">S3a — Overlay opened (no query)</div>
+
+    <div class="predictive-overlay-wrap">
+      <span class="predictive-overlay-label">OVERLAY</span>
+      <div class="predictive-overlay">
+
+        <!-- Search bar with focus state -->
+        <div class="predictive-search-bar">
+          <div class="predictive-search-input-wrap">
+            <span class="predictive-icon">⌕</span>
+            <span class="predictive-input" style="color:#bbb;">Search<span class="predictive-cursor"></span></span>
+          </div>
+          <button class="predictive-cancel-btn">Cancel</button>
+        </div>
+
+        <!-- Recent searches — shown when no query entered -->
+        <div class="predictive-section">
+          <div class="predictive-section-label">Recent Searches</div>
+          <div class="predictive-query-list">
+            <div class="predictive-query-item">
+              <span class="predictive-query-icon">⏱</span>
+              cargo pants
+              <span class="predictive-query-remove">✕</span>
+            </div>
+            <div class="predictive-query-item">
+              <span class="predictive-query-icon">⏱</span>
+              slim fit work pants
+              <span class="predictive-query-remove">✕</span>
+            </div>
+            <div class="predictive-query-item">
+              <span class="predictive-query-icon">⏱</span>
+              double knee
+              <span class="predictive-query-remove">✕</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Popular searches — also shown on empty state -->
+        <div class="predictive-section" style="margin-top: 20px;">
+          <div class="predictive-section-label">Popular Searches</div>
+          <div class="predictive-query-list">
+            <div class="predictive-query-item">
+              <span class="predictive-query-icon">🔥</span>
+              work pants women
+              <span class="suggestion-arrow" style="margin-left:auto; color:#ccc;">›</span>
+            </div>
+            <div class="predictive-query-item">
+              <span class="predictive-query-icon">🔥</span>
+              cargo
+              <span class="suggestion-arrow" style="margin-left:auto; color:#ccc;">›</span>
+            </div>
+            <div class="predictive-query-item">
+              <span class="predictive-query-icon">🔥</span>
+              sale
+              <span class="suggestion-arrow" style="margin-left:auto; color:#ccc;">›</span>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /predictive-overlay -->
+    </div><!-- /predictive-overlay-wrap -->
+  </div>
+
+  <!-- ── S3b: Typing — query "carg" entered ── -->
+  <div style="padding: 16px; margin-top: 8px;">
+    <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: #aaa; margin-bottom: 12px;">S3b — While typing ("carg…")</div>
+
+    <div class="predictive-overlay-wrap">
+      <span class="predictive-overlay-label">OVERLAY</span>
+      <div class="predictive-overlay">
+
+        <!-- Search bar with partial query -->
+        <div class="predictive-search-bar">
+          <div class="predictive-search-input-wrap">
+            <span class="predictive-icon">⌕</span>
+            <span class="predictive-input">carg<span class="predictive-cursor"></span></span>
+          </div>
+          <button class="predictive-cancel-btn">Cancel</button>
+        </div>
+
+        <!-- Query suggestions — completions while typing -->
+        <div class="predictive-section">
+          <div class="predictive-section-label">Suggestions</div>
+          <div class="predictive-query-list">
+            <div class="predictive-query-item">
+              <span class="predictive-query-icon">⌕</span>
+              <span><strong>carg</strong>o pants</span>
+              <span class="suggestion-arrow" style="margin-left:auto; color:#ccc;">›</span>
+            </div>
+            <div class="predictive-query-item">
+              <span class="predictive-query-icon">⌕</span>
+              <span><strong>carg</strong>o short</span>
+              <span class="suggestion-arrow" style="margin-left:auto; color:#ccc;">›</span>
+            </div>
+            <div class="predictive-query-item">
+              <span class="predictive-query-icon">⌕</span>
+              <span><strong>carg</strong>o work pant</span>
+              <span class="suggestion-arrow" style="margin-left:auto; color:#ccc;">›</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Product preview results — up to 4 matching products -->
+        <div class="predictive-products" style="margin-top: 20px;">
+          <div class="predictive-section-label">Products</div>
+          <div class="predictive-product-list">
+
+            <div class="predictive-product-item">
+              <div class="predictive-product-thumb">IMG</div>
+              <div class="predictive-product-info">
+                <div class="predictive-product-name">Dovetail Cargo Pant</div>
+                <div class="predictive-product-price">$89.00</div>
+              </div>
+              <span class="predictive-product-arrow">›</span>
+            </div>
+
+            <div class="predictive-product-item">
+              <div class="predictive-product-thumb">IMG</div>
+              <div class="predictive-product-info">
+                <div class="predictive-product-name">Utility Cargo Work Pant</div>
+                <div class="predictive-product-price">$94.00</div>
+              </div>
+              <span class="predictive-product-arrow">›</span>
+            </div>
+
+            <div class="predictive-product-item">
+              <div class="predictive-product-thumb">IMG</div>
+              <div class="predictive-product-info">
+                <div class="predictive-product-name">Stretch Cargo Short</div>
+                <div class="predictive-product-price"><span style="text-decoration:line-through; color:#aaa;">$74</span> <span style="color:#b94040; font-weight:600;">$49.00</span></div>
+              </div>
+              <span class="predictive-product-arrow">›</span>
+            </div>
+
+            <div class="predictive-product-item">
+              <div class="predictive-product-thumb">IMG</div>
+              <div class="predictive-product-info">
+                <div class="predictive-product-name">Double-Knee Cargo Pant</div>
+                <div class="predictive-product-price">$104.00</div>
+              </div>
+              <span class="predictive-product-arrow">›</span>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- CTA: view full results -->
+        <div class="predictive-see-all">
+          See all results for "carg…" →
+        </div>
+
+      </div><!-- /predictive-overlay -->
+    </div><!-- /predictive-overlay-wrap -->
+  </div>
+
+  <!-- Annotation: overlay behavior notes -->
+  <div style="padding: 0 16px 32px;">
+    <div class="scenario-label">
+      <strong>Overlay behavior notes</strong><br>
+      • Opens on tap of ⌕ search icon in header — animates down from top (slide + fade, 0.2s)<br>
+      • Covers full viewport; backdrop behind is 40% black (same as quick-add modal)<br>
+      • Cancel button or tap outside closes overlay<br>
+      • Predictive results debounced ~200ms after last keystroke<br>
+      • Product thumbnails use same <code>aspect-ratio: 4/5 + object-fit: contain</code> treatment as grid cards<br>
+      • "See all results" CTA fires a full search and navigates to the S1 results page<br>
+      • Desktop: overlay narrows to max 600px centered column (not full width)
+    </div>
+  </div>
+
+</div><!-- /s3 -->
+
+
+<script>
+  function showScenario(id, btn) {
+    document.querySelectorAll('.scenario').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.scenario-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    btn.classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+</script>
+
+</body>
+</html>
