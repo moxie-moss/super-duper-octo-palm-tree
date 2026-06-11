@@ -505,6 +505,268 @@
     .scenario { display: none; }
     .scenario.active { display: block; }
 
+    /* ── FILTER DRAWER (mobile bottom-sheet) — matches collection ── */
+    .filter-drawer-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.4);
+      z-index: 200;
+    }
+    .filter-drawer-overlay.open { display: block; }
+    .filter-drawer {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      background: #fff;
+      border-radius: 12px 12px 0 0;
+      padding: 0 0 40px;
+      max-height: 85vh;
+      overflow-y: auto;
+    }
+    .filter-drawer-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 16px 12px;
+      border-bottom: 1px solid #e8e8e8;
+      position: sticky;
+      top: 0;
+      background: #fff;
+      z-index: 1;
+    }
+    .filter-drawer-title { font-size: 15px; font-weight: 700; }
+    .filter-drawer-section-label {
+      font-size: 10px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: #bbb;
+      padding: 14px 16px 6px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .filter-drawer-section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: #efefef;
+    }
+    .filter-drawer-close {
+      font-size: 22px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #888;
+      font-family: inherit;
+    }
+    .filter-group { border-bottom: 1px solid #f0f0f0; }
+    .filter-group-trigger {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 16px;
+      background: none;
+      border: none;
+      font-size: 13px;
+      font-weight: 700;
+      font-family: inherit;
+      cursor: pointer;
+      color: #333;
+      text-align: left;
+      gap: 8px;
+    }
+    .filter-group-trigger-label { display: flex; align-items: center; gap: 6px; }
+    .filter-group-caret { color: #aaa; font-size: 16px; line-height: 1; margin-left: auto; }
+    .filter-group-body { padding: 0 16px 16px; display: block; }
+    .filter-size-grid { display: flex; flex-wrap: wrap; gap: 8px; }
+    .filter-size-chip {
+      padding: 6px 12px;
+      border: 1px solid #d0d0d0;
+      border-radius: 2px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      color: #333;
+    }
+    .filter-size-chip.selected { background: #333; color: #fff; border-color: #333; }
+    .filter-color-grid { display: flex; flex-wrap: wrap; gap: 10px; }
+    .filter-color-swatch {
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      border: 2px solid transparent;
+      cursor: pointer;
+    }
+    .filter-color-swatch.selected { border-color: #333; outline: 2px solid #fff; outline-offset: -4px; }
+    .filter-price-range { display: flex; align-items: center; gap: 8px; }
+    .filter-price-input {
+      flex: 1;
+      padding: 9px 12px;
+      border: 1px solid #d0d0d0;
+      border-radius: 2px;
+      font-size: 13px;
+      font-family: inherit;
+    }
+    .filter-price-sep { color: #aaa; font-size: 12px; }
+    .filter-check-list { display: flex; flex-direction: column; gap: 10px; }
+    .filter-check-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 13px;
+      color: #333;
+      cursor: pointer;
+    }
+    .filter-checkbox {
+      width: 18px; height: 18px;
+      border: 1.5px solid #ccc;
+      border-radius: 2px;
+      flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 11px;
+    }
+    .filter-checkbox.checked { background: #333; border-color: #333; color: #fff; }
+    .filter-drawer-footer {
+      padding: 16px;
+      display: flex;
+      gap: 10px;
+      position: sticky;
+      bottom: 0;
+      background: #fff;
+      border-top: 1px solid #e8e8e8;
+    }
+    .filter-clear-btn {
+      flex: 1;
+      padding: 13px;
+      border: 1.5px solid #333;
+      background: none;
+      color: #333;
+      font-size: 13px;
+      font-weight: 700;
+      border-radius: 2px;
+      cursor: pointer;
+      font-family: inherit;
+    }
+    .filter-apply-btn {
+      flex: 2;
+      padding: 13px;
+      background: #333;
+      color: #fff;
+      font-size: 13px;
+      font-weight: 700;
+      border: none;
+      border-radius: 2px;
+      cursor: pointer;
+      font-family: inherit;
+    }
+
+    /* ── FIT INFO ? BUTTON — matches collection ── */
+    .fit-info-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 16px; height: 16px;
+      border-radius: 50%;
+      border: 1.5px solid #ccc;
+      background: none;
+      color: #aaa;
+      font-size: 9px; font-weight: 800;
+      font-family: inherit;
+      cursor: pointer;
+      flex-shrink: 0;
+      line-height: 1; padding: 0;
+      position: relative;
+    }
+    .fit-info-btn::before {
+      content: '';
+      position: absolute;
+      inset: -14px;
+    }
+    .fit-info-btn:hover, .fit-info-btn:focus-visible { border-color: #555; color: #555; outline: none; }
+    .fit-info-wrap { position: relative; display: inline-flex; align-items: center; }
+    .fit-tooltip { display: none; }
+    @media (hover: hover) {
+      .fit-tooltip {
+        display: block;
+        position: absolute;
+        left: 24px; top: 50%;
+        transform: translateY(-50%);
+        width: 220px;
+        background: #222; color: #fff;
+        font-size: 12px; font-weight: 400;
+        line-height: 1.55; letter-spacing: 0; text-transform: none;
+        padding: 10px 13px;
+        border-radius: 4px;
+        z-index: 500;
+        pointer-events: none;
+        opacity: 0;
+        transition: opacity 0.15s ease;
+        box-shadow: 0 4px 16px rgba(0,0,0,0.18);
+      }
+      .fit-tooltip::before {
+        content: '';
+        position: absolute;
+        left: -5px; top: 50%;
+        transform: translateY(-50%);
+        border-width: 5px 5px 5px 0;
+        border-style: solid;
+        border-color: transparent #222 transparent transparent;
+      }
+      .fit-info-wrap:hover .fit-tooltip,
+      .fit-info-btn:focus-visible + .fit-tooltip { opacity: 1; pointer-events: none; }
+    }
+    .fit-info-sheet-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.4);
+      z-index: 400;
+      align-items: flex-end;
+      justify-content: center;
+    }
+    .fit-info-sheet-overlay.open { display: flex; }
+    .fit-info-sheet {
+      background: #fff;
+      border-radius: 12px 12px 0 0;
+      width: 100%;
+      padding: 24px 20px 44px;
+      position: relative;
+    }
+    .fit-info-sheet-close {
+      position: absolute;
+      top: 14px; right: 16px;
+      background: none; border: none;
+      font-size: 22px; color: #aaa;
+      cursor: pointer; font-family: inherit; line-height: 1;
+    }
+    .fit-info-sheet-heading { font-size: 16px; font-weight: 700; margin-bottom: 10px; padding-right: 28px; color: #222; }
+    .fit-info-sheet-body { font-size: 14px; color: #555; line-height: 1.65; }
+    @media (hover: hover) { .fit-info-sheet-overlay { display: none !important; } }
+
+    /* ── DESKTOP SIDEBAR — matches collection ── */
+    .search-body { display: block; }
+    .sidebar-filters { display: none; }
+    .sidebar-filter-group { margin-bottom: 16px; }
+    .sidebar-filter-heading {
+      font-size: 11px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.08em;
+      color: #aaa; margin-bottom: 10px;
+      display: flex; align-items: center; gap: 6px;
+    }
+    .sidebar-section {
+      margin-bottom: 4px; padding-bottom: 20px;
+      border-bottom: 1px solid #efefef;
+    }
+    .sidebar-section:last-child { border-bottom: none; }
+    .sidebar-section-label {
+      font-size: 10px; font-weight: 800;
+      text-transform: uppercase; letter-spacing: 0.12em;
+      color: #bbb; margin-bottom: 14px;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .sidebar-section-label::after { content: ''; flex: 1; height: 1px; background: #efefef; }
+
     /* ── FOOTER ── */
     footer {
       padding: 32px 16px;
@@ -569,16 +831,30 @@
       /* Desktop: filter bar aligned */
       .filter-sort-bar {
         top: 121px; /* scenario switcher + header */
-        padding: 0 32px;
+        padding: 0 40px;
       }
+      /* Mobile filter button hidden on desktop — sidebar is always visible */
+      .filter-btn { display: none; }
 
-      /* Desktop: wider grid, no sidebar on search results */
-      /* Search results intentionally skip the left sidebar — results span categories,
-         so a faceted sidebar would be too narrow/mismatched. Sort only on desktop. */
-      .search-grid-wrapper { padding: 24px 32px; }
+      /* Desktop: sidebar + grid layout — same as collection */
+      .search-body {
+        display: grid;
+        grid-template-columns: 260px 1fr;
+        align-items: start;
+        max-width: 1280px;
+        margin: 0 auto;
+        padding: 0 40px;
+      }
+      .sidebar-filters {
+        display: block !important;
+        padding: 20px 24px 20px 0;
+        border-right: 1px solid #e8e8e8;
+      }
+      .search-main { min-width: 0; }
+      .search-grid-wrapper { padding: 20px 0 20px 32px; }
       .search-grid {
-        grid-template-columns: repeat(4, 1fr);
-        gap: 24px 16px;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 28px 20px;
       }
 
       /* Desktop: show quick-add label on hover */
@@ -594,6 +870,8 @@
       .content-results { padding: 24px 32px; }
       .article-card { gap: 20px; padding: 16px 0; }
       .article-thumb { width: 96px; height: 96px; }
+      /* Hide desktop filter drawer overlay */
+      .filter-drawer-overlay { display: none !important; }
 
       .no-results-header { padding: 48px 32px 24px; }
       .no-results-suggestions { padding: 24px 32px; }
@@ -660,7 +938,7 @@
   <!-- Filter / sort bar — sticky below header -->
   <!-- Note: filter applies to product results only. Sort applies to both products and articles. -->
   <div class="filter-sort-bar">
-    <button class="filter-btn">⚙ Filter</button>
+    <button class="filter-btn" onclick="openFilterDrawer()">⚙ Filter</button>
     <span class="products-count">14 products</span>
     <button class="sort-btn">
       Sort: Featured <span class="sort-btn-caret">▾</span>
@@ -674,6 +952,137 @@
       </button>
     </div>
   </div>
+
+  <!-- Body: sidebar (desktop only) + main content -->
+  <div class="search-body">
+
+  <!-- Desktop sidebar — always visible at ≥768px, hidden on mobile -->
+  <aside class="sidebar-filters" style="display:none;">
+    <div class="sidebar-section">
+      <div class="sidebar-section-label">Size</div>
+      <div class="sidebar-filter-group">
+        <div class="sidebar-filter-heading">Waist</div>
+        <div class="filter-size-grid">
+          <div class="filter-size-chip">26</div><div class="filter-size-chip">28</div>
+          <div class="filter-size-chip selected">30</div><div class="filter-size-chip">32</div>
+          <div class="filter-size-chip">34</div><div class="filter-size-chip">36</div>
+        </div>
+      </div>
+      <div class="sidebar-filter-group" style="margin-top:16px;">
+        <div class="sidebar-filter-heading">Inseam</div>
+        <div class="filter-size-grid">
+          <div class="filter-size-chip">28"</div><div class="filter-size-chip selected">30"</div>
+          <div class="filter-size-chip">32"</div><div class="filter-size-chip">34"</div>
+        </div>
+      </div>
+      <div class="sidebar-filter-group" style="margin-top:16px;">
+        <div class="sidebar-filter-heading">Color</div>
+        <div class="filter-color-grid">
+          <div class="filter-color-swatch selected" style="background:#2a2a2a;"></div>
+          <div class="filter-color-swatch" style="background:#4a5568;"></div>
+          <div class="filter-color-swatch selected" style="background:#3b5298;"></div>
+          <div class="filter-color-swatch" style="background:#d4c9a8;"></div>
+          <div class="filter-color-swatch" style="background:#5a6e5c;"></div>
+          <div class="filter-color-swatch" style="background:#8b6f5e;"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-section-label">Fit</div>
+      <div class="sidebar-filter-group">
+        <div class="sidebar-filter-heading">
+          Body Type
+          <span class="fit-info-wrap">
+            <button class="fit-info-btn" aria-label="What is Body Type?" onclick="openFitInfo('Body Type','Describes how the pant is shaped through the seat and thighs. Choose the description that matches how you typically fit pants off the rack.')">?</button>
+            <span class="fit-tooltip">How volume is distributed through the seat and thighs.</span>
+          </span>
+        </div>
+        <div class="filter-check-list">
+          <label class="filter-check-item"><div class="filter-checkbox checked">✓</div>Fitted waist, room through hip</label>
+          <label class="filter-check-item"><div class="filter-checkbox"></div>Even fit waist to hip</label>
+          <label class="filter-check-item"><div class="filter-checkbox"></div>Room through waist and hip</label>
+          <label class="filter-check-item"><div class="filter-checkbox"></div>Fitted through hip and thigh</label>
+        </div>
+      </div>
+      <div class="sidebar-filter-group" style="margin-top:16px;">
+        <div class="sidebar-filter-heading">
+          Rise
+          <span class="fit-info-wrap">
+            <button class="fit-info-btn" aria-label="What is Rise?" onclick="openFitInfo('Rise','Distance from crotch seam to top of waistband. Mid-rise sits at your natural waist. High-rise gives more coverage when kneeling or bending.')">?</button>
+            <span class="fit-tooltip">Distance from crotch seam to waistband. <strong>Mid-rise</strong> = natural waist. <strong>High-rise</strong> = more coverage.</span>
+          </span>
+        </div>
+        <div class="filter-check-list">
+          <label class="filter-check-item"><div class="filter-checkbox"></div>Mid-rise</label>
+          <label class="filter-check-item"><div class="filter-checkbox"></div>High-rise</label>
+        </div>
+      </div>
+      <div class="sidebar-filter-group" style="margin-top:16px;">
+        <div class="sidebar-filter-heading">
+          Leg
+          <span class="fit-info-wrap">
+            <button class="fit-info-btn" aria-label="What is Leg?" onclick="openFitInfo('Leg Opening','Describes the shape of the pant from the knee down. Straight = consistent width. Slim = tapered. Relaxed = extra room. Bootcut = slight flare.')">?</button>
+            <span class="fit-tooltip">Shape from knee down. <strong>Straight</strong>, <strong>Slim</strong>, <strong>Relaxed</strong>, or <strong>Bootcut</strong>.</span>
+          </span>
+        </div>
+        <div class="filter-check-list">
+          <label class="filter-check-item"><div class="filter-checkbox"></div>Straight</label>
+          <label class="filter-check-item"><div class="filter-checkbox"></div>Slim</label>
+          <label class="filter-check-item"><div class="filter-checkbox"></div>Relaxed</label>
+          <label class="filter-check-item"><div class="filter-checkbox"></div>Bootcut</label>
+        </div>
+      </div>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-section-label">Fabric &amp; Technology</div>
+      <div class="sidebar-filter-group">
+        <div class="sidebar-filter-heading">Fabric</div>
+        <div class="filter-check-list">
+          <label class="filter-check-item"><div class="filter-checkbox"></div>Canvas</label>
+          <label class="filter-check-item"><div class="filter-checkbox"></div>Stretch Canvas</label>
+          <label class="filter-check-item"><div class="filter-checkbox"></div>Denim</label>
+          <label class="filter-check-item"><div class="filter-checkbox"></div>Ripstop</label>
+          <label class="filter-check-item"><div class="filter-checkbox"></div>Twill</label>
+        </div>
+      </div>
+      <div class="sidebar-filter-group" style="margin-top:16px;">
+        <div class="sidebar-filter-heading">Features</div>
+        <div class="filter-check-list">
+          <label class="filter-check-item"><div class="filter-checkbox checked">✓</div>Hip Slot</label>
+          <label class="filter-check-item"><div class="filter-checkbox"></div>COOLSWAP™ Lining</label>
+          <label class="filter-check-item"><div class="filter-checkbox"></div>Double Front</label>
+          <label class="filter-check-item"><div class="filter-checkbox"></div>Knee Pad Pockets</label>
+          <label class="filter-check-item"><div class="filter-checkbox"></div>Crotch Gusset</label>
+        </div>
+      </div>
+      <div class="sidebar-filter-group" style="margin-top:16px;">
+        <div class="sidebar-filter-heading">Protection</div>
+        <div class="filter-check-list">
+          <label class="filter-check-item"><div class="filter-checkbox"></div>Water Resistant</label>
+          <label class="filter-check-item"><div class="filter-checkbox"></div>Stain Resistant</label>
+          <label class="filter-check-item"><div class="filter-checkbox"></div>Flame Resistant</label>
+          <label class="filter-check-item"><div class="filter-checkbox"></div>UPF Sun Protection</label>
+        </div>
+      </div>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-section-label">Price</div>
+      <div class="sidebar-filter-group">
+        <div class="sidebar-filter-heading">Price Range</div>
+        <div class="filter-price-range">
+          <input class="filter-price-input" type="text" placeholder="$0">
+          <span class="filter-price-sep">–</span>
+          <input class="filter-price-input" type="text" placeholder="$200">
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main content: grid + load more + articles -->
+  <div class="search-main">
 
   <!-- Product grid -->
   <div class="search-grid-wrapper">
@@ -860,6 +1269,9 @@
       </div>
     </div>
   </div>
+
+  </div><!-- /search-main -->
+  </div><!-- /search-body -->
 
   <footer>
     <div class="footer-brand">GET DIRTY™</div>
@@ -1234,6 +1646,164 @@
 </div><!-- /s3 -->
 
 
+<!-- ── MOBILE FILTER DRAWER — matches collection exactly ── -->
+<div class="filter-drawer-overlay" id="filterDrawerOverlay" onclick="closeFilterDrawer(event)">
+  <div class="filter-drawer" onclick="event.stopPropagation()">
+    <div class="filter-drawer-header">
+      <div class="filter-drawer-title">Filter</div>
+      <button class="filter-drawer-close" onclick="closeFilterDrawer()">×</button>
+    </div>
+
+    <div class="filter-drawer-section-label">Size</div>
+    <div class="filter-group">
+      <button class="filter-group-trigger" onclick="toggleFilterGroup(this)">Waist <span class="filter-group-caret">▾</span></button>
+      <div class="filter-group-body">
+        <div class="filter-size-grid">
+          <div class="filter-size-chip">26</div><div class="filter-size-chip">28</div>
+          <div class="filter-size-chip selected">30</div><div class="filter-size-chip">32</div>
+          <div class="filter-size-chip">34</div><div class="filter-size-chip">36</div>
+        </div>
+      </div>
+    </div>
+    <div class="filter-group">
+      <button class="filter-group-trigger" onclick="toggleFilterGroup(this)">Inseam <span class="filter-group-caret">▾</span></button>
+      <div class="filter-group-body">
+        <div class="filter-size-grid">
+          <div class="filter-size-chip">28"</div><div class="filter-size-chip selected">30"</div>
+          <div class="filter-size-chip">32"</div><div class="filter-size-chip">34"</div>
+        </div>
+      </div>
+    </div>
+    <div class="filter-group">
+      <button class="filter-group-trigger" onclick="toggleFilterGroup(this)">Color <span class="filter-group-caret">▾</span></button>
+      <div class="filter-group-body">
+        <div class="filter-color-grid">
+          <div class="filter-color-swatch selected" style="background:#2a2a2a;"></div>
+          <div class="filter-color-swatch" style="background:#4a5568;"></div>
+          <div class="filter-color-swatch selected" style="background:#3b5298;"></div>
+          <div class="filter-color-swatch" style="background:#d4c9a8;"></div>
+          <div class="filter-color-swatch" style="background:#5a6e5c;"></div>
+          <div class="filter-color-swatch" style="background:#8b6f5e;"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="filter-drawer-section-label">Fit</div>
+    <div class="filter-group">
+      <button class="filter-group-trigger" onclick="toggleFilterGroup(this.closest('.filter-group').querySelector('.filter-group-body'))">
+        <span class="filter-group-trigger-label">
+          Body Type
+          <span class="fit-info-btn" role="button" aria-label="What is Body Type?" onclick="event.stopPropagation(); openFitInfo('Body Type','Describes how the pant is shaped through the seat and thighs. Choose the description that matches how you typically fit pants off the rack.')">?</span>
+        </span>
+        <span class="filter-group-caret">▾</span>
+      </button>
+      <div class="filter-group-body">
+        <div class="filter-check-list">
+          <label class="filter-check-item"><div class="filter-checkbox checked">✓</div>Fitted waist, room through hip</label>
+          <label class="filter-check-item"><div class="filter-checkbox"></div>Even fit waist to hip</label>
+          <label class="filter-check-item"><div class="filter-checkbox"></div>Room through waist and hip</label>
+          <label class="filter-check-item"><div class="filter-checkbox"></div>Fitted through hip and thigh</label>
+        </div>
+      </div>
+    </div>
+    <div class="filter-group">
+      <button class="filter-group-trigger" onclick="toggleFilterGroup(this.closest('.filter-group').querySelector('.filter-group-body'))">
+        <span class="filter-group-trigger-label">
+          Rise
+          <span class="fit-info-btn" role="button" aria-label="What is Rise?" onclick="event.stopPropagation(); openFitInfo('Rise','Distance from crotch seam to top of waistband. Mid-rise sits at your natural waist. High-rise gives more coverage when kneeling or bending.')">?</span>
+        </span>
+        <span class="filter-group-caret">▾</span>
+      </button>
+      <div class="filter-group-body">
+        <div class="filter-check-list">
+          <label class="filter-check-item"><div class="filter-checkbox"></div>Mid-rise</label>
+          <label class="filter-check-item"><div class="filter-checkbox"></div>High-rise</label>
+        </div>
+      </div>
+    </div>
+    <div class="filter-group">
+      <button class="filter-group-trigger" onclick="toggleFilterGroup(this.closest('.filter-group').querySelector('.filter-group-body'))">
+        <span class="filter-group-trigger-label">
+          Leg
+          <span class="fit-info-btn" role="button" aria-label="What is Leg?" onclick="event.stopPropagation(); openFitInfo('Leg Opening','Describes the shape of the pant from the knee down. Straight = consistent width. Slim = tapered. Relaxed = extra room. Bootcut = slight flare.')">?</span>
+        </span>
+        <span class="filter-group-caret">▾</span>
+      </button>
+      <div class="filter-group-body">
+        <div class="filter-check-list">
+          <label class="filter-check-item"><div class="filter-checkbox"></div>Straight</label>
+          <label class="filter-check-item"><div class="filter-checkbox"></div>Slim</label>
+          <label class="filter-check-item"><div class="filter-checkbox"></div>Relaxed</label>
+          <label class="filter-check-item"><div class="filter-checkbox"></div>Bootcut</label>
+        </div>
+      </div>
+    </div>
+
+    <div class="filter-drawer-section-label">Fabric &amp; Technology</div>
+    <div class="filter-group">
+      <button class="filter-group-trigger" onclick="toggleFilterGroup(this)">Fabric <span class="filter-group-caret">▾</span></button>
+      <div class="filter-group-body">
+        <div class="filter-check-list">
+          <label class="filter-check-item"><div class="filter-checkbox"></div>Canvas</label>
+          <label class="filter-check-item"><div class="filter-checkbox"></div>Stretch Canvas</label>
+          <label class="filter-check-item"><div class="filter-checkbox"></div>Ripstop</label>
+          <label class="filter-check-item"><div class="filter-checkbox"></div>Twill</label>
+        </div>
+      </div>
+    </div>
+    <div class="filter-group">
+      <button class="filter-group-trigger" onclick="toggleFilterGroup(this)">Features <span class="filter-group-caret">▾</span></button>
+      <div class="filter-group-body">
+        <div class="filter-check-list">
+          <label class="filter-check-item"><div class="filter-checkbox checked">✓</div>Hip Slot</label>
+          <label class="filter-check-item"><div class="filter-checkbox"></div>COOLSWAP™ Lining</label>
+          <label class="filter-check-item"><div class="filter-checkbox"></div>Double Front</label>
+          <label class="filter-check-item"><div class="filter-checkbox"></div>Knee Pad Pockets</label>
+          <label class="filter-check-item"><div class="filter-checkbox"></div>Crotch Gusset</label>
+        </div>
+      </div>
+    </div>
+    <div class="filter-group">
+      <button class="filter-group-trigger" onclick="toggleFilterGroup(this)">Protection <span class="filter-group-caret">▾</span></button>
+      <div class="filter-group-body">
+        <div class="filter-check-list">
+          <label class="filter-check-item"><div class="filter-checkbox"></div>Water Resistant</label>
+          <label class="filter-check-item"><div class="filter-checkbox"></div>Stain Resistant</label>
+          <label class="filter-check-item"><div class="filter-checkbox"></div>Flame Resistant</label>
+          <label class="filter-check-item"><div class="filter-checkbox"></div>UPF Sun Protection</label>
+        </div>
+      </div>
+    </div>
+
+    <div class="filter-drawer-section-label">Price</div>
+    <div class="filter-group">
+      <button class="filter-group-trigger" onclick="toggleFilterGroup(this)">Price Range <span class="filter-group-caret">▾</span></button>
+      <div class="filter-group-body">
+        <div class="filter-price-range">
+          <input class="filter-price-input" type="text" placeholder="$0">
+          <span class="filter-price-sep">–</span>
+          <input class="filter-price-input" type="text" placeholder="$200">
+        </div>
+      </div>
+    </div>
+
+    <div class="filter-drawer-footer">
+      <button class="filter-clear-btn">Clear All</button>
+      <button class="filter-apply-btn" onclick="closeFilterDrawer()">Show 14 Results</button>
+    </div>
+  </div>
+</div>
+
+<!-- FIT INFO BOTTOM-SHEET (touch devices) -->
+<div class="fit-info-sheet-overlay" id="fitInfoSheet" onclick="closeFitInfo(event)">
+  <div class="fit-info-sheet">
+    <button class="fit-info-sheet-close" onclick="closeFitInfo()" aria-label="Close">×</button>
+    <div class="fit-info-sheet-heading" id="fitInfoTitle"></div>
+    <div class="fit-info-sheet-body" id="fitInfoBody"></div>
+  </div>
+</div>
+
+
 <script>
   function showScenario(id, btn) {
     document.querySelectorAll('.scenario').forEach(s => s.classList.remove('active'));
@@ -1241,6 +1811,31 @@
     document.getElementById(id).classList.add('active');
     btn.classList.add('active');
     window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function openFilterDrawer() {
+    document.getElementById('filterDrawerOverlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeFilterDrawer(e) {
+    if (e && e.target !== document.getElementById('filterDrawerOverlay')) return;
+    document.getElementById('filterDrawerOverlay').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  function toggleFilterGroup(el) {
+    const body = el.classList.contains('filter-group-body') ? el : el.nextElementSibling;
+    body.style.display = body.style.display === 'none' ? 'block' : 'none';
+  }
+  function openFitInfo(title, body) {
+    document.getElementById('fitInfoTitle').textContent = title;
+    document.getElementById('fitInfoBody').textContent = body;
+    document.getElementById('fitInfoSheet').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeFitInfo(e) {
+    if (e && e.target !== document.getElementById('fitInfoSheet')) return;
+    document.getElementById('fitInfoSheet').classList.remove('open');
+    document.body.style.overflow = '';
   }
 </script>
 

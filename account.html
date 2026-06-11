@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Account Page Wireframe — Dovetail Workwear</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-size: 15px; color: #1a1a1a; background: #c8c8c8;
+    }
+
+    /* ── ACCOUNT SHELL (mirrors Shopify's new Customer Accounts chrome) ── */
+    .acct-shell {
+      max-width: 1180px; margin: 0 auto;
+      background: #ececec; min-height: 100vh;
+      padding-bottom: 60px;
+    }
+
+    /* ── TOP BAR ── */
+    .acct-topbar {
+      display: grid; grid-template-columns: 1fr auto 1fr;
+      align-items: center; gap: 16px;
+      padding: 20px 40px;
+      background: transparent;
+    }
+    .acct-logo {
+      font-weight: 900; font-size: 26px; color: #d65525;
+      letter-spacing: -0.01em; line-height: 1;
+    }
+    .acct-logo small {
+      display: block; font-size: 11px; letter-spacing: 0.1em;
+      font-weight: 700; color: #d65525; margin-top: 2px;
+    }
+    .acct-nav {
+      display: flex; gap: 28px; justify-content: center;
+    }
+    .acct-nav-item {
+      background: none; border: none; padding: 4px 0;
+      font-size: 15px; color: #1a1a1a; cursor: pointer;
+      font-family: inherit;
+    }
+    .acct-nav-item.active { text-decoration: underline; text-underline-offset: 4px; font-weight: 500; }
+
+    .acct-avatar {
+      justify-self: end;
+      width: 36px; height: 36px; border-radius: 50%;
+      border: 2px solid #6d54c4; display: flex; align-items: center; justify-content: center;
+      background: #fff; color: #888;
+    }
+
+    /* ── PAGE HEADING ── */
+    .acct-page-head {
+      padding: 24px 40px 16px;
+      display: flex; align-items: flex-start; justify-content: space-between; gap: 16px;
+    }
+    .acct-page-head h1 {
+      font-size: 26px; font-weight: 700; letter-spacing: -0.01em;
+    }
+    .acct-page-head h1 .back-arrow { color: #1a1a1a; margin-right: 8px; cursor: pointer; }
+    .acct-page-head-meta { font-size: 13px; color: #888; margin-top: 4px; }
+
+    .acct-list-toggle {
+      display: flex; gap: 8px;
+    }
+    .acct-list-btn {
+      display: flex; align-items: center; gap: 6px;
+      padding: 8px 12px; background: #fff; border: 1px solid #e0e0e0;
+      border-radius: 999px; font-size: 13px; cursor: pointer; font-family: inherit;
+    }
+    .acct-filter-btn {
+      width: 36px; height: 36px; background: #fff; border: 1px solid #e0e0e0;
+      border-radius: 50%; cursor: pointer; font-size: 14px; color: #555;
+      display: flex; align-items: center; justify-content: center;
+    }
+
+    .acct-pill-btn {
+      padding: 8px 18px; background: #fff; color: #5a44b8;
+      border: 1px solid #d8d4ef; border-radius: 999px;
+      font-size: 14px; font-weight: 500; cursor: pointer; font-family: inherit;
+    }
+
+    /* ── CARD BASE ── */
+    .acct-card {
+      background: #fff; border-radius: 12px;
+      padding: 20px 24px;
+      margin: 0 40px 14px;
+    }
+    .acct-card-row {
+      display: flex; align-items: center; justify-content: space-between; gap: 12px;
+    }
+
+    /* ── ORDERS LIST ── */
+    .order-row {
+      display: grid;
+      grid-template-columns: 56px 1fr auto auto;
+      gap: 18px; align-items: center;
+      background: #fff; border-radius: 12px;
+      padding: 16px 20px;
+      margin: 0 40px 10px;
+    }
+    .order-thumb {
+      width: 56px; height: 56px; background: #f4f4f4;
+      border-radius: 8px; overflow: hidden;
+      display: flex; align-items: center; justify-content: center;
+      color: #c8c8c8; font-size: 22px;
+    }
+    .order-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+    .order-row-mid { display: flex; flex-direction: column; gap: 2px; }
+    .order-row-num { font-size: 14px; font-weight: 700; }
+    .order-row-items { font-size: 13px; color: #888; }
+
+    .order-row-status { display: flex; flex-direction: column; gap: 2px; text-align: left; }
+    .order-row-status-label { font-size: 14px; font-weight: 700; }
+    .order-row-date { font-size: 13px; color: #888; }
+
+    .order-row-right { display: flex; align-items: center; gap: 14px; }
+    .order-row-price { font-size: 14px; color: #1a1a1a; }
+    .order-row-menu {
+      width: 32px; height: 32px; background: none; border: none;
+      cursor: pointer; color: #5a44b8; font-size: 18px;
+      display: flex; align-items: center; justify-content: center;
+    }
+
+    /* ── ORDER DETAIL ── */
+    .order-detail-grid {
+      display: grid; grid-template-columns: 1.5fr 1fr;
+      gap: 14px; padding: 0 40px;
+    }
+
+    .od-status {
+      display: flex; flex-direction: column; gap: 14px;
+    }
+    .od-status-head {
+      display: flex; align-items: flex-start; gap: 14px;
+    }
+    .od-status-icon {
+      width: 28px; height: 28px; border-radius: 50%;
+      border: 2px solid #1a1a1a; display: flex; align-items: center; justify-content: center;
+      font-size: 14px; flex-shrink: 0; margin-top: 2px;
+    }
+    .od-status-body {
+      flex: 1;
+    }
+    .od-status-label { font-size: 16px; font-weight: 700; }
+    .od-status-msg { font-size: 14px; color: #444; margin-top: 4px; }
+    .od-status-date { font-size: 13px; color: #888; margin-top: 6px; }
+    .od-status-actions { display: flex; gap: 10px; margin-top: 6px; }
+
+    /* Details card (contact / shipping / billing) */
+    .od-details {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 28px 32px;
+    }
+    .od-details h3 {
+      font-size: 15px; font-weight: 700; margin-bottom: 8px;
+    }
+    .od-details p {
+      font-size: 14px; color: #444; line-height: 1.55;
+    }
+    .od-details .muted { color: #999; }
+
+    /* Right column: total + line items */
+    .od-side { display: flex; flex-direction: column; gap: 14px; }
+
+    .od-total-head { font-size: 18px; font-weight: 700; }
+    .od-total-sub { font-size: 14px; color: #444; margin-top: 4px; }
+    .od-total-note { font-size: 13px; color: #666; margin-top: 10px; line-height: 1.5; }
+
+    .od-items-list { display: flex; flex-direction: column; gap: 16px; }
+    .od-item { display: grid; grid-template-columns: 56px 1fr auto; gap: 14px; align-items: flex-start; }
+    .od-item-img {
+      width: 56px; height: 56px; background: #f4f4f4; border-radius: 8px;
+      position: relative; overflow: hidden;
+    }
+    .od-item-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .od-item-qty {
+      position: absolute; top: -6px; right: -6px;
+      width: 20px; height: 20px; background: #1a1a1a; color: #fff;
+      border-radius: 4px; font-size: 11px; font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .od-item-name { font-size: 14px; font-weight: 600; line-height: 1.3; }
+    .od-item-variant { font-size: 13px; color: #888; margin-top: 2px; }
+    .od-item-meta { font-size: 12px; color: #5a6e5c; margin-top: 4px; font-weight: 600; }
+    .od-item-price { font-size: 14px; white-space: nowrap; }
+
+    .od-totals-block {
+      border-top: 1px solid #ececec; margin-top: 14px; padding-top: 14px;
+      display: flex; flex-direction: column; gap: 6px;
+    }
+    .od-totals-line { display: flex; justify-content: space-between; font-size: 14px; color: #444; }
+    .od-totals-line.grand { font-size: 18px; font-weight: 700; color: #1a1a1a; margin-top: 6px; }
+    .od-totals-line.grand .usd { font-size: 13px; color: #888; font-weight: 500; margin-right: 6px; }
+    .od-totals-line.refund { color: #1a1a1a; }
+
+    /* ── PROFILE CARDS ── */
+    .profile-name-row {
+      display: flex; align-items: center; gap: 8px; margin-bottom: 16px;
+    }
+    .profile-name { font-size: 16px; font-weight: 700; }
+    .edit-pencil {
+      width: 18px; height: 18px; color: #5a44b8;
+      background: none; border: none; cursor: pointer; font-size: 14px;
+    }
+    .profile-field-label { font-size: 13px; color: #888; }
+    .profile-field-val { font-size: 14px; margin-top: 2px; }
+
+    .addr-head {
+      display: flex; align-items: center; gap: 16px; margin-bottom: 18px;
+    }
+    .addr-head h2 { font-size: 16px; font-weight: 700; }
+    .addr-add {
+      color: #5a44b8; font-size: 14px; background: none; border: none;
+      cursor: pointer; font-family: inherit; font-weight: 500;
+    }
+    .addr-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px;
+    }
+    .addr-col-head {
+      display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;
+    }
+    .addr-col-label { font-size: 13px; color: #888; }
+    .addr-col-label.muted { color: #b0b0b0; }
+    .addr-body { font-size: 14px; color: #1a1a1a; line-height: 1.55; }
+
+    .signout-row { display: flex; align-items: center; gap: 20px; margin: 18px 40px 0; }
+    .signout-btn {
+      padding: 10px 24px; background: #eef0ff; color: #5a44b8;
+      border: 1px solid #d8d4ef; border-radius: 6px;
+      font-size: 14px; font-weight: 600; cursor: pointer; font-family: inherit;
+    }
+    .signout-link {
+      color: #5a44b8; font-size: 14px; background: none; border: none;
+      cursor: pointer; font-family: inherit;
+    }
+
+    /* ── EXTENSION CALLOUTS / TAGS ── */
+    .ext-tag {
+      display: inline-block;
+      font-size: 9px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+      padding: 2px 6px; border-radius: 2px; vertical-align: middle;
+      margin-left: 6px; line-height: 1.4;
+    }
+    .ext-tag--native    { color: #2d5a2f; background: #e6f0e6; }
+    .ext-tag--brand     { color: #6b4a1c; background: #f6ebd8; }
+    .ext-tag--extension { color: #2c4a7a; background: #e1ebf7; }
+    .ext-tag--proposed  { color: #7a2c2c; background: #f7e1e1; }
+
+    .ext-callout {
+      font-size: 12px; color: #555; line-height: 1.55;
+      padding: 10px 14px; background: #fff8e6;
+      border-left: 3px solid #f0c04a; border-radius: 4px;
+      margin: 0 40px 16px;
+    }
+    .ext-callout strong { color: #333; }
+
+    /* ── FOOTER ── */
+    .acct-footer {
+      padding: 24px 40px; margin-top: 32px;
+      border-top: 1px solid #d8d8d8;
+      display: flex; gap: 24px; align-items: center; flex-wrap: wrap;
+      font-size: 13px; color: #5a44b8;
+    }
+    .acct-footer a {
+      color: #5a44b8; text-decoration: underline;
+    }
+    .acct-footer .country {
+      display: flex; align-items: center; gap: 6px; color: #1a1a1a; text-decoration: underline;
+    }
+
+    /* ── SCENARIO DIVIDERS ── */
+    .scenario-wrap { max-width: 1180px; margin: 0 auto; }
+    .scenario-divider {
+      display: flex; align-items: center; gap: 12px; padding: 24px 40px 0; margin-top: 40px;
+    }
+    .scenario-divider::before, .scenario-divider::after {
+      content: ''; flex: 1; height: 2px; background: #f0a500; opacity: 0.5;
+    }
+    .scenario-label {
+      font-size: 11px; font-weight: 700; letter-spacing: 0.08em;
+      text-transform: uppercase; color: #f0a500; white-space: nowrap;
+    }
+
+    /* ── LEGEND ── */
+    .legend-wrap {
+      max-width: 1180px; margin: 0 auto; padding: 20px 40px;
+      background: #fff8e6; border: 1px solid #f0e2b8;
+    }
+    .legend-wrap h3 { font-size: 14px; font-weight: 700; margin-bottom: 8px; }
+    .legend-wrap p { font-size: 13px; color: #555; line-height: 1.6; margin-bottom: 8px; }
+    .legend-row { display: flex; gap: 8px; align-items: flex-start; margin-bottom: 6px; font-size: 13px; line-height: 1.5; }
+    .legend-row .ext-tag { margin-left: 0; flex-shrink: 0; }
+
+    /* ── MOBILE ── */
+    @media (max-width: 760px) {
+      .acct-topbar { grid-template-columns: auto 1fr auto; padding: 14px 16px; gap: 12px; }
+      .acct-nav { gap: 18px; justify-self: center; }
+      .acct-logo { font-size: 20px; }
+      .acct-page-head { padding: 20px 16px 14px; flex-wrap: wrap; }
+      .acct-page-head h1 { font-size: 22px; }
+      .acct-card { margin: 0 16px 12px; padding: 16px; }
+      .order-row { grid-template-columns: 48px 1fr auto; gap: 12px; padding: 12px 14px; margin: 0 16px 8px; }
+      .order-row-status { display: none; } /* status moves under num on mobile in real UI */
+      .order-row-mid::after {
+        content: attr(data-status);
+        display: block; font-size: 12px; color: #555; font-weight: 600; margin-top: 2px;
+      }
+      .order-detail-grid { grid-template-columns: 1fr; padding: 0 16px; }
+      .od-details { grid-template-columns: 1fr; gap: 18px; }
+      .addr-grid { grid-template-columns: 1fr; gap: 18px; }
+      .signout-row { margin: 16px 16px 0; }
+      .acct-footer { padding: 20px 16px; gap: 14px; font-size: 12px; }
+      .ext-callout, .scenario-divider, .legend-wrap { margin-left: 16px; margin-right: 16px; padding-left: 14px; padding-right: 14px; }
+    }
+  </style>
+</head>
+<body>
+
+
+<!-- ══════════════════════════════════════════
+     LEGEND
+════════════════════════════════════════════ -->
+<div class="scenario-wrap">
+  <div class="scenario-divider" style="margin-top:0;">
+    <span class="scenario-label">About this wireframe</span>
+  </div>
+</div>
+<div class="legend-wrap">
+  <h3>What this wireframe is — and isn't</h3>
+  <p>
+    Account pages run on Shopify's <strong>new Customer Account</strong> system, which Shopify renders directly — not the theme.
+    The layouts below mirror what Shopify ships today, with annotated insertion points for Customer Account UI Extensions.
+    Think Lego, not paint: we can plug content panels into <strong>defined slots</strong> (block extensions on Orders/Profile/Order Status,
+    full-page routes that auto-add a nav link, and per-order menu actions). We can't restyle Shopify's own components or invent
+    new slots. This is a <strong>requirements artifact</strong>, not a pixel design spec.
+  </p>
+  <div style="margin-top:10px;">
+    <div class="legend-row"><span class="ext-tag ext-tag--native">Native</span><span>Rendered by Shopify; layout and copy are largely fixed.</span></div>
+    <div class="legend-row"><span class="ext-tag ext-tag--brand">Brand</span><span>Logo and brand colors — uploaded in Shopify Admin. The only visual control we have.</span></div>
+    <div class="legend-row"><span class="ext-tag ext-tag--extension">Extension</span><span>Customer Account UI Extension from an app vendor. Vendor controls styling.</span></div>
+    <div class="legend-row"><span class="ext-tag ext-tag--proposed">Proposed</span><span>Vendor TBD, extension status unverified, or app not yet purchased.</span></div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════
+     SCENARIO 1 — First-order welcome block (empty Orders state)
+════════════════════════════════════════════ -->
+<div class="scenario-wrap">
+  <div class="scenario-divider">
+    <span class="scenario-label">Scenario 1 — First-order welcome block (zero orders)</span>
+  </div>
+</div>
+
+<div class="acct-shell">
+
+  <div class="acct-topbar">
+    <div class="acct-logo">DOVETAIL<small>WORKWEAR</small></div>
+    <nav class="acct-nav">
+      <button class="acct-nav-item active">Orders</button>
+      <button class="acct-nav-item">Profile</button>
+    </nav>
+    <div class="acct-avatar">&#9737;</div>
+  </div>
+
+  <div class="ext-callout">
+    <strong>Empty Orders state, customized.</strong> Shopify renders a default "no orders" empty state. The <code style="background:#f5f5f5; padding:1px 5px; border-radius:2px;">order-index.block.render</code> slot still fires — so this block <em>becomes</em> the empty state for new customers. Treat it as the de-facto dashboard hero, not an afterthought.
+  </div>
+
+  <div class="acct-page-head">
+    <h1>Orders</h1>
+    <div class="acct-list-toggle">
+      <button class="acct-list-btn">&#9776; List &#9662;</button>
+      <button class="acct-filter-btn">&#9783;</button>
+    </div>
+  </div>
+
+  <!-- BLOCK EXTENSION: order-index.block.render — first-order welcome (custom build) -->
+  <div class="acct-card" style="border: 1.5px dashed #c8d3e8; background: #fbfcff; padding: 28px 24px;">
+    <div style="font-size:11px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:#2c4a7a; margin-bottom:10px;">Block extension · order-index <span class="ext-tag ext-tag--extension" style="margin-left:4px;">Custom build</span></div>
+
+    <h2 style="font-size:22px; font-weight:700; margin-bottom:8px;">Welcome to Dovetail.</h2>
+    <p style="font-size:14px; color:#444; line-height:1.6; margin-bottom:18px; max-width:520px;">
+      You're all set up. When you place your first order, it'll show up here for tracking, returns, and quick reorders. In the meantime, here's where to start.
+    </p>
+
+    <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap:14px; margin-bottom:20px;">
+      <div style="padding:14px; background:#fff; border-radius:8px; border:1px solid #e8e8e8;">
+        <div style="font-size:12px; font-weight:700; letter-spacing:0.04em; text-transform:uppercase; color:#888; margin-bottom:6px;">01</div>
+        <div style="font-size:14px; font-weight:700; margin-bottom:4px;">Find your fit</div>
+        <div style="font-size:13px; color:#555; line-height:1.5;">Take our fit quiz — three questions, your size and shape.</div>
+      </div>
+      <div style="padding:14px; background:#fff; border-radius:8px; border:1px solid #e8e8e8;">
+        <div style="font-size:12px; font-weight:700; letter-spacing:0.04em; text-transform:uppercase; color:#888; margin-bottom:6px;">02</div>
+        <div style="font-size:14px; font-weight:700; margin-bottom:4px;">Shop the bestsellers</div>
+        <div style="font-size:13px; color:#555; line-height:1.5;">Britt X Ultralight, GO TO™ Pant, Maven X — what most customers start with.</div>
+      </div>
+      <div style="padding:14px; background:#fff; border-radius:8px; border:1px solid #e8e8e8;">
+        <div style="font-size:12px; font-weight:700; letter-spacing:0.04em; text-transform:uppercase; color:#888; margin-bottom:6px;">03</div>
+        <div style="font-size:14px; font-weight:700; margin-bottom:4px;">[Exchange / fit guarantee copy — TBD]</div>
+        <div style="font-size:13px; color:#555; line-height:1.5;">Final copy owned by marketing. Verify against current policy (see <code style="background:#f5f5f5; padding:1px 4px; border-radius:2px;">policies/refund-policy</code>) before publishing.</div>
+      </div>
+    </div>
+
+    <div style="display:flex; gap:10px; flex-wrap:wrap;">
+      <button class="acct-pill-btn" style="background:#5a44b8; color:#fff; border-color:#5a44b8;">Take the fit quiz</button>
+      <button class="acct-pill-btn">Shop bestsellers</button>
+    </div>
+
+    <div style="margin-top:18px; padding-top:14px; border-top:1px solid #e8e8e8; font-size:12px; color:#888;">
+      Already ordered with us as a guest? <a href="#" style="color:#5a44b8;">Email support to link your orders</a>.
+    </div>
+  </div>
+
+  <div class="ext-callout" style="margin-top: 16px; background: #f4f7f4; border-left-color: #6a8a6c;">
+    <strong>Implementation notes.</strong> Custom block extension (no vendor ships this).
+    Content blocks are placeholders — final copy + CTAs owned by marketing.
+    The "claim guest orders" link addresses the Phase 2 guest-order-claim gap with a manual CS workaround for launch.
+    Empty-orders state is the only place this block should render — once a customer has any order, it should hide (configurable in the extension).
+  </div>
+
+  <div class="acct-footer">
+    <span class="country">&#9432; United States &#9662;</span>
+    <a href="#">Refund policy</a>
+    <a href="#">Shipping</a>
+    <a href="#">Privacy policy</a>
+    <a href="#">Terms of service</a>
+    <a href="#">Contact information</a>
+  </div>
+
+</div><!-- /acct-shell -->
+
+
+<!-- ══════════════════════════════════════════
+     SCENARIO 2 — Orders list (mirrors live UI)
+════════════════════════════════════════════ -->
+<div class="scenario-wrap">
+  <div class="scenario-divider">
+    <span class="scenario-label">Scenario 2 — Orders list</span>
+  </div>
+</div>
+
+<div class="acct-shell">
+
+  <div class="acct-topbar">
+    <div class="acct-logo">DOVETAIL<small>WORKWEAR</small></div>
+    <nav class="acct-nav">
+      <button class="acct-nav-item active">Orders</button>
+      <button class="acct-nav-item">Profile</button>
+      <button class="acct-nav-item" style="color:#2c4a7a;">Wishlist <span class="ext-tag ext-tag--extension" style="margin-left:4px;">Wishlist app</span></button>
+    </nav>
+    <div class="acct-avatar">&#9737;</div>
+  </div>
+
+  <div class="ext-callout">
+    <strong>Top nav</strong> <span class="ext-tag ext-tag--native">Native</span> + <span class="ext-tag ext-tag--extension">Extension menu links</span> — Orders and Profile are native. <strong>Full-page extensions</strong> (e.g. a wishlist app) auto-register a menu link, so a third item like "Wishlist" can appear here. We don't control which extensions add nav links — the app vendor does — but the slot exists.
+  </div>
+
+  <div class="acct-page-head">
+    <h1>Orders</h1>
+    <div class="acct-list-toggle">
+      <button class="acct-list-btn">&#9776; List &#9662;</button>
+      <button class="acct-filter-btn">&#9783;</button>
+    </div>
+  </div>
+
+  <!-- BLOCK EXTENSION: order-index.block.render — Referral panel -->
+  <div class="acct-card" style="border: 1.5px dashed #c8d3e8; background: #fbfcff;">
+    <div class="acct-card-row">
+      <div>
+        <div style="font-size:11px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:#2c4a7a; margin-bottom:6px;">Block extension · order-index <span class="ext-tag ext-tag--extension" style="margin-left:4px;">Uppromote</span></div>
+        <div style="font-size:16px; font-weight:700;">Give $20, get $20</div>
+        <div style="font-size:13px; color:#555; margin-top:4px; line-height:1.5;">Refer a friend with your code. They get $20 off, you get $20 credit when they buy.</div>
+      </div>
+      <button class="acct-pill-btn">Get your link</button>
+    </div>
+  </div>
+
+  <div class="order-row">
+    <div class="order-thumb"><img src="https://dovetailworkwear.com/cdn/shop/files/Dovetail-2025-S26-Studio-Web-Charla-GOTOPantTerracotta-034-Edit_426c507b-5aa6-43b7-83cb-e9a9dc4cdf98MODEL-267.jpg?v=1772742524&width=160" alt=""></div>
+    <div class="order-row-mid" data-status="On its way · Jun 6">
+      <div class="order-row-num">#GetDirty245018</div>
+      <div class="order-row-items">2 items</div>
+    </div>
+    <div class="order-row-status">
+      <div class="order-row-status-label">On its way</div>
+      <div class="order-row-date">Jun 6</div>
+    </div>
+    <div class="order-row-right">
+      <div class="order-row-price">$208.00 USD</div>
+      <button class="order-row-menu">&hellip;</button>
+    </div>
+  </div>
+
+  <div class="order-row">
+    <div class="order-thumb"><img src="https://dovetailworkwear.com/cdn/shop/files/DTW_S25_Studio_Freshley-Ultralight-Overall-Elderberry-2699MODEL-217.jpg?v=1774226949&width=160" alt=""></div>
+    <div class="order-row-mid" data-status="Confirmed · May 28">
+      <div class="order-row-num">#GetDirty244201</div>
+      <div class="order-row-items">3 items</div>
+    </div>
+    <div class="order-row-status">
+      <div class="order-row-status-label">Confirmed</div>
+      <div class="order-row-date">May 28</div>
+    </div>
+    <div class="order-row-right">
+      <div class="order-row-price">$317.00 USD</div>
+      <button class="order-row-menu">&hellip;</button>
+    </div>
+  </div>
+
+  <div class="order-row">
+    <div class="order-thumb"><img src="https://dovetailworkwear.com/cdn/shop/files/Carbon-Black-GO-TO-2421MODEL-225.jpg?v=1772740869&width=160" alt=""></div>
+    <div class="order-row-mid" data-status="Delivered · Apr 15">
+      <div class="order-row-num">#GetDirty243118</div>
+      <div class="order-row-items">1 item</div>
+    </div>
+    <div class="order-row-status">
+      <div class="order-row-status-label">Delivered</div>
+      <div class="order-row-date">Apr 15</div>
+    </div>
+    <div class="order-row-right">
+      <div class="order-row-price">$119.00 USD</div>
+      <button class="order-row-menu">&hellip;</button>
+    </div>
+  </div>
+
+  <div class="order-row">
+    <div class="order-thumb"><img src="https://dovetailworkwear.com/cdn/shop/files/DTW_S25_Studio_GO-TO-Short-Kelp-Green-1603.jpg?v=1771001582&width=160" alt=""></div>
+    <div class="order-row-mid" data-status="Canceled · Feb 16">
+      <div class="order-row-num">#GetDirty222995</div>
+      <div class="order-row-items">3 items</div>
+    </div>
+    <div class="order-row-status">
+      <div class="order-row-status-label">Canceled</div>
+      <div class="order-row-date">Feb 16</div>
+    </div>
+    <div class="order-row-right">
+      <div class="order-row-price">$0.00 USD</div>
+      <button class="order-row-menu">&hellip;</button>
+    </div>
+  </div>
+
+  <div class="ext-callout" style="margin-top:16px;">
+    <strong>Row "&hellip;" menu</strong> <span class="ext-tag ext-tag--native">Native</span> — Shopify renders this menu. Loop's UI extension <span class="ext-tag ext-tag--extension">Loop</span> can inject a "Start a return" item into delivered orders. We do not control the menu chrome itself.
+  </div>
+
+  <div class="acct-footer">
+    <span class="country">&#9432; United States &#9662;</span>
+    <a href="#">Refund policy</a>
+    <a href="#">Shipping</a>
+    <a href="#">Privacy policy</a>
+    <a href="#">Terms of service</a>
+    <a href="#">Contact information</a>
+  </div>
+
+</div><!-- /acct-shell -->
+
+
+<!-- ══════════════════════════════════════════
+     SCENARIO 3 — Order detail (mirrors live UI)
+════════════════════════════════════════════ -->
+<div class="scenario-wrap">
+  <div class="scenario-divider">
+    <span class="scenario-label">Scenario 3 — Order detail (includes preorder line + Loop CTA)</span>
+  </div>
+</div>
+
+<div class="acct-shell">
+
+  <div class="acct-topbar">
+    <div class="acct-logo">DOVETAIL<small>WORKWEAR</small></div>
+    <nav class="acct-nav">
+      <button class="acct-nav-item active">Orders</button>
+      <button class="acct-nav-item">Profile</button>
+    </nav>
+    <div class="acct-avatar">&#9737;</div>
+  </div>
+
+  <div class="ext-callout">
+    <strong>Page chrome</strong> <span class="ext-tag ext-tag--native">Native</span> — header card, contact / shipping / billing block, line items, totals all rendered by Shopify. Extension-driven elements below: <span class="ext-tag ext-tag--extension">Loop</span> "Start a return" and the preorder ship-date tag (already works via line-item properties).
+  </div>
+
+  <div class="acct-page-head">
+    <div>
+      <h1><span class="back-arrow">&larr;</span> Order #GetDirty245018</h1>
+      <div class="acct-page-head-meta">Confirmed Jun 6</div>
+    </div>
+    <button class="acct-pill-btn">Buy again</button>
+  </div>
+
+  <div class="order-detail-grid">
+
+    <!-- LEFT COLUMN -->
+    <div style="display:flex; flex-direction:column; gap:14px;">
+
+      <!-- Status card -->
+      <div class="acct-card" style="margin:0;">
+        <div class="od-status-head">
+          <div class="od-status-icon">&check;</div>
+          <div class="od-status-body">
+            <div class="od-status-label">On its way</div>
+            <div class="od-status-msg">Your order is on the way. Tracking will update as it moves.</div>
+            <div class="od-status-date">Shipped Jun 8</div>
+            <div class="od-status-actions">
+              <button class="acct-pill-btn">Track order with Shop</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Details card -->
+      <div class="acct-card" style="margin:0;">
+        <div class="od-details">
+          <div>
+            <h3>Contact information</h3>
+            <p>Jamie Kerrigan<br>jamie.k@example.com</p>
+          </div>
+          <div>
+            <h3>Payment</h3>
+            <p>Visa &bull;&bull;&bull;&bull; 4242<br><span class="muted">$228.00 USD</span><br><span class="muted">Jun 6</span></p>
+          </div>
+          <div>
+            <h3>Shipping address</h3>
+            <p>Jamie Kerrigan<br>2143 SE Stark St<br>Portland Oregon 97214<br>United States<br>+15035551234</p>
+          </div>
+          <div>
+            <h3>Billing address</h3>
+            <p>Jamie Kerrigan<br>2143 SE Stark St<br>Portland Oregon 97214<br>United States<br>+15035551234</p>
+          </div>
+          <div style="grid-column: 1 / -1;">
+            <h3>Shipping method</h3>
+            <p>Flat Rate (4–10 Business Days)</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Cleverific "Change order" block — within 1h cancel window -->
+      <div class="acct-card" style="margin:0; border: 1.5px dashed #c8d3e8; background: #fbfcff;">
+        <div style="font-size:11px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:#2c4a7a; margin-bottom:6px;">Block extension · order-status <span class="ext-tag ext-tag--extension" style="margin-left:4px;">Cleverific</span></div>
+        <div style="font-size:14px; font-weight:700; margin-bottom:4px;">Change this order</div>
+        <div style="font-size:13px; color:#555; line-height:1.5; margin-bottom:12px;">You can change or cancel this order within <strong>1 hour</strong> of placing it. After that, contact customer support.</div>
+        <div style="display:flex; gap:8px; flex-wrap:wrap;">
+          <button class="acct-pill-btn">Edit shipping address</button>
+          <button class="acct-pill-btn">Add items</button>
+          <button class="acct-pill-btn">Edit / remove items</button>
+          <button class="acct-pill-btn" style="color:#7a2c2c; border-color:#e8c8c8;">Cancel order</button>
+        </div>
+        <div style="font-size:11px; color:#888; margin-top:10px; line-height:1.5;">
+          Window: 1h post-checkout, unfulfilled orders only. Powered by Cleverific Customer Portal — vendor-rendered inline on the order page.
+          Shipping cost does not auto-recalculate on address change (Shopify behavior).
+        </div>
+      </div>
+
+      <!-- Loop extension placement -->
+      <div class="acct-card" style="margin:0; border: 1.5px dashed #c8d3e8; background: #fbfcff;">
+        <div class="acct-card-row">
+          <div>
+            <div style="font-size:14px; font-weight:700;">Need to make a return? <span class="ext-tag ext-tag--extension">Loop Extension</span></div>
+            <div style="font-size:13px; color:#555; margin-top:4px; line-height:1.5;">Renders inside the order page via Loop's Customer Account UI Extension. Clicking redirects to the Loop returns portal.</div>
+          </div>
+          <button class="acct-pill-btn">Start a return</button>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- RIGHT COLUMN -->
+    <div class="od-side">
+
+      <!-- Total card -->
+      <div class="acct-card" style="margin:0;">
+        <div class="od-total-head">$228.00 USD</div>
+        <div class="od-total-sub">Paid Jun 6</div>
+      </div>
+
+      <!-- Line items + totals -->
+      <div class="acct-card" style="margin:0;">
+        <div class="od-items-list">
+
+          <div class="od-item">
+            <div class="od-item-img">
+              <img src="https://dovetailworkwear.com/cdn/shop/files/Dovetail-2025-S26-Studio-Web-Charla-GOTOPantTerracotta-034-Edit_426c507b-5aa6-43b7-83cb-e9a9dc4cdf98MODEL-267.jpg?v=1772742524&width=200" alt="">
+              <span class="od-item-qty">1</span>
+            </div>
+            <div>
+              <div class="od-item-name">GO TO™ Stretch Canvas Pant</div>
+              <div class="od-item-variant">Carbon Black / 30 × 30</div>
+            </div>
+            <div class="od-item-price">$119.00</div>
+          </div>
+
+          <div class="od-item">
+            <div class="od-item-img">
+              <img src="https://dovetailworkwear.com/cdn/shop/files/DTW_S25_Studio_Freshley-Ultralight-Overall-Elderberry-2699MODEL-217.jpg?v=1774226949&width=200" alt="">
+              <span class="od-item-qty">1</span>
+            </div>
+            <div>
+              <div class="od-item-name">Range Crop Pant</div>
+              <div class="od-item-variant">Olive / 30 × 28</div>
+              <div class="od-item-meta">Preorder · Ships mid-July</div>
+            </div>
+            <div class="od-item-price">$109.00</div>
+          </div>
+
+        </div>
+
+        <div class="od-totals-block">
+          <div class="od-totals-line"><span>Subtotal · 2 items</span><span>$228.00</span></div>
+          <div class="od-totals-line"><span>Shipping</span><span>Free</span></div>
+          <div class="od-totals-line"><span>Tax</span><span>$0.00</span></div>
+          <div class="od-totals-line grand"><span>Total</span><span><span class="usd">USD</span>$228.00</span></div>
+        </div>
+      </div>
+
+    </div>
+
+  </div><!-- /order-detail-grid -->
+
+  <div class="acct-footer">
+    <span class="country">&#9432; United States &#9662;</span>
+    <a href="#">Refund policy</a>
+    <a href="#">Shipping</a>
+    <a href="#">Privacy policy</a>
+    <a href="#">Terms of service</a>
+    <a href="#">Contact information</a>
+  </div>
+
+</div><!-- /acct-shell -->
+
+
+<!-- ══════════════════════════════════════════
+     SCENARIO 4 — Profile (mirrors live UI)
+════════════════════════════════════════════ -->
+<div class="scenario-wrap">
+  <div class="scenario-divider">
+    <span class="scenario-label">Scenario 4 — Profile</span>
+  </div>
+</div>
+
+<div class="acct-shell">
+
+  <div class="acct-topbar">
+    <div class="acct-logo">DOVETAIL<small>WORKWEAR</small></div>
+    <nav class="acct-nav">
+      <button class="acct-nav-item">Orders</button>
+      <button class="acct-nav-item active">Profile</button>
+    </nav>
+    <div class="acct-avatar">&#9737;</div>
+  </div>
+
+  <div class="ext-callout">
+    <strong>Profile page</strong> <span class="ext-tag ext-tag--native">Native</span> — name, email, addresses, sign-out all rendered by Shopify. Layout is fixed. Sign-in is passwordless (magic link / passkey / social) — Shopify controls the login experience entirely.
+  </div>
+
+  <div class="acct-page-head">
+    <h1>Profile</h1>
+  </div>
+
+  <div class="acct-card">
+    <div class="profile-name-row">
+      <span class="profile-name">Jamie Kerrigan</span>
+      <button class="edit-pencil" aria-label="Edit name">&#9998;</button>
+    </div>
+    <div>
+      <div class="profile-field-label">Email</div>
+      <div class="profile-field-val">jamie.k@example.com</div>
+    </div>
+  </div>
+
+  <div class="acct-card">
+    <div class="addr-head">
+      <h2>Addresses</h2>
+      <button class="addr-add">+ Add</button>
+    </div>
+    <div class="addr-grid">
+      <div>
+        <div class="addr-col-head">
+          <div class="addr-col-label">Default address</div>
+          <button class="edit-pencil">&#9998;</button>
+        </div>
+        <div class="addr-body">
+          Jamie Kerrigan<br>
+          2143 SE Stark St<br>
+          Portland Oregon 97214<br>
+          United States<br>
+          +15035551234
+        </div>
+      </div>
+      <div>
+        <div class="addr-col-head">
+          <div class="addr-col-label">Shop</div>
+          <button class="edit-pencil">&#9998;</button>
+        </div>
+        <div class="addr-body">
+          Jamie Kerrigan<br>
+          521 NW 21st Ave<br>
+          Portland Oregon 97209<br>
+          United States<br>
+          +15035551234
+        </div>
+      </div>
+      <div>
+        <div class="addr-col-head">
+          <div class="addr-col-label muted">&nbsp;</div>
+          <button class="edit-pencil">&#9998;</button>
+        </div>
+        <div class="addr-body">
+          Jamie Kerrigan<br>
+          2143 SE Stark St<br>
+          Portland Oregon 97214<br>
+          United States<br>
+          +15035551234
+        </div>
+      </div>
+      <div>
+        <div class="addr-col-head">
+          <div class="addr-col-label muted">&nbsp;</div>
+          <button class="edit-pencil">&#9998;</button>
+        </div>
+        <div class="addr-body">
+          Jamie Kerrigan<br>
+          2143 SE Stark St<br>
+          Portland Oregon 97214<br>
+          United States<br>
+          +15035551234
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BLOCK EXTENSION: profile.block.render — Referral panel -->
+  <div class="acct-card" style="border: 1.5px dashed #c8d3e8; background: #fbfcff;">
+    <div class="acct-card-row">
+      <div>
+        <div style="font-size:11px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:#2c4a7a; margin-bottom:6px;">Block extension · profile <span class="ext-tag ext-tag--extension" style="margin-left:4px;">Uppromote</span></div>
+        <div style="font-size:16px; font-weight:700;">Your referral link</div>
+        <div style="font-size:13px; color:#555; margin-top:4px; line-height:1.5; font-family:monospace;">dovetailworkwear.com/r/jamie-k20</div>
+      </div>
+      <button class="acct-pill-btn">Copy &amp; share</button>
+    </div>
+  </div>
+
+  <div class="signout-row">
+    <button class="signout-btn">Sign out</button>
+    <button class="signout-link">Sign out of all devices</button>
+  </div>
+
+  <div class="acct-footer">
+    <span class="country">&#9432; United States &#9662;</span>
+    <a href="#">Refund policy</a>
+    <a href="#">Shipping</a>
+    <a href="#">Privacy policy</a>
+    <a href="#">Terms of service</a>
+    <a href="#">Contact information</a>
+  </div>
+
+</div><!-- /acct-shell -->
+
+
+</body>
+</html>

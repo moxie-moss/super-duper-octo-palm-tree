@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>404 Page Wireframe — Dovetail Workwear</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-size: 15px; color: #1a1a1a; background: #d8d8d8;
+    }
+
+    /* ── HEADER STUB ── */
+    .stub-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 16px; height: 56px; background: #fff;
+      border-bottom: 1px solid #e0e0e0; position: sticky; top: 0; z-index: 50;
+    }
+    .stub-logo { font-weight: 700; font-size: 16px; letter-spacing: 0.05em; }
+    .stub-cart { font-size: 20px; position: relative; }
+
+    /* ── PAGE WRAPPER ── */
+    .err-page {
+      max-width: 390px; margin: 0 auto;
+      background: #fff; min-height: 100vh;
+      padding: 40px 20px 60px;
+    }
+
+    /* ── HERO MESSAGE ── */
+    .err-eyebrow {
+      font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;
+      color: #888; margin-bottom: 12px;
+    }
+    .err-headline {
+      font-size: 28px; font-weight: 700; line-height: 1.15;
+      letter-spacing: -0.01em; margin-bottom: 12px;
+    }
+    .err-sub {
+      font-size: 15px; line-height: 1.5; color: #555;
+      max-width: 480px; margin-bottom: 28px;
+    }
+
+    /* ── SEARCH ── */
+    .err-search {
+      display: flex; gap: 8px; margin-bottom: 32px;
+    }
+    .err-search-input {
+      flex: 1; padding: 13px 16px;
+      border: 1.5px solid #333; border-radius: 2px;
+      font-size: 14px; font-family: inherit; color: #333;
+    }
+    .err-search-input::placeholder { color: #999; }
+    .err-search-btn {
+      padding: 13px 22px; background: #333; color: #fff;
+      font-size: 13px; font-weight: 700; letter-spacing: 0.04em;
+      border: none; border-radius: 2px; cursor: pointer; font-family: inherit;
+    }
+
+    /* ── QUICK NAV ── */
+    .err-quicknav {
+      display: flex; flex-wrap: wrap; gap: 8px;
+      margin-bottom: 32px;
+    }
+    .err-quicknav-link {
+      padding: 7px 14px;
+      border: 1px solid #d0d0d0; border-radius: 999px;
+      font-size: 13px; color: #1a1a1a; text-decoration: none;
+      background: #fff;
+    }
+    .err-quicknav-link:hover { border-color: #1a1a1a; }
+
+    /* ── FEATURED COLLECTIONS ── */
+    .err-coll-block { margin-bottom: 36px; }
+    .err-coll-label {
+      font-size: 11px; font-weight: 700; letter-spacing: 0.08em;
+      text-transform: uppercase; color: #888; margin-bottom: 14px;
+    }
+    .err-coll-grid {
+      display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px;
+    }
+    .err-coll-card {
+      position: relative; aspect-ratio: 3/4;
+      background: #f0f0f0; border-radius: 2px; overflow: hidden;
+      display: block; text-decoration: none;
+    }
+    .err-coll-card img {
+      width: 100%; height: 100%; object-fit: cover; display: block;
+    }
+    .err-coll-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0) 50%);
+      display: flex; align-items: flex-end; padding: 12px;
+    }
+    .err-coll-name {
+      color: #fff; font-size: 14px; font-weight: 700; letter-spacing: 0.02em;
+      line-height: 1.2;
+    }
+
+    /* ── ANNOTATION NOTE ── */
+    .anno {
+      font-size: 11px; color: #888; font-style: italic;
+      padding: 10px 12px; background: #fafafa;
+      border-left: 2px solid #ddd; margin-bottom: 20px; line-height: 1.5;
+    }
+
+    /* ── SCENARIO DIVIDERS ── */
+    .scenario-wrap { max-width: 390px; margin: 0 auto; }
+    .scenario-divider {
+      display: flex; align-items: center; gap: 12px; padding: 24px 16px 0;
+    }
+    .scenario-divider::before, .scenario-divider::after {
+      content: ''; flex: 1; height: 2px; background: #f0a500; opacity: 0.5;
+    }
+    .scenario-label {
+      font-size: 11px; font-weight: 700; letter-spacing: 0.08em;
+      text-transform: uppercase; color: #f0a500; white-space: nowrap;
+    }
+
+    /* ── DESKTOP ── */
+    @media (min-width: 1024px) {
+      body { background: #c8c8c8; }
+
+      .stub-header { padding: 0 40px; height: 64px; }
+      .stub-logo { font-size: 18px; }
+
+      .err-page {
+        max-width: 880px;
+        padding: 80px 60px 100px;
+      }
+      .err-headline { font-size: 44px; }
+      .err-sub { font-size: 17px; }
+      .err-search { max-width: 560px; }
+      .err-coll-grid { gap: 14px; }
+      .err-coll-name { font-size: 16px; }
+
+      .scenario-wrap { max-width: 880px; }
+    }
+  </style>
+</head>
+<body>
+
+
+<!-- HEADER STUB -->
+<div class="stub-header">
+  <div class="stub-logo">DOVETAIL</div>
+  <div class="stub-cart">&#9675;</div>
+</div>
+
+
+<!-- ══════════════════════════════════════════
+     SCENARIO 1 — 404 default
+════════════════════════════════════════════ -->
+<div class="scenario-wrap">
+  <div class="scenario-divider" style="margin-top:0;">
+    <span class="scenario-label">Scenario 1 — 404 default</span>
+  </div>
+</div>
+
+<div class="err-page">
+
+  <!-- HERO MESSAGE -->
+  <div class="err-eyebrow">404 · Page not found</div>
+  <h1 class="err-headline">We'd rather you were shopping.</h1>
+  <p class="err-sub">
+    This page isn't here — could be a stale link, a discontinued product, or a typo. Either way, here's where to pick back up.
+  </p>
+
+  <!-- SEARCH -->
+  <form class="err-search" action="/search" method="get">
+    <input class="err-search-input" type="search" name="q" placeholder="Search for products, fits, or fabrics" aria-label="Search">
+    <button class="err-search-btn" type="submit">Search</button>
+  </form>
+
+  <div class="anno">
+    Pre-populate <code>?q=</code> from the referrer query if available (e.g., visitor came from a Google search for "Maven X Coolswap" → drop it into the input).
+    Dev-side enhancement, nice-to-have.
+  </div>
+
+  <!-- QUICK NAV -->
+  <div class="err-quicknav">
+    <a class="err-quicknav-link" href="/collections/all">Shop all</a>
+    <a class="err-quicknav-link" href="/collections/pants">Women's Pants</a>
+    <a class="err-quicknav-link" href="/collections/overalls">Overalls &amp; Coveralls</a>
+    <a class="err-quicknav-link" href="/collections/shorts">Shorts</a>
+  </div>
+
+  <!-- FEATURED COLLECTIONS -->
+  <div class="err-coll-block">
+    <div class="err-coll-label">Or start here</div>
+    <div class="err-coll-grid">
+      <a class="err-coll-card" href="/collections/bestsellers">
+        <img src="https://dovetailworkwear.com/cdn/shop/files/Carbon-Black-GO-TO-2421MODEL-225.jpg?v=1772740869&width=400" alt="">
+        <div class="err-coll-overlay"><div class="err-coll-name">Bestsellers</div></div>
+      </a>
+      <a class="err-coll-card" href="/collections/new-arrivals">
+        <img src="https://dovetailworkwear.com/cdn/shop/files/DTW_S25_Studio_Provisions-Cargo-Pant-Black-4445_MODEL-214_dc2a494a-26e9-4349-ba13-ba14bec66cd7.jpg?v=1774324524&width=400" alt="">
+        <div class="err-coll-overlay"><div class="err-coll-name">New arrivals</div></div>
+      </a>
+      <a class="err-coll-card" href="/collections/sale">
+        <img src="https://dovetailworkwear.com/cdn/shop/files/Dovetail-2025-S26-Studio-Christa-X-COOLSWAP_-Pant-Dovetail-Blue_-1105-Crop-eeeeee.jpg?v=1769631992&width=400" alt="">
+        <div class="err-coll-overlay"><div class="err-coll-name">Sale</div></div>
+      </a>
+    </div>
+  </div>
+
+  <div class="anno">
+    Three collection cards: <strong>Bestsellers</strong> (confidence recovery), <strong>New Arrivals</strong> (deleted-product pivot), <strong>Sale</strong> (price-driven recovery).
+    Final collection handles + featured images owned by merchandising.
+  </div>
+
+  <div class="anno">
+    <strong>Customer support:</strong> no explicit link on the page. Sitewide chat button is always present and handles support need.
+  </div>
+
+</div><!-- /err-page -->
+
+
+</body>
+</html>
