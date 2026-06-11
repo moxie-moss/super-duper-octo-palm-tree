@@ -212,6 +212,8 @@
     }
     .product-strip::-webkit-scrollbar { display: none; }
     .product-card { flex: 0 0 160px; }
+    .product-card.peek { flex: 0 0 130px; }
+    .product-card.peek .product-card-img { width: 130px; }
     .product-card-img {
       width: 160px;
       aspect-ratio: 3/4;
@@ -680,8 +682,10 @@
         gap: 20px;
         padding: 0;
       }
-      .product-card { flex: none; width: auto; }
-      .product-card-img { width: 100%; }
+      .product-card,
+      .product-card.peek { flex: none; width: auto; }
+      .product-card-img,
+      .product-card.peek .product-card-img { width: 100%; }
 
       /* ── Desktop feature story — side by side ── */
       .section-feature {
@@ -801,29 +805,26 @@
 
 <!-- SECTION: ANNOUNCEMENT BAR -->
 <div class="announcement-bar">
-  Free shipping on orders over $75 — <a href="#">Shop Now</a>
+  Free shipping on orders over $75 — <a href="collection.html">Shop Now</a>
 </div>
 
 <!-- SECTION: HEADER -->
 <header>
   <div class="header-menu">☰</div>
-  <div class="header-logo">DOVETAIL</div>
+  <a href="homepage.html" class="header-logo" style="text-decoration:none;color:inherit;">DOVETAIL</a>
 
   <!-- Desktop primary nav (hidden on mobile) -->
   <nav class="desktop-nav" aria-label="Primary">
-    <a href="#">Pants</a>
-    <a href="#">Shorts</a>
-    <a href="#">Tops</a>
-    <a href="#">Overalls</a>
-    <a href="#">Sale</a>
+    <a href="collection.html">Pants</a>
+    <a href="collection.html">Shorts</a>
+    <a href="collection.html">Tops</a>
+    <a href="collection.html">Overalls</a>
+    <a href="collection.html">Sale</a>
   </nav>
 
   <div class="header-icons">
-    <button class="header-search" aria-label="Search">Search</button>
-    <div class="header-cart" aria-label="Cart">
-      🛒
-      <span class="cart-badge">0</span>
-    </div>
+    <a href="search.html" class="header-search" aria-label="Search" style="text-decoration:none;color:inherit;">Search</a>
+    <a href="cart.html" class="header-cart" aria-label="Cart" style="text-decoration:none;color:inherit;">🛒<span class="cart-badge">0</span></a>
   </div>
 </header>
 
@@ -837,14 +838,14 @@
   <div class="hero-content">
     <div class="hero-eyebrow">Built for Women Who Work</div>
     <h1 class="hero-headline">Workwear That Works As Hard As You Do</h1>
-    <a href="#" class="hero-cta">Shop All Styles</a>
+    <a href="collection.html" class="hero-cta">Shop All Styles</a>
   </div>
 
   <!-- Desktop: text panel left, image right -->
   <div class="hero-text-panel">
     <div class="hero-eyebrow">Built for Women Who Work</div>
     <h1 class="hero-headline">Workwear That Works As Hard As You Do</h1>
-    <a href="#" class="hero-cta">Shop All Styles</a>
+    <a href="collection.html" class="hero-cta">Shop All Styles</a>
   </div>
 
 </section>
@@ -861,7 +862,7 @@
       <div class="category-img-placeholder">[ Pants lifestyle ]</div>
       <div class="category-card-label">
         <span class="cat-name">Pants</span>
-        <a href="#" class="cat-link">Shop Pants →</a>
+        <a href="collection.html" class="cat-link">Shop Pants →</a>
       </div>
     </div>
 
@@ -869,7 +870,7 @@
       <div class="category-img-placeholder">[ Shorts ]</div>
       <div class="category-card-label">
         <span class="cat-name">Shorts</span>
-        <a href="#" class="cat-link">Shop →</a>
+        <a href="collection.html" class="cat-link">Shop →</a>
       </div>
     </div>
 
@@ -877,7 +878,7 @@
       <div class="category-img-placeholder">[ Tops ]</div>
       <div class="category-card-label">
         <span class="cat-name">Tops</span>
-        <a href="#" class="cat-link">Shop →</a>
+        <a href="collection.html" class="cat-link">Shop →</a>
       </div>
     </div>
 
@@ -885,7 +886,7 @@
       <div class="category-img-placeholder">[ Overalls ]</div>
       <div class="category-card-label">
         <span class="cat-name">Overalls</span>
-        <a href="#" class="cat-link">Shop →</a>
+        <a href="collection.html" class="cat-link">Shop →</a>
       </div>
     </div>
 
@@ -893,7 +894,7 @@
       <div class="category-img-placeholder">[ Sale / New ]</div>
       <div class="category-card-label">
         <span class="cat-name">Sale</span>
-        <a href="#" class="cat-link">Shop →</a>
+        <a href="collection.html" class="cat-link">Shop →</a>
       </div>
     </div>
 
@@ -907,7 +908,7 @@
 
   <div class="product-strip">
 
-    <div class="product-card">
+    <a href="pdp.html" style="text-decoration:none;color:inherit;"><div class="product-card">
       <div class="product-card-img">
         <span class="product-card-flag">Best Seller</span>
         [ Product Image ]
@@ -921,9 +922,9 @@
       </div>
       <div class="product-card-name">Britt X Ultralight Work Pant</div>
       <div class="product-card-price">$119</div>
-    </div>
+    </div></a>
 
-    <div class="product-card">
+    <a href="pdp.html" style="text-decoration:none;color:inherit;"><div class="product-card">
       <div class="product-card-img">
         <span class="product-card-flag">Top Rated</span>
         [ Product Image ]
@@ -936,9 +937,9 @@
       </div>
       <div class="product-card-name">Britt Canvas Work Pant</div>
       <div class="product-card-price">$129</div>
-    </div>
+    </div></a>
 
-    <div class="product-card">
+    <a href="pdp.html" style="text-decoration:none;color:inherit;"><div class="product-card">
       <div class="product-card-img">[ Product Image ]</div>
       <div class="product-card-stars">★★★★★ 4.6</div>
       <div class="product-card-swatches">
@@ -947,11 +948,11 @@
       </div>
       <div class="product-card-name">Freshley Overall</div>
       <div class="product-card-price">$149</div>
-    </div>
+    </div></a>
 
     <!-- Peeking 4th card signals scrollability on mobile; full card on desktop -->
-    <div class="product-card" style="flex: 0 0 130px;">
-      <div class="product-card-img" style="width:130px;">[ Product Image ]</div>
+    <a href="pdp.html" style="text-decoration:none;color:inherit;"><div class="product-card peek">
+      <div class="product-card-img">[ Product Image ]</div>
       <div class="product-card-stars">★★★★★ 4.5</div>
       <div class="product-card-swatches">
         <div class="product-card-swatch" style="background:#2a2a2a;"></div>
@@ -960,7 +961,7 @@
       </div>
       <div class="product-card-name">Dovetail Straight Pant</div>
       <div class="product-card-price">$109</div>
-    </div>
+    </div></a>
 
   </div>
 </section>
@@ -972,7 +973,7 @@
     <div class="feature-story-eyebrow">Built-In Innovation</div>
     <h2 class="feature-story-headline">The Hip Slot. Your Phone, Right Where You Need It.</h2>
     <p class="feature-story-desc">No bulk. No bounce. Just your phone flat against your hip while you work. It's one of the features our customers can't stop talking about — and once you have it, you'll wonder how you managed without it.</p>
-    <a href="#" class="btn-secondary">Shop Pants with Hip Slot</a>
+    <a href="collection.html" class="btn-secondary">Shop Pants with Hip Slot</a>
   </div>
 </section>
 
@@ -1008,7 +1009,7 @@
     <div class="press-logo">People</div>
     <div class="press-logo">CNN</div>
   </div>
-  <a href="#" class="press-link">See all press coverage →</a>
+  <a href="blog-index.html" class="press-link">See all press coverage →</a>
 </section>
 
 <!-- SECTION: EMAIL CAPTURE -->
@@ -1029,17 +1030,17 @@
   <!-- Desktop columns (hidden on mobile) -->
   <div class="footer-desktop-cols">
     <div class="footer-col footer-col-brand">
-      <div class="footer-logo">DOVETAIL</div>
+      <a href="homepage.html" class="footer-logo" style="text-decoration:none;color:inherit;">DOVETAIL</a>
       <p>Workwear built for women who actually work. Tough enough for the job site. Comfortable enough for everything else.</p>
     </div>
     <div class="footer-col">
       <div class="footer-col-heading">Shop</div>
-      <a href="#">Pants</a>
-      <a href="#">Shorts</a>
-      <a href="#">Tops</a>
-      <a href="#">Overalls</a>
-      <a href="#">Sale</a>
-      <a href="#">New Arrivals</a>
+      <a href="collection.html">Pants</a>
+      <a href="collection.html">Shorts</a>
+      <a href="collection.html">Tops</a>
+      <a href="collection.html">Overalls</a>
+      <a href="collection.html">Sale</a>
+      <a href="collection.html">New Arrivals</a>
     </div>
     <div class="footer-col">
       <div class="footer-col-heading">Help</div>
@@ -1065,12 +1066,12 @@
       Shop <span class="footer-toggle-icon">+</span>
     </button>
     <div class="footer-nav-body">
-      <a href="#">Pants</a>
-      <a href="#">Shorts</a>
-      <a href="#">Tops</a>
-      <a href="#">Overalls</a>
-      <a href="#">Sale</a>
-      <a href="#">New Arrivals</a>
+      <a href="collection.html">Pants</a>
+      <a href="collection.html">Shorts</a>
+      <a href="collection.html">Tops</a>
+      <a href="collection.html">Overalls</a>
+      <a href="collection.html">Sale</a>
+      <a href="collection.html">New Arrivals</a>
     </div>
 
     <button class="footer-nav-trigger" onclick="toggleFooterNav(this)">
