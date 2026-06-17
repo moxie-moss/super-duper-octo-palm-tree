@@ -2557,6 +2557,13 @@
      Opens on mobile as bottom-sheet.
      Opens on desktop as centered dialog.
      Populates product title + price from card data. */
+  /* Stop clicks on quick-add buttons from bubbling up to the parent <a> card link */
+  document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.quick-add-btn').forEach(function(btn) {
+      btn.addEventListener('click', function(e) { e.stopPropagation(); });
+    });
+  });
+
   function openQuickAdd(title, price) {
     document.getElementById('qamTitle').textContent = title;
     document.getElementById('qamPrice').textContent = price;

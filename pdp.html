@@ -1145,7 +1145,6 @@
         <span class="fit-tag">Pear</span>
       </div>
     </div>
-    <button onclick="document.getElementById('compare-modal').style.display='flex'" style="background:none; border:none; font-size:13px; font-weight:600; color:#333; text-decoration:underline; padding:12px 0 0; cursor:pointer; font-family:inherit; display:block;">Compare fits →</button>
   </div>
 
   <!-- Divider: vertical on desktop, horizontal on mobile -->
@@ -1295,7 +1294,7 @@
     <div style="width:64px; height:64px; background:#e8e8e8; border:1px solid #ccc; flex-shrink:0; display:flex; align-items:center; justify-content:center; font-size:10px; color:#999; text-align:center; line-height:1.3;">[ Fabric<br>Swatch ]</div>
     <p style="font-size:12px; color:#666; line-height:1.5; margin:0;">94% nylon, 6% spandex.</p>
   </div>
-  <p style="font-size:12px; color:#777; line-height:1.5;">Made in [COUNTRY] by workers in audited production facilities which advance safe, lawful, humane, and ethical practices.</p>
+  <p style="font-size:12px; color:#777; line-height:1.5;">Made in [COUNTRY] in accordance with the <button onclick="document.getElementById('un-compact-modal').style.display='flex'" style="background:none; border:none; padding:0; font-size:12px; color:#777; font-family:inherit; text-decoration:underline; cursor:pointer; line-height:inherit;">UN Global Compact</button>.</p>
 </div>
 
 <!-- SECTION: REVIEWS -->
@@ -1595,7 +1594,7 @@
       <span class="accordion-icon">+</span>
     </button>
     <div class="accordion-body">
-      <p>Use the <a href="#" onclick="document.getElementById('compare-modal').style.display='flex'; return false;" style="text-decoration:underline;">Compare Fits tool</a> in the Size &amp; Fit section to see Leg, Rise, Waist, Stretch, and Weight side-by-side against our other styles.</p>
+      <p>See the Size &amp; Fit section above for this style's Leg, Rise, Waist, and Stretch details. For a full range comparison, visit our <a href="#" style="text-decoration:underline;">Fit Guide</a>.</p>
     </div>
   </div>
 
@@ -1695,111 +1694,13 @@
 
 </div>
 
-<!-- COMPARE FITS MODAL -->
-<div id="compare-modal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:500; align-items:center; justify-content:center; padding:16px;">
-  <div style="background:#fff; width:100%; max-width:800px; border-radius:8px; padding:28px 32px 32px; max-height:90vh; overflow-y:auto; box-shadow:0 8px 40px rgba(0,0,0,0.18);">
+<!-- COMPARE FITS MODAL — removed; deferred to future phase
+     Reason: cross-fabric comparison is misleading (different fabrics give different fits).
+     Original modal content preserved in git history.
+-->
 
-    <!-- Header -->
-    <div style="display:flex; justify-content:space-between; align-items:center; padding:0 16px 14px; border-bottom:1px solid #e8e8e8;">
-      <div style="font-size:15px; font-weight:700;">Compare Fits</div>
-      <button onclick="document.getElementById('compare-modal').style.display='none'" style="background:none; border:none; font-size:22px; cursor:pointer; color:#666; font-family:inherit; line-height:1;">×</button>
-    </div>
-
-    <!-- Scrollable comparison table -->
-    <div style="overflow-x:auto; padding:14px 0 0;">
-      <table style="width:100%; border-collapse:collapse; font-size:14px; min-width:480px;">
-
-        <!-- Product thumbnails + names -->
-        <thead>
-          <tr>
-            <td style="width:110px; padding:6px 12px 14px 0; vertical-align:bottom; font-size:12px; color:#888; font-weight:600; text-transform:uppercase; letter-spacing:0.05em;">Style</td>
-            <!-- Col 1 — current product -->
-            <td style="padding:6px 12px 14px; text-align:center; vertical-align:bottom;">
-              <div style="width:100px; height:130px; background:#e0e0e0; margin:0 auto 8px; display:flex; align-items:center; justify-content:center; font-size:11px; color:#bbb; border:2px solid #333;">[ Img ]</div>
-              <div style="font-size:13px; font-weight:700; line-height:1.3;">Britt X<br>Ultralight</div>
-              <div style="font-size:11px; color:#888; margin-top:3px; font-weight:600;">← You're here</div>
-            </td>
-            <!-- Col 2 -->
-            <td style="padding:6px 12px 14px; text-align:center; vertical-align:bottom;">
-              <div style="width:100px; height:130px; background:#e8e8e8; margin:0 auto 8px; display:flex; align-items:center; justify-content:center; font-size:11px; color:#bbb;">[ Img ]</div>
-              <div style="font-size:13px; font-weight:700; line-height:1.3;">Britt<br>Canvas</div>
-              <a href="#" style="font-size:11px; color:#333; display:block; margin-top:3px;">View →</a>
-            </td>
-            <!-- Col 3 -->
-            <td style="padding:6px 12px 14px; text-align:center; vertical-align:bottom;">
-              <div style="width:100px; height:130px; background:#e8e8e8; margin:0 auto 8px; display:flex; align-items:center; justify-content:center; font-size:11px; color:#bbb;">[ Img ]</div>
-              <div style="font-size:13px; font-weight:700; line-height:1.3;">Freshley<br>Overall</div>
-              <a href="#" style="font-size:11px; color:#333; display:block; margin-top:3px;">View →</a>
-            </td>
-            <!-- Col 4 -->
-            <td style="padding:6px 12px 14px; text-align:center; vertical-align:bottom;">
-              <div style="width:100px; height:130px; background:#e8e8e8; margin:0 auto 8px; display:flex; align-items:center; justify-content:center; font-size:11px; color:#bbb;">[ Img ]</div>
-              <div style="font-size:13px; font-weight:700; line-height:1.3;">Dovetail<br>Straight</div>
-              <a href="#" style="font-size:11px; color:#333; display:block; margin-top:3px;">View →</a>
-            </td>
-          </tr>
-        </thead>
-
-        <tbody>
-          <!-- Row: Leg -->
-          <tr style="border-top:1px solid #f0f0f0;">
-            <td style="padding:9px 8px 9px 0; font-size:11px; color:#888; font-weight:600;">Leg</td>
-            <td style="padding:9px 8px; text-align:center; font-size:12px; font-weight:700; background:#fafafa;">Straight</td>
-            <td style="padding:9px 8px; text-align:center; font-size:12px;">Straight</td>
-            <td style="padding:9px 8px; text-align:center; font-size:12px;">Wide</td>
-            <td style="padding:9px 8px; text-align:center; font-size:12px;">Straight</td>
-          </tr>
-          <!-- Row: Rise -->
-          <tr style="border-top:1px solid #f0f0f0;">
-            <td style="padding:9px 8px 9px 0; font-size:11px; color:#888; font-weight:600;">Rise</td>
-            <td style="padding:9px 8px; text-align:center; font-size:12px; font-weight:700; background:#fafafa;">Mid</td>
-            <td style="padding:9px 8px; text-align:center; font-size:12px;">Mid</td>
-            <td style="padding:9px 8px; text-align:center; font-size:12px;">High</td>
-            <td style="padding:9px 8px; text-align:center; font-size:12px;">Mid</td>
-          </tr>
-          <!-- Row: Waist -->
-          <tr style="border-top:1px solid #f0f0f0;">
-            <td style="padding:9px 8px 9px 0; font-size:11px; color:#888; font-weight:600;">Waist</td>
-            <td style="padding:9px 8px; text-align:center; font-size:12px; font-weight:700; background:#fafafa;">Relaxed</td>
-            <td style="padding:9px 8px; text-align:center; font-size:12px;">Relaxed</td>
-            <td style="padding:9px 8px; text-align:center; font-size:12px;">Relaxed</td>
-            <td style="padding:9px 8px; text-align:center; font-size:12px;">Fitted</td>
-          </tr>
-          <!-- Row: Stretch -->
-          <tr style="border-top:1px solid #f0f0f0;">
-            <td style="padding:9px 8px 9px 0; font-size:11px; color:#888; font-weight:600;">Stretch</td>
-            <td style="padding:9px 8px; text-align:center; font-size:12px; font-weight:700; background:#fafafa;">4-way</td>
-            <td style="padding:9px 8px; text-align:center; font-size:12px;">2-way</td>
-            <td style="padding:9px 8px; text-align:center; font-size:12px;">4-way</td>
-            <td style="padding:9px 8px; text-align:center; font-size:12px;">None</td>
-          </tr>
-          <!-- Row: Weight -->
-          <tr style="border-top:1px solid #f0f0f0;">
-            <td style="padding:9px 8px 9px 0; font-size:11px; color:#888; font-weight:600;">Weight</td>
-            <td style="padding:9px 8px; text-align:center; font-size:12px; font-weight:700; background:#fafafa;">Ultralight</td>
-            <td style="padding:9px 8px; text-align:center; font-size:12px;">Heavy</td>
-            <td style="padding:9px 8px; text-align:center; font-size:12px;">Medium</td>
-            <td style="padding:9px 8px; text-align:center; font-size:12px;">Medium</td>
-          </tr>
-          <!-- Row: Best for -->
-          <tr style="border-top:1px solid #f0f0f0;">
-            <td style="padding:9px 8px 9px 0; font-size:11px; color:#888; font-weight:600;">Best for</td>
-            <td style="padding:9px 8px; text-align:center; font-size:11px; font-weight:700; background:#fafafa;">Curvy · Straight · Apple · Pear</td>
-            <td style="padding:9px 8px; text-align:center; font-size:11px;">Curvy · Pear</td>
-            <td style="padding:9px 8px; text-align:center; font-size:11px;">All types</td>
-            <td style="padding:9px 8px; text-align:center; font-size:11px;">Straight · Apple</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-
-    <!-- Full compare page link -->
-    <div style="padding:16px 16px 0; text-align:center;">
-      <a href="#" style="font-size:12px; color:#333; text-decoration:underline;">See full comparison with all styles →</a>
-    </div>
-
-  </div>
-</div>
+<!-- compare-modal id kept as empty stub so any residual JS refs don't error -->
+<div id="compare-modal" style="display:none;"></div>
 
 <!-- BACK IN STOCK MODAL -->
 <div id="bis-modal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:500; align-items:flex-start; justify-content:center; padding-top:24px;">
@@ -1843,6 +1744,22 @@
 
     <!-- Legal -->
     <p style="font-size:11px; color:#666; line-height:1.6;">By submitting this form and signing up for texts, you consent to receive marketing text messages (e.g. promos, cart reminders) from Dovetail Workwear at the number provided, including messages sent by autodialer. Consent is not a condition of purchase. Msg &amp; data rates may apply. Msg frequency varies. Unsubscribe at any time by replying STOP or clicking the unsubscribe link (where available). <a href="#" style="color:#333;">Privacy Policy</a> &amp; <a href="#" style="color:#333;">Terms</a>.</p>
+  </div>
+</div>
+
+<!-- UN GLOBAL COMPACT MODAL -->
+<div id="un-compact-modal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:500; align-items:center; justify-content:center; padding:20px;" onclick="if(event.target===this)this.style.display='none'">
+  <div style="background:#fff; width:100%; max-width:480px; border-radius:8px; padding:28px; box-shadow:0 8px 40px rgba(0,0,0,0.18); position:relative;">
+    <button onclick="document.getElementById('un-compact-modal').style.display='none'" style="position:absolute; top:14px; right:16px; background:none; border:none; font-size:22px; cursor:pointer; color:#666; font-family:inherit; line-height:1;">×</button>
+    <div style="font-size:16px; font-weight:700; margin-bottom:14px; padding-right:24px;">UN Global Compact</div>
+    <p style="font-size:13px; line-height:1.65; color:#444; margin-bottom:12px;">The <strong>United Nations Global Compact</strong> is the world's largest corporate sustainability initiative. As a participant, Dovetail Workwear commits to aligning our operations and supply chain with 10 principles across:</p>
+    <ul style="font-size:13px; line-height:1.8; color:#444; padding-left:18px; margin-bottom:16px;">
+      <li><strong>Human Rights</strong> — support and respect internationally proclaimed human rights</li>
+      <li><strong>Labor</strong> — uphold freedom of association, eliminate forced and child labor, end workplace discrimination</li>
+      <li><strong>Environment</strong> — support a precautionary approach to environmental challenges, promote greater environmental responsibility</li>
+      <li><strong>Anti-Corruption</strong> — work against corruption in all its forms</li>
+    </ul>
+    <a href="https://unglobalcompact.org" target="_blank" rel="noopener" style="font-size:13px; color:#333; text-decoration:underline;">Learn more at unglobalcompact.org →</a>
   </div>
 </div>
 
