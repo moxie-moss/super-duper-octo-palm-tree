@@ -6,14 +6,13 @@
   <title>Britt X Ultralight Work Pant — Dovetail Workwear</title>
   <link rel="stylesheet" href="design-system.css">
   <style>
-    * { margin: 0; padding: 0; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
 
-    body {
-      max-width: 390px;
-      margin: 0 auto;
-    }
+    body { max-width: 390px; margin: 0 auto; }
 
-    /* ── HEADER ── */
+    /* ────────────────────────────
+       HEADER
+    ──────────────────────────── */
     .site-header {
       display: flex;
       align-items: center;
@@ -23,22 +22,22 @@
       border-bottom: 1px solid var(--color-border);
       position: sticky;
       top: 0;
-      background: var(--color-pure-white);
+      background: var(--color-cream);
       z-index: var(--z-header);
     }
     .header-hamburger {
-      width: 24px;
       display: flex;
       flex-direction: column;
       gap: 5px;
-      cursor: pointer;
       background: none;
       border: none;
       padding: 0;
+      cursor: pointer;
+      width: 24px;
     }
-    .header-hamburger span { display: block; height: 1.5px; background: var(--color-slate); }
+    .header-hamburger span { display: block; height: 2px; background: var(--color-slate); }
     .header-logo {
-      font-size: 16px;
+      font-size: 15px;
       font-weight: var(--font-weight-bold);
       letter-spacing: var(--tracking-super);
       color: var(--color-slate);
@@ -60,7 +59,7 @@
       position: absolute;
       top: -5px; right: -7px;
       background: var(--color-paprika);
-      color: var(--color-on-paprika);
+      color: #fff;
       font-size: 9px;
       font-weight: var(--font-weight-bold);
       width: 16px; height: 16px;
@@ -70,106 +69,80 @@
     .desktop-nav { display: none; }
     .header-search-text { display: none; }
 
-    /* ── BREADCRUMB ── */
-    .breadcrumb {
-      padding: var(--space-3) var(--gutter-mobile) var(--space-1);
-      font-size: var(--text-xs);
-      color: var(--color-muted);
-    }
-    .breadcrumb a {
-      color: var(--color-muted);
-      text-decoration: none;
-    }
-    .breadcrumb a:hover { text-decoration: underline; }
-    .breadcrumb sep { margin: 0 var(--space-1); }
-
-    /* ── GALLERY ── */
+    /* ────────────────────────────
+       SCREEN 1 — GALLERY
+    ──────────────────────────── */
     .gallery {
       position: relative;
       background: var(--color-surface-3);
       width: 100%;
       aspect-ratio: 4/5;
-      display: flex;
-      align-items: center;
-      justify-content: center;
       overflow: hidden;
-      cursor: zoom-in;
     }
-    .gallery img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
+    .gallery img { width: 100%; height: 100%; object-fit: cover; display: block; }
     .gallery-badge {
       position: absolute;
       top: var(--space-3);
       left: var(--space-3);
-      background: var(--flag-bg);
-      color: var(--flag-text);
-      font-size: var(--flag-font-size);
-      font-weight: var(--flag-weight);
-      padding: var(--flag-padding);
-      letter-spacing: var(--flag-tracking);
+      background: var(--color-slate);
+      color: var(--color-cream);
+      font-size: 10px;
+      font-weight: var(--font-weight-bold);
+      letter-spacing: 0.08em;
       text-transform: uppercase;
+      padding: 4px 9px;
     }
     .gallery-model {
       position: absolute;
       bottom: var(--space-3);
       left: var(--space-3);
-      font-size: var(--text-xxs);
-      color: var(--color-pure-white);
-      background: rgba(21, 26, 30, 0.5);
+      font-size: 10px;
+      color: #fff;
+      background: rgba(21, 26, 30, 0.55);
       padding: 3px var(--space-2);
     }
-    .gallery-pagination {
+    .gallery-dots {
       position: absolute;
       top: var(--space-3);
       right: var(--space-3);
       display: flex;
       flex-direction: column;
-      align-items: center;
       gap: 5px;
     }
-    .gallery-dot {
-      width: 6px; height: 6px;
-      border-radius: var(--radius-circle);
-      background: rgba(255, 255, 255, 0.45);
-    }
-    .gallery-dot.active { background: var(--color-pure-white); }
-    .gallery-arrow {
-      width: 0; height: 0;
-      border-left: 6px solid rgba(255, 255, 255, 0.45);
-      border-top: 4px solid transparent;
-      border-bottom: 4px solid transparent;
-    }
+    .gallery-dot { width: 6px; height: 6px; border-radius: 50%; background: rgba(255,255,255,0.4); }
+    .gallery-dot.active { background: #fff; }
 
-    /* ── SHOPBOX ── */
-    .shopbox {
-      padding: var(--space-5) var(--gutter-mobile) 0;
-    }
+    /* ────────────────────────────
+       SCREEN 1 — SHOPBOX
+    ──────────────────────────── */
+    .shopbox { padding: var(--space-5) var(--gutter-mobile) var(--space-8); }
+
     .product-title {
-      font-size: 22px;
+      font-size: 26px;
       font-weight: var(--font-weight-bold);
-      line-height: var(--leading-tight);
+      line-height: 1.15;
       color: var(--color-slate);
-      margin-bottom: var(--space-2);
-      letter-spacing: -0.01em;
+      letter-spacing: -0.015em;
+      margin-bottom: var(--space-3);
     }
     .reviews-row {
       display: flex;
       align-items: center;
       gap: var(--space-2);
-      margin-bottom: var(--space-3);
+      margin-bottom: var(--space-4);
     }
-    .stars { color: var(--color-paprika); letter-spacing: -1px; font-size: var(--text-lg); }
+    .stars { color: var(--color-paprika); font-size: 15px; letter-spacing: -1px; }
     .review-count {
-      font-size: var(--text-md);
+      font-size: 12px;
       color: var(--color-slate);
+      opacity: 0.7;
       text-decoration: underline;
       text-underline-offset: 2px;
+      background: none;
+      border: none;
+      font-family: var(--font-primary);
       cursor: pointer;
-      opacity: 0.75;
+      padding: 0;
     }
     .price-row {
       display: flex;
@@ -177,40 +150,32 @@
       gap: var(--space-2);
       margin-bottom: var(--space-5);
     }
-    .price {
-      font-size: var(--text-base);
-      font-weight: var(--font-weight-bold);
-      color: var(--color-slate);
-    }
-    .price-original {
-      font-size: var(--text-md);
-      color: var(--color-muted);
-      text-decoration: line-through;
-    }
+    .price { font-size: 20px; font-weight: var(--font-weight-bold); color: var(--color-slate); }
+    .price-original { font-size: 14px; color: var(--color-muted); text-decoration: line-through; }
     .price-save {
-      font-size: var(--text-xs);
-      font-weight: var(--font-weight-semibold);
+      font-size: 11px;
+      font-weight: var(--font-weight-bold);
       color: var(--color-paprika);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
     }
 
-    /* Color chips */
     .selector-label {
-      font-size: var(--text-md);
-      font-weight: var(--font-weight-semibold);
-      margin-bottom: var(--space-2);
+      font-size: 11px;
+      font-weight: var(--font-weight-bold);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
       color: var(--color-slate);
+      margin-bottom: var(--space-2);
     }
     .selector-label span {
       font-weight: var(--font-weight-regular);
-      color: var(--color-slate);
+      text-transform: none;
+      letter-spacing: 0;
       opacity: 0.65;
     }
-    .color-chips {
-      display: flex;
-      gap: var(--space-2);
-      flex-wrap: wrap;
-      margin-bottom: var(--space-5);
-    }
+
+    .color-chips { display: flex; gap: var(--space-2); flex-wrap: wrap; margin-bottom: var(--space-5); }
     .color-chip {
       width: 32px; height: 32px;
       border-radius: var(--radius-circle);
@@ -219,79 +184,60 @@
       position: relative;
     }
     .color-chip.selected {
-      border: 2px solid var(--color-slate);
-      box-shadow: 0 0 0 2px var(--color-pure-white), 0 0 0 4px var(--color-slate);
+      box-shadow: 0 0 0 2px var(--color-cream), 0 0 0 4px var(--color-slate);
     }
     .color-chip.is-new::after {
       content: '';
       position: absolute;
       top: -2px; right: -2px;
       width: 9px; height: 9px;
-      border-radius: var(--radius-circle);
+      border-radius: 50%;
       background: var(--color-paprika);
-      border: 1.5px solid var(--color-pure-white);
+      border: 1.5px solid var(--color-cream);
     }
 
-    /* Size selectors */
-    .size-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: var(--space-3);
-      margin-bottom: var(--space-2);
-    }
-    .size-col-label {
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      margin-bottom: var(--space-2);
-    }
+    .size-row { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-3); margin-bottom: var(--space-2); }
+    .size-col-label { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: var(--space-2); }
     .size-chart-link {
-      font-size: var(--text-sm);
+      font-size: 11px;
       color: var(--color-slate);
+      opacity: 0.65;
       text-decoration: underline;
       text-underline-offset: 2px;
-      cursor: pointer;
       background: none;
       border: none;
       font-family: var(--font-primary);
+      cursor: pointer;
       padding: 0;
     }
     .size-select {
       width: 100%;
       padding: 12px var(--space-3);
       border: 1.5px solid var(--color-border-mid);
-      border-radius: var(--radius-input);
-      font-size: var(--text-body);
+      border-radius: 0;
+      font-size: 13px;
       font-family: var(--font-primary);
-      font-weight: var(--font-weight-medium);
+      font-weight: var(--font-weight-semibold);
       color: var(--color-slate);
-      background: var(--color-pure-white)
+      background: var(--color-cream)
         url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%2342515e' stroke-width='1.5' fill='none'/%3E%3C/svg%3E")
         no-repeat right 14px center;
       appearance: none;
       cursor: pointer;
     }
-    .size-select:focus {
-      outline: none;
-      border-color: var(--color-slate);
-    }
-    .size-note {
-      font-size: var(--text-sm);
-      color: var(--color-muted);
-      margin-bottom: var(--space-5);
-    }
+    .size-select:focus { outline: none; border-color: var(--color-slate); }
+    .size-note { font-size: 12px; color: var(--color-muted); margin-bottom: var(--space-5); }
 
-    /* ATC / Shop Pay */
     .btn-atc {
       display: block;
       width: 100%;
-      padding: 16px;
-      background: var(--btn-primary-bg);
-      color: var(--btn-primary-text);
+      padding: 18px;
+      background: var(--color-paprika);
+      color: #fff;
       font-family: var(--font-primary);
-      font-size: var(--text-base);
+      font-size: 14px;
       font-weight: var(--font-weight-bold);
-      letter-spacing: var(--tracking-tight);
+      letter-spacing: 0.08em;
       text-transform: uppercase;
       border: none;
       cursor: pointer;
@@ -300,82 +246,82 @@
     .btn-shop-pay {
       display: block;
       width: 100%;
-      padding: 15px;
+      padding: 16px;
       background: transparent;
       color: var(--color-slate);
       font-family: var(--font-primary);
-      font-size: var(--text-md);
+      font-size: 13px;
       font-weight: var(--font-weight-bold);
-      letter-spacing: var(--tracking-tight);
-      border: 1.5px solid var(--color-slate);
+      letter-spacing: 0.06em;
+      border: 2px solid var(--color-slate);
       cursor: pointer;
-      margin-bottom: var(--space-4);
+      margin-bottom: var(--space-5);
     }
     .trust-row {
       display: flex;
       justify-content: center;
-      gap: var(--space-5);
+      gap: var(--space-3);
+      flex-wrap: wrap;
       margin-bottom: var(--space-3);
     }
     .trust-item {
-      font-size: var(--text-xxs);
-      font-weight: var(--font-weight-semibold);
-      color: var(--color-muted);
-      letter-spacing: var(--tracking-tight);
+      font-size: 10px;
+      font-weight: var(--font-weight-bold);
+      letter-spacing: 0.07em;
       text-transform: uppercase;
-    }
-    .installment-note {
-      font-size: var(--text-sm);
       color: var(--color-muted);
-      text-align: center;
-      margin-bottom: var(--space-5);
     }
-    .product-desc {
-      font-size: var(--text-lg);
-      font-weight: var(--font-weight-light);
-      color: var(--color-slate);
-      line-height: var(--leading-relaxed);
-      margin-bottom: var(--space-6);
-      opacity: 0.85;
-      padding-bottom: var(--space-5);
-      border-bottom: 1px solid var(--color-border-light);
-    }
+    .installment-note { font-size: 12px; color: var(--color-muted); text-align: center; }
 
-    /* ── REVIEW HIGHLIGHTS ── */
+    /* ────────────────────────────
+       SCREEN 2 — DESCRIPTION + REVIEWS
+    ──────────────────────────── */
     .section-block {
-      padding: var(--space-6) var(--gutter-mobile);
-      border-bottom: 1px solid var(--color-border-light);
+      padding: var(--space-7) var(--gutter-mobile);
+      border-top: 1px solid var(--color-border);
     }
-    .block-title {
-      font-size: var(--text-xxs);
+    .section-eyebrow {
+      font-size: 10px;
       font-weight: var(--font-weight-bold);
       text-transform: uppercase;
-      letter-spacing: var(--tracking-wider);
+      letter-spacing: 0.1em;
       color: var(--color-muted);
-      margin-bottom: var(--space-5);
+      margin-bottom: var(--space-4);
     }
+    .product-desc {
+      font-size: 15px;
+      font-weight: var(--font-weight-regular);
+      color: var(--color-slate);
+      line-height: 1.65;
+    }
+
     .review-highlight {
       display: flex;
       gap: var(--space-3);
       align-items: flex-start;
-      margin-bottom: var(--space-5);
+      padding: var(--space-4) 0;
+      border-top: 1px solid var(--color-border-light);
     }
-    .review-highlight:last-of-type { margin-bottom: var(--space-3); }
-    .rh-text { flex: 1; }
+    .review-highlight:first-of-type { border-top: none; }
+    .rh-body { flex: 1; }
+    .rh-stars { color: var(--color-paprika); font-size: 12px; letter-spacing: -1px; margin-bottom: 6px; }
     .rh-quote {
       font-size: 15px;
-      font-weight: var(--font-weight-semibold);
-      line-height: var(--leading-snug);
+      font-weight: var(--font-weight-bold);
+      line-height: 1.35;
       color: var(--color-slate);
-      margin-bottom: var(--space-1);
+      margin-bottom: 5px;
     }
     .rh-attr {
-      font-size: var(--text-xxs);
-      color: var(--color-paprika);
+      font-size: 10px;
+      font-weight: var(--font-weight-bold);
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      color: var(--color-muted);
     }
     .rh-photo {
-      flex: 0 0 64px;
-      width: 64px; height: 85px;
+      flex: 0 0 56px;
+      width: 56px; height: 72px;
       background: var(--color-surface-5);
       display: flex;
       align-items: center;
@@ -385,74 +331,28 @@
       text-align: center;
     }
     .all-reviews-link {
+      display: inline-block;
+      margin-top: var(--space-5);
+      font-size: 12px;
+      font-weight: var(--font-weight-bold);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--color-slate);
+      text-decoration: underline;
+      text-underline-offset: 3px;
       background: none;
       border: none;
       font-family: var(--font-primary);
-      font-size: var(--text-md);
-      font-weight: var(--font-weight-semibold);
-      color: var(--color-slate);
-      text-decoration: underline;
-      text-underline-offset: 2px;
-      padding: 0;
       cursor: pointer;
+      padding: 0;
     }
 
-    /* ── SIZE & FIT ── */
-    .fit-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: var(--space-2) var(--space-4);
-      margin-bottom: var(--space-5);
-    }
-    .fit-item { display: flex; flex-direction: column; gap: 2px; }
-    .fit-key {
-      font-size: var(--text-xxs);
-      font-weight: var(--font-weight-bold);
-      text-transform: uppercase;
-      letter-spacing: var(--tracking-wide);
-      color: var(--color-muted);
-    }
-    .fit-val {
-      font-size: var(--text-md);
-      font-weight: var(--font-weight-medium);
-      color: var(--color-slate);
-    }
-    .fit-tags {
-      display: flex;
-      gap: var(--space-2);
-      flex-wrap: wrap;
-      margin-top: var(--space-2);
-    }
-    .fit-tag {
-      font-size: var(--text-xs);
-      font-weight: var(--font-weight-semibold);
-      color: var(--color-slate);
-      padding: 4px var(--space-3);
-      border: 1px solid var(--color-border-mid);
-      letter-spacing: 0.02em;
-    }
-
-    /* UGC grid */
-    .ugc-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: var(--space-2);
-      margin-top: var(--space-4);
-    }
-    .ugc-thumb {
-      aspect-ratio: 3/4;
-      background: var(--color-surface-5);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: var(--text-xxs);
-      color: var(--color-muted);
-    }
-
-    /* ── TABS ── */
+    /* ────────────────────────────
+       SCREEN 3 — DETAILS TABS + SIZE & FIT
+    ──────────────────────────── */
     .tabs-nav {
       display: flex;
-      border-bottom: 1px solid var(--color-border-light);
+      border-bottom: 2px solid var(--color-border);
       margin-bottom: var(--space-5);
     }
     .tab-btn {
@@ -461,195 +361,62 @@
       background: none;
       border: none;
       border-bottom: 2px solid transparent;
+      margin-bottom: -2px;
       font-family: var(--font-primary);
-      font-size: var(--text-md);
-      font-weight: var(--font-weight-semibold);
+      font-size: 11px;
+      font-weight: var(--font-weight-bold);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
       color: var(--color-muted);
       cursor: pointer;
-      letter-spacing: var(--tracking-tight);
-      text-transform: uppercase;
-      margin-bottom: -1px;
     }
-    .tab-btn.active {
-      color: var(--color-slate);
-      border-bottom-color: var(--color-slate);
-    }
+    .tab-btn.active { color: var(--color-slate); border-bottom-color: var(--color-slate); }
     .tab-panel { display: none; }
     .tab-panel.active { display: block; }
-    .tab-panel strong {
-      font-weight: var(--font-weight-bold);
-      display: block;
-      margin-bottom: var(--space-1);
-      color: var(--color-slate);
-    }
-    .tab-panel p, .tab-panel span {
-      font-size: var(--text-lg);
-      font-weight: var(--font-weight-light);
-      color: var(--color-slate);
-      line-height: var(--leading-relaxed);
-      opacity: 0.85;
-    }
-    .care-row {
-      display: flex;
-      align-items: center;
-      gap: var(--space-3);
-      margin-bottom: var(--space-3);
-    }
-    .care-icon {
-      width: 28px; height: 28px;
-      background: var(--color-surface-3);
-      flex-shrink: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: var(--text-xxs);
-      color: var(--color-muted);
-    }
-
-    /* ── ACCORDION ── */
-    .accordion-item {
-      border-top: 1px solid var(--color-border-light);
-    }
-    .accordion-item:last-child { border-bottom: 1px solid var(--color-border-light); }
-    .accordion-trigger {
-      width: 100%;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: var(--space-4) 0;
-      background: none;
-      border: none;
-      font-family: var(--font-primary);
-      font-size: var(--text-md);
-      font-weight: var(--font-weight-semibold);
-      color: var(--color-slate);
-      cursor: pointer;
-      text-align: left;
-      letter-spacing: var(--tracking-tight);
-    }
-    .accordion-icon {
-      font-size: 18px;
-      color: var(--color-muted);
-      font-weight: var(--font-weight-light);
-      flex-shrink: 0;
-    }
-    .accordion-body {
-      display: none;
-      padding-bottom: var(--space-5);
-      font-size: var(--text-lg);
-      font-weight: var(--font-weight-light);
-      color: var(--color-slate);
-      line-height: var(--leading-relaxed);
-      opacity: 0.85;
-    }
-    .accordion-body.open { display: block; }
-    .accordion-body a { color: var(--color-slate); text-decoration: underline; }
-    .accordion-subhead {
-      font-weight: var(--font-weight-bold);
-      font-size: var(--text-md);
-      color: var(--color-slate);
-      text-transform: uppercase;
-      letter-spacing: var(--tracking-tight);
-      margin-bottom: var(--space-2);
-      margin-top: var(--space-4);
-      opacity: 1;
-    }
-    .accordion-subhead:first-child { margin-top: 0; }
-
-    /* ── FEATURE GRID ── */
-    .section-feature-grid {
-      padding: var(--space-7) 0 var(--space-6);
-      border-top: 1px solid var(--color-border-light);
-    }
-    .section-feature-grid .block-title {
-      padding: 0 var(--gutter-mobile);
-      margin-bottom: var(--space-2);
-    }
-    .feature-grid-head {
-      font-size: 22px;
-      font-weight: var(--font-weight-bold);
-      color: var(--color-slate);
-      padding: 0 var(--gutter-mobile);
-      margin-bottom: var(--space-6);
-      letter-spacing: -0.01em;
-    }
-    .feature-scroll {
-      display: flex;
-      gap: var(--space-3);
-      overflow-x: auto;
-      padding: 0 var(--gutter-mobile) var(--space-1);
-      scrollbar-width: none;
-    }
-    .feature-scroll::-webkit-scrollbar { display: none; }
-    .feat-card { flex: 0 0 200px; }
-    .feat-img {
-      width: 200px;
-      aspect-ratio: 4/5;
-      background: var(--color-surface-5);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: var(--text-xs);
-      color: var(--color-muted);
-      margin-bottom: var(--space-3);
-    }
-    .feat-eyebrow {
-      font-size: var(--text-xxs);
+    .tab-row { display: flex; gap: var(--space-3); margin-bottom: var(--space-3); }
+    .tab-row:last-child { margin-bottom: 0; }
+    .tab-label {
+      font-size: 10px;
       font-weight: var(--font-weight-bold);
       text-transform: uppercase;
-      letter-spacing: var(--tracking-super);
-      color: var(--color-paprika);
-      margin-bottom: var(--space-1);
-    }
-    .feat-name {
-      font-size: var(--text-md);
-      font-weight: var(--font-weight-bold);
+      letter-spacing: 0.08em;
       color: var(--color-slate);
-      margin-bottom: var(--space-1);
+      flex: 0 0 72px;
+      padding-top: 2px;
     }
-    .feat-desc {
-      font-size: var(--text-sm);
-      font-weight: var(--font-weight-light);
-      color: var(--color-slate);
-      opacity: 0.75;
-      line-height: var(--leading-relaxed);
-    }
+    .tab-value { font-size: 14px; font-weight: var(--font-weight-regular); color: var(--color-slate); line-height: 1.5; }
 
-    /* ── RELATED PRODUCTS ── */
-    .section-related {
-      padding: var(--space-7) 0 var(--space-6);
-      border-top: 1px solid var(--color-border-light);
+    .fit-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-4) var(--space-5);
+      margin-bottom: var(--space-5);
     }
-    .section-related .block-title { padding: 0 var(--gutter-mobile); margin-bottom: var(--space-5); }
-
-    /* ── FOOTER (minimal) ── */
-    .pdp-footer {
-      background: var(--footer-bg);
-      padding: var(--space-6) var(--gutter-mobile);
-      border-top: 1px solid var(--color-border);
-      text-align: center;
-    }
-    .pdp-footer a {
-      font-size: var(--text-md);
+    .fit-key {
+      font-size: 10px;
       font-weight: var(--font-weight-bold);
-      letter-spacing: var(--tracking-super);
-      color: var(--footer-text);
-      text-decoration: none;
-    }
-    .pdp-footer-legal {
-      font-size: var(--text-xxs);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
       color: var(--color-muted);
-      margin-top: var(--space-3);
-      line-height: var(--leading-relaxed);
+      margin-bottom: 4px;
+    }
+    .fit-val { font-size: 15px; font-weight: var(--font-weight-bold); color: var(--color-slate); }
+    .fit-tags { display: flex; gap: var(--space-2); flex-wrap: wrap; }
+    .fit-tag {
+      font-size: 12px;
+      font-weight: var(--font-weight-bold);
+      color: var(--color-slate);
+      padding: 5px 10px;
+      border: 1.5px solid var(--color-border-mid);
+      letter-spacing: 0.03em;
     }
 
-    /* ══════════════════════════════════════
+    /* ────────────────────────────
        DESKTOP ≥ 1024px
-    ══════════════════════════════════════ */
+    ──────────────────────────── */
     @media (min-width: 1024px) {
-      body { max-width: none; margin: 0; }
+      body { max-width: none; }
 
-      /* Header */
       .site-header {
         padding: 0 var(--gutter-desktop);
         height: var(--header-height-desktop);
@@ -658,27 +425,22 @@
         align-items: center;
       }
       .header-hamburger { display: none; }
-      .header-logo { position: static; transform: none; font-size: 18px; }
-      .desktop-nav {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: var(--space-8);
-      }
+      .header-logo { position: static; transform: none; font-size: 17px; }
+      .desktop-nav { display: flex; align-items: center; justify-content: center; gap: var(--space-8); }
       .desktop-nav a {
-        font-size: var(--header-nav-font-size);
-        font-weight: var(--header-nav-weight);
-        letter-spacing: var(--header-nav-tracking);
-        color: var(--header-nav-color);
+        font-size: 11px;
+        font-weight: var(--font-weight-bold);
+        letter-spacing: 0.1em;
+        color: var(--color-slate);
         text-decoration: none;
         text-transform: uppercase;
       }
       .header-actions { justify-content: flex-end; }
       .header-search-text {
         display: block;
-        font-size: var(--text-md);
-        font-weight: var(--font-weight-semibold);
-        letter-spacing: var(--tracking-tight);
+        font-size: 11px;
+        font-weight: var(--font-weight-bold);
+        letter-spacing: 0.08em;
         color: var(--color-slate);
         background: none;
         border: none;
@@ -688,12 +450,6 @@
         padding: 0;
       }
 
-      /* Breadcrumb */
-      .breadcrumb {
-        padding: var(--space-4) var(--gutter-desktop) var(--space-2);
-      }
-
-      /* PDP two-column layout */
       .pdp-layout {
         display: grid;
         grid-template-columns: 55% 45%;
@@ -701,101 +457,78 @@
         margin: 0 auto;
         align-items: start;
       }
-      .pdp-gallery-col {
-        position: sticky;
-        top: var(--header-height-desktop);
+      .pdp-gallery-col { position: sticky; top: var(--header-height-desktop); }
+      .gallery {
+        aspect-ratio: unset;
+        height: calc(100vh - var(--header-height-desktop));
+        max-height: 900px;
       }
-      .gallery { aspect-ratio: unset; height: calc(100vh - var(--header-height-desktop)); max-height: 900px; }
       .pdp-shopbox-col { padding: var(--space-10) var(--space-10) var(--space-10) var(--space-8); }
       .shopbox { padding: 0; }
-      .product-title { font-size: 28px; }
+      .product-title { font-size: 32px; }
 
-      /* Below fold — full width */
-      .below-fold { max-width: var(--page-width); margin: 0 auto; }
-
-      /* Feature grid desktop — 2-up */
-      .feature-scroll {
-        overflow-x: visible;
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        gap: var(--space-5);
-        padding: 0 var(--gutter-desktop);
-      }
-      .feat-card { flex: none; }
-      .feat-img { width: 100%; }
-
-      /* Review highlights — 2-col */
-      .review-highlights-desktop {
+      .below-fold {
+        max-width: var(--page-width);
+        margin: 0 auto;
         display: grid;
         grid-template-columns: 1fr 1fr;
-        gap: var(--space-6) var(--space-8);
       }
+      .section-block { border-right: 1px solid var(--color-border); }
+      .section-block:nth-child(even) { border-right: none; }
 
-      /* Size & fit + UGC side by side */
-      .fit-ugc-row {
+      .review-highlights-inner {
         display: grid;
         grid-template-columns: 1fr 1fr;
-        gap: var(--space-8);
+        gap: 0 var(--space-8);
       }
-      .fit-divider { display: none; }
+      .review-highlight { border-top: 1px solid var(--color-border-light); }
+      .review-highlight:nth-child(-n+2) { border-top: none; }
     }
   </style>
 </head>
 <body>
 
-<!-- ANNOUNCEMENT BAR -->
-<div style="background:var(--color-slate);color:var(--color-on-slate);text-align:center;font-size:var(--text-xs);font-weight:var(--font-weight-semibold);letter-spacing:var(--tracking-tight);padding:10px var(--gutter-mobile);">
-  Free shipping on orders over $75 — <a href="collection-v2.html" style="color:var(--color-cream);text-decoration:underline;text-underline-offset:2px;">Shop Now</a>
-</div>
+<!-- ══════════════════════════════════════════
+     SCREEN 1 — HEADER + GALLERY + SHOPBOX
+══════════════════════════════════════════ -->
 
-<!-- HEADER -->
 <header class="site-header">
   <button class="header-hamburger" aria-label="Open menu">
     <span></span><span></span><span></span>
   </button>
-  <a href="homepage-v2.html" class="header-logo">DOVETAIL</a>
+  <a href="#" class="header-logo">DOVETAIL</a>
   <nav class="desktop-nav" aria-label="Primary">
-    <a href="collection-v2.html">Pants</a>
-    <a href="collection-v2.html">Shorts</a>
-    <a href="collection-v2.html">Tops</a>
-    <a href="collection-v2.html">Overalls</a>
-    <a href="collection-v2.html">Sale</a>
+    <a href="#">Pants</a>
+    <a href="#">Shorts</a>
+    <a href="#">Tops</a>
+    <a href="#">Overalls</a>
+    <a href="#">Sale</a>
   </nav>
   <div class="header-actions">
-    <button class="header-search-text" aria-label="Search">Search</button>
-    <a href="cart-v2.html" class="header-icon" aria-label="Cart, 2 items">🛒<span class="cart-count">2</span></a>
+    <button class="header-search-text">Search</button>
+    <a href="#" class="header-icon" aria-label="Cart, 2 items">🛒<span class="cart-count">2</span></a>
   </div>
 </header>
 
-<!-- BREADCRUMB -->
-<nav class="breadcrumb" aria-label="Breadcrumb">
-  <a href="homepage-v2.html">Home</a><sep>›</sep>
-  <a href="collection-v2.html">Pants</a><sep>›</sep>
-  <a href="collection-v2.html">Straight Leg</a><sep>›</sep>
-  Britt X Ultralight
-</nav>
-
-<!-- TWO-COLUMN DESKTOP WRAPPER -->
 <div class="pdp-layout">
 
-  <!-- GALLERY -->
   <div class="pdp-gallery-col">
-    <div class="gallery" role="img" aria-label="Britt X Ultralight Work Pant product gallery">
+    <div class="gallery">
       <div class="gallery-badge">Best Seller</div>
-      <img src="https://dovetailworkwear.com/cdn/shop/files/Dovetail-2025-S26-Studio-Web-Charla-GOTOPantTerracotta-034-Edit_426c507b-5aa6-43b7-83cb-e9a9dc4cdf98MODEL-267.jpg?v=1772742524&amp;width=900"
-           alt="Britt X Ultralight Work Pant in Flax — model kneeling on job site, wearing size 6">
-      <div class="gallery-model">Kitty, 5'7" wearing size 6</div>
-      <div class="gallery-pagination" aria-hidden="true">
+      <img
+        src="https://dovetailworkwear.com/cdn/shop/files/Dovetail-2025-S26-Studio-Web-Charla-GOTOPantTerracotta-034-Edit_426c507b-5aa6-43b7-83cb-e9a9dc4cdf98MODEL-267.jpg?v=1772742524&width=900"
+        alt="Britt X Ultralight Work Pant — model on job site, wearing size 6"
+      >
+      <div class="gallery-model">Kitty, 5'7" / size 6</div>
+      <div class="gallery-dots" aria-hidden="true">
         <div class="gallery-dot active"></div>
         <div class="gallery-dot"></div>
         <div class="gallery-dot"></div>
         <div class="gallery-dot"></div>
-        <div class="gallery-arrow"></div>
       </div>
     </div>
   </div>
 
-  <!-- SHOPBOX -->
   <div class="pdp-shopbox-col">
     <div class="shopbox">
 
@@ -803,7 +536,7 @@
 
       <div class="reviews-row">
         <span class="stars" aria-label="4.8 out of 5 stars">★★★★★</span>
-        <button class="review-count" onclick="document.getElementById('reviews-section').scrollIntoView({behavior:'smooth'})">4.8 (312 reviews)</button>
+        <button class="review-count">4.8 (312 reviews)</button>
       </div>
 
       <div class="price-row">
@@ -812,7 +545,6 @@
         <span class="price-save">Save $20</span>
       </div>
 
-      <!-- Color -->
       <div class="selector-label">Color: <span>Flax</span></div>
       <div class="color-chips" role="radiogroup" aria-label="Select color">
         <div class="color-chip selected" style="background:#d4c9a8;" title="Flax" role="radio" aria-checked="true" tabindex="0"></div>
@@ -822,7 +554,6 @@
         <div class="color-chip" style="background:#c0c0c0;" title="Stone" role="radio" aria-checked="false" tabindex="0"></div>
       </div>
 
-      <!-- Size + Length -->
       <div class="size-row">
         <div>
           <div class="size-col-label">
@@ -853,15 +584,11 @@
           </select>
         </div>
       </div>
-      <p class="size-note">Our customers say it <strong>fits true to size</strong>.</p>
+      <p class="size-note">Customers say it <strong>fits true to size</strong>.</p>
 
-      <!-- Add to Cart -->
       <button class="btn-atc">Add to Cart</button>
-
-      <!-- Shop Pay -->
       <button class="btn-shop-pay">⚡ Buy with Shop Pay</button>
 
-      <!-- Trust -->
       <div class="trust-row">
         <span class="trust-item">Free Exchanges</span>
         <span class="trust-item">·</span>
@@ -869,184 +596,100 @@
         <span class="trust-item">·</span>
         <span class="trust-item">Free Shipping $75+</span>
       </div>
-      <p class="installment-note">Or 4 interest-free payments of $29.75 with <strong>Shop Pay</strong></p>
-
-      <!-- Description -->
-      <p class="product-desc">Built for the job site and beyond. The Britt X Ultralight combines our most breathable fabric with a straight-leg fit designed for women who work hard. Reinforced knees, tool loops, and a hip slot — everything you need, nothing you don't.</p>
+      <p class="installment-note">4 payments of $29.75 with <strong>Shop Pay</strong></p>
 
     </div>
   </div>
 
-</div><!-- end .pdp-layout -->
+</div>
 
-<!-- BELOW FOLD CONTENT -->
+<!-- ══════════════════════════════════════════
+     SCREEN 2 — DESCRIPTION + CUSTOMER REVIEWS
+══════════════════════════════════════════ -->
 <div class="below-fold">
 
-  <!-- REVIEW HIGHLIGHTS -->
-  <div class="section-block" id="reviews-section">
-    <div class="block-title">What Customers Are Saying</div>
-    <div class="review-highlights-desktop">
-      <div class="review-highlight">
-        <div class="rh-text">
-          <div class="rh-quote">"These are the best work pants I've ever owned."</div>
-          <div class="rh-attr">★★★★★ &nbsp;Sarah K. · Verified Buyer</div>
-        </div>
-        <div class="rh-photo">[ UGC ]</div>
-      </div>
-      <div class="review-highlight">
-        <div class="rh-text">
-          <div class="rh-quote">"So lightweight for a work pant — the fabric is unreal."</div>
-          <div class="rh-attr">★★★★★ &nbsp;Jess M. · Verified Buyer</div>
-        </div>
-        <div class="rh-photo">[ UGC ]</div>
-      </div>
-      <div class="review-highlight">
-        <div class="rh-text">
-          <div class="rh-quote">"Fit is perfect and they hold up after 6 months of daily wear."</div>
-          <div class="rh-attr">★★★★★ &nbsp;Mara T. · Verified Buyer</div>
-        </div>
-      </div>
-    </div>
-    <button class="all-reviews-link" style="margin-top:var(--space-5);">Read all 312 reviews →</button>
-  </div>
-
-  <!-- SIZE & FIT + UGC -->
   <div class="section-block">
-    <div class="fit-ugc-row">
-      <div>
-        <div class="block-title">Size &amp; Fit</div>
-        <div class="fit-grid">
-          <div class="fit-item"><div class="fit-key">Leg</div><div class="fit-val">Straight</div></div>
-          <div class="fit-item"><div class="fit-key">Rise</div><div class="fit-val">Mid-rise</div></div>
-          <div class="fit-item"><div class="fit-key">Waist</div><div class="fit-val">Relaxed</div></div>
-          <div class="fit-item"><div class="fit-key">Stretch</div><div class="fit-val">4-way</div></div>
+    <div class="section-eyebrow">About This Product</div>
+    <p class="product-desc">Built for the job site and beyond. The Britt X Ultralight combines our most breathable fabric with a straight-leg fit designed for women who work hard. Reinforced knees, tool loops, a hip slot — everything you need, nothing you don't.</p>
+  </div>
+
+  <div class="section-block">
+    <div class="section-eyebrow">Customer Reviews · 4.8 (312)</div>
+    <div class="review-highlights-inner">
+      <div class="review-highlight">
+        <div class="rh-body">
+          <div class="rh-stars">★★★★★</div>
+          <div class="rh-quote">"Best work pants I've ever owned."</div>
+          <div class="rh-attr">Sarah K. · Verified Buyer</div>
         </div>
-        <div class="fit-key" style="margin-bottom:var(--space-2);">Best For</div>
-        <div class="fit-tags">
-          <span class="fit-tag">Curvy</span>
-          <span class="fit-tag">Straight</span>
-          <span class="fit-tag">Apple</span>
-          <span class="fit-tag">Pear</span>
-        </div>
+        <div class="rh-photo">UGC</div>
       </div>
-      <div>
-        <div class="block-title">From Our Customers</div>
-        <div class="ugc-grid">
-          <div class="ugc-thumb">[ UGC ]</div>
-          <div class="ugc-thumb">[ UGC ]</div>
-          <div class="ugc-thumb">[ UGC ]</div>
-          <div class="ugc-thumb">[ UGC ]</div>
+      <div class="review-highlight">
+        <div class="rh-body">
+          <div class="rh-stars">★★★★★</div>
+          <div class="rh-quote">"So lightweight — the fabric is unreal."</div>
+          <div class="rh-attr">Jess M. · Verified Buyer</div>
+        </div>
+        <div class="rh-photo">UGC</div>
+      </div>
+      <div class="review-highlight">
+        <div class="rh-body">
+          <div class="rh-stars">★★★★★</div>
+          <div class="rh-quote">"Fit is perfect. 6 months of daily wear and still going."</div>
+          <div class="rh-attr">Mara T. · Verified Buyer</div>
         </div>
       </div>
     </div>
+    <button class="all-reviews-link">Read all 312 reviews →</button>
   </div>
 
-  <!-- DETAILS / CARE TABS -->
+<!-- ══════════════════════════════════════════
+     SCREEN 3 — PRODUCT DETAILS + SIZE & FIT
+══════════════════════════════════════════ -->
+
   <div class="section-block">
     <div class="tabs-nav">
       <button class="tab-btn active" onclick="showTab('details', this)">Details</button>
       <button class="tab-btn" onclick="showTab('care', this)">Care</button>
     </div>
     <div id="tab-details" class="tab-panel active">
-      <strong>Fabric</strong>
-      <span>94% nylon, 6% spandex. UPF 50+. Moisture-wicking, quick-dry.</span>
-      <br><br>
-      <strong>Features</strong>
-      <span>Reinforced knees · Hip slot · Twine hole · Tool loops · Oversized coin pocket · 6 total pockets</span>
+      <div class="tab-row">
+        <span class="tab-label">Fabric</span>
+        <span class="tab-value">94% nylon, 6% spandex. UPF 50+. Moisture-wicking.</span>
+      </div>
+      <div class="tab-row">
+        <span class="tab-label">Features</span>
+        <span class="tab-value">Reinforced knees · Hip slot · Twine hole · Tool loops · 6 pockets</span>
+      </div>
     </div>
     <div id="tab-care" class="tab-panel">
-      <div class="care-row"><div class="care-icon">[ ]</div><span>Machine wash cold.</span></div>
-      <div class="care-row"><div class="care-icon">[ ]</div><span>Tumble dry low.</span></div>
-      <div class="care-row"><div class="care-icon">[ ]</div><span>Do not iron.</span></div>
-      <div class="care-row"><div class="care-icon">[ ]</div><span>Do not bleach.</span></div>
+      <div class="tab-row"><span class="tab-label">Wash</span><span class="tab-value">Machine wash cold</span></div>
+      <div class="tab-row"><span class="tab-label">Dry</span><span class="tab-value">Tumble dry low</span></div>
+      <div class="tab-row"><span class="tab-label">Iron</span><span class="tab-value">Do not iron</span></div>
+      <div class="tab-row"><span class="tab-label">Bleach</span><span class="tab-value">Do not bleach</span></div>
     </div>
   </div>
 
-  <!-- SHIPPING ACCORDION -->
-  <div class="section-block" style="padding-bottom:0;">
-    <div class="accordion-item" style="border-top:none;">
-      <button class="accordion-trigger" onclick="toggleAcc(this)">
-        Shipping, Returns &amp; Exchanges
-        <span class="accordion-icon">+</span>
-      </button>
-      <div class="accordion-body">
-        <div class="accordion-subhead">Shipping</div>
-        <p><a href="#">See our shipping information here</a></p>
-        <div class="accordion-subhead">Returns &amp; Exchanges</div>
-        <p style="margin-bottom:var(--space-2);">Exchange or return within 30 days of purchase.</p>
-        <p><a href="#">See our Returns Policy</a> &nbsp;·&nbsp; <a href="#">Start a return</a></p>
-      </div>
+  <div class="section-block">
+    <div class="section-eyebrow">Size &amp; Fit</div>
+    <div class="fit-grid">
+      <div><div class="fit-key">Leg</div><div class="fit-val">Straight</div></div>
+      <div><div class="fit-key">Rise</div><div class="fit-val">Mid-rise</div></div>
+      <div><div class="fit-key">Waist</div><div class="fit-val">Relaxed</div></div>
+      <div><div class="fit-key">Stretch</div><div class="fit-val">4-way</div></div>
+    </div>
+    <div class="fit-key" style="margin-bottom:var(--space-2);">Works best for</div>
+    <div class="fit-tags">
+      <span class="fit-tag">Curvy</span>
+      <span class="fit-tag">Straight</span>
+      <span class="fit-tag">Apple</span>
+      <span class="fit-tag">Pear</span>
     </div>
   </div>
 
-  <!-- FEATURE GRID — Built for the Job -->
-  <section class="section-feature-grid">
-    <div class="block-title">Built for the Job</div>
-    <div class="feature-grid-head">Every Detail Has a Reason</div>
-    <div class="feature-scroll">
-      <div class="feat-card">
-        <div class="feat-img">[ Hip Slot ]</div>
-        <div class="feat-eyebrow">Innovation</div>
-        <div class="feat-name">Hip Slot</div>
-        <div class="feat-desc">Fits your phone flat against your hip — no bulk, no bounce.</div>
-      </div>
-      <div class="feat-card">
-        <div class="feat-img">[ Twine Hole ]</div>
-        <div class="feat-eyebrow">Innovation</div>
-        <div class="feat-name">Twine Hole</div>
-        <div class="feat-desc">Run twine or cable without opening a pocket.</div>
-      </div>
-      <div class="feat-card">
-        <div class="feat-img">[ Reinforced Knees ]</div>
-        <div class="feat-eyebrow">Durability</div>
-        <div class="feat-name">Reinforced Knees</div>
-        <div class="feat-desc">Double-layer construction built for kneeling work all day.</div>
-      </div>
-      <div class="feat-card">
-        <div class="feat-img">[ Tool Loop ]</div>
-        <div class="feat-eyebrow">Function</div>
-        <div class="feat-name">Tool Loop</div>
-        <div class="feat-desc">Keeps your tools where you need them, always within reach.</div>
-      </div>
-    </div>
-  </section>
-
-  <!-- RELATED PRODUCTS -->
-  <section class="section-related">
-    <div class="block-title" style="padding:0 var(--gutter-mobile);margin-bottom:var(--space-5);">You Might Also Like</div>
-    <div style="display:flex;gap:var(--space-3);overflow-x:auto;padding:0 var(--gutter-mobile);scrollbar-width:none;">
-      <a href="pdp-v2.html" style="text-decoration:none;color:inherit;flex:0 0 168px;">
-        <div style="width:168px;aspect-ratio:3/4;background:var(--card-img-bg);display:flex;align-items:center;justify-content:center;font-size:var(--text-xs);color:var(--color-muted);margin-bottom:var(--space-2);">[ Product ]</div>
-        <div style="font-size:var(--text-md);font-weight:var(--font-weight-medium);color:var(--color-slate);margin-bottom:2px;">Britt Canvas Work Pant</div>
-        <div style="font-size:var(--text-md);font-weight:var(--font-weight-semibold);color:var(--color-slate);">$129</div>
-      </a>
-      <a href="pdp-v2.html" style="text-decoration:none;color:inherit;flex:0 0 168px;">
-        <div style="width:168px;aspect-ratio:3/4;background:var(--card-img-bg);display:flex;align-items:center;justify-content:center;font-size:var(--text-xs);color:var(--color-muted);margin-bottom:var(--space-2);">[ Product ]</div>
-        <div style="font-size:var(--text-md);font-weight:var(--font-weight-medium);color:var(--color-slate);margin-bottom:2px;">Freshley Overall</div>
-        <div style="font-size:var(--text-md);font-weight:var(--font-weight-semibold);color:var(--color-slate);">$149</div>
-      </a>
-      <a href="pdp-v2.html" style="text-decoration:none;color:inherit;flex:0 0 168px;">
-        <div style="width:168px;aspect-ratio:3/4;background:var(--card-img-bg);display:flex;align-items:center;justify-content:center;font-size:var(--text-xs);color:var(--color-muted);margin-bottom:var(--space-2);">[ Product ]</div>
-        <div style="font-size:var(--text-md);font-weight:var(--font-weight-medium);color:var(--color-slate);margin-bottom:2px;">Dovetail Straight Pant</div>
-        <div style="font-size:var(--text-md);font-weight:var(--font-weight-semibold);color:var(--color-slate);">$109</div>
-      </a>
-    </div>
-  </section>
-
-</div><!-- end .below-fold -->
-
-<!-- FOOTER (minimal on PDP) -->
-<footer class="pdp-footer">
-  <a href="homepage-v2.html">DOVETAIL</a>
-  <div class="pdp-footer-legal">© 2026 Dovetail Workwear · <a href="#" style="color:var(--color-muted);">Privacy</a> · <a href="#" style="color:var(--color-muted);">Terms</a></div>
-</footer>
+</div>
 
 <script>
-  function toggleAcc(btn) {
-    const body = btn.nextElementSibling;
-    const open = body.classList.toggle('open');
-    btn.querySelector('.accordion-icon').textContent = open ? '−' : '+';
-  }
   function showTab(id, btn) {
     document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
     document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
@@ -1054,6 +697,5 @@
     btn.classList.add('active');
   }
 </script>
-
 </body>
 </html>
