@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mini Cart Drawer — Dovetail Workwear v2</title>
+  <link rel="stylesheet" href="design-system.css">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: var(--font-primary);
+      font-size: var(--text-sm);
+      color: var(--color-slate);
+      background: var(--color-cream);
+      max-width: 390px;
+      margin: 0 auto;
+    }
+
+    /* Page scaffold to show the drawer in context */
+    .page-bg {
+      height: 100vh;
+      background: rgba(0,0,0,0.45);
+      position: relative;
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    /* ── MINI CART DRAWER ── */
+    .minicart-drawer {
+      width: 100%;
+      max-width: 400px;
+      height: 100vh;
+      background: #fff;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      animation: slideInRight 0.25s ease forwards;
+    }
+    @keyframes slideInRight {
+      from { transform: translateX(24px); opacity: 0; }
+      to   { transform: translateX(0);    opacity: 1; }
+    }
+
+    /* ── DRAWER HEADER ── */
+    .minicart-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 20px;
+      border-bottom: 1px solid var(--color-border);
+      flex-shrink: 0;
+    }
+    .minicart-title {
+      font-size: var(--text-base);
+      font-weight: var(--fw-bold);
+      color: var(--color-slate);
+      letter-spacing: 0.01em;
+    }
+    .minicart-count {
+      font-size: 12px;
+      color: var(--color-muted);
+      font-weight: var(--fw-light);
+      margin-left: 6px;
+    }
+    .minicart-close {
+      background: none;
+      border: none;
+      font-size: 22px;
+      color: var(--color-muted);
+      cursor: pointer;
+      line-height: 1;
+      font-family: var(--font-primary);
+    }
+
+    /* ── SHIPPING PROGRESS ── */
+    .minicart-shipping {
+      padding: 12px 20px;
+      border-bottom: 1px solid var(--color-border);
+      flex-shrink: 0;
+      background: var(--color-cream);
+    }
+    .minicart-shipping-label {
+      font-size: 12px;
+      color: var(--color-slate);
+      font-weight: var(--fw-semibold);
+      margin-bottom: 6px;
+    }
+    .minicart-shipping-label strong { color: var(--color-paprika); }
+    .minicart-shipping-bar {
+      height: 3px;
+      background: var(--color-border);
+    }
+    .minicart-shipping-fill {
+      height: 100%;
+      width: 64%;
+      background: var(--color-paprika);
+    }
+
+    /* ── CART ITEMS (scrollable) ── */
+    .minicart-items {
+      flex: 1;
+      overflow-y: auto;
+      padding: 0;
+    }
+
+    .minicart-item {
+      display: grid;
+      grid-template-columns: 76px 1fr;
+      gap: 12px;
+      padding: 14px 20px;
+      border-bottom: 1px solid var(--color-border);
+    }
+    .minicart-item-img {
+      aspect-ratio: 3/4;
+      background: var(--color-surface-2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--color-muted);
+      font-size: 10px;
+      flex-shrink: 0;
+    }
+    .minicart-item-details { min-width: 0; }
+    .minicart-item-name {
+      font-size: var(--text-sm);
+      font-weight: var(--fw-semibold);
+      color: var(--color-slate);
+      line-height: var(--lh-tight);
+      margin-bottom: 3px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .minicart-item-variant {
+      font-size: 11px;
+      color: var(--color-muted);
+      margin-bottom: 10px;
+      font-weight: var(--fw-light);
+    }
+    .minicart-item-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .qty-stepper {
+      display: flex;
+      align-items: center;
+      border: 1px solid var(--color-border);
+      height: 28px;
+    }
+    .qty-btn {
+      width: 28px;
+      height: 28px;
+      background: none;
+      border: none;
+      font-size: 14px;
+      color: var(--color-slate);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-primary);
+    }
+    .qty-value {
+      min-width: 24px;
+      text-align: center;
+      font-size: 13px;
+      font-weight: var(--fw-semibold);
+      color: var(--color-slate);
+    }
+    .minicart-item-price {
+      font-size: var(--text-sm);
+      font-weight: var(--fw-semibold);
+      color: var(--color-slate);
+    }
+    .minicart-item-price.sale { color: var(--color-paprika); }
+    .minicart-item-remove {
+      background: none;
+      border: none;
+      font-size: 11px;
+      color: var(--color-muted);
+      cursor: pointer;
+      text-decoration: underline;
+      font-family: var(--font-primary);
+      padding: 4px 0 0;
+      display: block;
+    }
+
+    /* ── UPSELL / CROSS-SELL STRIP ── */
+    .minicart-upsell {
+      padding: 14px 20px;
+      border-bottom: 1px solid var(--color-border);
+      background: var(--color-cream);
+      flex-shrink: 0;
+    }
+    .minicart-upsell-label {
+      font-size: 11px;
+      font-weight: var(--fw-bold);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--color-muted);
+      margin-bottom: 10px;
+    }
+    .minicart-upsell-rail {
+      display: flex;
+      gap: 10px;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .minicart-upsell-rail::-webkit-scrollbar { display: none; }
+    .minicart-upsell-card {
+      flex-shrink: 0;
+      width: 110px;
+    }
+    .minicart-upsell-img {
+      width: 100%;
+      aspect-ratio: 4/5;
+      background: var(--color-surface-2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--color-muted);
+      font-size: 9px;
+      margin-bottom: 5px;
+    }
+    .minicart-upsell-name {
+      font-size: 11px;
+      font-weight: var(--fw-semibold);
+      color: var(--color-slate);
+      margin-bottom: 2px;
+      line-height: 1.3;
+    }
+    .minicart-upsell-price {
+      font-size: 11px;
+      color: var(--color-muted);
+      margin-bottom: 6px;
+      font-weight: var(--fw-light);
+    }
+    .btn-upsell-quick-add {
+      width: 100%;
+      padding: 6px;
+      border: 1px solid var(--color-slate);
+      border-radius: var(--radius-none);
+      background: none;
+      font-size: 10px;
+      font-weight: var(--fw-bold);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--color-slate);
+      cursor: pointer;
+      font-family: var(--font-primary);
+      transition: var(--transition-base);
+    }
+    .btn-upsell-quick-add:hover { background: var(--color-slate); color: #fff; }
+
+    /* ── DRAWER FOOTER ── */
+    .minicart-footer {
+      padding: 16px 20px 24px;
+      border-top: 1px solid var(--color-border);
+      background: #fff;
+      flex-shrink: 0;
+    }
+    .minicart-subtotal-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 14px;
+    }
+    .minicart-subtotal-label {
+      font-size: var(--text-sm);
+      font-weight: var(--fw-bold);
+      color: var(--color-slate);
+    }
+    .minicart-subtotal-value {
+      font-size: var(--text-lg);
+      font-weight: var(--fw-bold);
+      color: var(--color-slate);
+    }
+    .minicart-tax-note {
+      font-size: 11px;
+      color: var(--color-muted);
+      margin-bottom: 14px;
+      font-weight: var(--fw-light);
+    }
+    .btn-minicart-checkout {
+      display: block;
+      width: 100%;
+      padding: 15px;
+      background: var(--btn-primary-bg);
+      color: #fff;
+      font-size: var(--text-sm);
+      font-weight: var(--fw-bold);
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      border: none;
+      border-radius: var(--radius-btn);
+      cursor: pointer;
+      font-family: var(--font-primary);
+      text-align: center;
+      transition: var(--transition-base);
+      margin-bottom: 8px;
+    }
+    .btn-minicart-checkout:hover { background: var(--btn-primary-hover); }
+    .btn-minicart-view-cart {
+      display: block;
+      width: 100%;
+      padding: 13px;
+      background: none;
+      border: 1.5px solid var(--color-slate);
+      color: var(--color-slate);
+      font-size: var(--text-sm);
+      font-weight: var(--fw-bold);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      border-radius: var(--radius-btn);
+      cursor: pointer;
+      font-family: var(--font-primary);
+      text-align: center;
+      transition: var(--transition-base);
+    }
+    .btn-minicart-view-cart:hover { background: var(--color-slate); color: #fff; }
+
+    /* ── DESKTOP: show as sidebar panel ── */
+    @media (min-width: 1024px) {
+      body { max-width: 100%; }
+      .page-bg { background: rgba(0,0,0,0.35); }
+      .minicart-drawer { max-width: 440px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Backdrop (simulates open state) -->
+  <div class="page-bg">
+    <div class="minicart-drawer">
+
+      <!-- Header -->
+      <div class="minicart-header">
+        <div>
+          <span class="minicart-title">Your Cart</span>
+          <span class="minicart-count">3 items</span>
+        </div>
+        <button class="minicart-close">×</button>
+      </div>
+
+      <!-- Free shipping progress -->
+      <div class="minicart-shipping">
+        <div class="minicart-shipping-label">Add <strong>$27.00</strong> more for free shipping</div>
+        <div class="minicart-shipping-bar"><div class="minicart-shipping-fill"></div></div>
+      </div>
+
+      <!-- Cart items -->
+      <div class="minicart-items">
+
+        <div class="minicart-item">
+          <div class="minicart-item-img">Image</div>
+          <div class="minicart-item-details">
+            <div class="minicart-item-name">Maven Slim Pant</div>
+            <div class="minicart-item-variant">Midnight Navy / 30W × 32L</div>
+            <div class="minicart-item-footer">
+              <div class="qty-stepper">
+                <button class="qty-btn">−</button>
+                <span class="qty-value">1</span>
+                <button class="qty-btn">+</button>
+              </div>
+              <span class="minicart-item-price">$94.00</span>
+            </div>
+            <button class="minicart-item-remove">Remove</button>
+          </div>
+        </div>
+
+        <div class="minicart-item">
+          <div class="minicart-item-img">Image</div>
+          <div class="minicart-item-details">
+            <div class="minicart-item-name">Groundbreaker Work Pant</div>
+            <div class="minicart-item-variant">Forest / 28W × 30L</div>
+            <div class="minicart-item-footer">
+              <div class="qty-stepper">
+                <button class="qty-btn">−</button>
+                <span class="qty-value">1</span>
+                <button class="qty-btn">+</button>
+              </div>
+              <span class="minicart-item-price sale">$79.00</span>
+            </div>
+            <button class="minicart-item-remove">Remove</button>
+          </div>
+        </div>
+
+        <div class="minicart-item">
+          <div class="minicart-item-img">Image</div>
+          <div class="minicart-item-details">
+            <div class="minicart-item-name">Ridgeline Work Shirt</div>
+            <div class="minicart-item-variant">Slate / Medium</div>
+            <div class="minicart-item-footer">
+              <div class="qty-stepper">
+                <button class="qty-btn">−</button>
+                <span class="qty-value">2</span>
+                <button class="qty-btn">+</button>
+              </div>
+              <span class="minicart-item-price">$96.00</span>
+            </div>
+            <button class="minicart-item-remove">Remove</button>
+          </div>
+        </div>
+
+        <!-- Upsell strip -->
+        <div class="minicart-upsell">
+          <div class="minicart-upsell-label">Frequently bought together</div>
+          <div class="minicart-upsell-rail">
+            <div class="minicart-upsell-card">
+              <div class="minicart-upsell-img">Image</div>
+              <div class="minicart-upsell-name">Canvas Work Pant</div>
+              <div class="minicart-upsell-price">$89.00</div>
+              <button class="btn-upsell-quick-add">+ Add</button>
+            </div>
+            <div class="minicart-upsell-card">
+              <div class="minicart-upsell-img">Image</div>
+              <div class="minicart-upsell-name">Utility Belt</div>
+              <div class="minicart-upsell-price">$34.00</div>
+              <button class="btn-upsell-quick-add">+ Add</button>
+            </div>
+            <div class="minicart-upsell-card">
+              <div class="minicart-upsell-img">Image</div>
+              <div class="minicart-upsell-name">Flex Cargo Pant</div>
+              <div class="minicart-upsell-price">$104.00</div>
+              <button class="btn-upsell-quick-add">+ Add</button>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /minicart-items -->
+
+      <!-- Footer -->
+      <div class="minicart-footer">
+        <div class="minicart-subtotal-row">
+          <span class="minicart-subtotal-label">Subtotal</span>
+          <span class="minicart-subtotal-value">$269.00</span>
+        </div>
+        <div class="minicart-tax-note">Shipping &amp; taxes calculated at checkout</div>
+        <button class="btn-minicart-checkout">Checkout</button>
+        <button class="btn-minicart-view-cart">View Cart</button>
+      </div>
+
+    </div><!-- /minicart-drawer -->
+  </div><!-- /page-bg -->
+
+</body>
+</html>

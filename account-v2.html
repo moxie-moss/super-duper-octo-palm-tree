@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Account — Dovetail Workwear v2</title>
+  <link rel="stylesheet" href="design-system.css">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: var(--font-primary);
+      font-size: var(--text-sm);
+      font-weight: var(--fw-regular);
+      color: var(--color-slate);
+      background: var(--color-cream);
+      max-width: 390px;
+      margin: 0 auto;
+    }
+
+    /* ── HEADER ── */
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--color-border);
+      background: #fff;
+      position: sticky;
+      top: 0;
+      z-index: var(--z-sticky);
+    }
+    .header-menu { font-size: 22px; cursor: pointer; color: var(--color-slate); }
+    .header-logo {
+      font-weight: var(--fw-bold);
+      font-size: var(--text-base);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--color-slate);
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    .header-icons { display: flex; gap: 14px; }
+    .header-icon { font-size: 20px; color: var(--color-slate); cursor: pointer; }
+    .cart-badge {
+      position: absolute; top: -4px; right: -6px;
+      background: var(--color-paprika); color: #fff;
+      border-radius: 50%; font-size: 9px; font-weight: var(--fw-bold);
+      width: 16px; height: 16px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .header-cart { position: relative; font-size: 20px; color: var(--color-slate); cursor: pointer; }
+    .desktop-nav { display: none; }
+
+    /* ── ACCOUNT HERO ── */
+    .account-hero {
+      background: var(--color-slate);
+      color: #fff;
+      padding: 24px 16px 20px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .account-avatar {
+      width: 52px; height: 52px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.15);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px;
+      font-weight: var(--fw-bold);
+      flex-shrink: 0;
+    }
+    .account-greeting {
+      font-size: var(--text-xl);
+      font-weight: var(--fw-bold);
+      letter-spacing: -0.01em;
+      line-height: var(--lh-tight);
+    }
+    .account-email {
+      font-size: 12px;
+      opacity: 0.7;
+      font-weight: var(--fw-light);
+      margin-top: 3px;
+    }
+
+    /* ── NAV TABS ── */
+    .account-tabs {
+      display: flex;
+      border-bottom: 1px solid var(--color-border);
+      background: #fff;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .account-tabs::-webkit-scrollbar { display: none; }
+    .account-tab {
+      flex-shrink: 0;
+      padding: 12px 16px;
+      font-size: 12px;
+      font-weight: var(--fw-semibold);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--color-muted);
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      transition: var(--transition-base);
+      white-space: nowrap;
+    }
+    .account-tab.active {
+      color: var(--color-slate);
+      border-bottom-color: var(--color-paprika);
+    }
+
+    /* ── SECTION PANELS ── */
+    .account-panel { padding: 16px; }
+
+    /* ── ORDERS ── */
+    .panel-heading {
+      font-size: var(--text-base);
+      font-weight: var(--fw-bold);
+      color: var(--color-slate);
+      margin-bottom: 14px;
+      letter-spacing: -0.01em;
+    }
+    .order-card {
+      background: #fff;
+      border: 1px solid var(--color-border);
+      margin-bottom: 12px;
+      padding: 14px;
+    }
+    .order-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 10px;
+    }
+    .order-number {
+      font-size: var(--text-sm);
+      font-weight: var(--fw-bold);
+      color: var(--color-slate);
+    }
+    .order-date {
+      font-size: 11px;
+      color: var(--color-muted);
+      font-weight: var(--fw-light);
+      margin-top: 2px;
+    }
+    .order-status {
+      font-size: 11px;
+      font-weight: var(--fw-bold);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      padding: 4px 8px;
+    }
+    .order-status.delivered { background: rgba(74,122,94,0.1); color: #4a7a5e; }
+    .order-status.shipped { background: rgba(66,81,94,0.1); color: var(--color-slate); }
+    .order-status.processing { background: rgba(192,120,32,0.1); color: #c07820; }
+    .order-items-preview {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 10px;
+    }
+    .order-item-thumb {
+      width: 52px;
+      aspect-ratio: 3/4;
+      background: var(--color-surface-2);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 9px; color: var(--color-muted);
+    }
+    .order-card-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .order-total {
+      font-size: var(--text-sm);
+      font-weight: var(--fw-semibold);
+      color: var(--color-slate);
+    }
+    .btn-order-details {
+      font-size: 12px;
+      font-weight: var(--fw-bold);
+      color: var(--color-slate);
+      text-decoration: underline;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-family: var(--font-primary);
+    }
+    .btn-order-reorder {
+      font-size: 12px;
+      font-weight: var(--fw-bold);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--color-paprika);
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-family: var(--font-primary);
+    }
+
+    /* ── EMPTY ORDERS ── */
+    .empty-orders {
+      text-align: center;
+      padding: 48px 24px;
+    }
+    .empty-orders-icon { font-size: 40px; opacity: 0.25; margin-bottom: 12px; }
+    .empty-orders-text {
+      font-size: var(--text-sm);
+      color: var(--color-muted);
+      margin-bottom: 20px;
+      font-weight: var(--fw-light);
+    }
+    .btn-start-shopping {
+      display: inline-block;
+      padding: 12px 28px;
+      background: var(--btn-primary-bg);
+      color: #fff;
+      font-size: var(--text-xs);
+      font-weight: var(--fw-bold);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      border: none;
+      border-radius: var(--radius-btn);
+      cursor: pointer;
+      font-family: var(--font-primary);
+    }
+
+    /* ── ADDRESSES ── */
+    .address-card {
+      background: #fff;
+      border: 1px solid var(--color-border);
+      padding: 14px;
+      margin-bottom: 10px;
+      position: relative;
+    }
+    .address-default-badge {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: var(--fw-bold);
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      padding: 2px 8px;
+      background: var(--color-slate);
+      color: #fff;
+      margin-bottom: 8px;
+    }
+    .address-name {
+      font-size: var(--text-sm);
+      font-weight: var(--fw-semibold);
+      color: var(--color-slate);
+      margin-bottom: 4px;
+    }
+    .address-lines {
+      font-size: var(--text-sm);
+      color: var(--color-muted);
+      line-height: var(--lh-relaxed);
+      font-weight: var(--fw-light);
+    }
+    .address-actions {
+      display: flex;
+      gap: 12px;
+      margin-top: 10px;
+    }
+    .btn-address-action {
+      font-size: 12px;
+      font-weight: var(--fw-semibold);
+      color: var(--color-slate);
+      text-decoration: underline;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-family: var(--font-primary);
+    }
+    .btn-add-address {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      width: 100%;
+      padding: 14px;
+      background: none;
+      border: 1.5px dashed var(--color-border);
+      color: var(--color-muted);
+      font-size: var(--text-sm);
+      font-weight: var(--fw-semibold);
+      cursor: pointer;
+      font-family: var(--font-primary);
+      justify-content: center;
+      transition: var(--transition-base);
+    }
+    .btn-add-address:hover { border-color: var(--color-slate); color: var(--color-slate); }
+
+    /* ── ACCOUNT DETAILS / SETTINGS ── */
+    .settings-section { margin-bottom: 24px; }
+    .settings-section-title {
+      font-size: 11px;
+      font-weight: var(--fw-bold);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--color-muted);
+      margin-bottom: 12px;
+    }
+    .settings-field { margin-bottom: 12px; }
+    .settings-label {
+      font-size: 11px;
+      font-weight: var(--fw-bold);
+      color: var(--color-muted);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+      display: block;
+    }
+    .settings-input {
+      width: 100%;
+      padding: 11px 14px;
+      border: 1.5px solid var(--color-border);
+      border-radius: var(--radius-input);
+      font-size: var(--text-sm);
+      font-family: var(--font-primary);
+      color: var(--color-slate);
+      background: #fff;
+    }
+    .settings-input:focus { border-color: var(--color-slate); outline: none; }
+    .btn-save-settings {
+      display: block;
+      width: 100%;
+      padding: 13px;
+      background: var(--btn-primary-bg);
+      color: #fff;
+      font-size: var(--text-xs);
+      font-weight: var(--fw-bold);
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      border: none;
+      border-radius: var(--radius-btn);
+      cursor: pointer;
+      font-family: var(--font-primary);
+      margin-top: 4px;
+    }
+    .btn-logout {
+      display: block;
+      width: 100%;
+      padding: 13px;
+      background: none;
+      border: 1.5px solid var(--color-border);
+      color: var(--color-muted);
+      font-size: var(--text-xs);
+      font-weight: var(--fw-bold);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      border-radius: var(--radius-btn);
+      cursor: pointer;
+      font-family: var(--font-primary);
+      margin-top: 8px;
+      transition: var(--transition-base);
+    }
+    .btn-logout:hover { border-color: var(--color-slate); color: var(--color-slate); }
+
+    /* ── DESKTOP ── */
+    @media (min-width: 1024px) {
+      body { max-width: var(--page-width); }
+
+      header { padding: 0 48px; height: 68px; }
+      .header-menu { display: none; }
+      .header-logo { position: static; transform: none; font-size: var(--text-lg); }
+      .desktop-nav {
+        display: flex; align-items: center; gap: 32px; flex: 1; padding-left: 48px;
+      }
+      .desktop-nav a {
+        font-size: 13px; font-weight: var(--fw-semibold);
+        color: var(--color-slate); text-decoration: none;
+        letter-spacing: 0.03em; text-transform: uppercase;
+      }
+
+      .account-hero { padding: 36px 48px 28px; }
+      .account-avatar { width: 64px; height: 64px; font-size: 24px; }
+      .account-greeting { font-size: var(--text-3xl); }
+
+      .account-tabs { padding: 0 48px; }
+
+      /* Desktop: sidebar nav + content */
+      .account-desktop-layout {
+        display: grid;
+        grid-template-columns: 220px 1fr;
+        gap: 0;
+        padding: 0 48px;
+        align-items: start;
+      }
+      .account-sidebar {
+        padding: 24px 32px 24px 0;
+        border-right: 1px solid var(--color-border);
+        position: sticky;
+        top: 80px;
+      }
+      .account-sidebar-nav { list-style: none; }
+      .account-sidebar-nav li {
+        border-bottom: 1px solid var(--color-border);
+      }
+      .account-sidebar-nav a {
+        display: block;
+        padding: 12px 0;
+        font-size: var(--text-sm);
+        font-weight: var(--fw-semibold);
+        color: var(--color-slate);
+        text-decoration: none;
+        transition: var(--transition-base);
+      }
+      .account-sidebar-nav a:hover { color: var(--color-paprika); }
+      .account-sidebar-nav a.active { color: var(--color-paprika); }
+      .account-panel { padding: 28px 0 28px 40px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── HEADER ── -->
+  <header>
+    <button class="header-menu" aria-label="Menu">&#9776;</button>
+    <nav class="desktop-nav">
+      <a href="#">Women</a>
+      <a href="#">Men</a>
+      <a href="#">Collections</a>
+      <a href="#">About</a>
+    </nav>
+    <a href="#" class="header-logo">Dovetail</a>
+    <div class="header-icons">
+      <button class="header-icon" aria-label="Search">&#128269;</button>
+      <button class="header-cart" aria-label="Cart">
+        &#128722;
+        <span class="cart-badge">2</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ── ACCOUNT HERO ── -->
+  <div class="account-hero">
+    <div class="account-avatar">SJ</div>
+    <div>
+      <div class="account-greeting">Hi, Sarah</div>
+      <div class="account-email">sarah.jones@email.com</div>
+    </div>
+  </div>
+
+  <!-- ── NAV TABS (mobile) ── -->
+  <div class="account-tabs">
+    <div class="account-tab active">Orders</div>
+    <div class="account-tab">Addresses</div>
+    <div class="account-tab">Details</div>
+    <div class="account-tab">Wishlist</div>
+  </div>
+
+  <!-- ── DESKTOP LAYOUT ── -->
+  <div class="account-desktop-layout">
+
+    <!-- Desktop sidebar nav -->
+    <div class="account-sidebar" style="display:none;" id="account-sidebar">
+      <ul class="account-sidebar-nav">
+        <li><a href="#" class="active">Order History</a></li>
+        <li><a href="#">Saved Addresses</a></li>
+        <li><a href="#">Account Details</a></li>
+        <li><a href="#">Wishlist</a></li>
+        <li><a href="#">Sign Out</a></li>
+      </ul>
+    </div>
+
+    <!-- ── ORDERS PANEL ── -->
+    <div class="account-panel">
+      <div class="panel-heading">Order History</div>
+
+      <!-- Order 1 — Delivered -->
+      <div class="order-card">
+        <div class="order-card-header">
+          <div>
+            <div class="order-number">#DW-10482</div>
+            <div class="order-date">June 3, 2026</div>
+          </div>
+          <span class="order-status delivered">Delivered</span>
+        </div>
+        <div class="order-items-preview">
+          <div class="order-item-thumb">IMG</div>
+          <div class="order-item-thumb">IMG</div>
+          <div style="width:52px;aspect-ratio:3/4;background:var(--color-surface-2);display:flex;align-items:center;justify-content:center;color:var(--color-muted);font-size:12px;font-weight:var(--fw-bold);">+1</div>
+        </div>
+        <div class="order-card-footer">
+          <span class="order-total">$228.65</span>
+          <div style="display:flex;gap:12px;">
+            <button class="btn-order-details">Details</button>
+            <button class="btn-order-reorder">Reorder</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Order 2 — Shipped -->
+      <div class="order-card">
+        <div class="order-card-header">
+          <div>
+            <div class="order-number">#DW-10301</div>
+            <div class="order-date">May 18, 2026</div>
+          </div>
+          <span class="order-status shipped">Shipped</span>
+        </div>
+        <div class="order-items-preview">
+          <div class="order-item-thumb">IMG</div>
+        </div>
+        <div class="order-card-footer">
+          <span class="order-total">$94.00</span>
+          <div style="display:flex;gap:12px;">
+            <button class="btn-order-details">Details</button>
+            <button class="btn-order-reorder">Reorder</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Order 3 — Processing -->
+      <div class="order-card">
+        <div class="order-card-header">
+          <div>
+            <div class="order-number">#DW-10289</div>
+            <div class="order-date">May 10, 2026</div>
+          </div>
+          <span class="order-status processing">Processing</span>
+        </div>
+        <div class="order-items-preview">
+          <div class="order-item-thumb">IMG</div>
+          <div class="order-item-thumb">IMG</div>
+        </div>
+        <div class="order-card-footer">
+          <span class="order-total">$173.00</span>
+          <div style="display:flex;gap:12px;">
+            <button class="btn-order-details">Details</button>
+            <button class="btn-order-reorder">Reorder</button>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /account-panel -->
+  </div><!-- /account-desktop-layout -->
+
+  <script>
+    if (window.innerWidth >= 1024) {
+      document.getElementById('account-sidebar').style.display = 'block';
+    }
+    window.addEventListener('resize', () => {
+      document.getElementById('account-sidebar').style.display =
+        window.innerWidth >= 1024 ? 'block' : 'none';
+    });
+  </script>
+
+</body>
+</html>

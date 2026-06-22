@@ -1,0 +1,380 @@
+/*
+ * ============================================================
+ *  DOVETAIL WORKWEAR — DESIGN SYSTEM
+ *  Source: moxie-moss/shopify-theme (settings_data.json,
+ *          base.css, custom.css, section-footer.css,
+ *          component-card.css, breadcrumb.css)
+ *  Extracted: 2026-06-22
+ * ============================================================
+ *
+ *  Usage in wireframes:
+ *    <link rel="stylesheet" href="design-system.css">
+ *  Then replace every hardcoded value with the matching var().
+ * ============================================================
+ */
+
+/* ─────────────────────────────────────────────
+   FONT FACE
+   MetroflexWide is Dovetail's brand typeface.
+   Weights used: 300 (body copy), 400 (table th),
+   500 (base/headings), 600 (subheads, labels),
+   700 (CTAs, flags, eyebrows)
+   Fallback: Helvetica Neue, Arial, sans-serif
+───────────────────────────────────────────── */
+
+/* MetroflexWide is served by the Shopify CDN at runtime.
+   For standalone wireframe use, swap the src below with
+   the CDN URL once confirmed, or use a local copy. */
+/* @font-face {
+  font-family: 'MetroflexWide';
+  src: url('fonts/MetroflexWide-Regular.woff2') format('woff2');
+  font-weight: 300 700;
+  font-display: swap;
+} */
+
+/* ─────────────────────────────────────────────
+   CSS CUSTOM PROPERTIES
+───────────────────────────────────────────── */
+:root {
+
+  /* ── TYPOGRAPHY ──────────────────────────── */
+  --font-primary:       "MetroflexWide", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-fallback:      -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+
+  --font-weight-light:      300;  /* body copy, RTE paragraphs */
+  --font-weight-regular:    400;  /* table headers */
+  --font-weight-medium:     500;  /* default body / nav */
+  --font-weight-semibold:   600;  /* subheadings, labels, footer links */
+  --font-weight-bold:       700;  /* CTAs, product flags, eyebrows */
+
+  /* Type scale — rem-free; wireframes use px throughout */
+  --text-xxs:   10px;   /* section labels, legal, press labels */
+  --text-xs:    11px;   /* eyebrows, cat-links, product swatches */
+  --text-sm:    12px;   /* announcement bar, proof-attr, footer legal */
+  --text-body:  15px;   /* default body (wireframes) */
+  --text-base:  16px;   /* theme base size (settings_data type_base_size) */
+  --text-md:    13px;   /* nav links, button labels, card names */
+  --text-lg:    14px;   /* body copy, card desc, feature desc */
+  --text-xl:    17px;   /* proof quote */
+  --text-2xl:   22px;   /* section headlines, email headline, feature-story */
+  --text-3xl:   25px;   /* theme header base (type_header_base_size) */
+  --text-4xl:   28px;   /* mobile hero headline */
+  --text-5xl:   36px;   /* desktop hero headline, page-subtitles */
+
+  /* Line heights */
+  --leading-none:     1;
+  --leading-tight:    1.2;
+  --leading-snug:     1.25;
+  --leading-normal:   1.5;
+  --leading-relaxed:  1.6;
+
+  /* Letter spacing */
+  --tracking-tighter: 0.03em;
+  --tracking-tight:   0.04em;
+  --tracking-normal:  0.05em;
+  --tracking-wide:    0.06em;
+  --tracking-wider:   0.08em;
+  --tracking-widest:  0.1em;
+  --tracking-super:   0.12em;
+
+  /* ── COLOR PALETTE ───────────────────────── */
+  /*
+   * Source: config/settings_data.json → "current" → "color_schemes"
+   *
+   * Scheme reference:
+   *   background-1 (primary)   bg #fafafa  / text #42515e / btn #c74a1b
+   *   scheme-d7e1f445 (card)   bg #f9f6f4  / text #42515e / btn #c74a1b  ← default
+   *   background-2 (inverse)   bg #c74a1b  / text #fafafa / btn #fafafa
+   *   scheme-b7e30a55 (dark)   bg #42515e  / text #f9f6f4 / btn #c74a1b
+   *   scheme-2faf574b (light)  bg #eeeff0  / text #42515e / btn #c74a1b
+   *   scheme-9af46b95 (white)  bg #ffffff  / text #42515e / btn #c74a1b
+   *   inverse                  bg #121212  / text #ffffff
+   */
+
+  /* Brand primaries */
+  --color-slate:       #42515e;   /* foreground / primary text */
+  --color-paprika:     #c74a1b;   /* accent / CTA — "Paprika PMS 7619" */
+  --color-cream:       #f9f6f4;   /* primary surface / page background */
+
+  /* Grays & neutrals */
+  --color-pure-white:  #ffffff;
+  --color-white:       #fafafa;   /* background-1 scheme bg */
+  --color-dark:        #121212;   /* inverse / darkest UI */
+  --color-muted:       #a09c9b;   /* breadcrumbs, muted icons, placeholder text */
+
+  /* Surfaces (light → dark) */
+  --color-surface-0:   #ffffff;   /* pure white cards / inputs */
+  --color-surface-1:   #fafafa;   /* background-1 scheme */
+  --color-surface-2:   #f9f6f4;   /* default card / page surface (cream) */
+  --color-surface-3:   #eeeff0;   /* light scheme / checkout sidebar */
+  --color-surface-4:   #e4e5e6;   /* scheme-9933 / subtle chips */
+  --color-surface-5:   #dedfe0;   /* footer background / heavier dividers */
+
+  /* Borders */
+  --color-border:      #dedfe0;   /* primary border — matches footer bg */
+  --color-border-mid:  #d0d0d0;   /* wireframe mid border (filter btn, density) */
+  --color-border-light:#e8e8e8;   /* wireframe light section dividers */
+  --color-border-faint:#f0f0f0;   /* very faint inner borders */
+
+  /* Semantic / contextual */
+  --color-error:       #de2a2a;   /* checkout_error_color */
+  --color-checkout:    #335c84;   /* checkout_button_color */
+  --color-loop:        #c74a1b;   /* Loop returns bar color (same as paprika) */
+
+  /* On-color text helpers */
+  --color-on-paprika:  #ffffff;
+  --color-on-slate:    #f9f6f4;
+  --color-on-dark:     #ffffff;
+  --color-on-cream:    #42515e;
+
+  /* Alpha variants (matches Shopify --alpha-* vars) */
+  --color-slate-10:    rgba(66, 81, 94, 0.10);  /* background-secondary */
+  --color-slate-20:    rgba(66, 81, 94, 0.20);
+  --color-slate-35:    rgba(66, 81, 94, 0.35);  /* icon placeholder fill */
+  --color-slate-85:    rgba(66, 81, 94, 0.85);  /* --alpha-link */
+
+  /* ── SPACING SCALE ───────────────────────── */
+  /* Base unit: 4px. Grid spacing from settings: 28px horizontal + vertical */
+  --space-0:    0px;
+  --space-1:    4px;
+  --space-2:    8px;
+  --space-3:    12px;
+  --space-4:    16px;   /* standard mobile gutter */
+  --space-5:    20px;   /* page gutter (base.css .page-width padding) */
+  --space-6:    24px;
+  --space-7:    28px;   /* spacing_grid_horizontal / vertical */
+  --space-8:    32px;
+  --space-9:    36px;
+  --space-10:   40px;
+  --space-12:   48px;
+  --space-14:   56px;
+  --space-16:   64px;
+  --space-20:   80px;
+
+  /* Named aliases */
+  --gutter-mobile:    var(--space-4);  /* 16px  — all wireframe mobile padding */
+  --gutter-desktop:   var(--space-10); /* 40px  — desktop section padding */
+  --grid-gap:         var(--space-7);  /* 28px  — settings_data grid gap */
+  --grid-gap-sm:      var(--space-2);  /* 8px   — mobile card gaps */
+  --section-gap-mobile: var(--space-7);
+  --section-gap-desktop: var(--space-10);
+
+  /* ── LAYOUT ──────────────────────────────── */
+  --page-width:        1300px;         /* settings_data page_width */
+  --page-width-wide:   1200px;         /* section-footer.css .page-width--wide */
+  --header-height-mobile:  48px;
+  --header-height-desktop: 64px;
+
+  /* ── BORDER RADIUS ───────────────────────── */
+  /* Theme uses 0 for buttons, cards, inputs — sharp is the brand aesthetic */
+  --radius-none:   0px;
+  --radius-sm:     2px;   /* wireframe button / badge / UGC thumb radius */
+  --radius-md:     4px;   /* popup / social icon in wireframes */
+  --radius-pill:   20px;  /* filter pills, cart badges, swatches (circular) */
+  --radius-full:   40px;  /* variant_pills_radius from theme settings */
+  --radius-circle: 50%;   /* swatch dots */
+
+  /* Canonical component radii (from settings_data "current") */
+  --radius-btn:    var(--radius-none);   /* buttons_radius: 0 */
+  --radius-card:   var(--radius-none);   /* card_corner_radius: 0 */
+  --radius-input:  var(--radius-none);   /* inputs_radius: 0 */
+  --radius-media:  var(--radius-none);   /* media_radius: 0 */
+  --radius-badge:  var(--radius-full);   /* badge_corner_radius: 40 */
+
+  /* ── SHADOWS ─────────────────────────────── */
+  /* All shadow opacities in settings_data are 0 — no shadows in this theme */
+  --shadow-none:   none;
+  --shadow-sm:     0 1px 3px rgba(66, 81, 94, 0.08);  /* reserved for future use */
+  --shadow-md:     0 2px 8px rgba(66, 81, 94, 0.12);
+
+  /* ── TRANSITIONS ─────────────────────────── */
+  --duration-short:  150ms;
+  --duration-base:   200ms;
+  --duration-long:   300ms;
+  --ease-default:    ease;
+
+  /* ── Z-INDEX ─────────────────────────────── */
+  --z-base:      0;
+  --z-raised:    1;
+  --z-dropdown:  90;
+  --z-sticky:    90;   /* filter bar, header */
+  --z-header:    100;
+  --z-drawer:    200;
+  --z-modal:     300;
+  --z-toast:     400;
+
+  /* ── COMPONENT ALIASES ───────────────────── */
+
+  /* Announcement bar */
+  --announcement-bg:        var(--color-slate);
+  --announcement-text:      var(--color-on-slate);
+  --announcement-font-size: var(--text-sm);
+  --announcement-padding:   9px var(--gutter-mobile);
+
+  /* Header */
+  --header-bg:              var(--color-pure-white);
+  --header-border:          var(--color-border);
+  --header-logo-color:      var(--color-slate);
+  --header-nav-color:       var(--color-slate);
+  --header-nav-font-size:   var(--text-md);
+  --header-nav-weight:      var(--font-weight-semibold);
+  --header-nav-tracking:    var(--tracking-tight);
+
+  /* Cart badge */
+  --badge-bg:               var(--color-slate);
+  --badge-text:             var(--color-pure-white);
+  --badge-size:             16px;
+
+  /* Buttons — primary (paprika fill) */
+  --btn-primary-bg:         var(--color-paprika);
+  --btn-primary-text:       var(--color-on-paprika);
+  --btn-primary-padding:    13px 24px;
+  --btn-primary-font-size:  var(--text-md);
+  --btn-primary-weight:     var(--font-weight-bold);
+  --btn-primary-tracking:   var(--tracking-tight);
+  --btn-primary-radius:     var(--radius-btn);
+
+  /* Buttons — secondary (slate outline) */
+  --btn-secondary-bg:       transparent;
+  --btn-secondary-border:   var(--color-slate);
+  --btn-secondary-text:     var(--color-slate);
+  --btn-secondary-width:    2px;
+  --btn-secondary-padding:  12px 20px;
+  --btn-secondary-radius:   var(--radius-btn);
+
+  /* Buttons — dark (slate fill, used in hero desktop) */
+  --btn-dark-bg:            var(--color-slate);
+  --btn-dark-text:          var(--color-on-slate);
+
+  /* Inputs / forms */
+  --input-bg:               var(--color-pure-white);
+  --input-text:             var(--color-slate);
+  --input-placeholder:      var(--color-muted);
+  --input-padding:          14px var(--gutter-mobile);
+  --input-font-size:        var(--text-base);
+  --input-radius:           var(--radius-input);
+
+  /* Product cards */
+  --card-bg:                var(--color-surface-2);
+  --card-img-bg:            var(--color-surface-5);   /* placeholder color */
+  --card-name-size:         var(--text-md);
+  --card-name-weight:       var(--font-weight-semibold);
+  --card-price-size:        var(--text-md);
+  --card-price-color:       var(--color-slate);
+  --card-stars-size:        var(--text-xs);
+  --card-stars-color:       var(--color-slate);
+  --card-swatch-size:       14px;
+  --card-radius:            var(--radius-card);
+
+  /* Product flags (Best Seller, Sale) */
+  --flag-bg:                var(--color-slate);
+  --flag-text:              var(--color-pure-white);
+  --flag-font-size:         var(--text-xxs);
+  --flag-weight:            var(--font-weight-bold);
+  --flag-padding:           2px 7px;
+  --flag-tracking:          var(--tracking-tight);
+
+  /* Section labels / headings */
+  --section-heading-size:   var(--text-xs);
+  --section-heading-weight: var(--font-weight-bold);
+  --section-heading-color:  var(--color-muted);
+  --section-heading-tracking: var(--tracking-wider);
+
+  /* Eyebrow labels (hero, feature) */
+  --eyebrow-size:           var(--text-xs);
+  --eyebrow-weight:         var(--font-weight-bold);
+  --eyebrow-tracking:       var(--tracking-widest);
+  --eyebrow-color:          var(--color-muted);
+
+  /* Filter pills (active) */
+  --pill-active-bg:         var(--color-slate);
+  --pill-active-text:       var(--color-pure-white);
+  --pill-inactive-bg:       transparent;
+  --pill-inactive-border:   var(--color-border-mid);
+  --pill-radius:            var(--radius-pill);
+
+  /* Social icons (footer) */
+  --social-icon-border:     var(--color-border);
+  --social-icon-color:      var(--color-muted);
+  --social-icon-size:       36px;
+  --social-icon-radius:     var(--radius-md);
+
+  /* Footer */
+  --footer-bg:              var(--color-surface-5);   /* #dedfe0 */
+  --footer-text:            var(--color-slate);
+  --footer-link-color:      var(--color-slate);
+  --footer-border:          var(--color-border);
+  --footer-heading-size:    var(--text-xs);
+  --footer-heading-weight:  var(--font-weight-bold);
+  --footer-heading-tracking:var(--tracking-wider);
+  --footer-heading-color:   var(--color-muted);
+  --footer-link-size:       var(--text-md);
+
+  /* Email capture (dark section) */
+  --email-bg:               var(--color-slate);
+  --email-text:             var(--color-on-slate);
+  --email-muted:            rgba(249, 246, 244, 0.7);
+  --email-legal:            rgba(249, 246, 244, 0.45);
+}
+
+/* ─────────────────────────────────────────────
+   GLOBAL RESETS  (matches base.css)
+───────────────────────────────────────────── */
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+}
+
+/* ─────────────────────────────────────────────
+   BASE STYLES  (shared across all wireframes)
+───────────────────────────────────────────── */
+body {
+  font-family: var(--font-primary);
+  font-size: var(--text-base);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-slate);
+  background-color: var(--color-cream);
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: var(--color-slate);
+  text-decoration: none;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-primary);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-slate);
+  line-height: var(--leading-tight);
+}
+
+/* ─────────────────────────────────────────────
+   UTILITY CLASSES
+───────────────────────────────────────────── */
+
+/* Layout */
+.ds-page-width {
+  max-width: var(--page-width);
+  margin: 0 auto;
+  padding: 0 var(--space-5);
+}
+
+.ds-page-width-desktop {
+  max-width: var(--page-width);
+  margin: 0 auto;
+  padding: 0 var(--gutter-desktop);
+}
+
+/* Visually hidden (a11y) */
+.ds-visually-hidden {
+  position: absolute !important;
+  overflow: hidden;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+  clip: rect(0 0 0 0);
+}

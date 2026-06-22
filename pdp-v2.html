@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Britt X Ultralight Work Pant — Dovetail Workwear</title>
+  <link rel="stylesheet" href="design-system.css">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body { max-width: 390px; margin: 0 auto; }
+
+    /* ────────────────────────────
+       HEADER
+    ──────────────────────────── */
+    .site-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 var(--gutter-mobile);
+      height: var(--header-height-mobile);
+      border-bottom: 1px solid var(--color-border);
+      position: sticky;
+      top: 0;
+      background: var(--color-cream);
+      z-index: var(--z-header);
+    }
+    .header-hamburger {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      background: none;
+      border: none;
+      padding: 0;
+      cursor: pointer;
+      width: 24px;
+    }
+    .header-hamburger span { display: block; height: 2px; background: var(--color-slate); }
+    .header-logo {
+      font-size: 15px;
+      font-weight: var(--font-weight-bold);
+      letter-spacing: var(--tracking-super);
+      color: var(--color-slate);
+      text-decoration: none;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    .header-actions { display: flex; align-items: center; gap: var(--space-4); }
+    .header-icon {
+      color: var(--color-slate);
+      font-size: 18px;
+      position: relative;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+    }
+    .cart-count {
+      position: absolute;
+      top: -5px; right: -7px;
+      background: var(--color-paprika);
+      color: #fff;
+      font-size: 9px;
+      font-weight: var(--font-weight-bold);
+      width: 16px; height: 16px;
+      border-radius: var(--radius-circle);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .desktop-nav { display: none; }
+    .header-search-text { display: none; }
+
+    /* ────────────────────────────
+       SCREEN 1 — GALLERY
+    ──────────────────────────── */
+    .gallery {
+      position: relative;
+      background: var(--color-surface-3);
+      width: 100%;
+      aspect-ratio: 4/5;
+      overflow: hidden;
+    }
+    .gallery img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .gallery-badge {
+      position: absolute;
+      top: var(--space-3);
+      left: var(--space-3);
+      background: var(--color-slate);
+      color: var(--color-cream);
+      font-size: 10px;
+      font-weight: var(--font-weight-bold);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 4px 9px;
+    }
+    .gallery-model {
+      position: absolute;
+      bottom: var(--space-3);
+      left: var(--space-3);
+      font-size: 10px;
+      color: #fff;
+      background: rgba(21, 26, 30, 0.55);
+      padding: 3px var(--space-2);
+    }
+    .gallery-dots {
+      position: absolute;
+      top: var(--space-3);
+      right: var(--space-3);
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+    .gallery-dot { width: 6px; height: 6px; border-radius: 50%; background: rgba(255,255,255,0.4); }
+    .gallery-dot.active { background: #fff; }
+
+    /* ────────────────────────────
+       SCREEN 1 — SHOPBOX
+    ──────────────────────────── */
+    .shopbox { padding: var(--space-5) var(--gutter-mobile) var(--space-8); }
+
+    .product-title {
+      font-size: 26px;
+      font-weight: var(--font-weight-bold);
+      line-height: 1.15;
+      color: var(--color-slate);
+      letter-spacing: -0.015em;
+      margin-bottom: var(--space-3);
+    }
+    .reviews-row {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      margin-bottom: var(--space-4);
+    }
+    .stars { color: var(--color-paprika); font-size: 15px; letter-spacing: -1px; }
+    .review-count {
+      font-size: 12px;
+      color: var(--color-slate);
+      opacity: 0.7;
+      text-decoration: underline;
+      text-underline-offset: 2px;
+      background: none;
+      border: none;
+      font-family: var(--font-primary);
+      cursor: pointer;
+      padding: 0;
+    }
+    .price-row {
+      display: flex;
+      align-items: baseline;
+      gap: var(--space-2);
+      margin-bottom: var(--space-5);
+    }
+    .price { font-size: 20px; font-weight: var(--font-weight-bold); color: var(--color-slate); }
+    .price-original { font-size: 14px; color: var(--color-muted); text-decoration: line-through; }
+    .price-save {
+      font-size: 11px;
+      font-weight: var(--font-weight-bold);
+      color: var(--color-paprika);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .selector-label {
+      font-size: 11px;
+      font-weight: var(--font-weight-bold);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--color-slate);
+      margin-bottom: var(--space-2);
+    }
+    .selector-label span {
+      font-weight: var(--font-weight-regular);
+      text-transform: none;
+      letter-spacing: 0;
+      opacity: 0.65;
+    }
+
+    .color-chips { display: flex; gap: var(--space-2); flex-wrap: wrap; margin-bottom: var(--space-5); }
+    .color-chip {
+      width: 32px; height: 32px;
+      border-radius: var(--radius-circle);
+      border: 2px solid var(--color-border);
+      cursor: pointer;
+      position: relative;
+    }
+    .color-chip.selected {
+      box-shadow: 0 0 0 2px var(--color-cream), 0 0 0 4px var(--color-slate);
+    }
+    .color-chip.is-new::after {
+      content: '';
+      position: absolute;
+      top: -2px; right: -2px;
+      width: 9px; height: 9px;
+      border-radius: 50%;
+      background: var(--color-paprika);
+      border: 1.5px solid var(--color-cream);
+    }
+
+    .size-row { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-3); margin-bottom: var(--space-2); }
+    .size-col-label { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: var(--space-2); }
+    .size-chart-link {
+      font-size: 11px;
+      color: var(--color-slate);
+      opacity: 0.65;
+      text-decoration: underline;
+      text-underline-offset: 2px;
+      background: none;
+      border: none;
+      font-family: var(--font-primary);
+      cursor: pointer;
+      padding: 0;
+    }
+    .size-select {
+      width: 100%;
+      padding: 12px var(--space-3);
+      border: 1.5px solid var(--color-border-mid);
+      border-radius: 0;
+      font-size: 13px;
+      font-family: var(--font-primary);
+      font-weight: var(--font-weight-semibold);
+      color: var(--color-slate);
+      background: var(--color-cream)
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%2342515e' stroke-width='1.5' fill='none'/%3E%3C/svg%3E")
+        no-repeat right 14px center;
+      appearance: none;
+      cursor: pointer;
+    }
+    .size-select:focus { outline: none; border-color: var(--color-slate); }
+    .size-note { font-size: 12px; color: var(--color-muted); margin-bottom: var(--space-5); }
+
+    .btn-atc {
+      display: block;
+      width: 100%;
+      padding: 18px;
+      background: var(--color-paprika);
+      color: #fff;
+      font-family: var(--font-primary);
+      font-size: 14px;
+      font-weight: var(--font-weight-bold);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      border: none;
+      cursor: pointer;
+      margin-bottom: var(--space-3);
+    }
+    .btn-shop-pay {
+      display: block;
+      width: 100%;
+      padding: 16px;
+      background: transparent;
+      color: var(--color-slate);
+      font-family: var(--font-primary);
+      font-size: 13px;
+      font-weight: var(--font-weight-bold);
+      letter-spacing: 0.06em;
+      border: 2px solid var(--color-slate);
+      cursor: pointer;
+      margin-bottom: var(--space-5);
+    }
+    .trust-row {
+      display: flex;
+      justify-content: center;
+      gap: var(--space-3);
+      flex-wrap: wrap;
+      margin-bottom: var(--space-3);
+    }
+    .trust-item {
+      font-size: 10px;
+      font-weight: var(--font-weight-bold);
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      color: var(--color-muted);
+    }
+    .installment-note { font-size: 12px; color: var(--color-muted); text-align: center; }
+
+    /* ────────────────────────────
+       SCREEN 2 — DESCRIPTION + REVIEWS
+    ──────────────────────────── */
+    .section-block {
+      padding: var(--space-7) var(--gutter-mobile);
+      border-top: 1px solid var(--color-border);
+    }
+    .section-eyebrow {
+      font-size: 10px;
+      font-weight: var(--font-weight-bold);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--color-muted);
+      margin-bottom: var(--space-4);
+    }
+    .product-desc {
+      font-size: 15px;
+      font-weight: var(--font-weight-regular);
+      color: var(--color-slate);
+      line-height: 1.65;
+    }
+
+    .review-highlight {
+      display: flex;
+      gap: var(--space-3);
+      align-items: flex-start;
+      padding: var(--space-4) 0;
+      border-top: 1px solid var(--color-border-light);
+    }
+    .review-highlight:first-of-type { border-top: none; }
+    .rh-body { flex: 1; }
+    .rh-stars { color: var(--color-paprika); font-size: 12px; letter-spacing: -1px; margin-bottom: 6px; }
+    .rh-quote {
+      font-size: 15px;
+      font-weight: var(--font-weight-bold);
+      line-height: 1.35;
+      color: var(--color-slate);
+      margin-bottom: 5px;
+    }
+    .rh-attr {
+      font-size: 10px;
+      font-weight: var(--font-weight-bold);
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      color: var(--color-muted);
+    }
+    .rh-photo {
+      flex: 0 0 56px;
+      width: 56px; height: 72px;
+      background: var(--color-surface-5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 9px;
+      color: var(--color-muted);
+      text-align: center;
+    }
+    .all-reviews-link {
+      display: inline-block;
+      margin-top: var(--space-5);
+      font-size: 12px;
+      font-weight: var(--font-weight-bold);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--color-slate);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      background: none;
+      border: none;
+      font-family: var(--font-primary);
+      cursor: pointer;
+      padding: 0;
+    }
+
+    /* ────────────────────────────
+       SCREEN 3 — DETAILS TABS + SIZE & FIT
+    ──────────────────────────── */
+    .tabs-nav {
+      display: flex;
+      border-bottom: 2px solid var(--color-border);
+      margin-bottom: var(--space-5);
+    }
+    .tab-btn {
+      flex: 1;
+      padding: var(--space-3) 0;
+      background: none;
+      border: none;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -2px;
+      font-family: var(--font-primary);
+      font-size: 11px;
+      font-weight: var(--font-weight-bold);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--color-muted);
+      cursor: pointer;
+    }
+    .tab-btn.active { color: var(--color-slate); border-bottom-color: var(--color-slate); }
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+    .tab-row { display: flex; gap: var(--space-3); margin-bottom: var(--space-3); }
+    .tab-row:last-child { margin-bottom: 0; }
+    .tab-label {
+      font-size: 10px;
+      font-weight: var(--font-weight-bold);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--color-slate);
+      flex: 0 0 72px;
+      padding-top: 2px;
+    }
+    .tab-value { font-size: 14px; font-weight: var(--font-weight-regular); color: var(--color-slate); line-height: 1.5; }
+
+    .fit-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-4) var(--space-5);
+      margin-bottom: var(--space-5);
+    }
+    .fit-key {
+      font-size: 10px;
+      font-weight: var(--font-weight-bold);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--color-muted);
+      margin-bottom: 4px;
+    }
+    .fit-val { font-size: 15px; font-weight: var(--font-weight-bold); color: var(--color-slate); }
+    .fit-tags { display: flex; gap: var(--space-2); flex-wrap: wrap; }
+    .fit-tag {
+      font-size: 12px;
+      font-weight: var(--font-weight-bold);
+      color: var(--color-slate);
+      padding: 5px 10px;
+      border: 1.5px solid var(--color-border-mid);
+      letter-spacing: 0.03em;
+    }
+
+    /* ────────────────────────────
+       DESKTOP ≥ 1024px
+    ──────────────────────────── */
+    @media (min-width: 1024px) {
+      body { max-width: none; }
+
+      .site-header {
+        padding: 0 var(--gutter-desktop);
+        height: var(--header-height-desktop);
+        display: grid;
+        grid-template-columns: 200px 1fr 200px;
+        align-items: center;
+      }
+      .header-hamburger { display: none; }
+      .header-logo { position: static; transform: none; font-size: 17px; }
+      .desktop-nav { display: flex; align-items: center; justify-content: center; gap: var(--space-8); }
+      .desktop-nav a {
+        font-size: 11px;
+        font-weight: var(--font-weight-bold);
+        letter-spacing: 0.1em;
+        color: var(--color-slate);
+        text-decoration: none;
+        text-transform: uppercase;
+      }
+      .header-actions { justify-content: flex-end; }
+      .header-search-text {
+        display: block;
+        font-size: 11px;
+        font-weight: var(--font-weight-bold);
+        letter-spacing: 0.08em;
+        color: var(--color-slate);
+        background: none;
+        border: none;
+        font-family: var(--font-primary);
+        cursor: pointer;
+        text-transform: uppercase;
+        padding: 0;
+      }
+
+      .pdp-layout {
+        display: grid;
+        grid-template-columns: 55% 45%;
+        max-width: var(--page-width);
+        margin: 0 auto;
+        align-items: start;
+      }
+      .pdp-gallery-col { position: sticky; top: var(--header-height-desktop); }
+      .gallery {
+        aspect-ratio: unset;
+        height: calc(100vh - var(--header-height-desktop));
+        max-height: 900px;
+      }
+      .pdp-shopbox-col { padding: var(--space-10) var(--space-10) var(--space-10) var(--space-8); }
+      .shopbox { padding: 0; }
+      .product-title { font-size: 32px; }
+
+      .below-fold {
+        max-width: var(--page-width);
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+      }
+      .section-block { border-right: 1px solid var(--color-border); }
+      .section-block:nth-child(even) { border-right: none; }
+
+      .review-highlights-inner {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0 var(--space-8);
+      }
+      .review-highlight { border-top: 1px solid var(--color-border-light); }
+      .review-highlight:nth-child(-n+2) { border-top: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════
+     SCREEN 1 — HEADER + GALLERY + SHOPBOX
+══════════════════════════════════════════ -->
+
+<header class="site-header">
+  <button class="header-hamburger" aria-label="Open menu">
+    <span></span><span></span><span></span>
+  </button>
+  <a href="#" class="header-logo">DOVETAIL</a>
+  <nav class="desktop-nav" aria-label="Primary">
+    <a href="#">Pants</a>
+    <a href="#">Shorts</a>
+    <a href="#">Tops</a>
+    <a href="#">Overalls</a>
+    <a href="#">Sale</a>
+  </nav>
+  <div class="header-actions">
+    <button class="header-search-text">Search</button>
+    <a href="#" class="header-icon" aria-label="Cart, 2 items">🛒<span class="cart-count">2</span></a>
+  </div>
+</header>
+
+<div class="pdp-layout">
+
+  <div class="pdp-gallery-col">
+    <div class="gallery">
+      <div class="gallery-badge">Best Seller</div>
+      <img
+        src="https://dovetailworkwear.com/cdn/shop/files/Dovetail-2025-S26-Studio-Web-Charla-GOTOPantTerracotta-034-Edit_426c507b-5aa6-43b7-83cb-e9a9dc4cdf98MODEL-267.jpg?v=1772742524&width=900"
+        alt="Britt X Ultralight Work Pant — model on job site, wearing size 6"
+      >
+      <div class="gallery-model">Kitty, 5'7" / size 6</div>
+      <div class="gallery-dots" aria-hidden="true">
+        <div class="gallery-dot active"></div>
+        <div class="gallery-dot"></div>
+        <div class="gallery-dot"></div>
+        <div class="gallery-dot"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="pdp-shopbox-col">
+    <div class="shopbox">
+
+      <h1 class="product-title">Britt X Ultralight Work Pant</h1>
+
+      <div class="reviews-row">
+        <span class="stars" aria-label="4.8 out of 5 stars">★★★★★</span>
+        <button class="review-count">4.8 (312 reviews)</button>
+      </div>
+
+      <div class="price-row">
+        <span class="price">$119</span>
+        <span class="price-original">$139</span>
+        <span class="price-save">Save $20</span>
+      </div>
+
+      <div class="selector-label">Color: <span>Flax</span></div>
+      <div class="color-chips" role="radiogroup" aria-label="Select color">
+        <div class="color-chip selected" style="background:#d4c9a8;" title="Flax" role="radio" aria-checked="true" tabindex="0"></div>
+        <div class="color-chip" style="background:#2a2a2a;" title="Black" role="radio" aria-checked="false" tabindex="0"></div>
+        <div class="color-chip is-new" style="background:#5a6e5c;" title="Sage — New" role="radio" aria-checked="false" tabindex="0"></div>
+        <div class="color-chip is-new" style="background:#8b6f5e;" title="Terracotta — New" role="radio" aria-checked="false" tabindex="0"></div>
+        <div class="color-chip" style="background:#c0c0c0;" title="Stone" role="radio" aria-checked="false" tabindex="0"></div>
+      </div>
+
+      <div class="size-row">
+        <div>
+          <div class="size-col-label">
+            <span class="selector-label" style="margin:0;">Size</span>
+            <button class="size-chart-link">Size Chart</button>
+          </div>
+          <select class="size-select" aria-label="Select size">
+            <option value="">Select Size</option>
+            <option>2</option>
+            <option>4</option>
+            <option>6</option>
+            <option disabled>8 — Sold Out</option>
+            <option>10</option>
+            <option>12</option>
+            <option>14</option>
+          </select>
+        </div>
+        <div>
+          <div class="size-col-label">
+            <span class="selector-label" style="margin:0;">Length</span>
+          </div>
+          <select class="size-select" aria-label="Select length">
+            <option value="">Select Length</option>
+            <option>28"</option>
+            <option>30"</option>
+            <option>32"</option>
+            <option>34"</option>
+          </select>
+        </div>
+      </div>
+      <p class="size-note">Customers say it <strong>fits true to size</strong>.</p>
+
+      <button class="btn-atc">Add to Cart</button>
+      <button class="btn-shop-pay">⚡ Buy with Shop Pay</button>
+
+      <div class="trust-row">
+        <span class="trust-item">Free Exchanges</span>
+        <span class="trust-item">·</span>
+        <span class="trust-item">Secure Checkout</span>
+        <span class="trust-item">·</span>
+        <span class="trust-item">Free Shipping $75+</span>
+      </div>
+      <p class="installment-note">4 payments of $29.75 with <strong>Shop Pay</strong></p>
+
+    </div>
+  </div>
+
+</div>
+
+<!-- ══════════════════════════════════════════
+     SCREEN 2 — DESCRIPTION + CUSTOMER REVIEWS
+══════════════════════════════════════════ -->
+<div class="below-fold">
+
+  <div class="section-block">
+    <div class="section-eyebrow">About This Product</div>
+    <p class="product-desc">Built for the job site and beyond. The Britt X Ultralight combines our most breathable fabric with a straight-leg fit designed for women who work hard. Reinforced knees, tool loops, a hip slot — everything you need, nothing you don't.</p>
+  </div>
+
+  <div class="section-block">
+    <div class="section-eyebrow">Customer Reviews · 4.8 (312)</div>
+    <div class="review-highlights-inner">
+      <div class="review-highlight">
+        <div class="rh-body">
+          <div class="rh-stars">★★★★★</div>
+          <div class="rh-quote">"Best work pants I've ever owned."</div>
+          <div class="rh-attr">Sarah K. · Verified Buyer</div>
+        </div>
+        <div class="rh-photo">UGC</div>
+      </div>
+      <div class="review-highlight">
+        <div class="rh-body">
+          <div class="rh-stars">★★★★★</div>
+          <div class="rh-quote">"So lightweight — the fabric is unreal."</div>
+          <div class="rh-attr">Jess M. · Verified Buyer</div>
+        </div>
+        <div class="rh-photo">UGC</div>
+      </div>
+      <div class="review-highlight">
+        <div class="rh-body">
+          <div class="rh-stars">★★★★★</div>
+          <div class="rh-quote">"Fit is perfect. 6 months of daily wear and still going."</div>
+          <div class="rh-attr">Mara T. · Verified Buyer</div>
+        </div>
+      </div>
+    </div>
+    <button class="all-reviews-link">Read all 312 reviews →</button>
+  </div>
+
+<!-- ══════════════════════════════════════════
+     SCREEN 3 — PRODUCT DETAILS + SIZE & FIT
+══════════════════════════════════════════ -->
+
+  <div class="section-block">
+    <div class="tabs-nav">
+      <button class="tab-btn active" onclick="showTab('details', this)">Details</button>
+      <button class="tab-btn" onclick="showTab('care', this)">Care</button>
+    </div>
+    <div id="tab-details" class="tab-panel active">
+      <div class="tab-row">
+        <span class="tab-label">Fabric</span>
+        <span class="tab-value">94% nylon, 6% spandex. UPF 50+. Moisture-wicking.</span>
+      </div>
+      <div class="tab-row">
+        <span class="tab-label">Features</span>
+        <span class="tab-value">Reinforced knees · Hip slot · Twine hole · Tool loops · 6 pockets</span>
+      </div>
+    </div>
+    <div id="tab-care" class="tab-panel">
+      <div class="tab-row"><span class="tab-label">Wash</span><span class="tab-value">Machine wash cold</span></div>
+      <div class="tab-row"><span class="tab-label">Dry</span><span class="tab-value">Tumble dry low</span></div>
+      <div class="tab-row"><span class="tab-label">Iron</span><span class="tab-value">Do not iron</span></div>
+      <div class="tab-row"><span class="tab-label">Bleach</span><span class="tab-value">Do not bleach</span></div>
+    </div>
+  </div>
+
+  <div class="section-block">
+    <div class="section-eyebrow">Size &amp; Fit</div>
+    <div class="fit-grid">
+      <div><div class="fit-key">Leg</div><div class="fit-val">Straight</div></div>
+      <div><div class="fit-key">Rise</div><div class="fit-val">Mid-rise</div></div>
+      <div><div class="fit-key">Waist</div><div class="fit-val">Relaxed</div></div>
+      <div><div class="fit-key">Stretch</div><div class="fit-val">4-way</div></div>
+    </div>
+    <div class="fit-key" style="margin-bottom:var(--space-2);">Works best for</div>
+    <div class="fit-tags">
+      <span class="fit-tag">Curvy</span>
+      <span class="fit-tag">Straight</span>
+      <span class="fit-tag">Apple</span>
+      <span class="fit-tag">Pear</span>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  function showTab(id, btn) {
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('tab-' + id).classList.add('active');
+    btn.classList.add('active');
+  }
+</script>
+</body>
+</html>

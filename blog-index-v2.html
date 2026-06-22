@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Journal — Dovetail Workwear v2</title>
+  <link rel="stylesheet" href="design-system.css">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: var(--font-primary);
+      font-size: var(--text-sm);
+      font-weight: var(--fw-regular);
+      color: var(--color-slate);
+      background: var(--color-cream);
+      max-width: 390px;
+      margin: 0 auto;
+    }
+
+    /* ── ANNOUNCEMENT BAR ── */
+    .announcement-bar {
+      background: var(--color-slate);
+      color: #fff;
+      text-align: center;
+      font-size: var(--text-xs);
+      font-weight: var(--fw-semibold);
+      letter-spacing: 0.05em;
+      padding: 9px 16px;
+    }
+
+    /* ── HEADER ── */
+    header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 12px 16px; border-bottom: 1px solid var(--color-border);
+      position: sticky; top: 0; background: #fff; z-index: var(--z-sticky);
+    }
+    .header-menu { font-size: 22px; cursor: pointer; color: var(--color-slate); }
+    .header-logo {
+      font-weight: var(--fw-bold); font-size: var(--text-base);
+      letter-spacing: 0.06em; text-transform: uppercase; color: var(--color-slate);
+      position: absolute; left: 50%; transform: translateX(-50%);
+    }
+    .header-icons { display: flex; gap: 14px; }
+    .header-icon { font-size: 20px; color: var(--color-slate); cursor: pointer; }
+    .header-cart { position: relative; font-size: 20px; color: var(--color-slate); cursor: pointer; }
+    .cart-badge {
+      position: absolute; top: -4px; right: -6px;
+      background: var(--color-paprika); color: #fff; border-radius: 50%;
+      font-size: 9px; font-weight: var(--fw-bold); width: 16px; height: 16px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .desktop-nav { display: none; }
+
+    /* ── BLOG HERO ── */
+    .blog-hero {
+      background: var(--color-slate);
+      color: #fff;
+      padding: 32px 16px 28px;
+      text-align: center;
+    }
+    .blog-eyebrow {
+      font-size: 11px;
+      font-weight: var(--fw-bold);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--color-paprika);
+      margin-bottom: 8px;
+    }
+    .blog-hero-title {
+      font-size: var(--text-3xl);
+      font-weight: var(--fw-bold);
+      letter-spacing: -0.02em;
+      line-height: var(--lh-tight);
+      margin-bottom: 10px;
+    }
+    .blog-hero-desc {
+      font-size: var(--text-sm);
+      opacity: 0.75;
+      font-weight: var(--fw-light);
+      line-height: var(--lh-relaxed);
+    }
+
+    /* ── CATEGORY FILTER TABS ── */
+    .blog-category-tabs {
+      display: flex;
+      gap: 0;
+      overflow-x: auto;
+      scrollbar-width: none;
+      background: #fff;
+      border-bottom: 1px solid var(--color-border);
+      padding: 0 16px;
+    }
+    .blog-category-tabs::-webkit-scrollbar { display: none; }
+    .blog-tab {
+      flex-shrink: 0;
+      padding: 12px 14px;
+      font-size: 12px;
+      font-weight: var(--fw-semibold);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--color-muted);
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      white-space: nowrap;
+      transition: var(--transition-base);
+    }
+    .blog-tab.active {
+      color: var(--color-slate);
+      border-bottom-color: var(--color-paprika);
+    }
+
+    /* ── FEATURED ARTICLE (hero card) ── */
+    .featured-article {
+      background: #fff;
+      border-bottom: 1px solid var(--color-border);
+    }
+    .featured-article-img {
+      width: 100%;
+      aspect-ratio: 16/9;
+      background: var(--color-surface-2);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--color-muted); font-size: 12px;
+    }
+    .featured-article-body { padding: 16px; }
+    .featured-article-category {
+      font-size: 10px;
+      font-weight: var(--fw-bold);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--color-paprika);
+      margin-bottom: 6px;
+    }
+    .featured-article-title {
+      font-size: var(--text-xl);
+      font-weight: var(--fw-bold);
+      color: var(--color-slate);
+      line-height: var(--lh-tight);
+      letter-spacing: -0.01em;
+      margin-bottom: 8px;
+    }
+    .featured-article-excerpt {
+      font-size: var(--text-sm);
+      color: var(--color-muted);
+      line-height: var(--lh-relaxed);
+      font-weight: var(--fw-light);
+      margin-bottom: 12px;
+    }
+    .article-meta {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 11px;
+      color: var(--color-muted);
+    }
+    .article-meta-author { font-weight: var(--fw-semibold); color: var(--color-slate); }
+    .article-meta-dot { width: 3px; height: 3px; border-radius: 50%; background: var(--color-muted); }
+    .btn-read-more {
+      display: inline-block;
+      padding: 10px 20px;
+      background: none;
+      border: 1.5px solid var(--color-slate);
+      border-radius: var(--radius-btn);
+      font-size: var(--text-xs);
+      font-weight: var(--fw-bold);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--color-slate);
+      cursor: pointer;
+      font-family: var(--font-primary);
+      margin-top: 14px;
+      transition: var(--transition-base);
+      text-decoration: none;
+    }
+    .btn-read-more:hover { background: var(--color-slate); color: #fff; }
+
+    /* ── ARTICLE GRID ── */
+    .blog-grid-section { padding: 20px 16px; }
+    .blog-grid-label {
+      font-size: 11px;
+      font-weight: var(--fw-bold);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--color-muted);
+      margin-bottom: 14px;
+    }
+    .blog-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+    .article-card { background: #fff; border: 1px solid var(--color-border); }
+    .article-card-img {
+      width: 100%;
+      aspect-ratio: 16/9;
+      background: var(--color-surface-2);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--color-muted); font-size: 11px;
+    }
+    .article-card-body { padding: 14px; }
+    .article-card-category {
+      font-size: 10px;
+      font-weight: var(--fw-bold);
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      color: var(--color-paprika);
+      margin-bottom: 5px;
+    }
+    .article-card-title {
+      font-size: var(--text-base);
+      font-weight: var(--fw-bold);
+      color: var(--color-slate);
+      line-height: var(--lh-tight);
+      letter-spacing: -0.01em;
+      margin-bottom: 6px;
+    }
+    .article-card-excerpt {
+      font-size: 12px;
+      color: var(--color-muted);
+      line-height: var(--lh-relaxed);
+      font-weight: var(--fw-light);
+      margin-bottom: 10px;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .article-card-meta {
+      font-size: 11px;
+      color: var(--color-muted);
+    }
+
+    /* ── LOAD MORE ── */
+    .load-more-row { padding: 24px 16px; text-align: center; }
+    .btn-load-more {
+      padding: 12px 32px;
+      border: 1.5px solid var(--color-slate);
+      color: var(--color-slate);
+      font-size: var(--text-xs);
+      font-weight: var(--fw-bold);
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      background: none;
+      border-radius: var(--radius-btn);
+      cursor: pointer;
+      font-family: var(--font-primary);
+      transition: var(--transition-base);
+    }
+    .btn-load-more:hover { background: var(--color-slate); color: #fff; }
+
+    /* ── EMAIL CAPTURE ── */
+    .blog-email {
+      background: var(--email-bg);
+      padding: 32px 16px;
+      text-align: center;
+    }
+    .blog-email-eyebrow {
+      font-size: 10px;
+      font-weight: var(--fw-bold);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--color-paprika);
+      margin-bottom: 8px;
+    }
+    .blog-email-title {
+      font-size: var(--text-xl);
+      font-weight: var(--fw-bold);
+      color: #fff;
+      margin-bottom: 6px;
+      line-height: var(--lh-tight);
+    }
+    .blog-email-sub {
+      font-size: 13px;
+      color: rgba(255,255,255,0.65);
+      margin-bottom: 18px;
+      font-weight: var(--fw-light);
+      line-height: var(--lh-relaxed);
+    }
+    .blog-email-form { display: flex; flex-direction: column; gap: 8px; }
+    .blog-email-input {
+      width: 100%;
+      padding: 12px 16px;
+      border: none;
+      border-bottom: 2px solid rgba(255,255,255,0.3);
+      background: transparent;
+      color: #fff;
+      font-size: var(--text-sm);
+      font-family: var(--font-primary);
+    }
+    .blog-email-input::placeholder { color: rgba(255,255,255,0.4); }
+    .blog-email-input:focus { border-bottom-color: #fff; outline: none; }
+    .btn-blog-email-sub {
+      padding: 13px;
+      background: var(--color-paprika);
+      color: #fff;
+      font-size: var(--text-xs);
+      font-weight: var(--fw-bold);
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      border: none;
+      border-radius: var(--radius-btn);
+      cursor: pointer;
+      font-family: var(--font-primary);
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--footer-bg);
+      padding: 28px 16px 0;
+    }
+    .footer-accordion-item { border-bottom: 1px solid var(--color-border); }
+    .footer-accordion-btn {
+      width: 100%; background: none; border: none;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 14px 0; font-family: var(--font-primary);
+      font-size: var(--text-sm); font-weight: var(--fw-semibold);
+      color: var(--color-slate); cursor: pointer;
+    }
+    .footer-bottom {
+      padding: 14px 0 20px;
+      font-size: 11px;
+      color: var(--color-muted);
+      border-top: 1px solid var(--color-border);
+    }
+
+    /* ── DESKTOP ── */
+    @media (min-width: 1024px) {
+      body { max-width: var(--page-width); }
+
+      header { padding: 0 48px; height: 68px; }
+      .header-menu { display: none; }
+      .header-logo { position: static; transform: none; font-size: var(--text-lg); }
+      .desktop-nav {
+        display: flex; align-items: center; gap: 32px; flex: 1; padding-left: 48px;
+      }
+      .desktop-nav a {
+        font-size: 13px; font-weight: var(--fw-semibold);
+        color: var(--color-slate); text-decoration: none;
+        letter-spacing: 0.03em; text-transform: uppercase;
+      }
+
+      .blog-hero { padding: 56px 48px; }
+      .blog-hero-title { font-size: var(--text-4xl); }
+
+      .blog-category-tabs { padding: 0 48px; }
+
+      /* Featured: text alongside image on desktop */
+      .featured-article {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+      }
+      .featured-article-img { aspect-ratio: unset; }
+      .featured-article-body { padding: 32px 48px 32px 40px; display: flex; flex-direction: column; justify-content: center; }
+      .featured-article-title { font-size: var(--text-3xl); }
+
+      .blog-grid-section { padding: 40px 48px; }
+      .blog-grid { grid-template-columns: 1fr 1fr 1fr; gap: 24px; }
+
+      .load-more-row { padding: 0 48px 40px; }
+
+      .blog-email { padding: 56px 48px; max-width: 560px; margin: 0 auto; }
+      .blog-email-form { flex-direction: row; gap: 0; }
+      .blog-email-input { flex: 1; border-right: none; }
+      .btn-blog-email-sub { white-space: nowrap; border-radius: 0; padding: 12px 24px; }
+
+      footer { padding: 48px 48px 0; }
+      .footer-grid {
+        display: grid; grid-template-columns: repeat(4, 1fr); gap: 40px; padding-bottom: 40px;
+      }
+      .footer-accordion-btn { cursor: default; pointer-events: none; }
+      .footer-bottom { display: flex; justify-content: space-between; padding: 20px 0 24px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="announcement-bar">Free shipping on orders over $75</div>
+
+  <header>
+    <button class="header-menu">&#9776;</button>
+    <nav class="desktop-nav">
+      <a href="#">Women</a><a href="#">Men</a><a href="#">Collections</a><a href="#">About</a>
+    </nav>
+    <a href="#" class="header-logo">Dovetail</a>
+    <div class="header-icons">
+      <button class="header-icon">&#128269;</button>
+      <button class="header-cart">&#128722;<span class="cart-badge">2</span></button>
+    </div>
+  </header>
+
+  <!-- Blog hero -->
+  <div class="blog-hero">
+    <div class="blog-eyebrow">The Dovetail Journal</div>
+    <h1 class="blog-hero-title">Stories from the Field</h1>
+    <p class="blog-hero-desc">Real tradeswomen, real workdays. Gear guides, career advice, and community stories.</p>
+  </div>
+
+  <!-- Category tabs -->
+  <div class="blog-category-tabs">
+    <div class="blog-tab active">All</div>
+    <div class="blog-tab">Work Life</div>
+    <div class="blog-tab">Gear Guides</div>
+    <div class="blog-tab">Community</div>
+    <div class="blog-tab">Sustainability</div>
+  </div>
+
+  <!-- Featured article -->
+  <div class="featured-article">
+    <div class="featured-article-img">Featured article image</div>
+    <div class="featured-article-body">
+      <div class="featured-article-category">Work Life</div>
+      <h2 class="featured-article-title">What Tradeswomen Wish Their Employers Knew About Fit</h2>
+      <p class="featured-article-excerpt">We surveyed 500 women in the trades about the biggest challenges they face with workwear — and the answers might surprise your HR team.</p>
+      <div class="article-meta">
+        <span class="article-meta-author">Maya Torres</span>
+        <span class="article-meta-dot"></span>
+        <span>June 18, 2026</span>
+        <span class="article-meta-dot"></span>
+        <span>6 min read</span>
+      </div>
+      <a href="#" class="btn-read-more">Read Article</a>
+    </div>
+  </div>
+
+  <!-- Article grid -->
+  <div class="blog-grid-section">
+    <div class="blog-grid-label">Latest Stories</div>
+    <div class="blog-grid">
+
+      <div class="article-card">
+        <div class="article-card-img">Article image</div>
+        <div class="article-card-body">
+          <div class="article-card-category">Gear Guides</div>
+          <h3 class="article-card-title">The Best Work Pants for Electricians in 2026</h3>
+          <p class="article-card-excerpt">From tool pocket placement to knee reinforcement, here's what actually matters when you're on a job site all day.</p>
+          <div class="article-card-meta">Maya Torres · June 12, 2026 · 4 min read</div>
+        </div>
+      </div>
+
+      <div class="article-card">
+        <div class="article-card-img">Article image</div>
+        <div class="article-card-body">
+          <div class="article-card-category">Community</div>
+          <h3 class="article-card-title">She Built a Career in Plumbing. Now She's Teaching the Next Generation.</h3>
+          <p class="article-card-excerpt">Angela Ruiz spent 20 years in residential plumbing before starting her own apprenticeship program in Phoenix.</p>
+          <div class="article-card-meta">Jamie Hill · June 5, 2026 · 8 min read</div>
+        </div>
+      </div>
+
+      <div class="article-card">
+        <div class="article-card-img">Article image</div>
+        <div class="article-card-body">
+          <div class="article-card-category">Sustainability</div>
+          <h3 class="article-card-title">How We Reduced Our Carbon Footprint by 30% in Two Years</h3>
+          <p class="article-card-excerpt">Our supply chain transparency report — what we changed, what we're still working on, and where we're headed.</p>
+          <div class="article-card-meta">Dovetail Team · May 28, 2026 · 5 min read</div>
+        </div>
+      </div>
+
+      <div class="article-card">
+        <div class="article-card-img">Article image</div>
+        <div class="article-card-body">
+          <div class="article-card-category">Work Life</div>
+          <h3 class="article-card-title">The Invisible Tax: How Poor-Fitting Gear Costs Tradeswomen Money</h3>
+          <p class="article-card-excerpt">When workwear doesn't fit, it slows you down. We crunched the numbers on productivity loss and safety risk.</p>
+          <div class="article-card-meta">Dr. K. Patel · May 20, 2026 · 7 min read</div>
+        </div>
+      </div>
+
+      <div class="article-card">
+        <div class="article-card-img">Article image</div>
+        <div class="article-card-body">
+          <div class="article-card-category">Gear Guides</div>
+          <h3 class="article-card-title">How to Care for Canvas Work Pants So They Last for Years</h3>
+          <p class="article-card-excerpt">Washing, drying, and storing your work pants the right way extends their life by years. Here's the full guide.</p>
+          <div class="article-card-meta">Maya Torres · May 14, 2026 · 3 min read</div>
+        </div>
+      </div>
+
+      <div class="article-card">
+        <div class="article-card-img">Article image</div>
+        <div class="article-card-body">
+          <div class="article-card-category">Community</div>
+          <h3 class="article-card-title">Networking as a Tradeswoman: How to Build Your Circle</h3>
+          <p class="article-card-excerpt">Online communities, local trade associations, and mentorship programs — here's where to find your people.</p>
+          <div class="article-card-meta">Jamie Hill · May 8, 2026 · 5 min read</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Load more -->
+  <div class="load-more-row">
+    <button class="btn-load-more">Load More Stories</button>
+  </div>
+
+  <!-- Email capture -->
+  <div class="blog-email">
+    <div class="blog-email-eyebrow">Stay connected</div>
+    <div class="blog-email-title">Stories in your inbox</div>
+    <div class="blog-email-sub">New articles, gear guides, and community features — delivered monthly.</div>
+    <div class="blog-email-form">
+      <input class="blog-email-input" type="email" placeholder="your@email.com">
+      <button class="btn-blog-email-sub">Subscribe</button>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-accordion-item">
+        <button class="footer-accordion-btn">Shop <span>+</span></button>
+      </div>
+      <div class="footer-accordion-item">
+        <button class="footer-accordion-btn">Help <span>+</span></button>
+      </div>
+      <div class="footer-accordion-item">
+        <button class="footer-accordion-btn">Company <span>+</span></button>
+      </div>
+      <div class="footer-accordion-item">
+        <button class="footer-accordion-btn">Follow Us <span>+</span></button>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Dovetail Workwear</span>
+    </div>
+  </footer>
+
+</body>
+</html>

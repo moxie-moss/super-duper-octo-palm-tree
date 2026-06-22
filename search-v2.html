@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Search — Dovetail Workwear v2</title>
+  <link rel="stylesheet" href="design-system.css">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: var(--font-primary);
+      font-size: var(--text-sm);
+      color: var(--color-slate);
+      background: var(--color-cream);
+      max-width: 390px;
+      margin: 0 auto;
+    }
+
+    /* ── HEADER ── */
+    header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 12px 16px; border-bottom: 1px solid var(--color-border);
+      background: #fff; position: sticky; top: 0; z-index: var(--z-sticky);
+    }
+    .header-back {
+      font-size: 13px; color: var(--color-slate); text-decoration: none;
+      display: flex; align-items: center; gap: 4px; font-weight: var(--fw-semibold);
+    }
+    .header-logo {
+      font-weight: var(--fw-bold); font-size: var(--text-base);
+      letter-spacing: 0.06em; text-transform: uppercase; color: var(--color-slate);
+      position: absolute; left: 50%; transform: translateX(-50%);
+      text-decoration: none;
+    }
+    .header-icons { display: flex; gap: 14px; }
+    .header-icon { font-size: 20px; color: var(--color-slate); cursor: pointer; }
+    .header-cart { position: relative; font-size: 20px; color: var(--color-slate); cursor: pointer; }
+    .cart-badge {
+      position: absolute; top: -4px; right: -6px;
+      background: var(--color-paprika); color: #fff; border-radius: 50%;
+      font-size: 9px; font-weight: var(--fw-bold); width: 16px; height: 16px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .desktop-nav { display: none; }
+
+    /* ── SEARCH INPUT BAR ── */
+    .search-bar {
+      padding: 12px 16px;
+      background: #fff;
+      border-bottom: 1px solid var(--color-border);
+      position: sticky;
+      top: 57px;
+      z-index: calc(var(--z-sticky) - 5);
+    }
+    .search-input-wrap {
+      display: flex;
+      align-items: center;
+      border: 2px solid var(--color-slate);
+      background: var(--color-cream);
+      padding: 0 14px;
+      height: 44px;
+    }
+    .search-input-icon { font-size: 16px; color: var(--color-muted); margin-right: 10px; flex-shrink: 0; }
+    .search-input {
+      flex: 1;
+      border: none;
+      background: transparent;
+      font-size: var(--text-sm);
+      font-family: var(--font-primary);
+      color: var(--color-slate);
+    }
+    .search-input::placeholder { color: var(--color-muted); }
+    .search-input:focus { outline: none; }
+    .search-clear {
+      background: none;
+      border: none;
+      font-size: 18px;
+      color: var(--color-muted);
+      cursor: pointer;
+      padding: 0;
+      font-family: var(--font-primary);
+      flex-shrink: 0;
+    }
+
+    /* ── SEARCH RESULTS COUNT ── */
+    .search-results-meta {
+      padding: 10px 16px;
+      font-size: 12px;
+      color: var(--color-muted);
+      font-weight: var(--fw-light);
+      background: var(--color-cream);
+      border-bottom: 1px solid var(--color-border);
+    }
+    .search-results-meta strong { color: var(--color-slate); font-weight: var(--fw-semibold); }
+
+    /* ── RESULT TABS ── */
+    .search-tabs {
+      display: flex;
+      background: #fff;
+      border-bottom: 1px solid var(--color-border);
+      overflow-x: auto;
+      scrollbar-width: none;
+      padding: 0 16px;
+    }
+    .search-tabs::-webkit-scrollbar { display: none; }
+    .search-tab {
+      flex-shrink: 0;
+      padding: 10px 12px;
+      font-size: 12px;
+      font-weight: var(--fw-semibold);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--color-muted);
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      white-space: nowrap;
+      transition: var(--transition-base);
+    }
+    .search-tab.active { color: var(--color-slate); border-bottom-color: var(--color-paprika); }
+
+    /* ── PRODUCT RESULTS GRID ── */
+    .search-grid-section { padding: 16px; }
+    .search-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-5) var(--space-3);
+    }
+    .product-card { position: relative; min-width: 0; }
+    .product-card-media {
+      width: 100%; aspect-ratio: 4/5;
+      background: var(--color-surface-2);
+      position: relative; overflow: hidden; margin-bottom: var(--space-2);
+    }
+    .product-card-img-placeholder {
+      width: 100%; height: 100%;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--color-muted); font-size: 11px;
+    }
+    .product-badge {
+      position: absolute; top: 8px; left: 8px;
+      font-size: 10px; font-weight: var(--fw-bold);
+      padding: 3px 8px; letter-spacing: 0.05em; text-transform: uppercase;
+      z-index: 2; border-radius: var(--radius-none);
+    }
+    .product-badge.sale { background: var(--color-paprika); color: #fff; }
+    .product-badge.new-arrival { background: var(--flag-bg); color: #fff; }
+    .product-card-swatches {
+      display: flex; gap: 5px; margin-bottom: 4px; flex-wrap: wrap;
+    }
+    .product-card-swatch {
+      width: 14px; height: 14px; border-radius: 50%;
+      border: 1.5px solid var(--color-border); cursor: pointer;
+    }
+    .product-card-swatch.selected { border-color: var(--color-slate); box-shadow: 0 0 0 1.5px #fff inset; }
+    .product-card-name {
+      font-size: var(--text-sm); font-weight: var(--fw-semibold);
+      color: var(--color-slate); line-height: var(--lh-tight); margin-bottom: 2px;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .product-card-price { font-size: var(--text-sm); color: var(--color-slate); font-weight: var(--fw-light); }
+    .price-was { text-decoration: line-through; color: var(--color-muted); margin-right: 4px; }
+    .price-sale { color: var(--color-paprika); font-weight: var(--fw-semibold); }
+
+    /* ── ARTICLE RESULTS ── */
+    .article-results-section { padding: 16px; border-top: 1px solid var(--color-border); }
+    .section-label {
+      font-size: 11px;
+      font-weight: var(--fw-bold);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--color-muted);
+      margin-bottom: 12px;
+    }
+    .article-result {
+      display: flex; gap: 12px; align-items: flex-start;
+      padding: 10px 0; border-bottom: 1px solid var(--color-border);
+    }
+    .article-result:last-child { border-bottom: none; }
+    .article-result-img {
+      width: 64px; aspect-ratio: 16/9;
+      background: var(--color-surface-2); flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--color-muted); font-size: 9px;
+    }
+    .article-result-category {
+      font-size: 10px; font-weight: var(--fw-bold);
+      letter-spacing: 0.07em; text-transform: uppercase;
+      color: var(--color-paprika); margin-bottom: 3px;
+    }
+    .article-result-title {
+      font-size: 13px; font-weight: var(--fw-semibold);
+      color: var(--color-slate); line-height: var(--lh-tight);
+    }
+
+    /* ── EMPTY / NO RESULTS STATE ── */
+    .no-results {
+      text-align: center;
+      padding: 56px 24px;
+      display: none;
+    }
+    .no-results-icon { font-size: 40px; opacity: 0.2; margin-bottom: 16px; }
+    .no-results-heading {
+      font-size: var(--text-xl); font-weight: var(--fw-bold);
+      color: var(--color-slate); margin-bottom: 8px;
+    }
+    .no-results-text {
+      font-size: var(--text-sm); color: var(--color-muted);
+      font-weight: var(--fw-light); margin-bottom: 20px; line-height: var(--lh-relaxed);
+    }
+
+    /* ── POPULAR SEARCHES ── */
+    .popular-section {
+      padding: 24px 16px;
+      border-top: 1px solid var(--color-border);
+    }
+    .popular-chips {
+      display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px;
+    }
+    .popular-chip {
+      padding: 7px 14px;
+      border: 1px solid var(--color-border);
+      border-radius: 20px;
+      font-size: 12px; font-weight: var(--fw-semibold);
+      color: var(--color-slate); cursor: pointer; background: #fff;
+      font-family: var(--font-primary); transition: var(--transition-base);
+    }
+    .popular-chip:hover { border-color: var(--color-slate); background: var(--color-cream); }
+
+    /* ── RECENTLY VIEWED ── */
+    .recently-section { padding: 20px 16px; border-top: 1px solid var(--color-border); }
+    .recently-rail {
+      display: flex; gap: 12px; overflow-x: auto; scrollbar-width: none; margin-top: 10px;
+    }
+    .recently-rail::-webkit-scrollbar { display: none; }
+    .recently-card { flex-shrink: 0; width: 120px; }
+    .recently-card-img {
+      width: 100%; aspect-ratio: 4/5;
+      background: var(--color-surface-2);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--color-muted); font-size: 9px; margin-bottom: 6px;
+    }
+    .recently-card-name { font-size: 12px; font-weight: var(--fw-semibold); color: var(--color-slate); }
+    .recently-card-price { font-size: 12px; color: var(--color-muted); font-weight: var(--fw-light); }
+
+    /* ── DESKTOP ── */
+    @media (min-width: 1024px) {
+      body { max-width: var(--page-width); }
+
+      header { padding: 0 48px; height: 68px; }
+      .header-back { display: none; }
+      .header-logo { position: static; transform: none; font-size: var(--text-lg); }
+      .desktop-nav {
+        display: flex; align-items: center; gap: 32px; flex: 1; padding-left: 48px;
+      }
+      .desktop-nav a {
+        font-size: 13px; font-weight: var(--fw-semibold);
+        color: var(--color-slate); text-decoration: none;
+        letter-spacing: 0.03em; text-transform: uppercase;
+      }
+
+      .search-bar { padding: 16px 48px; top: 68px; }
+      .search-results-meta { padding: 10px 48px; }
+      .search-tabs { padding: 0 48px; }
+      .search-grid-section { padding: 24px 48px; }
+      .search-grid { grid-template-columns: repeat(4, 1fr); gap: var(--space-6) var(--space-4); }
+      .article-results-section { padding: 24px 48px; }
+      .popular-section { padding: 32px 48px; }
+      .recently-section { padding: 32px 48px; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <a href="#" class="header-back">← Back</a>
+    <nav class="desktop-nav">
+      <a href="#">Women</a><a href="#">Men</a><a href="#">Collections</a><a href="#">About</a>
+    </nav>
+    <a href="#" class="header-logo">Dovetail</a>
+    <div class="header-icons">
+      <button class="header-cart">&#128722;<span class="cart-badge">2</span></button>
+    </div>
+  </header>
+
+  <!-- Search input -->
+  <div class="search-bar">
+    <div class="search-input-wrap">
+      <span class="search-input-icon">&#128269;</span>
+      <input class="search-input" type="search" placeholder="Search products, articles…" value="straight leg">
+      <button class="search-clear">×</button>
+    </div>
+  </div>
+
+  <!-- Results meta -->
+  <div class="search-results-meta">
+    <strong>18 results</strong> for "straight leg"
+  </div>
+
+  <!-- Result type tabs -->
+  <div class="search-tabs">
+    <div class="search-tab active">Products (14)</div>
+    <div class="search-tab">Articles (4)</div>
+    <div class="search-tab">Collections</div>
+  </div>
+
+  <!-- Product grid results -->
+  <div class="search-grid-section">
+    <div class="search-grid">
+
+      <div class="product-card">
+        <div class="product-card-media">
+          <div class="product-card-img-placeholder">Image</div>
+          <span class="product-badge new-arrival">New</span>
+        </div>
+        <div class="product-card-swatches">
+          <div class="product-card-swatch selected" style="background:#1a1a2e;"></div>
+          <div class="product-card-swatch" style="background:#2c3e50;"></div>
+          <div class="product-card-swatch" style="background:#5c4033;"></div>
+        </div>
+        <div class="product-card-name">Maven Slim Pant</div>
+        <div class="product-card-price">$94.00</div>
+      </div>
+
+      <div class="product-card">
+        <div class="product-card-media">
+          <div class="product-card-img-placeholder">Image</div>
+          <span class="product-badge sale">Sale</span>
+        </div>
+        <div class="product-card-swatches">
+          <div class="product-card-swatch selected" style="background:#3d5a3e;"></div>
+          <div class="product-card-swatch" style="background:#1c2331;"></div>
+        </div>
+        <div class="product-card-name">Groundbreaker Pant</div>
+        <div class="product-card-price">
+          <span class="price-was">$109.00</span><span class="price-sale">$79.00</span>
+        </div>
+      </div>
+
+      <div class="product-card">
+        <div class="product-card-media"><div class="product-card-img-placeholder">Image</div></div>
+        <div class="product-card-swatches">
+          <div class="product-card-swatch selected" style="background:#4a3728;"></div>
+          <div class="product-card-swatch" style="background:#bfae9e;"></div>
+        </div>
+        <div class="product-card-name">Utility Straight Pant</div>
+        <div class="product-card-price">$99.00</div>
+      </div>
+
+      <div class="product-card">
+        <div class="product-card-media"><div class="product-card-img-placeholder">Image</div></div>
+        <div class="product-card-swatches">
+          <div class="product-card-swatch selected" style="background:#1c2331;"></div>
+          <div class="product-card-swatch" style="background:#1a1a2e;"></div>
+          <div class="product-card-swatch" style="background:#6b7c6e;"></div>
+        </div>
+        <div class="product-card-name">Canvas Work Pant</div>
+        <div class="product-card-price">$89.00</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Article results -->
+  <div class="article-results-section">
+    <div class="section-label">Related Articles</div>
+
+    <div class="article-result">
+      <div class="article-result-img">Img</div>
+      <div>
+        <div class="article-result-category">Gear Guides</div>
+        <div class="article-result-title">The Best Work Pants for Electricians in 2026</div>
+      </div>
+    </div>
+
+    <div class="article-result">
+      <div class="article-result-img">Img</div>
+      <div>
+        <div class="article-result-category">Work Life</div>
+        <div class="article-result-title">What Tradeswomen Wish Their Employers Knew About Fit</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Popular searches -->
+  <div class="popular-section">
+    <div class="section-label">Popular Searches</div>
+    <div class="popular-chips">
+      <button class="popular-chip">Work pants</button>
+      <button class="popular-chip">Cargo</button>
+      <button class="popular-chip">Sale</button>
+      <button class="popular-chip">Stretch</button>
+      <button class="popular-chip">Black pants</button>
+      <button class="popular-chip">Gift card</button>
+    </div>
+  </div>
+
+  <!-- Recently viewed -->
+  <div class="recently-section">
+    <div class="section-label">Recently Viewed</div>
+    <div class="recently-rail">
+      <div class="recently-card">
+        <div class="recently-card-img">Image</div>
+        <div class="recently-card-name">Flex Cargo Pant</div>
+        <div class="recently-card-price">$104.00</div>
+      </div>
+      <div class="recently-card">
+        <div class="recently-card-img">Image</div>
+        <div class="recently-card-name">Ridgeline Work Shirt</div>
+        <div class="recently-card-price">$48.00</div>
+      </div>
+      <div class="recently-card">
+        <div class="recently-card-img">Image</div>
+        <div class="recently-card-name">Maven Slim Pant</div>
+        <div class="recently-card-price">$94.00</div>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

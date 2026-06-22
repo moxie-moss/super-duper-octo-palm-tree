@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Page Not Found — Dovetail Workwear v2</title>
+  <link rel="stylesheet" href="design-system.css">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: var(--font-primary);
+      font-size: var(--text-sm);
+      color: var(--color-slate);
+      background: var(--color-cream);
+      max-width: 390px;
+      margin: 0 auto;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── HEADER ── */
+    header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 12px 16px; border-bottom: 1px solid var(--color-border);
+      background: #fff;
+    }
+    .header-menu { font-size: 22px; cursor: pointer; color: var(--color-slate); }
+    .header-logo {
+      font-weight: var(--fw-bold); font-size: var(--text-base);
+      letter-spacing: 0.06em; text-transform: uppercase; color: var(--color-slate);
+      position: absolute; left: 50%; transform: translateX(-50%);
+      text-decoration: none;
+    }
+    .header-icons { display: flex; gap: 14px; }
+    .header-icon { font-size: 20px; color: var(--color-slate); cursor: pointer; }
+    .header-cart { position: relative; font-size: 20px; color: var(--color-slate); cursor: pointer; }
+    .cart-badge {
+      position: absolute; top: -4px; right: -6px;
+      background: var(--color-paprika); color: #fff; border-radius: 50%;
+      font-size: 9px; font-weight: var(--fw-bold); width: 16px; height: 16px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .desktop-nav { display: none; }
+
+    /* ── 404 HERO ── */
+    .notfound-hero {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 48px 24px 40px;
+    }
+    .notfound-eyebrow {
+      font-size: 11px;
+      font-weight: var(--fw-bold);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--color-paprika);
+      margin-bottom: 12px;
+    }
+    .notfound-code {
+      font-size: 96px;
+      font-weight: var(--fw-bold);
+      color: var(--color-slate);
+      letter-spacing: -0.04em;
+      line-height: 1;
+      margin-bottom: 16px;
+      opacity: 0.08;
+    }
+    .notfound-title {
+      font-size: var(--text-2xl);
+      font-weight: var(--fw-bold);
+      color: var(--color-slate);
+      letter-spacing: -0.02em;
+      line-height: var(--lh-tight);
+      margin-bottom: 12px;
+      margin-top: -24px;
+    }
+    .notfound-text {
+      font-size: var(--text-sm);
+      color: var(--color-muted);
+      line-height: var(--lh-relaxed);
+      font-weight: var(--fw-light);
+      margin-bottom: 28px;
+      max-width: 280px;
+    }
+
+    /* Action buttons */
+    .notfound-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      width: 100%;
+      max-width: 280px;
+      margin-bottom: 32px;
+    }
+    .btn-notfound-primary {
+      display: block;
+      padding: 14px;
+      background: var(--btn-primary-bg);
+      color: #fff;
+      font-size: var(--text-sm);
+      font-weight: var(--fw-bold);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      border: none;
+      border-radius: var(--radius-btn);
+      cursor: pointer;
+      font-family: var(--font-primary);
+      text-align: center;
+      text-decoration: none;
+      transition: var(--transition-base);
+    }
+    .btn-notfound-primary:hover { background: var(--btn-primary-hover); }
+    .btn-notfound-secondary {
+      display: block;
+      padding: 13px;
+      background: none;
+      border: 1.5px solid var(--color-slate);
+      color: var(--color-slate);
+      font-size: var(--text-sm);
+      font-weight: var(--fw-bold);
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      border-radius: var(--radius-btn);
+      cursor: pointer;
+      font-family: var(--font-primary);
+      text-align: center;
+      text-decoration: none;
+      transition: var(--transition-base);
+    }
+    .btn-notfound-secondary:hover { background: var(--color-slate); color: #fff; }
+
+    /* Inline search */
+    .notfound-search {
+      width: 100%;
+      max-width: 280px;
+    }
+    .notfound-search-label {
+      font-size: 11px;
+      font-weight: var(--fw-bold);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--color-muted);
+      margin-bottom: 8px;
+    }
+    .notfound-search-wrap {
+      display: flex;
+      border: 1.5px solid var(--color-slate);
+    }
+    .notfound-search-input {
+      flex: 1;
+      padding: 11px 14px;
+      border: none;
+      background: #fff;
+      font-size: var(--text-sm);
+      font-family: var(--font-primary);
+      color: var(--color-slate);
+    }
+    .notfound-search-input:focus { outline: none; }
+    .btn-notfound-search {
+      padding: 11px 14px;
+      background: var(--color-slate);
+      border: none;
+      color: #fff;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    /* ── POPULAR CATEGORIES ── */
+    .notfound-categories {
+      padding: 24px 16px;
+      border-top: 1px solid var(--color-border);
+      background: #fff;
+    }
+    .categories-label {
+      font-size: 11px;
+      font-weight: var(--fw-bold);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--color-muted);
+      margin-bottom: 14px;
+    }
+    .categories-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+    .category-card {
+      background: var(--color-cream);
+      border: 1px solid var(--color-border);
+      padding: 16px 14px;
+      cursor: pointer;
+      transition: var(--transition-base);
+    }
+    .category-card:hover { border-color: var(--color-slate); }
+    .category-card-name {
+      font-size: var(--text-sm);
+      font-weight: var(--fw-bold);
+      color: var(--color-slate);
+      margin-bottom: 3px;
+    }
+    .category-card-count {
+      font-size: 11px;
+      color: var(--color-muted);
+      font-weight: var(--fw-light);
+    }
+    .category-card-arrow {
+      font-size: 14px;
+      color: var(--color-paprika);
+      margin-top: 8px;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--footer-bg);
+      padding: 24px 16px;
+      border-top: 1px solid var(--color-border);
+      font-size: 11px;
+      color: var(--color-muted);
+      text-align: center;
+    }
+
+    /* ── DESKTOP ── */
+    @media (min-width: 1024px) {
+      body { max-width: var(--page-width); }
+
+      header { padding: 0 48px; height: 68px; }
+      .header-menu { display: none; }
+      .header-logo { position: static; transform: none; font-size: var(--text-lg); }
+      .desktop-nav {
+        display: flex; align-items: center; gap: 32px; flex: 1; padding-left: 48px;
+      }
+      .desktop-nav a {
+        font-size: 13px; font-weight: var(--fw-semibold);
+        color: var(--color-slate); text-decoration: none;
+        letter-spacing: 0.03em; text-transform: uppercase;
+      }
+
+      .notfound-hero { padding: 80px 48px; }
+      .notfound-code { font-size: 160px; }
+      .notfound-title { font-size: var(--text-4xl); margin-top: -40px; }
+      .notfound-actions { flex-direction: row; max-width: 400px; }
+      .btn-notfound-primary { flex: 1; }
+      .btn-notfound-secondary { flex: 1; }
+
+      .notfound-categories { padding: 40px 48px; }
+      .categories-grid { grid-template-columns: repeat(4, 1fr); }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <button class="header-menu">&#9776;</button>
+    <nav class="desktop-nav">
+      <a href="#">Women</a><a href="#">Men</a><a href="#">Collections</a><a href="#">About</a>
+    </nav>
+    <a href="#" class="header-logo">Dovetail</a>
+    <div class="header-icons">
+      <button class="header-icon">&#128269;</button>
+      <button class="header-cart">&#128722;<span class="cart-badge">2</span></button>
+    </div>
+  </header>
+
+  <!-- 404 Hero -->
+  <div class="notfound-hero">
+    <div class="notfound-code">404</div>
+    <div class="notfound-eyebrow">Page not found</div>
+    <h1 class="notfound-title">This page must've clocked out</h1>
+    <p class="notfound-text">The page you're looking for doesn't exist or has been moved. Let's get you back on the job.</p>
+
+    <div class="notfound-actions">
+      <a href="#" class="btn-notfound-primary">Shop All</a>
+      <a href="#" class="btn-notfound-secondary">Go Home</a>
+    </div>
+
+    <div class="notfound-search">
+      <div class="notfound-search-label">Search for something</div>
+      <div class="notfound-search-wrap">
+        <input class="notfound-search-input" type="search" placeholder="Work pants, cargo, shirts…">
+        <button class="btn-notfound-search">&#128269;</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Popular categories -->
+  <div class="notfound-categories">
+    <div class="categories-label">Browse Categories</div>
+    <div class="categories-grid">
+      <div class="category-card">
+        <div class="category-card-name">Women's Pants</div>
+        <div class="category-card-count">42 styles</div>
+        <div class="category-card-arrow">→</div>
+      </div>
+      <div class="category-card">
+        <div class="category-card-name">Women's Tops</div>
+        <div class="category-card-count">28 styles</div>
+        <div class="category-card-arrow">→</div>
+      </div>
+      <div class="category-card">
+        <div class="category-card-name">Accessories</div>
+        <div class="category-card-count">16 styles</div>
+        <div class="category-card-arrow">→</div>
+      </div>
+      <div class="category-card">
+        <div class="category-card-name">Sale</div>
+        <div class="category-card-count">30% off</div>
+        <div class="category-card-arrow" style="color:var(--color-paprika);">→</div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <a href="#" style="color:var(--color-muted);">© 2026 Dovetail Workwear</a>
+  </footer>
+
+</body>
+</html>

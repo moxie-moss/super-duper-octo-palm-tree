@@ -1,0 +1,1544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Collection — Dovetail Workwear v2</title>
+  <link rel="stylesheet" href="design-system.css">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: var(--font-primary);
+      font-size: var(--text-sm);
+      font-weight: var(--fw-regular);
+      color: var(--color-slate);
+      background: var(--color-cream);
+      max-width: 390px;
+      margin: 0 auto;
+    }
+
+    /* ── ANNOUNCEMENT BAR ── */
+    .announcement-bar {
+      background: var(--color-slate);
+      color: #fff;
+      text-align: center;
+      font-size: var(--text-xs);
+      font-weight: var(--fw-semibold);
+      letter-spacing: 0.05em;
+      padding: 9px 16px;
+    }
+    .announcement-bar a { color: #fff; text-decoration: underline; }
+
+    /* ── HEADER ── */
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--color-border);
+      position: sticky;
+      top: 0;
+      background: #fff;
+      z-index: var(--z-sticky);
+    }
+    .header-menu { font-size: 22px; cursor: pointer; color: var(--color-slate); }
+    .header-logo {
+      font-weight: var(--fw-bold);
+      font-size: var(--text-base);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--color-slate);
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    .header-icons { display: flex; align-items: center; gap: 14px; }
+    .header-icon { font-size: 20px; cursor: pointer; color: var(--color-slate); }
+    .header-cart { font-size: 20px; position: relative; cursor: pointer; color: var(--color-slate); }
+    .cart-badge {
+      position: absolute;
+      top: -4px; right: -6px;
+      background: var(--color-paprika);
+      color: #fff;
+      border-radius: 50%;
+      font-size: 9px;
+      font-weight: var(--fw-bold);
+      width: 16px; height: 16px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .desktop-nav { display: none; }
+
+    /* ── BREADCRUMB ── */
+    .breadcrumb {
+      padding: 10px 16px;
+      font-size: 11px;
+      color: var(--color-muted);
+      background: #fff;
+      border-bottom: 1px solid var(--color-border);
+    }
+    .breadcrumb a { color: var(--color-muted); text-decoration: none; }
+    .breadcrumb a:hover { color: var(--color-slate); }
+    .breadcrumb span { margin: 0 4px; }
+
+    /* ── COLLECTION HEADER ── */
+    .collection-hero {
+      width: 100%;
+      background: #fff;
+      padding: 20px 16px 16px;
+      border-bottom: 1px solid var(--color-border);
+    }
+    .collection-hero h1 {
+      font-size: var(--text-2xl);
+      font-weight: var(--fw-bold);
+      color: var(--color-slate);
+      line-height: var(--lh-tight);
+      margin-bottom: 6px;
+      letter-spacing: -0.01em;
+    }
+    .collection-hero-desc {
+      font-size: var(--text-sm);
+      color: var(--color-muted);
+      line-height: var(--lh-relaxed);
+      font-weight: var(--fw-light);
+    }
+    .collection-hero-count {
+      font-size: var(--text-xs);
+      color: var(--color-muted);
+      margin-top: 6px;
+      letter-spacing: 0.03em;
+    }
+
+    /* ── FILTER / SORT BAR ── */
+    .filter-sort-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 16px;
+      height: 48px;
+      border-bottom: 1px solid var(--color-border);
+      position: sticky;
+      top: 57px;
+      background: #fff;
+      z-index: calc(var(--z-sticky) - 10);
+      gap: 10px;
+    }
+    .filter-btn {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: var(--text-xs);
+      font-weight: var(--fw-semibold);
+      color: var(--color-slate);
+      background: none;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-btn);
+      padding: 7px 14px;
+      cursor: pointer;
+      font-family: var(--font-primary);
+      letter-spacing: 0.03em;
+      transition: var(--transition-base);
+    }
+    .filter-btn:hover {
+      border-color: var(--color-slate);
+      background: var(--color-cream);
+    }
+    .filter-btn-icon { font-size: 14px; }
+    .sort-btn {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: var(--text-xs);
+      font-weight: var(--fw-semibold);
+      color: var(--color-slate);
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-family: var(--font-primary);
+      padding: 0;
+      margin-left: auto;
+      letter-spacing: 0.03em;
+    }
+    .sort-caret { font-size: 9px; color: var(--color-muted); }
+    .grid-density-toggle {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .density-btn {
+      width: 28px; height: 28px;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-none);
+      background: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+      transition: var(--transition-base);
+    }
+    .density-btn.active {
+      background: var(--color-slate);
+      border-color: var(--color-slate);
+    }
+    .density-btn svg { width: 14px; height: 14px; }
+    .density-btn.active svg rect { fill: #fff; }
+    .density-btn svg rect { fill: var(--color-muted); }
+
+    /* ── ACTIVE FILTERS STRIP ── */
+    .active-filters {
+      display: flex;
+      gap: 8px;
+      padding: 10px 16px;
+      overflow-x: auto;
+      scrollbar-width: none;
+      background: var(--color-cream);
+      border-bottom: 1px solid var(--color-border);
+    }
+    .active-filters::-webkit-scrollbar { display: none; }
+    .filter-pill {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      white-space: nowrap;
+      background: var(--color-slate);
+      color: #fff;
+      font-size: 11px;
+      font-weight: var(--fw-semibold);
+      padding: 5px 10px;
+      border-radius: 20px;
+      cursor: pointer;
+      letter-spacing: 0.03em;
+    }
+    .filter-pill-x { font-size: 13px; font-weight: 400; line-height: 1; opacity: 0.7; }
+    .filter-pill-clear {
+      background: none;
+      color: var(--color-muted);
+      border: 1px solid var(--color-border);
+      font-size: 11px;
+      font-weight: var(--fw-semibold);
+      padding: 5px 10px;
+      border-radius: 20px;
+      cursor: pointer;
+      white-space: nowrap;
+      font-family: var(--font-primary);
+    }
+
+    /* ── PRODUCT GRID ── */
+    .collection-grid-wrapper { padding: 16px; }
+    .collection-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-5) var(--space-3);
+    }
+    .collection-grid.density-3 {
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: var(--space-3) var(--space-2);
+    }
+
+    /* ── PRODUCT CARD ── */
+    .product-card { position: relative; min-width: 0; }
+
+    .product-card-media {
+      width: 100%;
+      aspect-ratio: 4/5;
+      background: var(--color-surface-2);
+      position: relative;
+      overflow: hidden;
+      margin-bottom: var(--space-2);
+    }
+    .product-card-img-placeholder {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--color-muted);
+      font-size: 11px;
+    }
+
+    /* Flag / badge — rectangle, no radius */
+    .product-badge {
+      position: absolute;
+      top: 8px; left: 8px;
+      font-size: 10px;
+      font-weight: var(--fw-bold);
+      padding: 3px 8px;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      z-index: 2;
+      border-radius: var(--radius-none);
+    }
+    .product-badge.new-arrival { background: var(--flag-bg); color: #fff; }
+    .product-badge.sale { background: var(--color-paprika); color: #fff; }
+    .product-badge.top-rated { background: var(--color-muted); color: #fff; }
+
+    /* Quick-add */
+    .quick-add-btn {
+      position: absolute;
+      bottom: 10px; right: 10px;
+      z-index: 3;
+      display: flex;
+      align-items: center;
+      background: rgba(255,255,255,0.93);
+      backdrop-filter: blur(12px) saturate(180%);
+      border: 1.5px solid rgba(66,81,94,0.18);
+      border-radius: 50px;
+      height: 36px;
+      padding: 0;
+      cursor: pointer;
+      overflow: hidden;
+      font-family: var(--font-primary);
+      color: var(--color-slate);
+      opacity: 1;
+      transition: var(--transition-base);
+    }
+    .quick-add-btn:hover { transform: scale(1.03); }
+    .quick-add-icon {
+      width: 36px; height: 36px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 16px;
+      flex-shrink: 0;
+    }
+    .quick-add-label {
+      font-size: 12px;
+      font-weight: var(--fw-semibold);
+      letter-spacing: 0.03em;
+      padding-right: 12px;
+      white-space: nowrap;
+      display: none;
+    }
+
+    /* Color swatches */
+    .product-card-swatches {
+      display: flex;
+      gap: 5px;
+      margin-bottom: 4px;
+      flex-wrap: wrap;
+    }
+    .product-card-swatch {
+      width: 14px; height: 14px;
+      border-radius: 50%;
+      border: 1.5px solid var(--color-border);
+      cursor: pointer;
+    }
+    .product-card-swatch.selected {
+      border-color: var(--color-slate);
+      box-shadow: 0 0 0 1.5px #fff inset;
+    }
+    .product-card-swatch.more {
+      background: var(--color-surface-2);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 8px; color: var(--color-muted); font-weight: var(--fw-bold);
+    }
+
+    .product-card-name {
+      font-size: var(--text-sm);
+      font-weight: var(--fw-semibold);
+      line-height: var(--lh-tight);
+      margin-bottom: 2px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      color: var(--color-slate);
+    }
+    .product-card-price {
+      font-size: var(--text-sm);
+      color: var(--color-slate);
+      font-weight: var(--fw-light);
+    }
+    .price-was { text-decoration: line-through; color: var(--color-muted); margin-right: 4px; }
+    .price-sale { color: var(--color-paprika); font-weight: var(--fw-semibold); }
+
+    /* density-3 smaller text */
+    .density-3 .product-card-name { font-size: 11px; }
+    .density-3 .product-card-price { font-size: 11px; }
+    .density-3 .quick-add-btn { height: 28px; bottom: 6px; right: 6px; }
+    .density-3 .quick-add-icon { width: 28px; height: 28px; font-size: 13px; }
+
+    /* ── LOAD MORE ── */
+    .load-more-row { padding: 28px 16px 8px; text-align: center; }
+    .load-more-progress { font-size: 12px; color: var(--color-muted); margin-bottom: 12px; }
+    .load-more-bar {
+      height: 2px;
+      background: var(--color-border);
+      margin: 0 auto 20px;
+      max-width: 200px;
+      overflow: hidden;
+    }
+    .load-more-bar-fill { height: 100%; width: 29%; background: var(--color-paprika); }
+    .btn-load-more {
+      display: inline-block;
+      padding: 13px 36px;
+      border: 1.5px solid var(--color-slate);
+      color: var(--color-slate);
+      font-size: var(--text-xs);
+      font-weight: var(--fw-bold);
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      background: none;
+      border-radius: var(--radius-btn);
+      cursor: pointer;
+      font-family: var(--font-primary);
+      transition: var(--transition-base);
+    }
+    .btn-load-more:hover {
+      background: var(--color-slate);
+      color: #fff;
+    }
+
+    /* ── COLLECTION SEO TEXT ── */
+    .collection-seo {
+      padding: 28px 16px;
+      border-top: 1px solid var(--color-border);
+    }
+    .collection-seo h2 {
+      font-size: var(--text-base);
+      font-weight: var(--fw-bold);
+      margin-bottom: 10px;
+      color: var(--color-slate);
+      letter-spacing: -0.01em;
+    }
+    .collection-seo p {
+      font-size: var(--text-sm);
+      color: var(--color-muted);
+      line-height: var(--lh-relaxed);
+      font-weight: var(--fw-light);
+    }
+
+    /* ── QUICK-ADD MODAL (bottom sheet) ── */
+    .quick-add-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.45);
+      z-index: var(--z-modal);
+      align-items: flex-end;
+      justify-content: center;
+    }
+    .quick-add-overlay.open { display: flex; }
+    .quick-add-modal {
+      background: #fff;
+      border-radius: 12px 12px 0 0;
+      width: 100%;
+      max-height: 92vh;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      animation: slideUpModal 0.22s ease forwards;
+      overflow: hidden;
+    }
+    @keyframes slideUpModal {
+      from { transform: translateY(24px); opacity: 0; }
+      to   { transform: translateY(0);    opacity: 1; }
+    }
+    .quick-add-modal-close {
+      position: absolute;
+      top: 14px; right: 16px;
+      background: none;
+      border: none;
+      font-size: 22px;
+      color: var(--color-muted);
+      cursor: pointer;
+      font-family: var(--font-primary);
+      line-height: 1;
+      z-index: 10;
+    }
+    .qam-gallery { display: none; }
+    .qam-details {
+      overflow-y: auto;
+      flex: 1;
+      padding: 20px 20px 0;
+    }
+    .qam-mobile-header {
+      display: grid;
+      grid-template-columns: 72px 1fr;
+      gap: 12px;
+      align-items: start;
+      margin-bottom: 16px;
+      padding-right: 28px;
+    }
+    .qam-thumb {
+      aspect-ratio: 3/4;
+      background: var(--color-surface-2);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--color-muted);
+      font-size: 10px;
+    }
+    .qam-title {
+      font-size: var(--text-base);
+      font-weight: var(--fw-bold);
+      line-height: var(--lh-tight);
+      color: var(--color-slate);
+      margin-bottom: 3px;
+    }
+    .qam-price {
+      font-size: var(--text-sm);
+      color: var(--color-slate);
+      margin-bottom: 4px;
+    }
+    .qam-stars { font-size: 12px; color: var(--color-paprika); }
+    .qam-variant-section { margin-bottom: 16px; }
+    .qam-variant-label {
+      font-size: 11px;
+      font-weight: var(--fw-bold);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--color-muted);
+      margin-bottom: 8px;
+    }
+    .qam-color-row { display: flex; gap: 8px; flex-wrap: wrap; }
+    .qam-color-swatch {
+      width: 24px; height: 24px;
+      border-radius: 50%;
+      border: 2px solid transparent;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+    .qam-color-swatch.selected {
+      border-color: var(--color-slate);
+      box-shadow: 0 0 0 2px #fff inset;
+    }
+    .qam-size-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 6px; }
+    .qam-size-col-label {
+      display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px;
+    }
+    .qam-size-label { font-size: 12px; font-weight: var(--fw-bold); color: var(--color-slate); }
+    .qam-size-chart-link { font-size: 12px; color: var(--color-slate); text-decoration: underline; cursor: pointer; }
+    .qam-select {
+      width: 100%;
+      padding: 11px 14px;
+      border: 1.5px solid var(--color-border);
+      border-radius: var(--radius-input);
+      font-size: var(--text-sm);
+      font-family: var(--font-primary);
+      color: var(--color-slate);
+      appearance: none;
+      background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='11' height='7' viewBox='0 0 11 7'%3E%3Cpath d='M1 1l4.5 4.5L10 1' stroke='%2342515e' stroke-width='1.5' fill='none'/%3E%3C/svg%3E") no-repeat right 12px center;
+    }
+    .qam-select:focus { border-color: var(--color-slate); outline: none; }
+    .qam-size-note { font-size: 12px; color: var(--color-muted); margin-bottom: 14px; font-weight: var(--fw-light); }
+    .qam-stock { font-size: 12px; font-weight: var(--fw-semibold); margin-bottom: 14px; }
+    .qam-stock.in-stock { color: #4a7a5e; }
+    .qam-stock.low { color: #c07820; }
+    .qam-atc-sticky {
+      padding: 14px 20px 32px;
+      background: #fff;
+      border-top: 1px solid var(--color-border);
+      flex-shrink: 0;
+    }
+    .qam-atc-btn {
+      width: 100%;
+      padding: 15px;
+      background: var(--btn-primary-bg);
+      color: #fff;
+      font-size: var(--text-sm);
+      font-weight: var(--fw-bold);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      border: none;
+      border-radius: var(--radius-btn);
+      cursor: pointer;
+      font-family: var(--font-primary);
+      transition: var(--transition-base);
+    }
+    .qam-atc-btn:hover { background: var(--btn-primary-hover); }
+
+    /* ── FILTER DRAWER (bottom sheet) ── */
+    .filter-drawer-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.4);
+      z-index: var(--z-overlay);
+    }
+    .filter-drawer-overlay.open { display: block; }
+    .filter-drawer {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      background: #fff;
+      border-radius: 12px 12px 0 0;
+      padding: 0 0 40px;
+      max-height: 85vh;
+      overflow-y: auto;
+    }
+    .filter-drawer-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 16px 12px;
+      border-bottom: 1px solid var(--color-border);
+      position: sticky;
+      top: 0;
+      background: #fff;
+    }
+    .filter-drawer-title {
+      font-size: var(--text-base);
+      font-weight: var(--fw-bold);
+      color: var(--color-slate);
+      letter-spacing: -0.01em;
+    }
+    .filter-drawer-close {
+      background: none;
+      border: none;
+      font-size: 22px;
+      color: var(--color-muted);
+      cursor: pointer;
+      font-family: var(--font-primary);
+    }
+    .filter-group {
+      border-bottom: 1px solid var(--color-border);
+    }
+    .filter-group-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 16px;
+      cursor: pointer;
+    }
+    .filter-group-label {
+      font-size: var(--text-sm);
+      font-weight: var(--fw-semibold);
+      color: var(--color-slate);
+      letter-spacing: 0.02em;
+    }
+    .filter-group-caret { font-size: 12px; color: var(--color-muted); transition: var(--transition-base); }
+    .filter-group-body { padding: 4px 16px 16px; }
+    .filter-option {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 7px 0;
+      cursor: pointer;
+      font-size: var(--text-sm);
+      color: var(--color-slate);
+      font-weight: var(--fw-light);
+    }
+    .filter-checkbox {
+      width: 18px; height: 18px;
+      border: 1.5px solid var(--color-border);
+      border-radius: var(--radius-none);
+      flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      transition: var(--transition-base);
+    }
+    .filter-checkbox.checked {
+      background: var(--color-slate);
+      border-color: var(--color-slate);
+      color: #fff;
+      font-size: 11px;
+    }
+    /* Color option */
+    .filter-color-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      padding-bottom: 4px;
+    }
+    .filter-color-option {
+      display: flex; flex-direction: column; align-items: center; gap: 4px;
+      cursor: pointer;
+    }
+    .filter-color-dot {
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      border: 2px solid transparent;
+    }
+    .filter-color-dot.selected {
+      border-color: var(--color-slate);
+      box-shadow: 0 0 0 2px #fff inset;
+    }
+    .filter-color-name { font-size: 10px; color: var(--color-muted); }
+    /* Size option */
+    .filter-size-row { display: flex; gap: 8px; flex-wrap: wrap; }
+    .filter-size-chip {
+      padding: 6px 12px;
+      border: 1.5px solid var(--color-border);
+      border-radius: var(--radius-none);
+      font-size: 12px;
+      font-weight: var(--fw-semibold);
+      color: var(--color-slate);
+      cursor: pointer;
+      font-family: var(--font-primary);
+      transition: var(--transition-base);
+    }
+    .filter-size-chip.selected {
+      background: var(--color-slate);
+      border-color: var(--color-slate);
+      color: #fff;
+    }
+    /* Price range */
+    .filter-price-row { display: flex; align-items: center; gap: 10px; }
+    .filter-price-input {
+      flex: 1;
+      padding: 9px 12px;
+      border: 1.5px solid var(--color-border);
+      border-radius: var(--radius-input);
+      font-size: var(--text-sm);
+      font-family: var(--font-primary);
+      color: var(--color-slate);
+    }
+    .filter-price-sep { color: var(--color-muted); font-size: 12px; }
+    /* Filter footer */
+    .filter-drawer-footer {
+      position: sticky;
+      bottom: 0;
+      background: #fff;
+      padding: 14px 16px 32px;
+      border-top: 1px solid var(--color-border);
+      display: flex; gap: 12px;
+    }
+    .btn-filter-clear {
+      flex: 1;
+      padding: 12px;
+      border: 1.5px solid var(--color-border);
+      background: none;
+      color: var(--color-slate);
+      font-size: var(--text-xs);
+      font-weight: var(--fw-bold);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      border-radius: var(--radius-btn);
+      cursor: pointer;
+      font-family: var(--font-primary);
+    }
+    .btn-filter-apply {
+      flex: 2;
+      padding: 12px;
+      background: var(--btn-primary-bg);
+      border: none;
+      color: #fff;
+      font-size: var(--text-xs);
+      font-weight: var(--fw-bold);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      border-radius: var(--radius-btn);
+      cursor: pointer;
+      font-family: var(--font-primary);
+      transition: var(--transition-base);
+    }
+    .btn-filter-apply:hover { background: var(--btn-primary-hover); }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--footer-bg);
+      padding: 32px 16px 0;
+      margin-top: 24px;
+    }
+    .footer-accordion-item { border-bottom: 1px solid var(--color-border); }
+    .footer-accordion-btn {
+      width: 100%;
+      background: none;
+      border: none;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 0;
+      font-family: var(--font-primary);
+      font-size: var(--text-sm);
+      font-weight: var(--fw-semibold);
+      color: var(--color-slate);
+      cursor: pointer;
+      letter-spacing: 0.02em;
+    }
+    .footer-accordion-icon { font-size: 18px; color: var(--color-muted); }
+    .footer-accordion-body { padding: 4px 0 16px; display: none; }
+    .footer-accordion-body a {
+      display: block;
+      padding: 5px 0;
+      font-size: var(--text-sm);
+      color: var(--color-slate);
+      text-decoration: none;
+      font-weight: var(--fw-light);
+      opacity: 0.8;
+    }
+    .footer-social {
+      display: flex;
+      gap: 16px;
+      padding: 20px 0 16px;
+    }
+    .footer-social-icon {
+      width: 36px; height: 36px;
+      border: 1px solid var(--color-border);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 16px;
+      color: var(--color-slate);
+      cursor: pointer;
+    }
+    .footer-bottom {
+      border-top: 1px solid var(--color-border);
+      padding: 14px 0 20px;
+      font-size: 11px;
+      color: var(--color-muted);
+    }
+
+    /* ── DESKTOP BREAKPOINT ── */
+    @media (min-width: 1024px) {
+      body { max-width: var(--page-width); font-size: var(--text-base); }
+
+      /* Desktop header */
+      header { padding: 0 48px; height: 68px; }
+      .header-menu { display: none; }
+      .header-logo { position: static; transform: none; font-size: var(--text-lg); }
+      .desktop-nav {
+        display: flex;
+        align-items: center;
+        gap: 32px;
+        flex: 1;
+        padding-left: 48px;
+      }
+      .desktop-nav a {
+        font-size: 13px;
+        font-weight: var(--fw-semibold);
+        color: var(--color-slate);
+        text-decoration: none;
+        letter-spacing: 0.03em;
+        text-transform: uppercase;
+      }
+      .desktop-nav a:hover { color: var(--color-paprika); }
+      .header-icons { gap: 20px; }
+
+      /* Collection hero */
+      .collection-hero { padding: 28px 48px 24px; }
+      .collection-hero h1 { font-size: var(--text-4xl); }
+
+      /* Breadcrumb */
+      .breadcrumb { padding: 12px 48px; }
+
+      /* Filter bar */
+      .filter-sort-bar { padding: 0 48px; top: 68px; }
+
+      /* Active filters */
+      .active-filters { padding: 12px 48px; }
+
+      /* Desktop layout: sidebar + grid */
+      .collection-body {
+        display: grid;
+        grid-template-columns: 260px 1fr;
+        gap: 0;
+        padding: 0 48px;
+        align-items: start;
+      }
+
+      /* Desktop sidebar filters */
+      .sidebar-filters {
+        padding: 24px 32px 24px 0;
+        border-right: 1px solid var(--color-border);
+        position: sticky;
+        top: 116px;
+        max-height: calc(100vh - 120px);
+        overflow-y: auto;
+      }
+      .sidebar-title {
+        font-size: var(--text-sm);
+        font-weight: var(--fw-bold);
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: var(--color-slate);
+        margin-bottom: 20px;
+      }
+      .sidebar-group { margin-bottom: 24px; }
+      .sidebar-group-label {
+        font-size: 11px;
+        font-weight: var(--fw-bold);
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--color-muted);
+        margin-bottom: 12px;
+      }
+      .sidebar-option {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 6px 0;
+        cursor: pointer;
+        font-size: var(--text-sm);
+        color: var(--color-slate);
+        font-weight: var(--fw-light);
+      }
+      .sidebar-checkbox {
+        width: 16px; height: 16px;
+        border: 1.5px solid var(--color-border);
+        border-radius: var(--radius-none);
+        flex-shrink: 0;
+        display: flex; align-items: center; justify-content: center;
+      }
+      .sidebar-checkbox.checked {
+        background: var(--color-slate);
+        border-color: var(--color-slate);
+        color: #fff;
+        font-size: 10px;
+      }
+      .sidebar-color-grid { display: flex; flex-wrap: wrap; gap: 8px; }
+      .sidebar-color-dot {
+        width: 26px; height: 26px;
+        border-radius: 50%;
+        border: 2px solid transparent;
+        cursor: pointer;
+      }
+      .sidebar-color-dot.selected {
+        border-color: var(--color-slate);
+        box-shadow: 0 0 0 2px #fff inset;
+      }
+      .sidebar-size-grid { display: flex; flex-wrap: wrap; gap: 6px; }
+      .sidebar-size-chip {
+        padding: 5px 10px;
+        border: 1.5px solid var(--color-border);
+        border-radius: var(--radius-none);
+        font-size: 12px;
+        font-weight: var(--fw-semibold);
+        color: var(--color-slate);
+        cursor: pointer;
+        font-family: var(--font-primary);
+        transition: var(--transition-base);
+      }
+      .sidebar-size-chip.selected {
+        background: var(--color-slate);
+        border-color: var(--color-slate);
+        color: #fff;
+      }
+      .sidebar-price-row { display: flex; gap: 8px; align-items: center; }
+      .sidebar-price-input {
+        flex: 1;
+        padding: 8px 10px;
+        border: 1.5px solid var(--color-border);
+        border-radius: var(--radius-input);
+        font-size: var(--text-sm);
+        font-family: var(--font-primary);
+        color: var(--color-slate);
+      }
+
+      /* Desktop product grid */
+      .collection-grid-wrapper { padding: 24px 0 24px 32px; }
+      .collection-grid { grid-template-columns: repeat(3, 1fr); gap: var(--space-7) var(--space-5); }
+      .collection-grid.density-3 { grid-template-columns: repeat(4, 1fr); }
+
+      /* Quick-add label visible on desktop hover */
+      .product-card:hover .quick-add-btn { opacity: 1; }
+      .quick-add-label { display: block; }
+
+      /* Quick-add modal — centered on desktop */
+      .quick-add-overlay { align-items: center; }
+      .quick-add-modal {
+        border-radius: var(--radius-none);
+        max-width: 760px;
+        max-height: 85vh;
+        flex-direction: row;
+      }
+      .qam-gallery {
+        display: block;
+        width: 340px;
+        flex-shrink: 0;
+        background: var(--color-surface-2);
+        aspect-ratio: 3/4;
+        position: relative;
+      }
+      .qam-gallery-placeholder {
+        position: absolute; inset: 0;
+        display: flex; align-items: center; justify-content: center;
+        color: var(--color-muted); font-size: 12px;
+      }
+      .qam-mobile-header { display: none; }
+      .qam-desktop-title {
+        display: block;
+        font-size: var(--text-xl);
+        font-weight: var(--fw-bold);
+        color: var(--color-slate);
+        margin-bottom: 4px;
+        line-height: var(--lh-tight);
+      }
+      .qam-desktop-price {
+        display: block;
+        font-size: var(--text-base);
+        color: var(--color-slate);
+        margin-bottom: 6px;
+      }
+      .qam-desktop-stars {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 12px;
+        color: var(--color-paprika);
+        margin-bottom: 20px;
+      }
+      .qam-view-details {
+        display: block;
+        text-align: center;
+        font-size: 12px;
+        color: var(--color-slate);
+        text-decoration: underline;
+        margin-top: 10px;
+        cursor: pointer;
+      }
+
+      /* Filter btn hides on desktop (using sidebar) */
+      .filter-btn { display: none; }
+
+      /* Footer desktop */
+      footer { padding: 48px 48px 0; }
+      .footer-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 40px;
+        padding-bottom: 40px;
+      }
+      .footer-accordion-btn { cursor: default; pointer-events: none; }
+      .footer-accordion-icon { display: none; }
+      .footer-accordion-body { display: block !important; padding: 0; }
+      .footer-accordion-btn { font-size: var(--text-sm); }
+      .footer-bottom { padding: 20px 0 24px; display: flex; justify-content: space-between; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── ANNOUNCEMENT BAR ── -->
+  <div class="announcement-bar">Free shipping on orders over $75 — <a href="#">Shop now</a></div>
+
+  <!-- ── HEADER ── -->
+  <header>
+    <button class="header-menu" aria-label="Menu">&#9776;</button>
+    <nav class="desktop-nav">
+      <a href="#">Women</a>
+      <a href="#">Men</a>
+      <a href="#">Collections</a>
+      <a href="#">About</a>
+    </nav>
+    <a href="#" class="header-logo">Dovetail</a>
+    <div class="header-icons">
+      <button class="header-icon" aria-label="Search">&#128269;</button>
+      <button class="header-cart" aria-label="Cart">
+        &#128722;
+        <span class="cart-badge">2</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ── BREADCRUMB ── -->
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <a href="#">Home</a><span>›</span>
+    <a href="#">Women</a><span>›</span>
+    Straight Leg Pants
+  </nav>
+
+  <!-- ── COLLECTION HERO ── -->
+  <div class="collection-hero">
+    <h1>Straight Leg Pants</h1>
+    <p class="collection-hero-desc">Built for the job site. Designed for real life. Every pair engineered to move with you.</p>
+    <p class="collection-hero-count">42 products</p>
+  </div>
+
+  <!-- ── FILTER / SORT BAR ── -->
+  <div class="filter-sort-bar">
+    <button class="filter-btn" onclick="document.querySelector('.filter-drawer-overlay').classList.add('open')">
+      <span class="filter-btn-icon">&#9776;</span> Filter
+    </button>
+    <button class="sort-btn">
+      Sort: Featured <span class="sort-caret">▼</span>
+    </button>
+    <div class="grid-density-toggle">
+      <button class="density-btn active" aria-label="2-column grid" onclick="setDensity(2,this)">
+        <svg viewBox="0 0 14 14"><rect x="0" y="0" width="6" height="6"/><rect x="8" y="0" width="6" height="6"/><rect x="0" y="8" width="6" height="6"/><rect x="8" y="8" width="6" height="6"/></svg>
+      </button>
+      <button class="density-btn" aria-label="3-column grid" onclick="setDensity(3,this)">
+        <svg viewBox="0 0 14 14"><rect x="0" y="0" width="4" height="6"/><rect x="5" y="0" width="4" height="6"/><rect x="10" y="0" width="4" height="6"/><rect x="0" y="8" width="4" height="6"/><rect x="5" y="8" width="4" height="6"/><rect x="10" y="8" width="4" height="6"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- ── ACTIVE FILTERS STRIP ── -->
+  <div class="active-filters">
+    <button class="filter-pill">Size: 30W <span class="filter-pill-x">×</span></button>
+    <button class="filter-pill">Color: Midnight Navy <span class="filter-pill-x">×</span></button>
+    <button class="filter-pill-clear">Clear all</button>
+  </div>
+
+  <!-- ── COLLECTION BODY ── -->
+  <div class="collection-body">
+
+    <!-- Desktop sidebar (hidden on mobile) -->
+    <aside class="sidebar-filters" style="display:none;" id="sidebar-filters">
+      <div class="sidebar-title">Filters</div>
+
+      <div class="sidebar-group">
+        <div class="sidebar-group-label">Color</div>
+        <div class="sidebar-color-grid">
+          <div class="sidebar-color-dot" style="background:#1a1a2e;" title="Midnight Navy"></div>
+          <div class="sidebar-color-dot selected" style="background:#2c3e50;" title="Slate"></div>
+          <div class="sidebar-color-dot" style="background:#5c4033;" title="Chestnut"></div>
+          <div class="sidebar-color-dot" style="background:#3d5a3e;" title="Forest"></div>
+          <div class="sidebar-color-dot" style="background:#4a3728;" title="Coyote Brown"></div>
+          <div class="sidebar-color-dot" style="background:#bfae9e;" title="Stone"></div>
+          <div class="sidebar-color-dot" style="background:#1c2331;" title="Black"></div>
+          <div class="sidebar-color-dot" style="background:#6b7c6e;" title="Sage"></div>
+        </div>
+      </div>
+
+      <div class="sidebar-group">
+        <div class="sidebar-group-label">Waist</div>
+        <div class="sidebar-size-grid">
+          <div class="sidebar-size-chip">26</div>
+          <div class="sidebar-size-chip">28</div>
+          <div class="sidebar-size-chip selected">30</div>
+          <div class="sidebar-size-chip">32</div>
+          <div class="sidebar-size-chip">34</div>
+          <div class="sidebar-size-chip">36</div>
+          <div class="sidebar-size-chip">38</div>
+          <div class="sidebar-size-chip">40</div>
+        </div>
+      </div>
+
+      <div class="sidebar-group">
+        <div class="sidebar-group-label">Inseam</div>
+        <div class="sidebar-size-grid">
+          <div class="sidebar-size-chip">28</div>
+          <div class="sidebar-size-chip">30</div>
+          <div class="sidebar-size-chip selected">32</div>
+          <div class="sidebar-size-chip">34</div>
+        </div>
+      </div>
+
+      <div class="sidebar-group">
+        <div class="sidebar-group-label">Price</div>
+        <div class="sidebar-price-row">
+          <input class="sidebar-price-input" type="number" placeholder="$0">
+          <span style="color:var(--color-muted);font-size:12px;">–</span>
+          <input class="sidebar-price-input" type="number" placeholder="$200">
+        </div>
+      </div>
+
+      <div class="sidebar-group">
+        <div class="sidebar-group-label">Features</div>
+        <div class="sidebar-option"><div class="sidebar-checkbox checked">✓</div> Stretch fabric</div>
+        <div class="sidebar-option"><div class="sidebar-checkbox"></div> Tool pockets</div>
+        <div class="sidebar-option"><div class="sidebar-checkbox"></div> Knee pad pockets</div>
+        <div class="sidebar-option"><div class="sidebar-checkbox"></div> Waterproof</div>
+      </div>
+    </aside>
+
+    <!-- Product grid -->
+    <div class="collection-grid-wrapper">
+      <div class="collection-grid" id="product-grid">
+
+        <!-- Card 1 — New Arrival -->
+        <div class="product-card">
+          <div class="product-card-media">
+            <div class="product-card-img-placeholder">Product image</div>
+            <span class="product-badge new-arrival">New</span>
+            <button class="quick-add-btn" onclick="openQAM(this)">
+              <span class="quick-add-icon">+</span>
+              <span class="quick-add-label">Quick add</span>
+            </button>
+          </div>
+          <div class="product-card-swatches">
+            <div class="product-card-swatch selected" style="background:#1a1a2e;" title="Midnight Navy"></div>
+            <div class="product-card-swatch" style="background:#2c3e50;" title="Slate"></div>
+            <div class="product-card-swatch" style="background:#5c4033;" title="Chestnut"></div>
+            <div class="product-card-swatch more">+4</div>
+          </div>
+          <div class="product-card-name">Maven Slim Pant</div>
+          <div class="product-card-price">$94.00</div>
+        </div>
+
+        <!-- Card 2 — Sale -->
+        <div class="product-card">
+          <div class="product-card-media">
+            <div class="product-card-img-placeholder">Product image</div>
+            <span class="product-badge sale">Sale</span>
+            <button class="quick-add-btn" onclick="openQAM(this)">
+              <span class="quick-add-icon">+</span>
+              <span class="quick-add-label">Quick add</span>
+            </button>
+          </div>
+          <div class="product-card-swatches">
+            <div class="product-card-swatch selected" style="background:#3d5a3e;" title="Forest"></div>
+            <div class="product-card-swatch" style="background:#1c2331;" title="Black"></div>
+          </div>
+          <div class="product-card-name">Groundbreaker Pant</div>
+          <div class="product-card-price">
+            <span class="price-was">$109.00</span><span class="price-sale">$79.00</span>
+          </div>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="product-card">
+          <div class="product-card-media">
+            <div class="product-card-img-placeholder">Product image</div>
+            <button class="quick-add-btn" onclick="openQAM(this)">
+              <span class="quick-add-icon">+</span>
+              <span class="quick-add-label">Quick add</span>
+            </button>
+          </div>
+          <div class="product-card-swatches">
+            <div class="product-card-swatch selected" style="background:#4a3728;" title="Coyote Brown"></div>
+            <div class="product-card-swatch" style="background:#bfae9e;" title="Stone"></div>
+            <div class="product-card-swatch" style="background:#2c3e50;" title="Slate"></div>
+          </div>
+          <div class="product-card-name">Utility Straight Pant</div>
+          <div class="product-card-price">$99.00</div>
+        </div>
+
+        <!-- Card 4 — Top Rated -->
+        <div class="product-card">
+          <div class="product-card-media">
+            <div class="product-card-img-placeholder">Product image</div>
+            <span class="product-badge top-rated">Top Rated</span>
+            <button class="quick-add-btn" onclick="openQAM(this)">
+              <span class="quick-add-icon">+</span>
+              <span class="quick-add-label">Quick add</span>
+            </button>
+          </div>
+          <div class="product-card-swatches">
+            <div class="product-card-swatch selected" style="background:#1c2331;" title="Black"></div>
+            <div class="product-card-swatch" style="background:#1a1a2e;" title="Midnight Navy"></div>
+            <div class="product-card-swatch" style="background:#6b7c6e;" title="Sage"></div>
+            <div class="product-card-swatch more">+2</div>
+          </div>
+          <div class="product-card-name">Canvas Work Pant</div>
+          <div class="product-card-price">$89.00</div>
+        </div>
+
+        <!-- Card 5 -->
+        <div class="product-card">
+          <div class="product-card-media">
+            <div class="product-card-img-placeholder">Product image</div>
+            <button class="quick-add-btn" onclick="openQAM(this)">
+              <span class="quick-add-icon">+</span>
+              <span class="quick-add-label">Quick add</span>
+            </button>
+          </div>
+          <div class="product-card-swatches">
+            <div class="product-card-swatch selected" style="background:#6b7c6e;" title="Sage"></div>
+            <div class="product-card-swatch" style="background:#bfae9e;" title="Stone"></div>
+          </div>
+          <div class="product-card-name">Flex Cargo Pant</div>
+          <div class="product-card-price">$104.00</div>
+        </div>
+
+        <!-- Card 6 — Sale -->
+        <div class="product-card">
+          <div class="product-card-media">
+            <div class="product-card-img-placeholder">Product image</div>
+            <span class="product-badge sale">Sale</span>
+            <button class="quick-add-btn" onclick="openQAM(this)">
+              <span class="quick-add-icon">+</span>
+              <span class="quick-add-label">Quick add</span>
+            </button>
+          </div>
+          <div class="product-card-swatches">
+            <div class="product-card-swatch selected" style="background:#5c4033;" title="Chestnut"></div>
+            <div class="product-card-swatch" style="background:#1c2331;" title="Black"></div>
+          </div>
+          <div class="product-card-name">Reinforced Knee Pant</div>
+          <div class="product-card-price">
+            <span class="price-was">$119.00</span><span class="price-sale">$89.00</span>
+          </div>
+        </div>
+
+      </div><!-- /collection-grid -->
+
+      <!-- ── LOAD MORE ── -->
+      <div class="load-more-row">
+        <div class="load-more-progress">Showing 6 of 42 products</div>
+        <div class="load-more-bar"><div class="load-more-bar-fill"></div></div>
+        <button class="btn-load-more">Load More</button>
+      </div>
+
+      <!-- ── SEO TEXT ── -->
+      <div class="collection-seo">
+        <h2>Women's Straight Leg Work Pants</h2>
+        <p>Dovetail's straight leg pants are built for tradeswomen who refuse to compromise. Each pair combines durable, stretch-woven fabrics with a fit designed specifically for women's bodies — not scaled-down men's cuts. From jobsite to weekend, these pants work as hard as you do.</p>
+      </div>
+    </div><!-- /collection-grid-wrapper -->
+  </div><!-- /collection-body -->
+
+  <!-- ── FOOTER ── -->
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-accordion-item">
+        <button class="footer-accordion-btn">
+          Shop <span class="footer-accordion-icon">+</span>
+        </button>
+        <div class="footer-accordion-body">
+          <a href="#">Women's Pants</a>
+          <a href="#">Women's Tops</a>
+          <a href="#">Accessories</a>
+          <a href="#">Sale</a>
+          <a href="#">New Arrivals</a>
+        </div>
+      </div>
+      <div class="footer-accordion-item">
+        <button class="footer-accordion-btn">
+          Help <span class="footer-accordion-icon">+</span>
+        </button>
+        <div class="footer-accordion-body">
+          <a href="#">Shipping &amp; Returns</a>
+          <a href="#">Size Guide</a>
+          <a href="#">FAQ</a>
+          <a href="#">Contact Us</a>
+        </div>
+      </div>
+      <div class="footer-accordion-item">
+        <button class="footer-accordion-btn">
+          Company <span class="footer-accordion-icon">+</span>
+        </button>
+        <div class="footer-accordion-body">
+          <a href="#">Our Story</a>
+          <a href="#">Sustainability</a>
+          <a href="#">Careers</a>
+          <a href="#">Press</a>
+        </div>
+      </div>
+      <div>
+        <div class="footer-accordion-btn" style="cursor:default;">Follow Us</div>
+        <div class="footer-social">
+          <div class="footer-social-icon">&#128248;</div>
+          <div class="footer-social-icon">&#128247;</div>
+          <div class="footer-social-icon">&#127897;</div>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Dovetail Workwear</span>
+      <span><a href="#" style="color:var(--color-muted);">Privacy Policy</a></span>
+    </div>
+  </footer>
+
+  <!-- ── FILTER DRAWER ── -->
+  <div class="filter-drawer-overlay" onclick="this.classList.remove('open')">
+    <div class="filter-drawer" onclick="event.stopPropagation()">
+      <div class="filter-drawer-header">
+        <span class="filter-drawer-title">Filter</span>
+        <button class="filter-drawer-close" onclick="document.querySelector('.filter-drawer-overlay').classList.remove('open')">×</button>
+      </div>
+
+      <!-- Color -->
+      <div class="filter-group">
+        <div class="filter-group-header">
+          <span class="filter-group-label">Color</span>
+          <span class="filter-group-caret">▾</span>
+        </div>
+        <div class="filter-group-body">
+          <div class="filter-color-row">
+            <div class="filter-color-option">
+              <div class="filter-color-dot selected" style="background:#1a1a2e;" title="Navy"></div>
+              <span class="filter-color-name">Navy</span>
+            </div>
+            <div class="filter-color-option">
+              <div class="filter-color-dot" style="background:#2c3e50;" title="Slate"></div>
+              <span class="filter-color-name">Slate</span>
+            </div>
+            <div class="filter-color-option">
+              <div class="filter-color-dot" style="background:#5c4033;" title="Chestnut"></div>
+              <span class="filter-color-name">Chestnut</span>
+            </div>
+            <div class="filter-color-option">
+              <div class="filter-color-dot" style="background:#3d5a3e;" title="Forest"></div>
+              <span class="filter-color-name">Forest</span>
+            </div>
+            <div class="filter-color-option">
+              <div class="filter-color-dot" style="background:#1c2331;" title="Black"></div>
+              <span class="filter-color-name">Black</span>
+            </div>
+            <div class="filter-color-option">
+              <div class="filter-color-dot" style="background:#bfae9e;" title="Stone"></div>
+              <span class="filter-color-name">Stone</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Waist -->
+      <div class="filter-group">
+        <div class="filter-group-header">
+          <span class="filter-group-label">Waist Size</span>
+          <span class="filter-group-caret">▾</span>
+        </div>
+        <div class="filter-group-body">
+          <div class="filter-size-row">
+            <div class="filter-size-chip">26</div>
+            <div class="filter-size-chip">28</div>
+            <div class="filter-size-chip selected">30</div>
+            <div class="filter-size-chip">32</div>
+            <div class="filter-size-chip">34</div>
+            <div class="filter-size-chip">36</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Inseam -->
+      <div class="filter-group">
+        <div class="filter-group-header">
+          <span class="filter-group-label">Inseam</span>
+          <span class="filter-group-caret">▾</span>
+        </div>
+        <div class="filter-group-body">
+          <div class="filter-size-row">
+            <div class="filter-size-chip">28"</div>
+            <div class="filter-size-chip">30"</div>
+            <div class="filter-size-chip">32"</div>
+            <div class="filter-size-chip">34"</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Price -->
+      <div class="filter-group">
+        <div class="filter-group-header">
+          <span class="filter-group-label">Price</span>
+          <span class="filter-group-caret">▾</span>
+        </div>
+        <div class="filter-group-body">
+          <div class="filter-price-row">
+            <input class="filter-price-input" type="number" placeholder="$0">
+            <span class="filter-price-sep">–</span>
+            <input class="filter-price-input" type="number" placeholder="$200">
+          </div>
+        </div>
+      </div>
+
+      <!-- Features -->
+      <div class="filter-group">
+        <div class="filter-group-header">
+          <span class="filter-group-label">Features</span>
+          <span class="filter-group-caret">▾</span>
+        </div>
+        <div class="filter-group-body">
+          <div class="filter-option">
+            <div class="filter-checkbox checked">✓</div> Stretch fabric
+          </div>
+          <div class="filter-option">
+            <div class="filter-checkbox"></div> Tool pockets
+          </div>
+          <div class="filter-option">
+            <div class="filter-checkbox"></div> Knee pad pockets
+          </div>
+          <div class="filter-option">
+            <div class="filter-checkbox"></div> Waterproof
+          </div>
+        </div>
+      </div>
+
+      <div class="filter-drawer-footer">
+        <button class="btn-filter-clear">Clear</button>
+        <button class="btn-filter-apply" onclick="document.querySelector('.filter-drawer-overlay').classList.remove('open')">Show 42 Products</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── QUICK-ADD MODAL ── -->
+  <div class="quick-add-overlay" id="qam-overlay" onclick="closeQAM(event)">
+    <div class="quick-add-modal" onclick="event.stopPropagation()">
+      <button class="quick-add-modal-close" onclick="document.getElementById('qam-overlay').classList.remove('open')">×</button>
+
+      <!-- Desktop gallery panel -->
+      <div class="qam-gallery">
+        <div class="qam-gallery-placeholder">Product image</div>
+      </div>
+
+      <!-- Content -->
+      <div class="qam-details">
+        <!-- Mobile header: thumb + title -->
+        <div class="qam-mobile-header">
+          <div class="qam-thumb">IMG</div>
+          <div>
+            <div class="qam-title">Maven Slim Pant</div>
+            <div class="qam-price">$94.00</div>
+            <div class="qam-stars">★★★★★ <span style="color:var(--color-muted);">4.8 (212)</span></div>
+          </div>
+        </div>
+
+        <!-- Desktop title (hidden on mobile) -->
+        <div class="qam-desktop-title">Maven Slim Pant</div>
+        <div class="qam-desktop-price">$94.00</div>
+        <div class="qam-desktop-stars">
+          <span>★★★★★</span>
+          <span style="color:var(--color-muted);">4.8 (212 reviews)</span>
+        </div>
+
+        <!-- Color -->
+        <div class="qam-variant-section">
+          <div class="qam-variant-label">Color — <strong style="color:var(--color-slate);">Midnight Navy</strong></div>
+          <div class="qam-color-row">
+            <div class="qam-color-swatch selected" style="background:#1a1a2e;" title="Midnight Navy"></div>
+            <div class="qam-color-swatch" style="background:#2c3e50;" title="Slate"></div>
+            <div class="qam-color-swatch" style="background:#5c4033;" title="Chestnut"></div>
+            <div class="qam-color-swatch" style="background:#1c2331;" title="Black"></div>
+            <div class="qam-color-swatch" style="background:#bfae9e;" title="Stone"></div>
+          </div>
+        </div>
+
+        <!-- Size selects -->
+        <div class="qam-variant-section">
+          <div class="qam-size-row">
+            <div>
+              <div class="qam-size-col-label">
+                <span class="qam-size-label">Waist</span>
+                <span class="qam-size-chart-link">Size chart</span>
+              </div>
+              <select class="qam-select">
+                <option>Select waist</option>
+                <option>26</option>
+                <option>28</option>
+                <option selected>30</option>
+                <option>32</option>
+                <option>34</option>
+                <option>36</option>
+              </select>
+            </div>
+            <div>
+              <div class="qam-size-col-label">
+                <span class="qam-size-label">Inseam</span>
+              </div>
+              <select class="qam-select">
+                <option>Select inseam</option>
+                <option>28"</option>
+                <option>30"</option>
+                <option selected>32"</option>
+                <option>34"</option>
+              </select>
+            </div>
+          </div>
+          <div class="qam-size-note">Fits true to size. Between sizes? Size up.</div>
+        </div>
+
+        <div class="qam-stock in-stock">✓ In stock — ships in 1–2 days</div>
+      </div>
+
+      <!-- Sticky ATC -->
+      <div class="qam-atc-sticky">
+        <button class="qam-atc-btn">Add to Cart — $94.00</button>
+        <a class="qam-view-details" href="#">View full product details →</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function setDensity(n, btn) {
+      document.querySelectorAll('.density-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const grid = document.getElementById('product-grid');
+      grid.classList.toggle('density-3', n === 3);
+    }
+
+    function openQAM(btn) {
+      document.getElementById('qam-overlay').classList.add('open');
+    }
+
+    function closeQAM(e) {
+      if (e.target === document.getElementById('qam-overlay')) {
+        document.getElementById('qam-overlay').classList.remove('open');
+      }
+    }
+
+    // Desktop: show sidebar, hide filter btn in bar
+    if (window.innerWidth >= 1024) {
+      document.getElementById('sidebar-filters').style.display = 'block';
+    }
+    window.addEventListener('resize', () => {
+      const sf = document.getElementById('sidebar-filters');
+      sf.style.display = window.innerWidth >= 1024 ? 'block' : 'none';
+    });
+  </script>
+</body>
+</html>

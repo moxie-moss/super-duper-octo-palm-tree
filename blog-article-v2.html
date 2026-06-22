@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Article — Dovetail Journal v2</title>
+  <link rel="stylesheet" href="design-system.css">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: var(--font-primary);
+      font-size: var(--text-sm);
+      color: var(--color-slate);
+      background: var(--color-cream);
+      max-width: 390px;
+      margin: 0 auto;
+    }
+
+    /* ── HEADER ── */
+    header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 12px 16px; border-bottom: 1px solid var(--color-border);
+      position: sticky; top: 0; background: #fff; z-index: var(--z-sticky);
+    }
+    .header-back {
+      font-size: 13px; color: var(--color-slate);
+      text-decoration: none; display: flex; align-items: center; gap: 4px;
+      font-weight: var(--fw-semibold);
+    }
+    .header-logo {
+      font-weight: var(--fw-bold); font-size: var(--text-base);
+      letter-spacing: 0.06em; text-transform: uppercase; color: var(--color-slate);
+      position: absolute; left: 50%; transform: translateX(-50%);
+    }
+    .header-icons { display: flex; gap: 14px; }
+    .header-icon { font-size: 20px; color: var(--color-slate); cursor: pointer; }
+    .header-cart { position: relative; font-size: 20px; color: var(--color-slate); cursor: pointer; }
+    .cart-badge {
+      position: absolute; top: -4px; right: -6px;
+      background: var(--color-paprika); color: #fff; border-radius: 50%;
+      font-size: 9px; font-weight: var(--fw-bold); width: 16px; height: 16px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .desktop-nav { display: none; }
+
+    /* ── HERO IMAGE ── */
+    .article-hero-img {
+      width: 100%;
+      aspect-ratio: 16/9;
+      background: var(--color-surface-2);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--color-muted); font-size: 13px;
+    }
+
+    /* ── ARTICLE BODY ── */
+    .article-body { padding: 20px 16px 32px; background: #fff; }
+
+    .article-category {
+      font-size: 10px;
+      font-weight: var(--fw-bold);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--color-paprika);
+      margin-bottom: 10px;
+    }
+    .article-title {
+      font-size: var(--text-2xl);
+      font-weight: var(--fw-bold);
+      color: var(--color-slate);
+      line-height: var(--lh-tight);
+      letter-spacing: -0.02em;
+      margin-bottom: 14px;
+    }
+    .article-meta {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--color-border);
+      margin-bottom: 20px;
+    }
+    .article-author-avatar {
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      background: var(--color-surface-2);
+      flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 14px; font-weight: var(--fw-bold); color: var(--color-muted);
+    }
+    .article-author-name {
+      font-size: 13px;
+      font-weight: var(--fw-semibold);
+      color: var(--color-slate);
+    }
+    .article-date-read {
+      font-size: 11px;
+      color: var(--color-muted);
+      font-weight: var(--fw-light);
+    }
+    .article-share {
+      margin-left: auto;
+      display: flex; gap: 10px;
+    }
+    .share-btn {
+      width: 32px; height: 32px;
+      border: 1px solid var(--color-border);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 13px; color: var(--color-muted); cursor: pointer;
+      background: none;
+    }
+
+    /* Rich text */
+    .article-content { line-height: var(--lh-relaxed); }
+    .article-content p {
+      font-size: var(--text-sm);
+      color: var(--color-slate);
+      font-weight: var(--fw-light);
+      margin-bottom: 16px;
+    }
+    .article-content h2 {
+      font-size: var(--text-xl);
+      font-weight: var(--fw-bold);
+      color: var(--color-slate);
+      letter-spacing: -0.01em;
+      margin: 24px 0 12px;
+      line-height: var(--lh-tight);
+    }
+    .article-content h3 {
+      font-size: var(--text-base);
+      font-weight: var(--fw-bold);
+      color: var(--color-slate);
+      margin: 20px 0 8px;
+    }
+    .article-content blockquote {
+      border-left: 3px solid var(--color-paprika);
+      padding: 12px 16px;
+      background: var(--color-cream);
+      margin: 20px 0;
+      font-size: var(--text-base);
+      font-weight: var(--fw-semibold);
+      color: var(--color-slate);
+      line-height: var(--lh-relaxed);
+      font-style: italic;
+    }
+    .article-content ul {
+      padding-left: 20px;
+      margin-bottom: 16px;
+    }
+    .article-content li {
+      font-size: var(--text-sm);
+      color: var(--color-slate);
+      font-weight: var(--fw-light);
+      line-height: var(--lh-relaxed);
+      margin-bottom: 6px;
+    }
+
+    /* Inline image */
+    .article-inline-img {
+      width: 100%;
+      aspect-ratio: 3/2;
+      background: var(--color-surface-2);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--color-muted); font-size: 11px;
+      margin: 20px 0;
+    }
+    .article-inline-img-caption {
+      font-size: 11px;
+      color: var(--color-muted);
+      text-align: center;
+      margin-top: -12px;
+      margin-bottom: 20px;
+      font-weight: var(--fw-light);
+    }
+
+    /* Tags */
+    .article-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 24px;
+      padding-top: 20px;
+      border-top: 1px solid var(--color-border);
+    }
+    .article-tag {
+      padding: 5px 12px;
+      border: 1px solid var(--color-border);
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: var(--fw-semibold);
+      color: var(--color-muted);
+      cursor: pointer;
+      transition: var(--transition-base);
+    }
+    .article-tag:hover { border-color: var(--color-slate); color: var(--color-slate); }
+
+    /* ── IN-ARTICLE PRODUCT CALLOUT ── */
+    .product-callout {
+      background: var(--color-cream);
+      border: 1px solid var(--color-border);
+      padding: 14px;
+      margin: 24px 0;
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+    }
+    .product-callout-img {
+      width: 64px;
+      aspect-ratio: 3/4;
+      background: var(--color-surface-2);
+      flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--color-muted); font-size: 9px;
+    }
+    .product-callout-name {
+      font-size: var(--text-sm);
+      font-weight: var(--fw-semibold);
+      color: var(--color-slate);
+      margin-bottom: 3px;
+    }
+    .product-callout-price {
+      font-size: 12px;
+      color: var(--color-muted);
+      margin-bottom: 8px;
+      font-weight: var(--fw-light);
+    }
+    .btn-callout-shop {
+      padding: 8px 16px;
+      background: var(--btn-primary-bg);
+      color: #fff;
+      font-size: 11px;
+      font-weight: var(--fw-bold);
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      border: none;
+      border-radius: var(--radius-btn);
+      cursor: pointer;
+      font-family: var(--font-primary);
+    }
+
+    /* ── AUTHOR BIO ── */
+    .author-bio {
+      padding: 20px;
+      background: var(--color-cream);
+      border-top: 1px solid var(--color-border);
+      border-bottom: 1px solid var(--color-border);
+      display: flex;
+      gap: 14px;
+    }
+    .author-bio-avatar {
+      width: 52px; height: 52px; border-radius: 50%;
+      background: var(--color-surface-2); flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px; font-weight: var(--fw-bold); color: var(--color-muted);
+    }
+    .author-bio-name {
+      font-size: var(--text-sm);
+      font-weight: var(--fw-bold);
+      color: var(--color-slate);
+      margin-bottom: 4px;
+    }
+    .author-bio-text {
+      font-size: 12px;
+      color: var(--color-muted);
+      line-height: var(--lh-relaxed);
+      font-weight: var(--fw-light);
+    }
+
+    /* ── RELATED ARTICLES ── */
+    .related-section { padding: 24px 16px; background: #fff; }
+    .related-title {
+      font-size: 11px;
+      font-weight: var(--fw-bold);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--color-muted);
+      margin-bottom: 14px;
+    }
+    .related-article {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--color-border);
+    }
+    .related-article:last-child { border-bottom: none; }
+    .related-article-img {
+      width: 72px;
+      aspect-ratio: 16/9;
+      background: var(--color-surface-2);
+      flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--color-muted); font-size: 9px;
+    }
+    .related-article-category {
+      font-size: 10px;
+      font-weight: var(--fw-bold);
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      color: var(--color-paprika);
+      margin-bottom: 3px;
+    }
+    .related-article-title {
+      font-size: 13px;
+      font-weight: var(--fw-semibold);
+      color: var(--color-slate);
+      line-height: var(--lh-tight);
+    }
+    .related-article-date {
+      font-size: 11px;
+      color: var(--color-muted);
+      margin-top: 3px;
+      font-weight: var(--fw-light);
+    }
+
+    /* ── DESKTOP ── */
+    @media (min-width: 1024px) {
+      body { max-width: var(--page-width); }
+
+      header { padding: 0 48px; height: 68px; }
+      .header-back { display: none; }
+      .header-logo { position: static; transform: none; font-size: var(--text-lg); }
+      .desktop-nav {
+        display: flex; align-items: center; gap: 32px; flex: 1; padding-left: 48px;
+      }
+      .desktop-nav a {
+        font-size: 13px; font-weight: var(--fw-semibold);
+        color: var(--color-slate); text-decoration: none;
+        letter-spacing: 0.03em; text-transform: uppercase;
+      }
+
+      .article-hero-img { aspect-ratio: 21/9; }
+
+      /* Desktop: centered article column */
+      .article-body { max-width: 720px; margin: 0 auto; padding: 36px 48px 48px; }
+      .article-title { font-size: var(--text-4xl); }
+
+      .author-bio { max-width: 720px; margin: 0 auto; padding: 24px 48px; }
+
+      /* Related: 3-col grid */
+      .related-section { padding: 40px 48px; }
+      .related-articles-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 24px; }
+      .related-article { flex-direction: column; padding: 0; border-bottom: none; }
+      .related-article-img { width: 100%; aspect-ratio: 16/9; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <a href="#" class="header-back">← Journal</a>
+    <nav class="desktop-nav">
+      <a href="#">Women</a><a href="#">Men</a><a href="#">Collections</a><a href="#">About</a>
+    </nav>
+    <a href="#" class="header-logo">Dovetail</a>
+    <div class="header-icons">
+      <button class="header-icon">&#128269;</button>
+      <button class="header-cart">&#128722;<span class="cart-badge">2</span></button>
+    </div>
+  </header>
+
+  <!-- Hero image -->
+  <div class="article-hero-img">Article hero image (16:9)</div>
+
+  <!-- Article body -->
+  <article class="article-body">
+
+    <div class="article-category">Work Life</div>
+    <h1 class="article-title">What Tradeswomen Wish Their Employers Knew About Fit</h1>
+
+    <div class="article-meta">
+      <div class="article-author-avatar">MT</div>
+      <div>
+        <div class="article-author-name">Maya Torres</div>
+        <div class="article-date-read">June 18, 2026 · 6 min read</div>
+      </div>
+      <div class="article-share">
+        <button class="share-btn" title="Share">↗</button>
+        <button class="share-btn" title="Save">♡</button>
+      </div>
+    </div>
+
+    <div class="article-content">
+      <p>When we surveyed 500 women in the trades — electricians, plumbers, carpenters, ironworkers — about their biggest on-the-job frustrations, "workwear that doesn't fit" ranked second only to "being taken seriously." That's not a fashion complaint. It's a safety and productivity issue.</p>
+
+      <blockquote>"I can't do a proper squat in the pants I was issued. So I don't. And that means I'm compensating all day and my back pays for it." — Licensed electrician, 8 years experience</blockquote>
+
+      <h2>The Problem with Men's Sizing</h2>
+
+      <p>For decades, workwear has been designed for men and scaled down for women. The result is pants with waistbands that gap, inseams that pucker, and seat measurements that are either too tight to crouch or so baggy that extra fabric catches on equipment.</p>
+
+      <p>The average woman in the trades wears a different waist-to-hip ratio than the average man. That's not a controversial statement — it's anatomy. But the workwear industry has been slow to catch up.</p>
+
+      <div class="article-inline-img">Article inline image (3:2)</div>
+      <div class="article-inline-img-caption">From our 2025 fit study: heat map of friction points during a standard electrical rough-in.</div>
+
+      <h2>What Actually Needs to Change</h2>
+
+      <p>Based on our survey data and two years of fit-testing with tradeswomen across 12 states, here's what women consistently ask for:</p>
+
+      <ul>
+        <li><strong>Waist-to-hip ratio accommodation</strong> — without compromising tool pocket access</li>
+        <li><strong>Rise that allows full range of motion</strong> — crouching, climbing, kneeling, without the waistband digging in</li>
+        <li><strong>Knee reinforcement positioned for women's body proportions</strong> — not men's knee heights scaled down</li>
+        <li><strong>Weight-appropriate fabrics</strong> — women run cooler than men; breathability matters differently</li>
+        <li><strong>Pocket placement that actually works</strong> — front pockets at thigh level, not hip level</li>
+      </ul>
+
+      <!-- In-article product callout -->
+      <div class="product-callout">
+        <div class="product-callout-img">Img</div>
+        <div>
+          <div class="product-callout-name">Maven Slim Pant</div>
+          <div class="product-callout-price">$94.00</div>
+          <button class="btn-callout-shop">Shop Now</button>
+        </div>
+      </div>
+
+      <h2>What Employers Can Do</h2>
+
+      <p>If you're a contractor, site manager, or safety officer reading this: you have more power here than you think. Uniform policies that allow women to source their own properly-fitted workwear — and reimburse accordingly — are a simple first step. Several companies we spoke with have already moved in this direction.</p>
+
+      <p>Beyond policy, listening helps. The women on your crews know exactly what's wrong with their gear. Schedule time to actually ask.</p>
+
+      <h3>A Note on Cost</h3>
+
+      <p>Properly fitted workwear isn't more expensive — it just seems that way because the default "cheap" options were only ever designed for one body type. When you account for replacement frequency, productivity loss, and injury risk, the economics shift quickly.</p>
+
+      <p>One thing is certain: the industry is changing. Tradeswomen are a growing portion of the skilled trades workforce, and workwear brands that don't adapt will lose that market entirely.</p>
+    </div>
+
+    <!-- Tags -->
+    <div class="article-tags">
+      <span class="article-tag">Workwear Fit</span>
+      <span class="article-tag">Tradeswomen</span>
+      <span class="article-tag">Safety</span>
+      <span class="article-tag">Industry</span>
+    </div>
+
+  </article>
+
+  <!-- Author bio -->
+  <div class="author-bio">
+    <div class="author-bio-avatar">MT</div>
+    <div>
+      <div class="author-bio-name">Maya Torres</div>
+      <div class="author-bio-text">Maya has covered the skilled trades for 10 years. She holds a union card in the IBEW and has spent time on job sites in 14 states. She writes about the intersection of work, body, and gear.</div>
+    </div>
+  </div>
+
+  <!-- Related articles -->
+  <div class="related-section">
+    <div class="related-title">More to Read</div>
+    <div class="related-articles-grid">
+
+      <div class="related-article">
+        <div class="related-article-img">Image</div>
+        <div>
+          <div class="related-article-category">Gear Guides</div>
+          <div class="related-article-title">The Best Work Pants for Electricians in 2026</div>
+          <div class="related-article-date">June 12, 2026 · 4 min read</div>
+        </div>
+      </div>
+
+      <div class="related-article">
+        <div class="related-article-img">Image</div>
+        <div>
+          <div class="related-article-category">Community</div>
+          <div class="related-article-title">She Built a Career in Plumbing. Now She's Teaching the Next Generation.</div>
+          <div class="related-article-date">June 5, 2026 · 8 min read</div>
+        </div>
+      </div>
+
+      <div class="related-article">
+        <div class="related-article-img">Image</div>
+        <div>
+          <div class="related-article-category">Sustainability</div>
+          <div class="related-article-title">How We Reduced Our Carbon Footprint by 30% in Two Years</div>
+          <div class="related-article-date">May 28, 2026 · 5 min read</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</body>
+</html>
