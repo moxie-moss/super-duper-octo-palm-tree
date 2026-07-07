@@ -650,7 +650,7 @@
     .mob-about-links { border-top: 2px solid #e8e8e8; margin-top: 14px; }
 
     /* ── Pants style detail (show/hide) ── */
-    .mob-style-view { display: none; }
+    /* initial display:none is set inline on each view div; toggled via JS style.display */
 
     .mob-style-img {
       background: #e0e0e0;
@@ -1343,7 +1343,7 @@
           </div>
 
           <!-- ── Style: Britt ── -->
-          <div class="mob-style-view" id="pants-view-britt">
+          <div class="mob-style-view" id="pants-view-britt" style="display:none">
             <div class="mob-style-img">[ Britt product photo ]</div>
             <div class="mob-style-info">
               <div class="mob-style-name">Britt</div>
@@ -1359,7 +1359,7 @@
           </div>
 
           <!-- ── Style: Maven Slim ── -->
-          <div class="mob-style-view" id="pants-view-maven">
+          <div class="mob-style-view" id="pants-view-maven" style="display:none">
             <div class="mob-style-img">[ Maven Slim product photo ]</div>
             <div class="mob-style-info">
               <div class="mob-style-name">Maven Slim</div>
@@ -1370,7 +1370,7 @@
           </div>
 
           <!-- ── Style: Anna ── -->
-          <div class="mob-style-view" id="pants-view-anna">
+          <div class="mob-style-view" id="pants-view-anna" style="display:none">
             <div class="mob-style-img">[ Anna product photo ]</div>
             <div class="mob-style-info">
               <div class="mob-style-name">Anna</div>
@@ -1381,7 +1381,7 @@
           </div>
 
           <!-- ── Style: GO TO™ ── -->
-          <div class="mob-style-view" id="pants-view-goto">
+          <div class="mob-style-view" id="pants-view-goto" style="display:none">
             <div class="mob-style-img">[ GO TO™ product photo ]</div>
             <div class="mob-style-info">
               <div class="mob-style-name">GO TO™ Pant</div>
@@ -1391,7 +1391,7 @@
           </div>
 
           <!-- ── Style: Old School ── -->
-          <div class="mob-style-view" id="pants-view-oldschool">
+          <div class="mob-style-view" id="pants-view-oldschool" style="display:none">
             <div class="mob-style-img">[ Old School lifestyle photo ]</div>
             <div class="mob-style-info">
               <div class="mob-style-name">Old School</div>
@@ -1401,7 +1401,7 @@
           </div>
 
           <!-- ── Style: Day Construct ── -->
-          <div class="mob-style-view" id="pants-view-dayconstruct">
+          <div class="mob-style-view" id="pants-view-dayconstruct" style="display:none">
             <div class="mob-style-img">[ Day Construct product photo ]</div>
             <div class="mob-style-info">
               <div class="mob-style-name">Day Construct</div>
@@ -1411,7 +1411,7 @@
           </div>
 
           <!-- ── Style: Provisions Cargo ── -->
-          <div class="mob-style-view" id="pants-view-provisions">
+          <div class="mob-style-view" id="pants-view-provisions" style="display:none">
             <div class="mob-style-img">[ Provisions product photo ]</div>
             <div class="mob-style-info">
               <div class="mob-style-name">Provisions Cargo</div>
@@ -1421,7 +1421,7 @@
           </div>
 
           <!-- ── Style: CoolSwap™ ── -->
-          <div class="mob-style-view" id="pants-view-coolswap">
+          <div class="mob-style-view" id="pants-view-coolswap" style="display:none">
             <div class="mob-style-img">[ CoolSwap™ feature photo ]</div>
             <div class="mob-style-info">
               <div class="mob-style-name">CoolSwap™ Active Cooling</div>
@@ -1431,7 +1431,7 @@
           </div>
 
           <!-- ── Style: Flame Resistant ── -->
-          <div class="mob-style-view" id="pants-view-fr">
+          <div class="mob-style-view" id="pants-view-fr" style="display:none">
             <div class="mob-style-img">[ FR Pants product photo ]</div>
             <div class="mob-style-info">
               <div class="mob-style-name">Flame Resistant</div>
