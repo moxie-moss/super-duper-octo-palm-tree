@@ -1,0 +1,1668 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nav — Interactive Desktop — Dovetail Workwear</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-size: 15px;
+      color: #333;
+      background: #f0f0f0;
+    }
+
+    .demo-note {
+      background: #fffbe6;
+      border-bottom: 1px solid #e8d800;
+      font-size: 12px;
+      color: #666;
+      padding: 8px 24px;
+      text-align: center;
+    }
+
+    /* ── Site wrapper ── */
+    .site-wrapper {
+      max-width: 1280px;
+      margin: 0 auto;
+      background: #fff;
+    }
+
+    /* ── Announcement bar ── */
+    .announcement-bar {
+      background: #222;
+      color: #fff;
+      text-align: center;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      padding: 9px 16px;
+    }
+    .announcement-bar a { color: #fff; text-decoration: underline; }
+
+    /* ── Header ── */
+    .site-header {
+      display: flex;
+      align-items: center;
+      padding: 0 40px;
+      height: 60px;
+      border-bottom: 1px solid #e0e0e0;
+      background: #fff;
+      position: relative;
+      z-index: 300;
+    }
+    .header-logo {
+      font-weight: 900;
+      font-size: 20px;
+      letter-spacing: 0.04em;
+      margin-right: 48px;
+      flex-shrink: 0;
+      cursor: pointer;
+    }
+    .primary-nav {
+      display: flex;
+      align-items: center;
+      flex: 1;
+    }
+    .nav-item {
+      padding: 0 16px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      cursor: pointer;
+      color: #333;
+      border-bottom: 2px solid transparent;
+      white-space: nowrap;
+      user-select: none;
+      transition: border-color 0.12s;
+      position: relative;
+    }
+    .nav-item:hover { border-bottom-color: #bbb; }
+    .nav-item.active { border-bottom-color: #333; }
+    .nav-item.sale { color: #c0392b; }
+    .nav-item.flat { font-weight: 400; color: #666; font-size: 12px; }
+    .nav-item .sale-flag {
+      font-size: 9px;
+      font-weight: 700;
+      background: #ffeaea;
+      color: #c0392b;
+      border-radius: 3px;
+      padding: 1px 4px;
+      margin-left: 5px;
+      letter-spacing: 0;
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      flex-shrink: 0;
+    }
+    .header-search {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: #f5f5f5;
+      border-radius: 2px;
+      padding: 7px 12px;
+      font-size: 12px;
+      color: #888;
+      min-width: 160px;
+      cursor: text;
+    }
+    .header-icon { font-size: 19px; cursor: pointer; }
+
+    /* ═══════════════════════════════════════
+       MEGA PANEL SYSTEM
+    ═══════════════════════════════════════ */
+
+    #mega-overlay {
+      display: none;
+      border-bottom: 2px solid #e0e0e0;
+      position: relative;
+      z-index: 200;
+    }
+
+    .mega-wrap {
+      display: flex;
+    }
+
+    .mega-panel {
+      display: none;
+      width: 500px;
+      flex-shrink: 0;
+      border-right: 1px solid #e0e0e0;
+      min-height: 440px;
+    }
+    .mega-panel.wide { width: 560px; }
+
+    /* Left gray column */
+    .mega-left {
+      background: #f5f5f5;
+      width: 190px;
+      flex-shrink: 0;
+      padding: 24px 0;
+    }
+    .mega-left-link {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 22px;
+      font-size: 14px;
+      color: #444;
+      cursor: pointer;
+      transition: background 0.1s;
+      user-select: none;
+    }
+    .mega-left-link:hover { background: #ebebeb; }
+    .mega-left-link.active { background: #ebebeb; font-weight: 600; color: #111; }
+    .mega-left-link.sale-link { color: #c0392b; }
+    .mega-arrow { font-size: 12px; color: #bbb; }
+
+    /* Right white column */
+    .mega-right {
+      background: #fff;
+      flex: 1;
+      padding: 24px 22px 28px;
+      position: relative;
+      overflow-y: auto;
+    }
+    .mega-close {
+      position: absolute;
+      top: 12px; right: 16px;
+      background: none; border: none;
+      font-size: 22px; color: #aaa;
+      cursor: pointer; line-height: 1;
+    }
+    .mega-close:hover { color: #333; }
+
+    /* Image grid */
+    .mega-img-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-bottom: 18px;
+    }
+    .mega-img-grid.cols-3 { grid-template-columns: 1fr 1fr 1fr; }
+    .mega-img-card {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      cursor: pointer;
+    }
+    .mega-img-placeholder {
+      background: #e0e0e0;
+      aspect-ratio: 3/4;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 9px;
+      color: #bbb;
+      text-align: center;
+      line-height: 1.4;
+      transition: background 0.12s;
+    }
+    .mega-img-card:hover .mega-img-placeholder { background: #d4d4d4; }
+    .mega-img-placeholder.sq { aspect-ratio: 1/1; }
+    .mega-img-placeholder.wide { aspect-ratio: 4/3; }
+    .mega-img-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      color: #555;
+      text-align: center;
+    }
+
+    /* Style detail view (Pants sub-selection) */
+    .style-detail {
+      display: none;
+    }
+    .style-detail-img {
+      background: #e0e0e0;
+      aspect-ratio: 2/3;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      color: #bbb;
+      text-align: center;
+      line-height: 1.4;
+      margin-bottom: 14px;
+    }
+    .style-detail-name {
+      font-size: 15px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+    .style-detail-desc {
+      font-size: 13px;
+      color: #777;
+      line-height: 1.55;
+      margin-bottom: 14px;
+    }
+    .style-detail-cta {
+      display: inline-block;
+      font-size: 13px;
+      font-weight: 700;
+      color: #333;
+      cursor: pointer;
+    }
+    .style-detail-cta:hover { text-decoration: underline; }
+
+    /* Text links block */
+    .mega-text-links {
+      border-top: 1px solid #e8e8e8;
+      padding-top: 12px;
+    }
+    .mega-section-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      color: #ccc;
+      padding: 8px 0 4px;
+    }
+    .mega-text-link {
+      display: block;
+      font-size: 14px;
+      color: #333;
+      text-decoration: none;
+      padding: 7px 0;
+      cursor: pointer;
+      border-bottom: 1px solid #f4f4f4;
+    }
+    .mega-text-link:last-child { border-bottom: none; }
+    .mega-text-link:hover { color: #000; }
+    .mega-text-link.cta { font-weight: 700; border-top: 1px solid #e8e8e8; margin-top: 4px; border-bottom: none; }
+
+    /* Editorial image (Sale panel) */
+    .mega-editorial {
+      width: 100%;
+      aspect-ratio: 3/2;
+      background: #c8c4c0;
+      border-radius: 3px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-end;
+      padding: 20px;
+      margin-bottom: 14px;
+      position: relative;
+      overflow: hidden;
+    }
+    .mega-editorial-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, transparent 30%, rgba(0,0,0,0.5));
+    }
+    .mega-editorial-text {
+      font-size: 22px;
+      font-weight: 900;
+      color: #fff;
+      text-align: center;
+      letter-spacing: 0.04em;
+      position: relative;
+      z-index: 1;
+    }
+    .mega-editorial-sub {
+      font-size: 12px;
+      color: rgba(255,255,255,0.75);
+      margin-top: 4px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Page stub — blurred page content visible to right of panel */
+    .page-stub-right {
+      flex: 1;
+      background: #f8f8f8;
+      padding: 28px 24px;
+      filter: blur(2px);
+      opacity: 0.55;
+      pointer-events: none;
+    }
+    .stub-title { height: 20px; background: #ddd; border-radius: 3px; width: 35%; margin-bottom: 18px; }
+    .stub-filters { display: flex; gap: 8px; margin-bottom: 20px; }
+    .stub-filter { height: 30px; background: #e4e4e4; border-radius: 2px; width: 80px; }
+    .stub-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+    .stub-product { background: #e4e4e4; aspect-ratio: 4/5; border-radius: 3px; }
+
+    /* ═══════════════════════════════════════
+       PAGE CONTENT (fake collection below nav)
+    ═══════════════════════════════════════ */
+
+    .page-content {
+      padding: 32px 40px 48px;
+    }
+    .page-breadcrumb { font-size: 12px; color: #aaa; margin-bottom: 18px; }
+    .page-header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      margin-bottom: 6px;
+    }
+    .page-title { font-size: 22px; font-weight: 900; letter-spacing: 0.02em; }
+    .page-count { font-size: 13px; color: #aaa; }
+    .page-subtitle { font-size: 13px; color: #888; margin-bottom: 24px; }
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+    }
+    .product-card { cursor: pointer; }
+    .product-card-img {
+      background: #e8e8e8;
+      aspect-ratio: 4/5;
+      border-radius: 3px;
+      margin-bottom: 9px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      color: #bbb;
+      text-align: center;
+      line-height: 1.4;
+      transition: background 0.15s;
+    }
+    .product-card:hover .product-card-img { background: #dedede; }
+    .product-card-name { font-size: 13px; font-weight: 600; margin-bottom: 3px; }
+    .product-card-sub { font-size: 12px; color: #999; margin-bottom: 3px; }
+    .product-card-price { font-size: 13px; color: #555; }
+
+    /* ═══════════════════════════════════════
+       MOBILE INTERACTIVE SECTION
+    ═══════════════════════════════════════ */
+
+    .mobile-section-wrap {
+      background: #e8e8e8;
+      padding: 40px 24px 60px;
+      margin-top: 40px;
+    }
+    .mobile-section-label {
+      text-align: center;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #aaa;
+      margin-bottom: 24px;
+    }
+    .mobile-frame-wrap {
+      max-width: 390px;
+      margin: 0 auto;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 4px 32px rgba(0,0,0,0.18);
+      background: #fff;
+    }
+
+    /* Mobile header bar (always visible) */
+    .mob-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 13px 16px;
+      border-bottom: 1px solid #e8e8e8;
+      background: #fff;
+      position: relative;
+      z-index: 10;
+    }
+    .mob-close-icon { font-size: 22px; cursor: pointer; color: #333; width: 28px; }
+    .mob-logo { font-weight: 900; font-size: 16px; letter-spacing: 0.04em; }
+    .mob-icons { display: flex; gap: 14px; align-items: center; font-size: 20px; }
+
+    /* Nav panels */
+    .mob-slider { background: #fff; min-height: 500px; }
+
+    .mob-search {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: #f5f5f5;
+      border-radius: 6px;
+      padding: 11px 14px;
+      margin: 12px 16px 4px;
+      font-size: 14px;
+      color: #aaa;
+    }
+
+    .mob-nav-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 16px;
+      font-size: 17px;
+      font-weight: 700;
+      color: #222;
+      border-bottom: 1px solid #f0f0f0;
+      cursor: pointer;
+      user-select: none;
+    }
+    .mob-nav-row:active { background: #fafafa; }
+    .mob-nav-row.flat { font-size: 15px; font-weight: 400; color: #666; }
+    .mob-nav-row.sale-row { color: #c0392b; }
+    .mob-nav-chevron { color: #ccc; font-weight: 400; font-size: 18px; }
+
+    .mob-featured-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      padding: 16px 16px 4px;
+    }
+    .mob-featured-card {
+      position: relative;
+      aspect-ratio: 3/4;
+      background: #d0ccc8;
+      border-radius: 4px;
+      overflow: hidden;
+      cursor: pointer;
+    }
+    .mob-featured-card:nth-child(2) { background: #c4c8c0; }
+    .mob-featured-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, transparent 45%, rgba(0,0,0,0.42));
+    }
+    .mob-featured-label {
+      position: absolute;
+      bottom: 10px;
+      left: 11px;
+      font-size: 11px;
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      text-shadow: 0 1px 4px rgba(0,0,0,0.35);
+    }
+    .mob-featured-hint {
+      position: absolute;
+      top: 7px; left: 8px;
+      font-size: 8px;
+      color: rgba(255,255,255,0.5);
+      line-height: 1.3;
+    }
+
+    .mob-login-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 16px;
+      font-size: 14px;
+      color: #555;
+      border-top: 2px solid #e8e8e8;
+      margin-top: 10px;
+      cursor: pointer;
+    }
+
+    /* L2 panels */
+    .mob-l2 {
+      display: none;
+      width: 100%;
+      background: #fff;
+    }
+    .mob-l2.active { display: block; }
+
+    .mob-l2-header {
+      display: flex;
+      align-items: center;
+      padding: 14px 16px;
+      border-bottom: 1px solid #e8e8e8;
+      gap: 8px;
+    }
+    .mob-l2-back {
+      font-size: 22px;
+      color: #555;
+      cursor: pointer;
+      width: 28px;
+      flex-shrink: 0;
+      user-select: none;
+    }
+    .mob-l2-title {
+      flex: 1;
+      font-size: 14px;
+      font-weight: 700;
+      text-align: center;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+    .mob-l2-close {
+      font-size: 20px;
+      color: #bbb;
+      cursor: pointer;
+      width: 28px;
+      text-align: right;
+      flex-shrink: 0;
+    }
+
+    .mob-img-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      padding: 14px 14px 0;
+    }
+    .mob-img-grid.cols3 { grid-template-columns: 1fr 1fr 1fr; }
+    .mob-img-card { display: flex; flex-direction: column; gap: 5px; cursor: pointer; }
+    .mob-img-placeholder {
+      background: #e0e0e0;
+      aspect-ratio: 3/4;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 9px;
+      color: #bbb;
+      text-align: center;
+      line-height: 1.4;
+      transition: background 0.1s;
+    }
+    .mob-img-card:hover .mob-img-placeholder { background: #d4d4d4; }
+    .mob-img-placeholder.sq { aspect-ratio: 1/1; }
+    .mob-img-label {
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #666;
+      text-align: center;
+    }
+
+    .mob-shop-all {
+      display: block;
+      margin: 12px 14px 0;
+      padding: 13px;
+      background: #222;
+      color: #fff;
+      font-size: 13px;
+      font-weight: 700;
+      text-align: center;
+      letter-spacing: 0.04em;
+      border-radius: 3px;
+      cursor: pointer;
+    }
+    .mob-shop-all:hover { background: #333; }
+
+    .mob-list { border-top: 1px solid #e8e8e8; margin-top: 14px; }
+    .mob-list-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 16px;
+      font-size: 15px;
+      color: #333;
+      border-bottom: 1px solid #f0f0f0;
+      cursor: pointer;
+    }
+    .mob-list-item:last-child { border-bottom: none; }
+    .mob-list-item.sale-item { color: #c0392b; }
+    .mob-list-item .mob-chevron { color: #ccc; font-size: 16px; }
+
+    /* About L2 uses a different layout — no image grid, story-first */
+    .mob-about-mission {
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      line-height: 1.55;
+      color: #222;
+      padding: 16px 16px 14px;
+      border-bottom: 1px solid #f0f0f0;
+    }
+    .mob-about-photo {
+      background: #d8d4ce;
+      aspect-ratio: 16/7;
+      margin: 14px 14px 0;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 9px;
+      color: #aaa;
+    }
+    .mob-about-story {
+      padding: 14px 16px 0;
+      font-size: 13px;
+      color: #555;
+      line-height: 1.65;
+    }
+    .mob-about-cta {
+      display: block;
+      margin: 14px 16px 0;
+      padding: 13px;
+      background: #222;
+      color: #fff;
+      font-size: 13px;
+      font-weight: 700;
+      text-align: center;
+      border-radius: 3px;
+      cursor: pointer;
+    }
+    .mob-about-links { border-top: 2px solid #e8e8e8; margin-top: 14px; }
+
+    /* ── Pants style detail (show/hide) ── */
+    .mob-style-view { display: none; }
+
+    .mob-style-img {
+      background: #e0e0e0;
+      height: 220px;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 9px;
+      color: #bbb;
+      text-align: center;
+      line-height: 1.4;
+      margin: 14px 14px 0;
+    }
+    .mob-style-info { padding: 14px 16px 0; }
+    .mob-style-name { font-size: 18px; font-weight: 700; margin-bottom: 6px; }
+    .mob-style-desc { font-size: 13px; color: #666; line-height: 1.6; margin-bottom: 5px; }
+    .mob-style-meta { font-size: 12px; color: #aaa; margin-bottom: 14px; }
+    .mob-style-cta {
+      display: block;
+      margin: 0 0 0 0;
+      padding: 13px;
+      background: #222;
+      color: #fff;
+      font-size: 13px;
+      font-weight: 700;
+      text-align: center;
+      border-radius: 3px;
+      cursor: pointer;
+    }
+    .mob-style-variants { border-top: 1px solid #e8e8e8; margin-top: 14px; }
+    .mob-style-variant {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 13px 16px;
+      font-size: 14px;
+      color: #333;
+      border-bottom: 1px solid #f0f0f0;
+      cursor: pointer;
+    }
+    .mob-style-variant:last-child { border-bottom: none; }
+  </style>
+</head>
+<body>
+
+<div class="demo-note">Interactive desktop nav — click any item to open its panel · click same item or × to close · Escape also closes</div>
+
+<div class="site-wrapper">
+
+  <div class="announcement-bar">FREE EXCHANGES + EASY RETURNS &nbsp;·&nbsp; <a href="#">SHOP NEW ARRIVALS →</a></div>
+
+  <!-- ══ HEADER ══ -->
+  <div class="site-header">
+    <div class="header-logo" onclick="closePanel()">DOVETAIL</div>
+    <nav class="primary-nav">
+      <div class="nav-item" data-panel="new"       onclick="togglePanel('new')">New</div>
+      <div class="nav-item" data-panel="pants"     onclick="togglePanel('pants')">Pants</div>
+      <div class="nav-item" data-panel="shorts"    onclick="closePanel()">Shorts</div>
+      <div class="nav-item" data-panel="tops"      onclick="togglePanel('tops')">Tops</div>
+      <div class="nav-item" data-panel="overalls"  onclick="togglePanel('overalls')">Overalls</div>
+      <div class="nav-item flat"                   onclick="closePanel()">Outerwear</div>
+      <div class="nav-item" data-panel="gear"      onclick="togglePanel('gear')">Gear</div>
+      <div class="nav-item sale" data-panel="sale" onclick="togglePanel('sale')">Sale <span class="sale-flag">MISSING</span></div>
+      <div class="nav-item" data-panel="about"    onclick="togglePanel('about')">About</div>
+    </nav>
+    <div class="header-right">
+      <div class="header-search"><span>⌕</span> Search styles, fabrics…</div>
+      <span class="header-icon">👤</span>
+      <span class="header-icon" style="position:relative;">🛒<span style="position:absolute;top:-4px;right:-6px;background:#333;color:#fff;border-radius:50%;font-size:10px;width:16px;height:16px;display:flex;align-items:center;justify-content:center;">2</span></span>
+    </div>
+  </div>
+
+  <!-- ══ MEGA OVERLAY ══ -->
+  <div id="mega-overlay">
+    <div class="mega-wrap">
+
+      <!-- ─── PANEL: NEW ─── -->
+      <div id="panel-new" class="mega-panel">
+        <div class="mega-right" style="padding-top:28px;">
+          <button class="mega-close" onclick="closePanel()">×</button>
+          <div class="mega-img-grid cols-3">
+            <div class="mega-img-card">
+              <div class="mega-img-placeholder">[ New Arrivals<br>campaign photo ]</div>
+              <div class="mega-img-label">New Arrivals</div>
+            </div>
+            <div class="mega-img-card">
+              <div class="mega-img-placeholder">[ Fall '26<br>lifestyle ]</div>
+              <div class="mega-img-label">Fall '26</div>
+            </div>
+            <div class="mega-img-card">
+              <div class="mega-img-placeholder">[ CoolSwap™<br>product ]</div>
+              <div class="mega-img-label">CoolSwap™</div>
+            </div>
+            <div class="mega-img-card">
+              <div class="mega-img-placeholder">[ New Tops<br>product ]</div>
+              <div class="mega-img-label">New Tops</div>
+            </div>
+            <div class="mega-img-card">
+              <div class="mega-img-placeholder">[ New Colors<br>swatch ]</div>
+              <div class="mega-img-label">New Colors</div>
+            </div>
+            <div class="mega-img-card">
+              <div class="mega-img-placeholder">[ What's Back<br>restocks ]</div>
+              <div class="mega-img-label">What's Back</div>
+            </div>
+          </div>
+          <div class="mega-text-links">
+            <a class="mega-text-link cta">Shop All New Arrivals →</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- ─── PANEL: PANTS ─── -->
+      <div id="panel-pants" class="mega-panel wide">
+        <!-- Left column -->
+        <div class="mega-left">
+          <div class="mega-left-link active" onclick="selectPantsView(this,'featured')">Featured <span class="mega-arrow">›</span></div>
+          <div class="mega-left-link" onclick="selectPantsView(this,'britt')">Britt <span class="mega-arrow">›</span></div>
+          <div class="mega-left-link" onclick="selectPantsView(this,'maven')">Maven Slim <span class="mega-arrow">›</span></div>
+          <div class="mega-left-link" onclick="selectPantsView(this,'anna')">Anna <span class="mega-arrow">›</span></div>
+          <div class="mega-left-link" onclick="selectPantsView(this,'goto')">GO TO™ Pant <span class="mega-arrow">›</span></div>
+          <div class="mega-left-link" onclick="selectPantsView(this,'oldschool')">Old School <span class="mega-arrow">›</span></div>
+          <div class="mega-left-link" onclick="selectPantsView(this,'dayconstruct')">Day Construct <span class="mega-arrow">›</span></div>
+          <div class="mega-left-link" onclick="selectPantsView(this,'provisions')">Provisions Cargo <span class="mega-arrow">›</span></div>
+          <div class="mega-left-link" onclick="selectPantsView(this,'coolswap')">CoolSwap™ <span class="mega-arrow">›</span></div>
+          <div class="mega-left-link" onclick="selectPantsView(this,'fr')">Flame Resistant <span class="mega-arrow">›</span></div>
+          <div class="mega-left-link sale-link" onclick="selectPantsView(this,'sale')">On Sale</div>
+        </div>
+        <!-- Right column -->
+        <div class="mega-right">
+          <button class="mega-close" onclick="closePanel()">×</button>
+
+          <!-- View: Featured (default) -->
+          <div id="pants-view-featured">
+            <div class="mega-img-grid">
+              <div class="mega-img-card">
+                <div class="mega-img-placeholder">[ Best Sellers ]</div>
+                <div class="mega-img-label">Best Sellers</div>
+              </div>
+              <div class="mega-img-card">
+                <div class="mega-img-placeholder">[ Britt lifestyle ]</div>
+                <div class="mega-img-label">Britt</div>
+              </div>
+              <div class="mega-img-card">
+                <div class="mega-img-placeholder">[ Maven Slim ]</div>
+                <div class="mega-img-label">Maven Slim</div>
+              </div>
+              <div class="mega-img-card">
+                <div class="mega-img-placeholder">[ New Arrivals ]</div>
+                <div class="mega-img-label">New Arrivals</div>
+              </div>
+            </div>
+            <div class="mega-text-links">
+              <div class="mega-section-label">Specialty</div>
+              <a class="mega-text-link">CoolSwap™ Active Cooling</a>
+              <a class="mega-text-link">HOTSWAP™ Thermal</a>
+              <a class="mega-text-link">Flame Resistant</a>
+              <a class="mega-text-link">Graphene</a>
+              <a class="mega-text-link cta">Shop All Pants →</a>
+            </div>
+          </div>
+
+          <!-- View: Britt -->
+          <div id="pants-view-britt" class="style-detail">
+            <div style="display:flex; gap:18px;">
+              <div style="width:140px; flex-shrink:0;">
+                <div class="style-detail-img">[ Britt<br>product photo ]</div>
+              </div>
+              <div style="flex:1; padding-top:4px;">
+                <div class="style-detail-name">Britt</div>
+                <div class="style-detail-desc">Low-rise utility fit. Our most popular style. Stretch canvas construction with reinforced knees and multiple tool pockets.</div>
+                <div style="font-size:12px; color:#aaa; margin-bottom:12px;">Available in 8 colors · Sizes 0–20</div>
+                <a class="style-detail-cta">Shop Britt →</a>
+              </div>
+            </div>
+            <div class="mega-text-links" style="margin-top:16px;">
+              <a class="mega-text-link">Britt X CoolSwap™</a>
+              <a class="mega-text-link">Britt X HOTSWAP™ Thermal</a>
+              <a class="mega-text-link">Britt X Graphene</a>
+            </div>
+          </div>
+
+          <!-- View: Maven Slim -->
+          <div id="pants-view-maven" class="style-detail">
+            <div style="display:flex; gap:18px;">
+              <div style="width:140px; flex-shrink:0;">
+                <div class="style-detail-img">[ Maven Slim<br>product photo ]</div>
+              </div>
+              <div style="flex:1; padding-top:4px;">
+                <div class="style-detail-name">Maven Slim</div>
+                <div class="style-detail-desc">Slim fit through hip and thigh. Designed for active workdays where range of motion matters.</div>
+                <div style="font-size:12px; color:#aaa; margin-bottom:12px;">Available in 6 colors · Sizes 0–18</div>
+                <a class="style-detail-cta">Shop Maven Slim →</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- View: Anna -->
+          <div id="pants-view-anna" class="style-detail">
+            <div style="display:flex; gap:18px;">
+              <div style="width:140px; flex-shrink:0;">
+                <div class="style-detail-img">[ Anna<br>product photo ]</div>
+              </div>
+              <div style="flex:1; padding-top:4px;">
+                <div class="style-detail-name">Anna</div>
+                <div class="style-detail-desc">Straight leg, mid-rise. A cleaner silhouette for site walks, client meetings, and fieldwork.</div>
+                <div style="font-size:12px; color:#aaa; margin-bottom:12px;">Available in 5 colors · Sizes 0–20</div>
+                <a class="style-detail-cta">Shop Anna →</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- View: GO TO™ -->
+          <div id="pants-view-goto" class="style-detail">
+            <div style="display:flex; gap:18px;">
+              <div style="width:140px; flex-shrink:0;">
+                <div class="style-detail-img">[ GO TO™<br>product photo ]</div>
+              </div>
+              <div style="flex:1; padding-top:4px;">
+                <div class="style-detail-name">GO TO™ Pant</div>
+                <div class="style-detail-desc">The everyday essential. Stretch canvas with a relaxed fit that moves from job site to after-work without skipping a beat.</div>
+                <a class="style-detail-cta">Shop GO TO™ →</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- View: Old School -->
+          <div id="pants-view-oldschool" class="style-detail">
+            <div style="display:flex; gap:18px;">
+              <div style="width:140px; flex-shrink:0;">
+                <div class="style-detail-img">[ Old School<br>lifestyle photo ]</div>
+              </div>
+              <div style="flex:1; padding-top:4px;">
+                <div class="style-detail-name">Old School</div>
+                <div class="style-detail-desc">Wide leg, vintage-inspired silhouette. Relaxed fit with all the durability you expect from Dovetail.</div>
+                <a class="style-detail-cta">Shop Old School →</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- View: Day Construct -->
+          <div id="pants-view-dayconstruct" class="style-detail">
+            <div style="display:flex; gap:18px;">
+              <div style="width:140px; flex-shrink:0;">
+                <div class="style-detail-img">[ Day Construct<br>product photo ]</div>
+              </div>
+              <div style="flex:1; padding-top:4px;">
+                <div class="style-detail-name">Day Construct</div>
+                <div class="style-detail-desc">Built for construction sites. Heavy-duty canvas, structured knee panels, hammer loop.</div>
+                <a class="style-detail-cta">Shop Day Construct →</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- View: Provisions Cargo -->
+          <div id="pants-view-provisions" class="style-detail">
+            <div style="display:flex; gap:18px;">
+              <div style="width:140px; flex-shrink:0;">
+                <div class="style-detail-img">[ Provisions<br>product photo ]</div>
+              </div>
+              <div style="flex:1; padding-top:4px;">
+                <div class="style-detail-name">Provisions Cargo</div>
+                <div class="style-detail-desc">Cargo fit with deep side pockets. Available in pants and shorts.</div>
+                <a class="style-detail-cta">Shop Provisions →</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- View: CoolSwap™ -->
+          <div id="pants-view-coolswap" class="style-detail">
+            <div style="display:flex; gap:18px;">
+              <div style="width:140px; flex-shrink:0;">
+                <div class="style-detail-img">[ CoolSwap™<br>feature photo ]</div>
+              </div>
+              <div style="flex:1; padding-top:4px;">
+                <div class="style-detail-name">CoolSwap™ Active Cooling</div>
+                <div class="style-detail-desc">Phase-change cooling technology embedded in the fabric. Absorbs and releases heat to keep you cooler on the hottest days.</div>
+                <a class="style-detail-cta">Shop CoolSwap™ →</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- View: Flame Resistant -->
+          <div id="pants-view-fr" class="style-detail">
+            <div style="display:flex; gap:18px;">
+              <div style="width:140px; flex-shrink:0;">
+                <div class="style-detail-img">[ FR Pants<br>product photo ]</div>
+              </div>
+              <div style="flex:1; padding-top:4px;">
+                <div class="style-detail-name">Flame Resistant</div>
+                <div class="style-detail-desc">NFPA 2112 certified for arc flash and flash fire. Not rated for welding. Built for oil & gas, electrical, and utility work.</div>
+                <a class="style-detail-cta">Shop Flame Resistant →</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- View: On Sale -->
+          <div id="pants-view-sale" class="style-detail">
+            <div style="text-align:center; padding:30px 0;">
+              <div style="font-size:28px; font-weight:900; color:#c0392b; letter-spacing:0.04em; margin-bottom:8px;">SALE</div>
+              <div style="font-size:13px; color:#aaa; margin-bottom:18px;">Pants on sale — up to 40% off</div>
+              <a style="font-size:13px; font-weight:700; color:#c0392b; cursor:pointer;">Shop Pants Sale →</a>
+            </div>
+          </div>
+
+        </div><!-- /mega-right -->
+      </div><!-- /panel-pants -->
+
+      <!-- ─── PANEL: TOPS ─── -->
+      <div id="panel-tops" class="mega-panel">
+        <div class="mega-right" style="padding-top:28px;">
+          <button class="mega-close" onclick="closePanel()">×</button>
+          <div class="mega-img-grid cols-3">
+            <div class="mega-img-card">
+              <div class="mega-img-placeholder">[ Tees & Tanks ]</div>
+              <div class="mega-img-label">Tees & Tanks</div>
+            </div>
+            <div class="mega-img-card">
+              <div class="mega-img-placeholder">[ Work Shirts ]</div>
+              <div class="mega-img-label">Work Shirts</div>
+            </div>
+            <div class="mega-img-card">
+              <div class="mega-img-placeholder">[ Hoodies ]</div>
+              <div class="mega-img-label">Hoodies</div>
+            </div>
+          </div>
+          <div class="mega-text-links">
+            <a class="mega-text-link">Tees & Tanks</a>
+            <a class="mega-text-link">Work Shirts</a>
+            <a class="mega-text-link">Hoodies & Sweatshirts</a>
+            <a class="mega-text-link cta">Shop All Tops →</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- ─── PANEL: OVERALLS ─── -->
+      <div id="panel-overalls" class="mega-panel">
+        <div class="mega-right" style="padding-top:28px;">
+          <button class="mega-close" onclick="closePanel()">×</button>
+          <div class="mega-img-grid">
+            <div class="mega-img-card">
+              <div class="mega-img-placeholder">[ Overalls<br>product ]</div>
+              <div class="mega-img-label">Overalls</div>
+            </div>
+            <div class="mega-img-card">
+              <div class="mega-img-placeholder">[ Coveralls<br>product ]</div>
+              <div class="mega-img-label">Coveralls</div>
+            </div>
+            <div class="mega-img-card">
+              <div class="mega-img-placeholder">[ Freshley<br>lifestyle ]</div>
+              <div class="mega-img-label">Freshley Overalls</div>
+            </div>
+          </div>
+          <div class="mega-text-links">
+            <a class="mega-text-link">Overalls</a>
+            <a class="mega-text-link">Coveralls</a>
+            <a class="mega-text-link">Freshley Overalls</a>
+            <a class="mega-text-link cta">Shop All Overalls →</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- ─── PANEL: GEAR ─── -->
+      <div id="panel-gear" class="mega-panel">
+        <div class="mega-right" style="padding-top:28px;">
+          <button class="mega-close" onclick="closePanel()">×</button>
+          <div class="mega-img-grid cols-3">
+            <div class="mega-img-card">
+              <div class="mega-img-placeholder sq">[ Gloves ]</div>
+              <div class="mega-img-label">Gloves</div>
+            </div>
+            <div class="mega-img-card">
+              <div class="mega-img-placeholder sq">[ Hats ]</div>
+              <div class="mega-img-label">Hats & Beanies</div>
+            </div>
+            <div class="mega-img-card">
+              <div class="mega-img-placeholder sq">[ Aprons ]</div>
+              <div class="mega-img-label">Aprons</div>
+            </div>
+          </div>
+          <div class="mega-text-links">
+            <a class="mega-text-link">Gloves</a>
+            <a class="mega-text-link">Hats & Beanies</a>
+            <a class="mega-text-link">Aprons</a>
+            <a class="mega-text-link">Bandanas</a>
+            <a class="mega-text-link">Belts</a>
+            <a class="mega-text-link">Rewear + Repair</a>
+            <a class="mega-text-link">Gift Certificates</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- ─── PANEL: SALE (flagged as missing) ─── -->
+      <div id="panel-sale" class="mega-panel">
+        <div class="mega-right" style="padding-top:28px; display:flex; flex-direction:column; align-items:center; justify-content:center;">
+          <button class="mega-close" onclick="closePanel()">×</button>
+          <div style="text-align:center; padding:40px 20px;">
+            <div style="font-size:32px; margin-bottom:12px;">⚠️</div>
+            <div style="font-size:14px; font-weight:700; color:#c0392b; margin-bottom:8px;">No Sale collection configured</div>
+            <div style="font-size:13px; color:#999; line-height:1.5;">A <code>/collections/sale</code> URL needs to be created.<br>This should be an L1 nav item once live.</div>
+          </div>
+          <div class="mega-editorial">
+            <div class="mega-editorial-overlay"></div>
+            <div class="mega-editorial-text" style="position:relative;z-index:1;">SALE</div>
+            <div class="mega-editorial-sub" style="position:relative;z-index:1;">[ Sale campaign image — placeholder ]</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ─── PANEL: ABOUT ─── -->
+      <div id="panel-about" class="mega-panel wide">
+        <!-- Left column -->
+        <div class="mega-left">
+          <div class="mega-left-link active" onclick="selectAboutView(this,'aboutus')">About Us <span class="mega-arrow">›</span></div>
+          <div class="mega-left-link" onclick="selectAboutView(this,'sustainability')">Sustainability <span class="mega-arrow">›</span></div>
+          <div class="mega-left-link" onclick="selectAboutView(this,'manufacturing')">Manufacturing <span class="mega-arrow">›</span></div>
+          <div class="mega-left-link" onclick="selectAboutView(this,'blog')">Blog / Journal <span class="mega-arrow">›</span></div>
+          <div class="mega-left-link" onclick="selectAboutView(this,'press')">Press <span class="mega-arrow">›</span></div>
+        </div>
+        <!-- Right column -->
+        <div class="mega-right">
+          <button class="mega-close" onclick="closePanel()">×</button>
+
+          <!-- View: About Us (default) -->
+          <div id="about-view-aboutus">
+            <div style="font-size:11px; font-weight:900; letter-spacing:0.1em; line-height:1.5; color:#222; margin-bottom:16px; text-transform:uppercase;">Our mission is to empower women to thrive in their work by making the best workwear, period.</div>
+            <div style="background:#d8d4ce; aspect-ratio:16/7; border-radius:4px; display:flex; align-items:center; justify-content:center; font-size:9px; color:#aaa; text-align:center; line-height:1.4; margin-bottom:16px;">[ Brand / team photo — on a job site ]</div>
+            <div style="font-size:10px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:#aaa; margin-bottom:6px;">Our Story</div>
+            <div style="font-size:13px; color:#555; line-height:1.65; margin-bottom:6px;">Dovetail Workwear was born in 2018 when landscapers Kate Day and Kyle Marie Summers were tired of fighting their workwear while getting the job done. So, they teamed up with apparel developer Sara DeLuca to build something better – Dovetail Workwear, a brand dedicated to making seriously tough, dialed-in gear for women. Designed for women who build, grow, and create, Dovetail Workwear is now worn on farms, job sites, studios, and beyond. And trust us—we're just getting warmed up.</div>
+            <div style="font-size:13px; color:#555; line-height:1.65; margin-bottom:16px;">Today, Dovetail Workwear is the largest exclusively women's workwear brand in the world.</div>
+            <a class="style-detail-cta">About Us →</a>
+          </div>
+
+          <!-- View: Sustainability -->
+          <div id="about-view-sustainability" style="display:none;">
+            <div style="display:flex; gap:20px; align-items:flex-start;">
+              <div style="width:200px; flex-shrink:0;">
+                <div style="background:#cdd4c8; aspect-ratio:4/3; border-radius:4px; display:flex; align-items:center; justify-content:center; font-size:9px; color:#aaa; text-align:center; line-height:1.4;">[ Materials / production<br>or Rewear + Repair photo ]</div>
+              </div>
+              <div style="flex:1; padding-top:2px;">
+                <div style="font-size:16px; font-weight:900; letter-spacing:0.02em; margin-bottom:8px;">Built to Last</div>
+                <div style="font-size:13px; color:#666; line-height:1.6; margin-bottom:14px;">The most sustainable garment is one you don't throw away. Our Rewear + Repair program keeps your Dovetail gear on the job longer — and out of the landfill. We're also investing in lower-impact materials and supply chain transparency.</div>
+                <a class="style-detail-cta">Our Rewear + Repair Program →</a>
+              </div>
+            </div>
+            <div class="mega-text-links" style="margin-top:16px;">
+              <a class="mega-text-link">Rewear + Repair</a>
+              <a class="mega-text-link">Materials & Sourcing</a>
+              <a class="mega-text-link">Our Commitments</a>
+            </div>
+          </div>
+
+          <!-- View: Manufacturing -->
+          <div id="about-view-manufacturing" style="display:none;">
+            <div style="display:flex; gap:20px; align-items:flex-start;">
+              <div style="width:200px; flex-shrink:0;">
+                <div style="background:#d0ccca; aspect-ratio:4/3; border-radius:4px; display:flex; align-items:center; justify-content:center; font-size:9px; color:#aaa; text-align:center; line-height:1.4;">[ Factory / production<br>floor photo ]</div>
+              </div>
+              <div style="flex:1; padding-top:2px;">
+                <div style="font-size:16px; font-weight:900; letter-spacing:0.02em; margin-bottom:8px;">Made With Intention</div>
+                <div style="font-size:13px; color:#666; line-height:1.6; margin-bottom:14px;">Every Dovetail garment is produced in factories we've vetted for fair wages, safe conditions, and responsible practices. We believe who makes your clothes matters as much as what they're made of.</div>
+                <a class="style-detail-cta">See Our Supply Chain →</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- View: Blog / Journal -->
+          <div id="about-view-blog" style="display:none;">
+            <div style="font-size:11px; font-weight:700; letter-spacing:0.09em; text-transform:uppercase; color:#bbb; margin-bottom:12px;">Recent Stories</div>
+            <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; margin-bottom:14px;">
+              <div style="cursor:pointer;">
+                <div style="background:#e0e0e0; aspect-ratio:3/2; border-radius:3px; margin-bottom:6px; display:flex; align-items:center; justify-content:center; font-size:9px; color:#bbb; text-align:center; line-height:1.3;">[ Article<br>photo ]</div>
+                <div style="font-size:12px; font-weight:600; line-height:1.4; color:#333;">5 Tools Every Female Electrician Needs on the Job</div>
+              </div>
+              <div style="cursor:pointer;">
+                <div style="background:#e0e0e0; aspect-ratio:3/2; border-radius:3px; margin-bottom:6px; display:flex; align-items:center; justify-content:center; font-size:9px; color:#bbb; text-align:center; line-height:1.3;">[ Article<br>photo ]</div>
+                <div style="font-size:12px; font-weight:600; line-height:1.4; color:#333;">How to Layer Workwear for Cold Jobsites</div>
+              </div>
+              <div style="cursor:pointer;">
+                <div style="background:#e0e0e0; aspect-ratio:3/2; border-radius:3px; margin-bottom:6px; display:flex; align-items:center; justify-content:center; font-size:9px; color:#bbb; text-align:center; line-height:1.3;">[ Article<br>photo ]</div>
+                <div style="font-size:12px; font-weight:600; line-height:1.4; color:#333;">The CoolSwap™ Technology Behind Our Summer Line</div>
+              </div>
+            </div>
+            <div class="mega-text-links">
+              <a class="mega-text-link cta">Read All Stories →</a>
+            </div>
+          </div>
+
+          <!-- View: Press -->
+          <div id="about-view-press" style="display:none;">
+            <div style="font-size:11px; font-weight:700; letter-spacing:0.09em; text-transform:uppercase; color:#bbb; margin-bottom:14px;">As Seen In</div>
+            <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:10px; margin-bottom:18px;">
+              <div style="background:#f0f0f0; height:44px; border-radius:3px; display:flex; align-items:center; justify-content:center; font-size:10px; color:#bbb;">[ Logo ]</div>
+              <div style="background:#f0f0f0; height:44px; border-radius:3px; display:flex; align-items:center; justify-content:center; font-size:10px; color:#bbb;">[ Logo ]</div>
+              <div style="background:#f0f0f0; height:44px; border-radius:3px; display:flex; align-items:center; justify-content:center; font-size:10px; color:#bbb;">[ Logo ]</div>
+              <div style="background:#f0f0f0; height:44px; border-radius:3px; display:flex; align-items:center; justify-content:center; font-size:10px; color:#bbb;">[ Logo ]</div>
+              <div style="background:#f0f0f0; height:44px; border-radius:3px; display:flex; align-items:center; justify-content:center; font-size:10px; color:#bbb;">[ Logo ]</div>
+              <div style="background:#f0f0f0; height:44px; border-radius:3px; display:flex; align-items:center; justify-content:center; font-size:10px; color:#bbb;">[ Logo ]</div>
+            </div>
+            <div class="mega-text-links">
+              <a class="mega-text-link cta">Read Press Coverage →</a>
+            </div>
+          </div>
+
+        </div><!-- /mega-right -->
+      </div><!-- /panel-about -->
+
+      <!-- ── Blurred page stub ── -->
+      <div class="page-stub-right">
+        <div class="stub-title"></div>
+        <div class="stub-filters">
+          <div class="stub-filter"></div>
+          <div class="stub-filter"></div>
+          <div class="stub-filter"></div>
+        </div>
+        <div class="stub-grid">
+          <div class="stub-product"></div>
+          <div class="stub-product"></div>
+          <div class="stub-product"></div>
+          <div class="stub-product"></div>
+          <div class="stub-product"></div>
+          <div class="stub-product"></div>
+        </div>
+      </div>
+
+    </div><!-- /mega-wrap -->
+  </div><!-- /mega-overlay -->
+
+
+  <!-- ══ PAGE CONTENT ══ -->
+  <div class="page-content" id="page-content">
+    <div class="page-breadcrumb">Home / Pants</div>
+    <div class="page-header">
+      <div class="page-title">Durable Work Pants</div>
+      <div class="page-count">127 styles</div>
+    </div>
+    <div class="page-subtitle">Free exchanges on every order · Built for women who work</div>
+    <div class="product-grid">
+      <div class="product-card">
+        <div class="product-card-img">[ Britt Low-Rise<br>Work Pant ]</div>
+        <div class="product-card-name">Britt Low-Rise Utility Pant</div>
+        <div class="product-card-sub">Straight Leg · Stretch Canvas</div>
+        <div class="product-card-price">$109</div>
+      </div>
+      <div class="product-card">
+        <div class="product-card-img">[ Maven Slim<br>Work Pant ]</div>
+        <div class="product-card-name">Maven Slim Fit Work Pant</div>
+        <div class="product-card-sub">Slim Leg · Stretch Canvas</div>
+        <div class="product-card-price">$109</div>
+      </div>
+      <div class="product-card">
+        <div class="product-card-img">[ Anna Straight<br>Leg Pant ]</div>
+        <div class="product-card-name">Anna Straight Leg</div>
+        <div class="product-card-sub">Straight Leg · Canvas</div>
+        <div class="product-card-price">$129</div>
+      </div>
+      <div class="product-card">
+        <div class="product-card-img">[ GO TO™<br>Stretch Canvas ]</div>
+        <div class="product-card-name">GO TO™ Stretch Canvas Pant</div>
+        <div class="product-card-sub">Relaxed Fit · Stretch Canvas</div>
+        <div class="product-card-price">$119</div>
+      </div>
+      <div class="product-card">
+        <div class="product-card-img">[ Old School<br>Wide Leg ]</div>
+        <div class="product-card-name">Old School Wide Leg</div>
+        <div class="product-card-sub">Wide Leg · Canvas</div>
+        <div class="product-card-price">$119</div>
+      </div>
+      <div class="product-card">
+        <div class="product-card-img">[ Day Construct<br>Pant ]</div>
+        <div class="product-card-name">Day Construct Pant</div>
+        <div class="product-card-sub">Straight Leg · Heavy Canvas</div>
+        <div class="product-card-price">$109</div>
+      </div>
+      <div class="product-card">
+        <div class="product-card-img">[ Provisions<br>Cargo Pant ]</div>
+        <div class="product-card-name">Provisions Cargo Pant</div>
+        <div class="product-card-sub">Cargo Fit · Canvas</div>
+        <div class="product-card-price">$129</div>
+      </div>
+      <div class="product-card">
+        <div class="product-card-img">[ Britt X<br>CoolSwap™ ]</div>
+        <div class="product-card-name">Britt X CoolSwap™</div>
+        <div class="product-card-sub">Straight Leg · Active Cooling</div>
+        <div class="product-card-price">$129</div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /site-wrapper -->
+
+
+<!-- ════════════════════════════════════════════════════
+     MOBILE INTERACTIVE NAV
+════════════════════════════════════════════════════ -->
+<div class="mobile-section-wrap">
+  <div class="mobile-section-label">Mobile — tap any nav row to open L2 · ‹ returns to L1</div>
+
+  <div class="mobile-frame-wrap">
+
+    <!-- Persistent mobile header -->
+    <div class="mob-header">
+      <span class="mob-close-icon" id="mob-header-icon" onclick="closeMobileNav()">☰</span>
+      <div class="mob-logo">DOVETAIL</div>
+      <div class="mob-icons">
+        <span>👤</span>
+        <span style="position:relative;">🛒<span style="position:absolute;top:-4px;right:-6px;background:#333;color:#fff;border-radius:50%;font-size:9px;width:15px;height:15px;display:flex;align-items:center;justify-content:center;">2</span></span>
+      </div>
+    </div>
+
+    <!-- Slider: L1 + all L2 panels -->
+    <div class="mob-slider" id="mob-slider">
+
+      <!-- ── L1 ── -->
+      <div class="mob-l1" id="mob-l1">
+        <div class="mob-search"><span style="font-size:15px;color:#ccc;">⌕</span> Search styles, fabrics…</div>
+        <div class="mob-nav-row" onclick="openMobileL2('new')">New <span class="mob-chevron">›</span></div>
+        <div class="mob-nav-row" onclick="openMobileL2('pants')">Pants <span class="mob-chevron">›</span></div>
+        <div class="mob-nav-row" onclick="openMobileL2('tops')">Tops <span class="mob-chevron">›</span></div>
+        <div class="mob-nav-row" onclick="openMobileL2('overalls')">Overalls <span class="mob-chevron">›</span></div>
+        <div class="mob-nav-row flat">Shorts</div>
+        <div class="mob-nav-row flat">Outerwear</div>
+        <div class="mob-nav-row" onclick="openMobileL2('gear')">Gear <span class="mob-chevron">›</span></div>
+        <div class="mob-nav-row sale-row" onclick="openMobileL2('sale')">Sale <span class="mob-chevron" style="color:#e08080;">›</span></div>
+        <div class="mob-nav-row" onclick="openMobileL2('about')">About <span class="mob-chevron">›</span></div>
+        <div class="mob-featured-grid">
+          <div class="mob-featured-card">
+            <div class="mob-featured-overlay"></div>
+            <div class="mob-featured-hint">[ campaign photo ]</div>
+            <div class="mob-featured-label">New In</div>
+          </div>
+          <div class="mob-featured-card">
+            <div class="mob-featured-overlay"></div>
+            <div class="mob-featured-hint">[ product photo ]</div>
+            <div class="mob-featured-label">Best Sellers</div>
+          </div>
+        </div>
+        <div class="mob-login-row">Log In / Create Account <span style="color:#ccc;">›</span></div>
+      </div>
+
+      <!-- ── L2: New ── -->
+      <div class="mob-l2" id="mob-l2-new">
+        <div class="mob-l2-header">
+          <span class="mob-l2-back" onclick="closeMobileL2()">‹</span>
+          <div class="mob-l2-title">New</div>
+          <span class="mob-l2-close" onclick="closeMobileNav()">×</span>
+        </div>
+        <div class="mob-img-grid cols3">
+          <div class="mob-img-card"><div class="mob-img-placeholder">[ New Arrivals ]</div><div class="mob-img-label">New Arrivals</div></div>
+          <div class="mob-img-card"><div class="mob-img-placeholder">[ Fall '26 ]</div><div class="mob-img-label">Fall '26</div></div>
+          <div class="mob-img-card"><div class="mob-img-placeholder">[ CoolSwap™ ]</div><div class="mob-img-label">CoolSwap™</div></div>
+          <div class="mob-img-card"><div class="mob-img-placeholder">[ New Tops ]</div><div class="mob-img-label">New Tops</div></div>
+          <div class="mob-img-card"><div class="mob-img-placeholder">[ New Colors ]</div><div class="mob-img-label">New Colors</div></div>
+          <div class="mob-img-card"><div class="mob-img-placeholder">[ What's Back ]</div><div class="mob-img-label">What's Back</div></div>
+        </div>
+        <a class="mob-shop-all">Shop All New Arrivals</a>
+      </div>
+
+      <!-- ── L2: Pants (with inner style-detail slide) ── -->
+      <div class="mob-l2" id="mob-l2-pants">
+        <!-- Header — back is context-aware: returns to list OR to L1 -->
+        <div class="mob-l2-header">
+          <span class="mob-l2-back" onclick="handlePantsBack()">‹</span>
+          <div class="mob-l2-title" id="pants-l2-title">Pants</div>
+          <span class="mob-l2-close" onclick="closeMobileNav()">×</span>
+        </div>
+
+          <!-- ── List view (default) ── -->
+          <div id="pants-view-list">
+            <div class="mob-img-grid">
+              <div class="mob-img-card"><div class="mob-img-placeholder">[ Best Sellers ]</div><div class="mob-img-label">Best Sellers</div></div>
+              <div class="mob-img-card"><div class="mob-img-placeholder">[ Britt ]</div><div class="mob-img-label">Britt</div></div>
+              <div class="mob-img-card"><div class="mob-img-placeholder">[ Maven Slim ]</div><div class="mob-img-label">Maven Slim</div></div>
+              <div class="mob-img-card"><div class="mob-img-placeholder">[ New Arrivals ]</div><div class="mob-img-label">New Arrivals</div></div>
+            </div>
+            <a class="mob-shop-all">Shop All Pants</a>
+            <div class="mob-list">
+              <div class="mob-list-item" onclick="openPantsStyle('britt','Britt')">Britt <span class="mob-chevron">›</span></div>
+              <div class="mob-list-item" onclick="openPantsStyle('maven','Maven Slim')">Maven Slim <span class="mob-chevron">›</span></div>
+              <div class="mob-list-item" onclick="openPantsStyle('anna','Anna')">Anna <span class="mob-chevron">›</span></div>
+              <div class="mob-list-item" onclick="openPantsStyle('goto','GO TO™ Pant')">GO TO™ Pant <span class="mob-chevron">›</span></div>
+              <div class="mob-list-item" onclick="openPantsStyle('oldschool','Old School')">Old School <span class="mob-chevron">›</span></div>
+              <div class="mob-list-item" onclick="openPantsStyle('dayconstruct','Day Construct')">Day Construct <span class="mob-chevron">›</span></div>
+              <div class="mob-list-item" onclick="openPantsStyle('provisions','Provisions Cargo')">Provisions Cargo <span class="mob-chevron">›</span></div>
+              <div class="mob-list-item" onclick="openPantsStyle('coolswap','CoolSwap™')">CoolSwap™ <span class="mob-chevron">›</span></div>
+              <div class="mob-list-item" onclick="openPantsStyle('fr','Flame Resistant')">Flame Resistant <span class="mob-chevron">›</span></div>
+              <div class="mob-list-item sale-item">On Sale <span class="mob-chevron" style="color:#e08080;">›</span></div>
+            </div>
+          </div>
+
+          <!-- ── Style: Britt ── -->
+          <div class="mob-style-view" id="pants-view-britt">
+            <div class="mob-style-img">[ Britt product photo ]</div>
+            <div class="mob-style-info">
+              <div class="mob-style-name">Britt</div>
+              <div class="mob-style-desc">Low-rise utility fit. Our most popular style. Stretch canvas construction with reinforced knees and multiple tool pockets.</div>
+              <div class="mob-style-meta">Available in 8 colors · Sizes 0–20</div>
+              <a class="mob-style-cta">Shop Britt →</a>
+            </div>
+            <div class="mob-style-variants">
+              <div class="mob-style-variant">Britt X CoolSwap™ <span style="color:#ccc;">›</span></div>
+              <div class="mob-style-variant">Britt X HOTSWAP™ Thermal <span style="color:#ccc;">›</span></div>
+              <div class="mob-style-variant">Britt X Graphene <span style="color:#ccc;">›</span></div>
+            </div>
+          </div>
+
+          <!-- ── Style: Maven Slim ── -->
+          <div class="mob-style-view" id="pants-view-maven">
+            <div class="mob-style-img">[ Maven Slim product photo ]</div>
+            <div class="mob-style-info">
+              <div class="mob-style-name">Maven Slim</div>
+              <div class="mob-style-desc">Slim fit through hip and thigh. Designed for active workdays where range of motion matters.</div>
+              <div class="mob-style-meta">Available in 6 colors · Sizes 0–18</div>
+              <a class="mob-style-cta">Shop Maven Slim →</a>
+            </div>
+          </div>
+
+          <!-- ── Style: Anna ── -->
+          <div class="mob-style-view" id="pants-view-anna">
+            <div class="mob-style-img">[ Anna product photo ]</div>
+            <div class="mob-style-info">
+              <div class="mob-style-name">Anna</div>
+              <div class="mob-style-desc">Straight leg, mid-rise. A cleaner silhouette for site walks, client meetings, and fieldwork.</div>
+              <div class="mob-style-meta">Available in 5 colors · Sizes 0–20</div>
+              <a class="mob-style-cta">Shop Anna →</a>
+            </div>
+          </div>
+
+          <!-- ── Style: GO TO™ ── -->
+          <div class="mob-style-view" id="pants-view-goto">
+            <div class="mob-style-img">[ GO TO™ product photo ]</div>
+            <div class="mob-style-info">
+              <div class="mob-style-name">GO TO™ Pant</div>
+              <div class="mob-style-desc">The everyday essential. Stretch canvas with a relaxed fit that moves from job site to after-work without skipping a beat.</div>
+              <a class="mob-style-cta">Shop GO TO™ →</a>
+            </div>
+          </div>
+
+          <!-- ── Style: Old School ── -->
+          <div class="mob-style-view" id="pants-view-oldschool">
+            <div class="mob-style-img">[ Old School lifestyle photo ]</div>
+            <div class="mob-style-info">
+              <div class="mob-style-name">Old School</div>
+              <div class="mob-style-desc">Wide leg, vintage-inspired silhouette. Relaxed fit with all the durability you expect from Dovetail.</div>
+              <a class="mob-style-cta">Shop Old School →</a>
+            </div>
+          </div>
+
+          <!-- ── Style: Day Construct ── -->
+          <div class="mob-style-view" id="pants-view-dayconstruct">
+            <div class="mob-style-img">[ Day Construct product photo ]</div>
+            <div class="mob-style-info">
+              <div class="mob-style-name">Day Construct</div>
+              <div class="mob-style-desc">Built for construction sites. Heavy-duty canvas, structured knee panels, hammer loop.</div>
+              <a class="mob-style-cta">Shop Day Construct →</a>
+            </div>
+          </div>
+
+          <!-- ── Style: Provisions Cargo ── -->
+          <div class="mob-style-view" id="pants-view-provisions">
+            <div class="mob-style-img">[ Provisions product photo ]</div>
+            <div class="mob-style-info">
+              <div class="mob-style-name">Provisions Cargo</div>
+              <div class="mob-style-desc">Cargo fit with deep side pockets. Available in pants and shorts.</div>
+              <a class="mob-style-cta">Shop Provisions →</a>
+            </div>
+          </div>
+
+          <!-- ── Style: CoolSwap™ ── -->
+          <div class="mob-style-view" id="pants-view-coolswap">
+            <div class="mob-style-img">[ CoolSwap™ feature photo ]</div>
+            <div class="mob-style-info">
+              <div class="mob-style-name">CoolSwap™ Active Cooling</div>
+              <div class="mob-style-desc">Phase-change cooling technology embedded in the fabric. Absorbs and releases heat to keep you cooler on the hottest days.</div>
+              <a class="mob-style-cta">Shop CoolSwap™ →</a>
+            </div>
+          </div>
+
+          <!-- ── Style: Flame Resistant ── -->
+          <div class="mob-style-view" id="pants-view-fr">
+            <div class="mob-style-img">[ FR Pants product photo ]</div>
+            <div class="mob-style-info">
+              <div class="mob-style-name">Flame Resistant</div>
+              <div class="mob-style-desc">NFPA 2112 certified for arc flash and flash fire. Not rated for welding. Built for oil & gas, electrical, and utility work.</div>
+              <a class="mob-style-cta">Shop Flame Resistant →</a>
+            </div>
+          </div>
+
+      </div>
+
+      <!-- ── L2: Tops ── -->
+      <div class="mob-l2" id="mob-l2-tops">
+        <div class="mob-l2-header">
+          <span class="mob-l2-back" onclick="closeMobileL2()">‹</span>
+          <div class="mob-l2-title">Tops</div>
+          <span class="mob-l2-close" onclick="closeMobileNav()">×</span>
+        </div>
+        <div class="mob-img-grid cols3">
+          <div class="mob-img-card"><div class="mob-img-placeholder">[ Tees & Tanks ]</div><div class="mob-img-label">Tees & Tanks</div></div>
+          <div class="mob-img-card"><div class="mob-img-placeholder">[ Work Shirts ]</div><div class="mob-img-label">Work Shirts</div></div>
+          <div class="mob-img-card"><div class="mob-img-placeholder">[ Hoodies ]</div><div class="mob-img-label">Hoodies</div></div>
+        </div>
+        <a class="mob-shop-all">Shop All Tops</a>
+        <div class="mob-list">
+          <div class="mob-list-item">Tees & Tanks <span class="mob-chevron">›</span></div>
+          <div class="mob-list-item">Work Shirts <span class="mob-chevron">›</span></div>
+          <div class="mob-list-item">Hoodies & Sweatshirts <span class="mob-chevron">›</span></div>
+        </div>
+      </div>
+
+      <!-- ── L2: Overalls ── -->
+      <div class="mob-l2" id="mob-l2-overalls">
+        <div class="mob-l2-header">
+          <span class="mob-l2-back" onclick="closeMobileL2()">‹</span>
+          <div class="mob-l2-title">Overalls</div>
+          <span class="mob-l2-close" onclick="closeMobileNav()">×</span>
+        </div>
+        <div class="mob-img-grid cols3">
+          <div class="mob-img-card"><div class="mob-img-placeholder">[ Overalls ]</div><div class="mob-img-label">Overalls</div></div>
+          <div class="mob-img-card"><div class="mob-img-placeholder">[ Coveralls ]</div><div class="mob-img-label">Coveralls</div></div>
+          <div class="mob-img-card"><div class="mob-img-placeholder">[ Freshley ]</div><div class="mob-img-label">Freshley</div></div>
+        </div>
+        <a class="mob-shop-all">Shop All Overalls</a>
+        <div class="mob-list">
+          <div class="mob-list-item">Overalls <span class="mob-chevron">›</span></div>
+          <div class="mob-list-item">Coveralls <span class="mob-chevron">›</span></div>
+          <div class="mob-list-item">Freshley Overalls <span class="mob-chevron">›</span></div>
+        </div>
+      </div>
+
+      <!-- ── L2: Gear ── -->
+      <div class="mob-l2" id="mob-l2-gear">
+        <div class="mob-l2-header">
+          <span class="mob-l2-back" onclick="closeMobileL2()">‹</span>
+          <div class="mob-l2-title">Gear</div>
+          <span class="mob-l2-close" onclick="closeMobileNav()">×</span>
+        </div>
+        <div class="mob-img-grid cols3">
+          <div class="mob-img-card"><div class="mob-img-placeholder sq">[ Gloves ]</div><div class="mob-img-label">Gloves</div></div>
+          <div class="mob-img-card"><div class="mob-img-placeholder sq">[ Hats ]</div><div class="mob-img-label">Hats & Beanies</div></div>
+          <div class="mob-img-card"><div class="mob-img-placeholder sq">[ Aprons ]</div><div class="mob-img-label">Aprons</div></div>
+        </div>
+        <a class="mob-shop-all">Shop All Gear</a>
+        <div class="mob-list">
+          <div class="mob-list-item">Gloves <span class="mob-chevron">›</span></div>
+          <div class="mob-list-item">Hats & Beanies <span class="mob-chevron">›</span></div>
+          <div class="mob-list-item">Aprons <span class="mob-chevron">›</span></div>
+          <div class="mob-list-item">Bandanas <span class="mob-chevron">›</span></div>
+          <div class="mob-list-item">Belts <span class="mob-chevron">›</span></div>
+          <div class="mob-list-item">Rewear + Repair <span class="mob-chevron">›</span></div>
+          <div class="mob-list-item">Gift Certificates <span class="mob-chevron">›</span></div>
+        </div>
+      </div>
+
+      <!-- ── L2: Sale ── -->
+      <div class="mob-l2" id="mob-l2-sale">
+        <div class="mob-l2-header">
+          <span class="mob-l2-back" onclick="closeMobileL2()">‹</span>
+          <div class="mob-l2-title" style="color:#c0392b;">Sale</div>
+          <span class="mob-l2-close" onclick="closeMobileNav()">×</span>
+        </div>
+        <div style="text-align:center; padding:40px 20px 20px;">
+          <div style="font-size:26px; margin-bottom:10px;">⚠️</div>
+          <div style="font-size:13px; font-weight:700; color:#c0392b; margin-bottom:6px;">No sale collection configured</div>
+          <div style="font-size:12px; color:#aaa; line-height:1.5;">A <code>/collections/sale</code> URL needs to be<br>created before this can go live.</div>
+        </div>
+      </div>
+
+      <!-- ── L2: About ── -->
+      <div class="mob-l2" id="mob-l2-about">
+        <div class="mob-l2-header">
+          <span class="mob-l2-back" onclick="closeMobileL2()">‹</span>
+          <div class="mob-l2-title">About</div>
+          <span class="mob-l2-close" onclick="closeMobileNav()">×</span>
+        </div>
+        <div class="mob-about-mission">Our mission is to empower women to thrive in their work by making the best workwear, period.</div>
+        <div class="mob-about-photo">[ Brand / team photo ]</div>
+        <div class="mob-about-story">Dovetail Workwear was born in 2018 when landscapers Kate Day and Kyle Marie Summers were tired of fighting their workwear while getting the job done. So, they teamed up with apparel developer Sara DeLuca to build something better – a brand dedicated to making seriously tough, dialed-in gear for women.<br><br>Today, Dovetail Workwear is the largest exclusively women's workwear brand in the world.</div>
+        <a class="mob-about-cta">About Us</a>
+        <div class="mob-about-links">
+          <div class="mob-list-item">Sustainability <span class="mob-chevron">›</span></div>
+          <div class="mob-list-item">Manufacturing <span class="mob-chevron">›</span></div>
+          <div class="mob-list-item">Blog / Journal <span class="mob-chevron">›</span></div>
+          <div class="mob-list-item">Press <span class="mob-chevron">›</span></div>
+        </div>
+      </div>
+
+    </div><!-- /mob-slider -->
+  </div><!-- /mobile-frame-wrap -->
+</div><!-- /mobile-section-wrap -->
+
+
+<script>
+  let activePanel = null;
+
+  function togglePanel(id) {
+    activePanel === id ? closePanel() : openPanel(id);
+  }
+
+  function openPanel(id) {
+    // Hide all panels, deactivate all nav items
+    document.querySelectorAll('.mega-panel').forEach(p => p.style.display = 'none');
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+
+    const panel = document.getElementById('panel-' + id);
+    if (!panel) return;
+
+    document.getElementById('mega-overlay').style.display = 'block';
+    panel.style.display = 'flex';
+    activePanel = id;
+
+    const navEl = document.querySelector(`[data-panel="${id}"]`);
+    if (navEl) navEl.classList.add('active');
+  }
+
+  function closePanel() {
+    document.getElementById('mega-overlay').style.display = 'none';
+    document.querySelectorAll('.mega-panel').forEach(p => p.style.display = 'none');
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    activePanel = null;
+  }
+
+  function selectAboutView(el, viewId) {
+    document.querySelectorAll('#panel-about .mega-left-link').forEach(l => l.classList.remove('active'));
+    el.classList.add('active');
+    document.querySelectorAll('#panel-about [id^="about-view-"]').forEach(v => v.style.display = 'none');
+    const target = document.getElementById('about-view-' + viewId);
+    if (target) target.style.display = 'block';
+  }
+
+  function selectPantsView(el, viewId) {
+    // Update left column active state
+    document.querySelectorAll('#panel-pants .mega-left-link').forEach(l => l.classList.remove('active'));
+    el.classList.add('active');
+    // Show the right view
+    document.querySelectorAll('#panel-pants [id^="pants-view-"]').forEach(v => {
+      v.style.display = 'none';
+      v.classList.remove('style-detail');
+    });
+    const target = document.getElementById('pants-view-' + viewId);
+    if (target) {
+      target.style.display = 'block';
+    }
+  }
+
+  // Close on Escape
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closePanel(); });
+
+  // Close when clicking on the page content or page stub
+  document.getElementById('page-content').addEventListener('click', closePanel);
+  document.addEventListener('click', e => {
+    if (!e.target.closest('.site-header') && !e.target.closest('#mega-overlay')) {
+      closePanel();
+    }
+  });
+
+  /* ── Mobile nav ── */
+  let activeMobileL2 = null;
+
+  function openMobileL2(id) {
+    document.getElementById('mob-l1').style.display = 'none';
+    if (activeMobileL2) {
+      document.getElementById('mob-l2-' + activeMobileL2).classList.remove('active');
+    }
+    const panel = document.getElementById('mob-l2-' + id);
+    if (panel) { panel.classList.add('active'); activeMobileL2 = id; }
+    document.getElementById('mob-header-icon').textContent = '×';
+  }
+
+  function closeMobileL2() {
+    if (activeMobileL2) {
+      document.getElementById('mob-l2-' + activeMobileL2).classList.remove('active');
+      activeMobileL2 = null;
+    }
+    document.getElementById('mob-l1').style.display = 'block';
+    document.getElementById('mob-header-icon').textContent = '☰';
+  }
+
+  function closeMobileNav() {
+    closePantsStyle();
+    closeMobileL2();
+  }
+
+  /* ── Pants style drill-down ── */
+  let activePantsStyle = null;
+
+  function openPantsStyle(id, name) {
+    document.getElementById('pants-view-list').style.display = 'none';
+    if (activePantsStyle) {
+      document.getElementById('pants-view-' + activePantsStyle).style.display = 'none';
+    }
+    document.getElementById('pants-view-' + id).style.display = 'block';
+    document.getElementById('pants-l2-title').textContent = name;
+    activePantsStyle = id;
+  }
+
+  function closePantsStyle() {
+    if (!activePantsStyle) return;
+    document.getElementById('pants-view-' + activePantsStyle).style.display = 'none';
+    document.getElementById('pants-view-list').style.display = 'block';
+    document.getElementById('pants-l2-title').textContent = 'Pants';
+    activePantsStyle = null;
+  }
+
+  function handlePantsBack() {
+    if (activePantsStyle) {
+      closePantsStyle();   // step back to style list
+    } else {
+      closeMobileL2();     // step back to L1
+    }
+  }
+</script>
+</body>
+</html>
