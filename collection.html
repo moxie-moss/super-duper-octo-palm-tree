@@ -245,6 +245,16 @@
     .product-badge.sale { background: #b94040; }
     .product-badge.new-arrival { background: #4a7a5e; }
     .product-badge.top-rated { background: #5a5a5a; }
+    .product-card-flag {
+      position: absolute;
+      bottom: 8px; left: 8px;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 3px 8px;
+      letter-spacing: 0.04em;
+      z-index: 2;
+    }
+    .product-card-flag.low-stock { background: #c0392b; color: #fff; }
 
     /* ── HORIZON QUICK ADD BUTTON ──
        Pill-shaped, absolute bottom-right of the image.
@@ -1202,6 +1212,35 @@
       flex-shrink: 0;
     }
 
+    /* ── FIT / WEIGHT COLLECTION TABS ── */
+    .collection-type-tabs {
+      display: flex;
+      padding: 0 16px;
+      background: #fff;
+      border-bottom: 2px solid #e8e8e8;
+    }
+    .col-type-tab {
+      padding: 11px 20px;
+      font-size: 13px;
+      font-weight: 700;
+      background: none;
+      border: none;
+      border-bottom: 2.5px solid transparent;
+      margin-bottom: -2px;
+      cursor: pointer;
+      font-family: inherit;
+      color: #999;
+      letter-spacing: 0.03em;
+      transition: color 0.15s;
+    }
+    .col-type-tab.active {
+      color: #333;
+      border-bottom-color: #333;
+    }
+    @media (min-width: 1024px) {
+      .collection-type-tabs { padding: 0 40px; }
+    }
+
     /* ── SUB-COLLECTION CIRCLE STRIP (above-grid category nav) ── */
     .sub-collection-strip {
       padding: 16px 16px 14px;
@@ -1539,6 +1578,8 @@
     <a href="collection.html">Sale</a>
   </nav>
   <div class="header-icons">
+    <a href="account.html" class="header-icon-link" aria-label="Account" style="text-decoration:none;color:inherit;font-size:20px;">👤</a>
+    <a href="#" class="header-icon-link" aria-label="Wishlist" style="text-decoration:none;color:inherit;font-size:20px;">♡</a>
     <a href="search.html" class="header-search" aria-label="Search" style="text-decoration:none;color:inherit;">Search</a>
     <a href="cart.html" class="header-cart" aria-label="Cart" style="text-decoration:none;color:inherit;">🛒<span class="cart-badge">0</span></a>
   </div>
@@ -1555,10 +1596,19 @@
   <a href="#">Home</a><span>›</span><a href="collection.html">Pants</a><span>›</span> Straight Leg
 </nav>
 
+<!-- FIT / WEIGHT TABS — switch between Fit and Weight collection sets -->
+<div class="collection-type-tabs">
+  <button class="col-type-tab active" onclick="switchColTab(this,'tab-fit')">Fit</button>
+  <button class="col-type-tab" onclick="switchColTab(this,'tab-weight')">Weight</button>
+</div>
+
 <!-- SUB-COLLECTION STRIP — sibling leg-style collections, circle nav like Quince -->
 <!-- On desktop: left-aligned row, full-width with 40px padding. Horizontal scroll on mobile. -->
 <!-- Selected state = current sub-collection (Straight Leg). Clicking navigates to that collection. -->
 <div class="sub-collection-strip">
+
+  <!-- FIT tab content — Fit collections (Straight, Slim, Bootcut, Relaxed, Wide Leg) -->
+  <div id="tab-fit" class="tab-col-content">
   <div class="sub-col-row">
 
     <!-- All Pants — parent collection link -->
@@ -1630,6 +1680,71 @@
     </button>
 
   </div>
+  </div><!-- /tab-fit -->
+
+  <!-- WEIGHT tab content — fabric weight categories -->
+  <div id="tab-weight" class="tab-col-content" style="display:none;">
+  <div class="sub-col-row">
+
+    <!-- Ultralight — single thin bar -->
+    <button class="sub-col-item" onclick="selectSubCol(this)">
+      <div class="sub-col-circle">
+        <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="10" y="22" width="28" height="4" rx="1" fill="#d8d8d8"/>
+        </svg>
+      </div>
+      <span class="sub-col-label">Ultralight</span>
+    </button>
+
+    <!-- Lightweight — two thin bars -->
+    <button class="sub-col-item" onclick="selectSubCol(this)">
+      <div class="sub-col-circle">
+        <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="10" y="18" width="28" height="4" rx="1" fill="#d0d0d0"/>
+          <rect x="10" y="26" width="28" height="4" rx="1" fill="#d0d0d0"/>
+        </svg>
+      </div>
+      <span class="sub-col-label">Lightweight</span>
+    </button>
+
+    <!-- Midweight — three medium bars -->
+    <button class="sub-col-item" onclick="selectSubCol(this)">
+      <div class="sub-col-circle">
+        <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="10" y="14" width="28" height="5" rx="1" fill="#c8c8c8"/>
+          <rect x="10" y="22" width="28" height="5" rx="1" fill="#c8c8c8"/>
+          <rect x="10" y="30" width="28" height="5" rx="1" fill="#c8c8c8"/>
+        </svg>
+      </div>
+      <span class="sub-col-label">Midweight</span>
+    </button>
+
+    <!-- Heavyweight — three thick bars -->
+    <button class="sub-col-item" onclick="selectSubCol(this)">
+      <div class="sub-col-circle">
+        <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="10" y="12" width="28" height="7" rx="1" fill="#c0c0c0"/>
+          <rect x="10" y="21" width="28" height="7" rx="1" fill="#c0c0c0"/>
+          <rect x="10" y="30" width="28" height="7" rx="1" fill="#c0c0c0"/>
+        </svg>
+      </div>
+      <span class="sub-col-label">Heavyweight</span>
+    </button>
+
+    <!-- Thermal — quilted diamond pattern -->
+    <button class="sub-col-item" onclick="selectSubCol(this)">
+      <div class="sub-col-circle">
+        <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M24,8 L40,24 L24,40 L8,24 Z" stroke="#c8c8c8" stroke-width="1.5" fill="none"/>
+          <path d="M24,16 L32,24 L24,32 L16,24 Z" stroke="#c8c8c8" stroke-width="1" fill="#e8e8e8"/>
+        </svg>
+      </div>
+      <span class="sub-col-label">Thermal</span>
+    </button>
+
+  </div>
+  </div><!-- /tab-weight -->
+
 </div>
 
 <!-- SECTION: FILTER + SORT BAR -->
@@ -1851,6 +1966,23 @@
       </div>
     </div>
 
+    <!-- ── ACTIVITY ── -->
+    <div class="sidebar-section">
+      <div class="sidebar-section-label">Activity</div>
+      <div class="sidebar-filter-group">
+        <div class="filter-check-list">
+          <label class="filter-check-item"><div class="filter-checkbox"></div>DIY</label>
+          <label class="filter-check-item"><div class="filter-checkbox"></div>Construction</label>
+          <label class="filter-check-item"><div class="filter-checkbox"></div>Gardening</label>
+          <label class="filter-check-item"><div class="filter-checkbox"></div>Industrial</label>
+          <label class="filter-check-item"><div class="filter-checkbox"></div>Outdoors Recreation</label>
+          <label class="filter-check-item"><div class="filter-checkbox"></div>Trades</label>
+          <label class="filter-check-item"><div class="filter-checkbox"></div>Farming</label>
+          <label class="filter-check-item"><div class="filter-checkbox"></div>Carpentry</label>
+        </div>
+      </div>
+    </div>
+
   </aside>
 
   <!-- PRODUCT GRID -->
@@ -1904,6 +2036,7 @@
         <div class="product-card-media">
           <img class="product-card-img" src="https://dovetailworkwear.com/cdn/shop/files/DTW_S25_Studio_Provisions-Cargo-Pant-Black-4445_MODEL-214_dc2a494a-26e9-4349-ba13-ba14bec66cd7.jpg?v=1774324524&width=600" alt="GO TO™ Stretch Canvas Pant in Cement Grey">
           <div class="product-badge new-arrival">New</div>
+          <span class="product-card-flag low-stock" style="background:#c0392b; color:#fff;">Only 2 Left</span>
           <button class="quick-add-btn" onclick="openQuickAdd('GO TO™ Stretch Canvas Pant in Cement Grey','$139')" title="Choose options">
             <span class="quick-add-icon">+</span>
             <span class="quick-add-label">Choose Options</span>
@@ -1935,6 +2068,13 @@
         <div class="product-card-name">GO TO™ Stretch Canvas Pant in Kelp Green</div>
         <div class="product-card-price">$109</div>
       </div></a>
+
+      <!-- PROMOTION BLOCK — appears inline with product grid, full width -->
+      <div style="grid-column: 1 / -1; background:#f7f4ef; border:1px solid #e8e4dc; padding:20px 16px; text-align:center; margin:4px 0;">
+        <div style="font-size:11px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:#888; margin-bottom:6px;">Limited Time</div>
+        <div style="font-size:18px; font-weight:700; color:#222; margin-bottom:8px;">Free Shipping on Orders Over $75</div>
+        <a href="collection.html" style="display:inline-block; background:#333; color:#fff; font-size:13px; font-weight:700; padding:10px 20px; text-decoration:none; letter-spacing:0.05em;">SHOP NOW</a>
+      </div>
 
       <!-- AI ASSISTANT BLOCK — spans full grid width after row 2 -->
       <div class="ai-assist-block">
@@ -2165,6 +2305,74 @@
   </div>
 
 </div><!-- /empty-state-body -->
+
+<!-- SECTION: STYLE COMPARISON CHART -->
+<!-- NOTE: Working HTML version exists at raw/Storefront Rebuild/style comparison chart redesign/ — integrate before dev handoff -->
+<div style="padding:24px 16px; border-top:1px solid #e0e0e0; margin-top:20px;">
+  <div style="font-size:11px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:#888; margin-bottom:8px;">Compare Styles</div>
+  <div style="font-size:20px; font-weight:700; color:#222; margin-bottom:8px; line-height:1.3;">Not sure which pant is right for you?</div>
+  <p style="font-size:13px; color:#555; line-height:1.6; margin-bottom:16px;">Compare fit, fabric, and features side by side.</p>
+
+  <!-- Comparison table wireframe placeholder -->
+  <div style="overflow-x:auto; -webkit-overflow-scrolling:touch;">
+    <table style="width:100%; min-width:480px; border-collapse:collapse; font-size:13px;">
+      <thead>
+        <tr style="border-bottom:2px solid #333;">
+          <th style="text-align:left; padding:8px 10px; font-size:11px; text-transform:uppercase; letter-spacing:0.06em; color:#888; font-weight:700; width:30%;"></th>
+          <th style="padding:8px 10px; text-align:center; font-weight:700; color:#333;">Britt X Ultralight</th>
+          <th style="padding:8px 10px; text-align:center; font-weight:700; color:#333;">Dovetail Straight</th>
+          <th style="padding:8px 10px; text-align:center; font-weight:700; color:#333;">Ivy Utility</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr style="border-bottom:1px solid #f0f0f0;">
+          <td style="padding:10px; font-weight:600; color:#555;">Fit</td>
+          <td style="padding:10px; text-align:center;">Relaxed</td>
+          <td style="padding:10px; text-align:center;">Standard</td>
+          <td style="padding:10px; text-align:center;">Fitted</td>
+        </tr>
+        <tr style="border-bottom:1px solid #f0f0f0; background:#fafafa;">
+          <td style="padding:10px; font-weight:600; color:#555;">Rise</td>
+          <td style="padding:10px; text-align:center;">Mid</td>
+          <td style="padding:10px; text-align:center;">Mid</td>
+          <td style="padding:10px; text-align:center;">High</td>
+        </tr>
+        <tr style="border-bottom:1px solid #f0f0f0;">
+          <td style="padding:10px; font-weight:600; color:#555;">Fabric</td>
+          <td style="padding:10px; text-align:center;">Ultralight Nylon</td>
+          <td style="padding:10px; text-align:center;">Canvas</td>
+          <td style="padding:10px; text-align:center;">Ripstop</td>
+        </tr>
+        <tr style="border-bottom:1px solid #f0f0f0; background:#fafafa;">
+          <td style="padding:10px; font-weight:600; color:#555;">Stretch</td>
+          <td style="padding:10px; text-align:center;">4-way</td>
+          <td style="padding:10px; text-align:center;">2-way</td>
+          <td style="padding:10px; text-align:center;">4-way</td>
+        </tr>
+        <tr>
+          <td style="padding:10px; font-weight:600; color:#555;">Best For</td>
+          <td style="padding:10px; text-align:center;">Trades · Outdoors</td>
+          <td style="padding:10px; text-align:center;">Construction · DIY</td>
+          <td style="padding:10px; text-align:center;">Gardening · Farming</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div style="margin-top:14px; font-size:11px; color:#aaa; text-align:center;">[ Full interactive comparison chart — see raw/style comparison chart redesign/ for working HTML ]</div>
+</div>
+
+<!-- SECTION: AI PRODUCT ASSISTANT -->
+<!-- NOTE: Will not go live until hallucination risk is fully mitigated -->
+<div style="background:#f7f4ef; padding:24px 16px; margin-top:20px; border-top:1px solid #e0e0e0;">
+  <div style="font-size:11px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:#888; margin-bottom:8px;">Product Assistant</div>
+  <div style="font-size:18px; font-weight:700; color:#222; margin-bottom:8px; line-height:1.3;">Not sure which style is right for you?</div>
+  <p style="font-size:13px; color:#555; line-height:1.6; margin-bottom:14px;">Answer a few quick questions about your job and we'll recommend the right fit.</p>
+  <div style="background:#fff; border:1px solid #e0e0e0; border-radius:4px; padding:14px; margin-bottom:12px;">
+    <div style="font-size:13px; color:#888; font-style:italic;">[ AI chat widget — powered by Shopify FAQ app — pending content training ]</div>
+  </div>
+  <button style="background:#333; color:#fff; font-size:14px; font-weight:700; padding:14px 20px; width:100%; border:none; cursor:pointer; font-family:inherit; letter-spacing:0.04em;">Find My Style →</button>
+  <div style="font-size:10px; color:#aaa; text-align:center; margin-top:8px;">Powered by Dovetail Product Assistant</div>
+</div>
 
 <!-- SECTION: FOOTER -->
 <footer>
@@ -2486,6 +2694,25 @@
       </div>
     </div>
 
+    <!-- ── ACTIVITY ── -->
+    <div class="filter-drawer-section-label">Activity</div>
+    <!-- Activity filter group -->
+    <div class="filter-group" style="border-top:1px solid #e8e8e8; padding-top:14px; margin-top:14px;">
+      <button class="filter-group-header" onclick="toggleFilterGroup(this)" style="display:flex; justify-content:space-between; width:100%; background:none; border:none; font-size:14px; font-weight:700; color:#333; cursor:pointer; font-family:inherit; padding:0 0 10px 0;">
+        Activity <span class="filter-expand-icon">+</span>
+      </button>
+      <div class="filter-group-body" style="display:none;">
+        <label style="display:flex; align-items:center; gap:8px; padding:5px 0; font-size:14px; color:#333; cursor:pointer;"><input type="checkbox" style="width:16px;height:16px;"> DIY</label>
+        <label style="display:flex; align-items:center; gap:8px; padding:5px 0; font-size:14px; color:#333; cursor:pointer;"><input type="checkbox" style="width:16px;height:16px;"> Construction</label>
+        <label style="display:flex; align-items:center; gap:8px; padding:5px 0; font-size:14px; color:#333; cursor:pointer;"><input type="checkbox" style="width:16px;height:16px;"> Gardening</label>
+        <label style="display:flex; align-items:center; gap:8px; padding:5px 0; font-size:14px; color:#333; cursor:pointer;"><input type="checkbox" style="width:16px;height:16px;"> Industrial</label>
+        <label style="display:flex; align-items:center; gap:8px; padding:5px 0; font-size:14px; color:#333; cursor:pointer;"><input type="checkbox" style="width:16px;height:16px;"> Outdoors Recreation</label>
+        <label style="display:flex; align-items:center; gap:8px; padding:5px 0; font-size:14px; color:#333; cursor:pointer;"><input type="checkbox" style="width:16px;height:16px;"> Trades</label>
+        <label style="display:flex; align-items:center; gap:8px; padding:5px 0; font-size:14px; color:#333; cursor:pointer;"><input type="checkbox" style="width:16px;height:16px;"> Farming</label>
+        <label style="display:flex; align-items:center; gap:8px; padding:5px 0; font-size:14px; color:#333; cursor:pointer;"><input type="checkbox" style="width:16px;height:16px;"> Carpentry</label>
+      </div>
+    </div>
+
     <div class="filter-drawer-footer">
       <button class="filter-clear-btn">Clear All</button>
       <button class="filter-apply-btn" onclick="closeFilterDrawer()">Show 16 Results</button>
@@ -2633,6 +2860,14 @@
   }
   applyDesktopLayout();
   window.addEventListener('resize', applyDesktopLayout);
+
+  /* ── Fit / Weight tab switcher ── */
+  function switchColTab(btn, targetId) {
+    document.querySelectorAll('.col-type-tab').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.tab-col-content').forEach(el => el.style.display = 'none');
+    document.getElementById(targetId).style.display = 'block';
+  }
 
   /* ── Sub-collection circle nav toggle ── */
   function selectSubCol(btn) {
